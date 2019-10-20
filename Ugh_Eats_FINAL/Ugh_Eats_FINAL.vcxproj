@@ -115,6 +115,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="bases.txt" />
+    <Text Include="blacklisted.txt" />
+    <Text Include="clients_p.txt" />
+    <Text Include="deliveries_p.txt" />
+    <Text Include="restaurants_p.txt" />
+    <Text Include="workers_p.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Address.cpp" />
+    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Date_time.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="People.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
+    <ClCompile Include="util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Address.h" />
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Date_time.h" />
+    <ClInclude Include="People.h" />
+    <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

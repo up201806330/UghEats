@@ -14,4 +14,67 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="workers_p.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="bases.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="blacklisted.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="clients_p.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="deliveries_p.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="restaurants_p.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Address.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Date_time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="People.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Restaurant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Address.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Date_time.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="People.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Restaurant.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
