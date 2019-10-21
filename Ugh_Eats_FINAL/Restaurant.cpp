@@ -2,6 +2,10 @@
 #include "Base.h"
 #include "utils.h"
 
+using namespace std;
+
+string SEPARATOR = ";;;";
+
 Product::Product()
 {
 
@@ -61,23 +65,25 @@ Restaurant::~Restaurant()
 }
 
 void Restaurant::load(string path, Base * base){
-	ifstream restaurants_text;
+	ifstream restaurants_text(path);
 
 	string textline;
 	vector<Restaurant*> restaurants_vec;
-	while(!restaurants_text.eof()){
+	while(getline(restaurants_text, textline)){
+		
+		if (textline == SEPARATOR) getline(restaurants_text, textline);
 		Restaurant restaurant;
-		restaurants_text >> textline;
 		restaurant.setName(textline);
 
-		restaurants_text >> textline;
+		getline(restaurants_text, textline);
 		Address addr;
 		addr.parse(textline);
 		restaurant.setAddress(addr);
 
 		vector<Product*> prods;
-		while(textline != ";"){
-			restaurants_text >> textline;
+		
+		while(getline(restaurants_text, textline)){
+			if (textline == ";;;") break;
 			Product d;
 			d.parse(textline);
 			prods.push_back(&d);
@@ -184,8 +190,9 @@ void Order::load(string path, Base * base){
 	size_t temp; 
 	vector<Order*> orders_vec;
 	while(!orders_text.eof()){
+		
+		if (textline == SEPARATOR) getline(orders_text, textline);
 		Order order;
-
 		orders_text >> temp; 
 		order.setID(temp);
 		
@@ -206,16 +213,17 @@ void Order::load(string path, Base * base){
 			order.setSuccess(false);
 		}
 
-		orders_text >> textline;
-		Time t; t.parse(textline); order.setTime(t);
+		getline(orders_text, textline);
+		Time t; t.parse(textline); 
+		order.setTime(t);
 
-		orders_text >> textline;
+		getline(orders_text, textline);
 		Date d; d.parse(textline);
 		order.setDate(d);
 
 		vector<Product*> prods;
-		while(textline != ";"){
-			orders_text >> textline;
+		while(getline(orders_text, textline)){
+			if (textline == ";;;") break;
 			vector <string> parts = utils::split(textline, ':');
 
 			Product p;

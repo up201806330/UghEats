@@ -3,6 +3,9 @@
 #include "Restaurant.h"
 #include "utils.h"
 
+string MAIN_SEPARATOR = ";;;";
+string SEC_SEPARATOR = ";";
+
 
 Vehicle::Vehicle()
 {
@@ -57,7 +60,6 @@ Person::Person()
 
 }
 
-
 Person::~Person()
 {
 
@@ -100,9 +102,10 @@ void Worker::load(string path, Base * base){
 
 	string textline;
 	vector <Worker*> workers_vec;
-	while (textline != ";;;") {
+	while (getline(workers_text,textline) && textline != MAIN_SEPARATOR) {
+		
+		if (textline == SEC_SEPARATOR) getline(workers_text, textline);
 		Admin x;
-		getline(workers_text, textline);
 		x.set_name(textline);
 
 		getline(workers_text, textline);
@@ -118,13 +121,13 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_role(textline);
 
-		getline(workers_text, textline);
 		workers_vec.push_back(&x);
 	}
 
 	while(getline(workers_text,textline)){
+		
+		if (textline == SEC_SEPARATOR) getline(workers_text, textline);
 		Delivery x;
-		getline(workers_text, textline);
 		x.set_name(textline);
 
 		getline(workers_text, textline);
@@ -140,7 +143,6 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
 
-		getline(workers_text, textline);
 		workers_vec.push_back(&x);
 	}
 
@@ -238,13 +240,14 @@ Client::~Client() {
 
 }
 
-void Client::load(string path, Base * base) { //em construcao
+void Client::load(string path, Base * base) { 
 	ifstream clients_text(path);
 
 	string textline;
 	vector <Client*> clients_vec;
-	while (getline(clients_text, textline))
+	while (getline(clients_text,textline))
 	{
+		if (textline == SEC_SEPARATOR) getline(clients_text, textline);
 		Client cliente;
 		cliente.set_name(textline);
 
@@ -261,7 +264,6 @@ void Client::load(string path, Base * base) { //em construcao
 		getline(clients_text, textline);
 		cliente.set_orders(base->findOrders(textline));
 
-		getline(clients_text, textline); //retirar ;;;
 		clients_vec.push_back(&cliente);
 	}
 	base->setClients(clients_vec);

@@ -2,8 +2,7 @@
 Macdonal
 3
 -
-hora
-dia (date object)
+17:30
+20/10/2019
 pepperooni : Pizza : 7 
 conk : Drink : 2
-;
