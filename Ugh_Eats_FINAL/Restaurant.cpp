@@ -89,7 +89,9 @@ void Restaurant::load(string path, Base * base){
 			prods.push_back(&d);
 		}
 
-		restaurants_vec.push_back(&restaurant);
+		Restaurant * ptr = new Restaurant;
+		*ptr = restaurant;
+		restaurants_vec.push_back(ptr); 
 	}
 	base->setRestaurants(restaurants_vec);
 }
@@ -198,7 +200,7 @@ void Order::load(string path, Base * base){
 		
 		order.setBase(base);
 
-		orders_text >> textline; 
+		orders_text >> textline;  //tem que detetar se e nullptr 
 		order.setRestaurant(base->findRestaurant(textline));
 		
 		orders_text >> temp;

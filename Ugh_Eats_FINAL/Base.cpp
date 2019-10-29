@@ -37,7 +37,7 @@ vector<Base*> Base::load(string path){
 		getline(base_text, textline);
 		Worker::load(textline, &base);
 
-		//base.setAdmin(base.getWorkers()[0]->get_reference());
+		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers()[0]));
 
 		getline(base_text, textline);
 		Client::load(textline, &base);
