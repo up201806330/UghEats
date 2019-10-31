@@ -18,9 +18,11 @@ vector<Base*> Base::load(string path){
 
 	vector<Base*> bases;
 	string textline;
+
 	while(!base_text.eof()){
 		Base base;
 		getline(base_text, textline);
+		cout << textline << endl;
 		base.setDistrict(textline);
 
 		getline(base_text,textline);
@@ -29,9 +31,13 @@ vector<Base*> Base::load(string path){
 		base.setAddress(addr);
 
 		getline(base_text, textline);
+		cout << "Textline 0: " << textline << endl;
+		// here !!!! <-----------------------------------------
 		Restaurant::load(textline, &base);
 
 		getline(base_text, textline);
+		// here !!!! <-----------------------------------------
+		cout << textline << endl;
 		Order::load(textline, &base);
 
 		getline(base_text, textline);

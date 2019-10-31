@@ -67,7 +67,7 @@ Restaurant::~Restaurant()
 void Restaurant::load(string path, Base * base){
 	ifstream restaurants_text(path);
 
-	string textline;
+	string textline = "";
 	vector<Restaurant*> restaurants_vec;
 	while(getline(restaurants_text, textline)){
 		
@@ -186,6 +186,7 @@ Order::~Order()
 }
 
 void Order::load(string path, Base * base){
+	cout << "Path: " << path << endl;
 	ifstream orders_text(path);
 
 	string textline;
@@ -193,17 +194,34 @@ void Order::load(string path, Base * base){
 	vector<Order*> orders_vec;
 	while(!orders_text.eof()){
 		
-		if (textline == SEPARATOR) getline(orders_text, textline);
+
+		if (textline == SEPARATOR) {
+			cout << "I'm here" << endl;
+			getline(orders_text, textline);
+		}
 		Order order;
-		orders_text >> temp; 
+
+		// orders_text >> temp;
+
+		//
+		getline(orders_text, textline);
+		temp = stoi(textline);
+		cout << "Textline 1: " << textline << endl;
+		cout << temp << endl;
+		//
+		
+
 		order.setID(temp);
 		
 		order.setBase(base);
 
-		orders_text >> textline;  //tem que detetar se e nullptr 
+
+		orders_text >> textline;  //tem que detetar se e nullptr
+		cout << "Textline 2: " << textline << endl;
 		order.setRestaurant(base->findRestaurant(textline));
 		
 		orders_text >> temp;
+
 		order.setDeliveryFee(temp);
 
 		orders_text >> textline;
@@ -215,11 +233,15 @@ void Order::load(string path, Base * base){
 			order.setSuccess(false);
 		}
 
-		getline(orders_text, textline);
-		Time t; t.parse(textline); 
+		// getline(orders_text, textline);
+		orders_text >> textline;
+		// here ?
+		cout << "Textline 3: " << textline << endl;
+		Time t; t.parse(textline);  // there was problem with what goes as textline in t.parse
 		order.setTime(t);
 
 		getline(orders_text, textline);
+		// ERROR NOW HERE !			<--------------------
 		Date d; d.parse(textline);
 		order.setDate(d);
 
