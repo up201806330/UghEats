@@ -99,13 +99,14 @@ Worker::~Worker() {
 
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
-
+	cout << "Workers file: " << path << endl;
 	string textline;
 	vector <Worker*> workers_vec;
 	while (getline(workers_text,textline) && textline != MAIN_SEPARATOR) {
-		
+		cout << "Textline: " << textline << endl;
 		if (textline == SEC_SEPARATOR) getline(workers_text, textline);
 		Admin x;
+		cout << "Textline: " << textline << endl;
 		x.set_name(textline);
 
 		getline(workers_text, textline);
