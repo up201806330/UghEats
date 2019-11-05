@@ -17,7 +17,7 @@ private:
 	string district;
 	Address address;
 	vector<Restaurant*> restaurants;
-	vector<Order*> deliveries;
+	vector<Order*> orders;
 	vector<Worker*> workers;
 	Admin * admin;
 	vector<Client*> clients;
@@ -37,6 +37,7 @@ public:
 	void setWorkers(vector<Worker*> workers);
 	void setAdmin(Admin * administrador);
 	void setClients(vector<Client*> clients);
+	void setOrders(vector<Order*> orders);
 	void setRestaurants(vector<Restaurant*> restaurants);
 	string getDistrict() const;
 	Address getAddress() const;

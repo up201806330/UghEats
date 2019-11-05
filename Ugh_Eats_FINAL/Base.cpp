@@ -40,16 +40,27 @@ vector<Base*> Base::load(string path){
 		cout << textline << endl;
 		Order::load(textline, &base);
 
+		for (auto & x : base.getOrders()) {
+			cout << "ID: " << x->getID() << endl;
+		}
+
 		getline(base_text, textline);
 		Worker::load(textline, &base);
 
-		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers()[0]));
+		for (int i = 0; i < base.getWorkers().size(); i++) {
+			cout << "Name: " << base.getWorkers().at(i)->get_name() << endl;
+		}
 
+		// base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
+		 
 		getline(base_text, textline);
 		Client::load(textline, &base);
 
 		getline(base_text, textline);
-		bases.push_back(&base);
+
+		Base * ptr = new Base;
+		*ptr = base;
+		bases.push_back(ptr);
 	}
 	return bases;
 }
@@ -93,6 +104,11 @@ void Base::setClients(vector<Client*> clients){
 	this->clients = clients;
 }
 
+void Base::setOrders(vector<Order*> orders)
+{
+	this->orders = orders;
+}
+
 void Base::setRestaurants(vector<Restaurant*> restaurants){
 	this->restaurants = restaurants;
 }
@@ -122,6 +138,6 @@ vector<Restaurant*> Base::getRestaurants() const{
 }
 
 vector<Order*> Base::getOrders() const{
-	return deliveries;
+	return orders;
 }
 

@@ -122,7 +122,9 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_role(textline);
 
-		workers_vec.push_back(&x);
+		Admin * ptr = new Admin;
+		*ptr = x;
+		workers_vec.push_back(ptr);
 	}
 
 	while(getline(workers_text,textline)){
@@ -144,7 +146,9 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
 
-		workers_vec.push_back(&x);
+		Delivery * ptr = new Delivery;
+		*ptr = x;
+		workers_vec.push_back(ptr);
 	}
 
 	base->setWorkers(workers_vec);
@@ -248,14 +252,16 @@ void Client::load(string path, Base * base) {
 	vector <Client*> clients_vec;
 	while (getline(clients_text,textline))
 	{
+		cout << "Textline: " << textline << endl;
 		if (textline == SEC_SEPARATOR) getline(clients_text, textline);
+
+		cout << "Textline: " << textline << endl;
+
 		Client cliente;
 		cliente.set_name(textline);
 
 		getline(clients_text, textline);
-		cliente.set_NIF(stoi(textline));
-
-		getline(clients_text, textline);
+		cout << "Textline: " << textline << endl;
 		Address morada;
 		morada.parse(textline);
 		cliente.set_address(morada);
@@ -263,9 +269,16 @@ void Client::load(string path, Base * base) {
 		cliente.set_base(base);
 
 		getline(clients_text, textline);
+		cout << "Textline: " << textline << endl;
+		cliente.set_NIF(stoi(textline));
+
+		getline(clients_text, textline);
+		cout << "Textline: " << textline << endl;
 		cliente.set_orders(base->findOrders(textline));
 
-		clients_vec.push_back(&cliente);
+		Client * ptr = new Client;
+		*ptr = cliente;
+		clients_vec.push_back(ptr);
 	}
 	base->setClients(clients_vec);
 }

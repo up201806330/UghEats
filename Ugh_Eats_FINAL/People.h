@@ -62,7 +62,7 @@ public:
 	~Worker();
 
 	static void load(string path, Base * base);
-
+	
 	virtual void set_birthday(Date data);
 	virtual void set_wage(size_t salario);
 	virtual Worker * get_reference();

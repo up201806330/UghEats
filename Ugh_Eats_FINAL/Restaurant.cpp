@@ -265,9 +265,18 @@ void Order::load(string path, Base * base){
 			p.setName(parts.at(0));
 			p.setCuisineType(parts.at(1));
 			p.setPrice(stoi(parts.at(2)));
-			prods.push_back(&p);
+
+			Product* ptr = new Product;
+			*ptr = p;
+			prods.push_back(ptr);
 		}
 		order.setProducts(prods);
+
+		Order * ptr = new Order;
+		*ptr = order;
+		orders_vec.push_back(ptr);
+
+		base->setOrders(orders_vec);
 	}	
 }
 
@@ -284,6 +293,10 @@ void Order::setBase(Base * b)
 void Order::setRestaurant(Restaurant* r)
 {
 	restaurant = r;
+}
+
+void Order::setClient(Client * c)
+{
 }
 
 void Order::setProducts(vector <Product*> p)

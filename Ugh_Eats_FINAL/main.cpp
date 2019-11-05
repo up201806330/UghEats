@@ -10,5 +10,7 @@ int main(){
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
+	
+	cout << bases.at(0)->getAddress();
 	return 0;
 }
