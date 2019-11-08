@@ -47,6 +47,8 @@ public:
 	vector<Restaurant*> getRestaurants() const;
 	vector <Order*> getOrders() const;
 
+	//Visualização de Informação
+	void seeAllClients();
 };
 
 

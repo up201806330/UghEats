@@ -55,7 +55,7 @@ size_t Date::get_year() const {
 	return year;
 }
 
-string Date::str() const //implementar dps
+string Date::str() const 
 {
 	string result = day + "/";
 	result += month;

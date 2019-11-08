@@ -141,3 +141,14 @@ vector<Order*> Base::getOrders() const{
 	return orders;
 }
 
+//Visualização de Informação
+void Base::seeAllClients()
+{
+	cout << "ALL CLIENTS" << endl << endl;
+	vector<Client*>::iterator it;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		(*it)->print();
+		cout << endl << endl;
+	}
+}

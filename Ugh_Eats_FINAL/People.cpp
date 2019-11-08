@@ -85,9 +85,10 @@ size_t Person::get_NIF() const
 	return NIF;
 }
 
-void Person::print() //Implementar depois
+void Person::print() 
 {
-
+	cout << "Name: " << name << endl;
+	cout << "NIF: " << nif << endl;
 }
 
 Worker::Worker() {
@@ -175,7 +176,11 @@ size_t Worker::get_wage() const {
 	return wage;
 }
 
-void Worker::print() {//implementar dps 
+void Worker::print() : Person::print(){
+
+	cout << "Birthday: " << birthday.str() << endl;
+	cout << "Wage: " << wage << endl;
+
 
 }
 
@@ -200,8 +205,8 @@ string Admin::get_role() const {
 	return role;
 }
 
-void Admin::print() {//implementar dps 
-
+void Admin::print() : Worker::print() { 
+	cout << "Role: " << role;
 }
 
 Delivery::Delivery() {
@@ -231,6 +236,21 @@ Vehicle * Delivery::get_vehicle() const {
 
 vector<Order*> Delivery::get_history() const {
 	return history;
+}
+
+void Delivery::print() : Worker::print()
+{
+	cout << "Vehicle: " << endl;
+	cout << "   Type: " << vehicle->get_type() << endl;
+	cout << "   Brand: " << vehicle->get_brand() << endl;
+	cout << "   Registration Date: " << vehicle->get_registration_date().str() << endl;
+	cout << "History: ";
+	vector<Order*>::iterator it;
+	for (it = history.begin(); it != history.end(); it++)
+	{
+		cout << (*it)->getID() << " ";
+	}
+	cout << endl;
 }
 
 size_t Delivery::calculate_wage() {//implementar dps 
@@ -308,6 +328,16 @@ vector <Order*> Client::get_orders() const {
 	return orders;
 }
 
-void Client::print() { //implementar dps
+void Client::print() : Person::print() { 
+	cout << "Address: " << address << endl;
+	cout << "Base: " << (*base).getDistrict() << endl;
+	cout << "Orders: ";
+	vector<Orders*>::iterator it;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		cout << (*it)->getID() << " ";
+	}
+	cout << endl;
+
 
 }

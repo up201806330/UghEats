@@ -102,7 +102,7 @@ public:
 	Vehicle * get_vehicle() const;
 	vector<Order*> get_history() const;
 	size_t calculate_wage();
-
+	void print();
 };
 
 class Client : public Person {
