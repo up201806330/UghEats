@@ -196,20 +196,13 @@ void Order::load(string path, Base * base){
 		
 
 		if (textline == SEPARATOR) {
-			cout << "I'm here" << endl;
 			getline(orders_text, textline);
 		}
 		Order order;
 
-		// orders_text >> temp;
-
-		//
+	
 		getline(orders_text, textline);
-		temp = stoi(textline);
-		cout << "Textline 1: " << textline << endl;
-		cout << temp << endl;
-		//
-		
+		temp = stoi(textline);		
 
 		order.setID(temp);
 		
@@ -219,7 +212,7 @@ void Order::load(string path, Base * base){
 		// orders_text >> textline;  //tem que detetar se e nullptr
 		getline(orders_text, textline);
 		//
-		cout << "Textline 2: " << textline << endl;
+
 		order.setRestaurant(base->findRestaurant(textline));
 		
 		// orders_text >> temp;
@@ -241,23 +234,18 @@ void Order::load(string path, Base * base){
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
-		// here ?
-		cout << "Textline 3: " << textline << endl;
 		Time t; t.parse(textline);  // there was problem with what goes as textline in t.parse
 		order.setTime(t);
 
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
-		cout << "Textline 4: " << textline << endl;
-		// ERROR NOW HERE !			<--------------------
 		Date d; d.parse(textline);
 		order.setDate(d);
 
 		vector<Product*> prods;
 		while(getline(orders_text, textline)){
 		// while(orders_text >> textline) {
-			cout << "Textline 5: " << textline << endl;
 			if (textline == ";;;") break;
 			vector <string> parts = utils::split(textline, ':');
 

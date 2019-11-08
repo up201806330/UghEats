@@ -88,7 +88,7 @@ size_t Person::get_NIF() const
 void Person::print() 
 {
 	cout << "Name: " << name << endl;
-	cout << "NIF: " << nif << endl;
+	cout << "NIF: " << NIF << endl;
 }
 
 Worker::Worker() {
@@ -104,10 +104,8 @@ void Worker::load(string path, Base * base){
 	string textline;
 	vector <Worker*> workers_vec;
 	while (getline(workers_text,textline) && textline != MAIN_SEPARATOR) {
-		cout << "Textline: " << textline << endl;
 		if (textline == SEC_SEPARATOR) getline(workers_text, textline);
 		Admin x;
-		cout << "Textline: " << textline << endl;
 		x.set_name(textline);
 
 		getline(workers_text, textline);
@@ -176,8 +174,9 @@ size_t Worker::get_wage() const {
 	return wage;
 }
 
-void Worker::print() : Person::print(){
+void Worker::print(){
 
+	Person::print();
 	cout << "Birthday: " << birthday.str() << endl;
 	cout << "Wage: " << wage << endl;
 
@@ -205,7 +204,8 @@ string Admin::get_role() const {
 	return role;
 }
 
-void Admin::print() : Worker::print() { 
+void Admin::print() { 
+	Worker::print();
 	cout << "Role: " << role;
 }
 
@@ -238,8 +238,8 @@ vector<Order*> Delivery::get_history() const {
 	return history;
 }
 
-void Delivery::print() : Worker::print()
-{
+void Delivery::print() {
+	Worker::print();
 	cout << "Vehicle: " << endl;
 	cout << "   Type: " << vehicle->get_type() << endl;
 	cout << "   Brand: " << vehicle->get_brand() << endl;
@@ -272,16 +272,12 @@ void Client::load(string path, Base * base) {
 	vector <Client*> clients_vec;
 	while (getline(clients_text,textline))
 	{
-		cout << "Textline: " << textline << endl;
 		if (textline == SEC_SEPARATOR) getline(clients_text, textline);
-
-		cout << "Textline: " << textline << endl;
 
 		Client cliente;
 		cliente.set_name(textline);
 
 		getline(clients_text, textline);
-		cout << "Textline: " << textline << endl;
 		Address morada;
 		morada.parse(textline);
 		cliente.set_address(morada);
@@ -289,11 +285,9 @@ void Client::load(string path, Base * base) {
 		cliente.set_base(base);
 
 		getline(clients_text, textline);
-		cout << "Textline: " << textline << endl;
 		cliente.set_NIF(stoi(textline));
 
 		getline(clients_text, textline);
-		cout << "Textline: " << textline << endl;
 		cliente.set_orders(base->findOrders(textline));
 
 		Client * ptr = new Client;
@@ -328,11 +322,12 @@ vector <Order*> Client::get_orders() const {
 	return orders;
 }
 
-void Client::print() : Person::print() { 
+void Client::print() { 
+	Person::print();
 	cout << "Address: " << address << endl;
 	cout << "Base: " << (*base).getDistrict() << endl;
 	cout << "Orders: ";
-	vector<Orders*>::iterator it;
+	vector<Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
 		cout << (*it)->getID() << " ";

@@ -22,7 +22,6 @@ vector<Base*> Base::load(string path){
 	while(!base_text.eof()){
 		Base base;
 		getline(base_text, textline);
-		cout << textline << endl;
 		base.setDistrict(textline);
 
 		getline(base_text,textline);
@@ -31,13 +30,9 @@ vector<Base*> Base::load(string path){
 		base.setAddress(addr);
 
 		getline(base_text, textline);
-		cout << "Textline 0: " << textline << endl;
-		// here !!!! <-----------------------------------------
 		Restaurant::load(textline, &base);
 
 		getline(base_text, textline);
-		// here !!!! <-----------------------------------------
-		cout << textline << endl;
 		Order::load(textline, &base);
 
 		for (auto & x : base.getOrders()) {
@@ -51,7 +46,7 @@ vector<Base*> Base::load(string path){
 			cout << "Name: " << base.getWorkers().at(i)->get_name() << endl;
 		}
 
-		// base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
+		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
 		 
 		getline(base_text, textline);
 		Client::load(textline, &base);
