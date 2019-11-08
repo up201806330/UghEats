@@ -49,6 +49,17 @@ public:
 
 	//Visualização de Informação
 	void seeAllClients();
+
+	// PROPOSTAS de funções para implementar; posso ser eu a implementar as funções da classe Base if u peeps want ( - Já )
+	void seeAllRestaurants(); // display all the restaurants that are connected to the base
+	void seeAllWorkers(); // display all the workers that are connected to the base
+	void seeAreOfInfluence(); // display the "area of influence" of the base (districts)
+	void seeProfits(); // display the profits of the base
+
+	int changeBase(); // change info about the base. Calls the following functions:
+	int changeAddress(); // change the address of thee base (must be in the same district?)
+	// IN PROGRESS
+
 };
 
 
