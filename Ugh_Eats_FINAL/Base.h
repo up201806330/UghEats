@@ -74,6 +74,16 @@ public:
 
 	// criar, alterar e apagar coisas dos vetores de cada base <- JA
 	void addClient();
+	void changeClient();
+	void removeClient();
+
+	void addWorker();
+	void changeWorker();
+	void removeWorker();
+
+	void createRestaurant();
+	void changeRestaurant();
+	void removeRestaurant();
 	// clients -> eliminar também orders
 	// workers
 	// restaurants

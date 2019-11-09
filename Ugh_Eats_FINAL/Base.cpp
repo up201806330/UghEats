@@ -147,3 +147,93 @@ void Base::seeAllClients()
 		cout << endl << endl;
 	}
 }
+
+
+
+
+
+
+void Base::addClient() {
+
+	Client c;
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
+	string baseName = this->getDistrict();
+	c.set_base(this);
+	
+
+	// name input
+	bool invalidName;
+	string name;
+	do {
+		invalidName = false;
+		
+		cout << "Name: ";
+		getline(cin, name);
+		
+	} while (invalidName);
+
+	c.set_name(name);
+
+	// nif input
+	bool invalidNif;
+	string strNif;
+	int nif;
+	do {
+		invalidNif = false;
+		
+		cout << "NIF: ";
+		getline(cin, strNif);
+
+		try {
+			nif = stoi(strNif);
+		}
+
+		catch (...) {
+			invalidNif = true;
+		}
+
+	} while (invalidNif);
+
+	c.set_NIF(nif);
+
+	// address input
+	bool invalidAddress;
+	Address address;
+	do {
+		invalidAddress = false;
+
+		string fullAddress;
+		cout << "Address: ";
+		getline(cin, fullAddress);
+
+		try {
+			address.parse(fullAddress);
+
+			// if it doesnt belong to the are of influence it is considered invalid
+			if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+				invalidAddress = true;
+			}
+		}
+
+		catch (...) {
+			invalidAddress = true;
+		}
+
+	} while (invalidAddress);
+
+	c.set_address(address);
+	
+	// orders vector that starts empty
+	vector <Order*> clientOrders = {};
+
+	c.set_orders(clientOrders);
+
+
+	Client * ptr = new Client;
+	*ptr = c;
+	
+	clients.push_back(ptr);
+	
+}

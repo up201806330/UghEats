@@ -12,6 +12,12 @@ int main(){
 	vector<Base*> bases = Base::load(path);
 	
 	cout << bases.at(0)->getAddress();
+	cout << endl << endl;
+	cout << "Clients number: " << bases.at(0)->getClients().size() << endl;
+	bases.at(0)->addClient();
+	cout << endl;
+	cout << "Clients number: " << bases.at(0)->getClients().size() << endl;
+	cout << "Nome: " << bases.at(0)->getClients().at(4)->get_name() << endl;
 	return 0;
 }
 
