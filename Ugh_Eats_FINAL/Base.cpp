@@ -175,3 +175,30 @@ void Base::seeAllRestaurants()
 		cout << *(*it);
 	}
 }
+
+void Base::seeOneRestaurant()
+{
+	cout << "Pick the Restaurant you want to see" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	int id = 1, answer;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		cout << id << "- " << (*it)->get_name() << endl;
+		id++;
+	}
+	cout << endl;
+	cin >> answer;
+	cout << endl << "INFO" << endl;
+	cout << (*restaurants[answer - 1]);
+	if ((*restaurants[answer - 1]).get_products().size() == 0)
+		cout << endl;
+	else
+	{
+		cout << "Products:" << endl;
+		vector<Product*>::iterator ite;
+		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
+		{
+			cout << *(*ite) << endl;
+		}
+	}
+}
