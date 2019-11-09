@@ -39,6 +39,7 @@ public:
 	void setClients(vector<Client*> clients);
 	void setOrders(vector<Order*> orders);
 	void setRestaurants(vector<Restaurant*> restaurants);
+
 	string getDistrict() const;
 	Address getAddress() const;
 	vector<Worker*> getWorkers() const;
@@ -47,21 +48,56 @@ public:
 	vector<Restaurant*> getRestaurants() const;
 	vector <Order*> getOrders() const;
 
-	//Visualização de Informação
+	//Visualização de Informação <- Leonor
 	void seeAllClients();
-
-	// PROPOSTAS de funções para implementar; posso ser eu a implementar as funções da classe Base if u peeps don't mind ( - Já )
+	void seeOneClient();
 	void seeAllRestaurants(); // display all the restaurants that are connected to the base
+	// see one
 	void seeAllWorkers(); // display all the workers that are connected to the base
-	void seeAreOfInfluence(); // display the "area of influence" of the base (districts)
+	// see one
+	// ... de acordo com o doc word
+	// void seeAreOfInfluence(); // display the "area of influence" of the base (districts) <- talvez nao
+	void seeAllOrders();
+	// see one
 	void seeProfits(); // display the profits of the base
+	// base
+	// restaurante
+	// cliente
+	// periodo de tempo
 
+
+	
 	int changeBase(); // change info about the base. Calls the following functions:
-	int changeAddress(); // change the address of the base (must be in the same district?)
-	int changeClientsFileName();
-	int changeRestaurantsFileName();
-	int changeWorkersFileName();
-	// IN PROGRESS
+	// changeAddress(); // change the address of the base (must be in the same district?)
+
+
+
+	// criar, alterar e apagar coisas dos vetores de cada base <- JA
+	void addClient();
+	// clients -> eliminar também orders
+	// workers
+	// restaurants
+
+
+	// LEONOR
+	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
+	//				  -> usar algoritmos de procura
+	// por restaurante (mostra os produtos)
+	// por zona geografica
+	// por intervalo de preços (por preço medio)
+	// por tipo de culinária
+
+	// camelCase
+
+
+	
+	// guardar informacao
+	// fazer só no fim de tudo
+
+	// overload do <<
+	// 
+
+	
 
 };
 
