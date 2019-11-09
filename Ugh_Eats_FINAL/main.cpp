@@ -11,7 +11,7 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 	
-	//bases.at(0)->seeAllClients();
+	bases.at(0)->seeAllRestaurants();
 	return 0;
 }
 

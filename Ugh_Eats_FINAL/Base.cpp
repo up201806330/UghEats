@@ -150,6 +150,28 @@ void Base::seeAllClients()
 
 void Base::seeOneClient()
 {
-	
+	cout << "Pick the Client you want to see: " << endl << endl;
+	vector<Client*>::iterator it;
+	int id = 1;
+	int answer;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		cout << id << "- " << (*it)->get_name() << endl;
+		id++;
+	}
+	cout << endl;
+	cin >> answer;
+	cout << endl << "INFO" << endl;
+	clients[answer - 1]->print();
 
+}
+
+void Base::seeAllRestaurants()
+{
+	cout << "ALL RESTAURANTS" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		cout << *(*it);
+	}
 }

@@ -54,6 +54,16 @@ size_t Product::get_price() const
 	return price;
 }
 
+
+ostream & operator<<(ostream & out, const Product & p)
+{
+	out << "Name: " << p.name << endl;
+	out << "Cuisine Type: " << p.cuisine_type << endl;
+	out << "Price: " << p.price << endl;
+	return out;
+}
+
+
 Restaurant::Restaurant()
 {
 
@@ -173,6 +183,30 @@ void Restaurant::update_cuisine_types() //implementar depois
 bool Restaurant::add_product() //implementar depois
 {
 	return true;
+}
+
+
+
+
+ostream & operator<<(ostream & out, const Restaurant & r)
+{
+	out << "Name: " << r.name << endl;
+	out << r.address;
+	out << "Cuisine Types: ";
+	if (r.cuisine_types.size() == 0)
+		out << "none" << endl;
+	else
+	{
+		for (int i = 0; i < r.cuisine_types.size() - 1; i++)
+		{
+			out << r.cuisine_types[i] << ", ";
+		}
+		out << r.cuisine_types[r.cuisine_types.size() - 1] << endl;
+	}
+	out << "Number of products: " << r.products.size() << endl;
+	out << "Price Average: " << r.price_average << endl;
+	out << endl;
+	return out;
 }
 
 Order::Order()
@@ -366,3 +400,7 @@ bool Order::calculate_time() //implementar depois
 {
 	return true;
 }
+
+
+
+

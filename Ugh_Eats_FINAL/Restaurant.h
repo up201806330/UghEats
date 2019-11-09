@@ -31,6 +31,8 @@ public:
 	string get_name() const;
 	string get_cuisine_type() const;
 	size_t get_price() const;
+
+	friend ostream & operator<<(ostream & out, const Product & p);
 };
 
 class Restaurant {
@@ -65,6 +67,9 @@ public:
 	void print_price_average(); //estrelinhas
 	void update_cuisine_types();
 	bool add_product();
+	
+	
+	friend ostream & operator<<(ostream & out, const Restaurant & r);
 
 };
 
