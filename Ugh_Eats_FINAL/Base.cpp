@@ -277,6 +277,22 @@ void Base::seeAllDeliverers()
 	}
 }
 
+void Base::seeAllAdministrators()
+{
+	cout << "ALL ADMINISTRATORS" << endl << endl;
+	for (int i = 0; i < workers.size(); i++)
+	{
+		Admin *a = dynamic_cast<Admin*> (workers[i]);
+		if (a != NULL)
+		{
+			a->print();
+			cout << endl;
+		}
+	}
+}
+
+
+
 void Base::addClient() {
 
 	Client c;
