@@ -5,6 +5,7 @@
 #include "Date_time.h"
 #include "utils.h"
 #include "Restaurant.h"
+#include "Main_menu.h"
 
 int main(){
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
@@ -43,6 +44,9 @@ int main(){
 	cout << "Nome: " << bases.at(0)->getClients().at(4)->get_name() << endl;
 	*/
 	
+
+	main_menu(bases);
+
 	return 0;
 }
 

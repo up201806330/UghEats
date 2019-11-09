@@ -352,3 +352,122 @@ void Client::make_order()
 {
 	//Needs implementing
 }
+
+void Client::edit() {
+
+	utils::clear_screen();
+
+	vector<Client*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int clientChoice;
+	unsigned index = 0;
+
+	// Changing the (past) orders or the "value" isn't realistic, right?
+	vector<string> options = { "Name", "Nif","Address" };
+	cout << "Pick the field you want to change information of:" << endl;
+
+	vector<string>::iterator it2;
+	int attributeChoice;
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
+			cout << index + 1 << ". " << (*it2) << endl;
+		}
+
+		try {
+			getline(cin, strChoice);
+			attributeChoice = stoi(strChoice);
+
+			if (attributeChoice < 1 || attributeChoice > options.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+
+	string newName;
+
+	string strNewNif;
+	int newNif;
+	bool invalidNif = false;
+
+	Address newAddress;
+	bool invalidAddress = false;
+	string fullAddress;
+
+	switch (attributeChoice) {
+		// Name
+	case 1:
+		cout << "Current Name: " << this->get_name() << endl;
+		cout << "Updated Name: ";
+		getline(cin, newName);
+		this->set_name(newName);
+
+		break;
+
+		// Nif
+	case 2:
+		do {
+			invalidNif = false;
+
+			cout << "Current Nif: " << this->get_NIF() << endl;
+			cout << "Updated Nif: ";
+			getline(cin, strNewNif);
+			try {
+				newNif = stoi(strNewNif);
+			}
+
+			catch (...) {
+				invalidNif = true;
+			}
+			break;
+
+			cout << endl;
+
+		} while (invalidNif);
+		this->set_NIF(newNif);
+		break;
+
+		// Address
+	case 3:
+		do {
+			invalidAddress = false;
+
+			cout << "Address: ";
+			getline(cin, fullAddress);
+
+			try {
+				address.parse(fullAddress);
+
+				// if it doesnt belong to the are of influence it is considered invalid
+				if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+					invalidAddress = true;
+				}
+			}
+
+			catch (...) {
+				invalidAddress = true;
+			}
+
+			cout << endl;
+		} while (invalidAddress);
+		this->set_address(address);
+		break;
+	}
+
+	cout << "Client successfully edited! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
+}

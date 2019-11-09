@@ -73,12 +73,6 @@ void utils::print(const bool input, std::ostream & stream, std::string endl)
 	return;
 }
 
-void utils::print(std::vector<Base*> bases) {
-	for (auto n = 0; n < bases.size(); n++) {
-		cout << n << ". " << bases.at(n)->getDistrict() << endl;
-	}
-}
-
 void utils::trim(std::string & input)
 {
 	const std::string WHITE_SPACE = " \t\n\v\f\r";//C locale white space

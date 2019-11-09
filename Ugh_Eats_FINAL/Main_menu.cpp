@@ -1,5 +1,7 @@
+#include "Main_menu.h"
 #include "Base.h"
 #include "utils.h"
+
 
 void main_menu_client(Client* client) {
 	while (true) {
@@ -10,6 +12,7 @@ void main_menu_client(Client* client) {
 		cout << "1. Make order" << endl;
 		cout << "2. Edit Info" << endl;
 		cout << "CTRL+Z to save and exit" << endl;
+		cout << ">> ";
 
 		getline(cin, input);
 
@@ -30,14 +33,16 @@ void main_menu_client_login(Base * base){
 		string input;
 		utils::clear_screen();
 
-		cout << "login: "; cin >> input;
+		cout << "login: "; cin.ignore(); getline(cin, input);
 
 		vector<Client*>::iterator it;
-		for (it = base->getClients().begin(); it != base->getClients().end(); it++) {
-			if ((*it)->get_name == input) main_menu_client(*it);
+		vector<Client*> clients = base->getClients();
+		for (it = clients.begin(); it != clients.end(); it++) {
+			if ((*it)->get_name() == input) main_menu_client(*it);
 		}
 
-		cout << "Client not found; Try again (Enter to continue)";
+		cout << "Client not found; Try again (Enter to continue)" << endl;
+		cout << ">> ";
 		cin.ignore();
 	}
 }
@@ -50,21 +55,27 @@ void main_menu(vector<Base*> bases) {
 		utils::clear_screen();
 
 		cout << "Pick a Base:" << endl;
-		utils::print(bases);
+
+		for (auto n = 0; n < bases.size(); n++) {
+			cout << n + 1 << ". " << bases.at(n)->getDistrict() << endl;
+		}
+
+		cout << ">> ";
 		
 		cin >> temp;
-		if (cin.fail() || temp >= bases.size()) continue;
+		if (cin.fail() || temp > bases.size()) continue;
 
 		else {
-			selected_base = bases.at(temp);
+			selected_base = bases.at(temp - 1);
 		}
 
 		cout << "\n\n";
 		cout << "Client or Admin ?" << endl;
 		cout << "1. Client" << endl;
 		cout << "2. Admin" << endl;
+		cout << ">> ";
 
-		getline(cin, input);
+		cin >> input;
 
 		if (input == "1") main_menu_client_login(selected_base);
 		if (input == "2") main_menu_admin();
