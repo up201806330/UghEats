@@ -100,7 +100,7 @@ Worker::~Worker() {
 
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
-	cout << "Workers file: " << path << endl;
+	// cout << "Workers file: " << path << endl;
 	string textline;
 	vector <Worker*> workers_vec;
 	while (getline(workers_text,textline) && textline != MAIN_SEPARATOR) {

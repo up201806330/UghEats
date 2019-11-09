@@ -220,7 +220,7 @@ Order::~Order()
 }
 
 void Order::load(string path, Base * base){
-	cout << "Path: " << path << endl;
+	// cout << "Path: " << path << endl;
 	ifstream orders_text(path);
 
 	string textline;

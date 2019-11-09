@@ -12,7 +12,13 @@ int main(){
 	vector<Base*> bases = Base::load(path);
 
 	// bases.at(0)->seeOneRestaurant();
-	
+
+	/*
+	cout << "PREVIOUS: " << bases.at(0)->getClients().at(0)->get_name() << endl;
+	bases.at(0)->changeClient();
+	cout << "UPDATED: " << bases.at(0)->getClients().at(0)->get_name() << endl;
+	*/
+
 	/*
 	cout << bases.at(0)->getAddress();
 	cout << endl << endl;

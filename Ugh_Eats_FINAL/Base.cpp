@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "utils.h"
 
+
 Base::Base()
 {
 
@@ -35,16 +36,20 @@ vector<Base*> Base::load(string path){
 		getline(base_text, textline);
 		Order::load(textline, &base);
 
+		/*
 		for (auto & x : base.getOrders()) {
 			cout << "ID: " << x->getID() << endl;
 		}
+		*/
 
 		getline(base_text, textline);
 		Worker::load(textline, &base);
 
+		/*
 		for (int i = 0; i < base.getWorkers().size(); i++) {
 			cout << "Name: " << base.getWorkers().at(i)->get_name() << endl;
 		}
+		*/
 
 		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
 		 
@@ -294,4 +299,143 @@ void Base::addClient() {
 
 void Base::changeClient() {
 
+	cout << "Pick the client you want to change information about:" << endl;
+
+	vector<Client*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int clientChoice;
+	unsigned index = 0;
+	
+	
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it = clients.begin(); it != clients.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			getline(cin, strChoice);
+			clientChoice = stoi(strChoice);
+
+			if (clientChoice < 1 || clientChoice > clients.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		
+		cout << endl;
+
+	} while (invalidOption);
+	
+	clientChoice--; // not to excede the max index available
+
+	
+	// Changing the (past) orders or the "value" isn't realistic, right?
+	vector<string> options = {"Name", "Nif","Address"};
+	cout << "Pick the field you want to change information of:" << endl;
+
+	vector<string>::iterator it2;
+	int attributeChoice;
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
+			cout << index + 1 << ". " << (*it2) << endl;
+		}
+
+		try {
+			getline(cin, strChoice);
+			attributeChoice = stoi(strChoice);
+
+			if (attributeChoice < 1 || attributeChoice > options.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		
+		cout << endl;
+
+	} while (invalidOption);
+
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+
+	string newName;
+
+	string strNewNif;
+	int newNif;
+	bool invalidNif = false;
+
+	Address newAddress;
+	bool invalidAddress = false;
+	string fullAddress;
+
+	switch (attributeChoice) {
+		// Name
+		case 1:
+			cout << "Current Name: " << clients.at(clientChoice)->get_name() << endl;
+			cout << "Updated Name: ";
+			getline(cin, newName);
+			clients.at(clientChoice)->set_name(newName);
+			
+			break;
+
+		// Nif
+		case 2:
+			do {
+				invalidNif = false;
+
+				cout << "Current Nif: " << clients.at(clientChoice)->get_NIF() << endl;
+				cout << "Updated Nif: ";
+				getline(cin, strNewNif);
+				try {
+					newNif = stoi(strNewNif);
+				}
+
+				catch (...) {
+					invalidNif = true;
+				}
+				break;
+
+				cout << endl;
+
+			} while (invalidNif);
+			clients.at(clientChoice)->set_NIF(newNif);
+			break;
+
+		// Address
+		case 3:
+			do {
+				invalidAddress = false;
+				
+				cout << "Address: ";
+				getline(cin, fullAddress);
+
+				try {
+					address.parse(fullAddress);
+
+					// if it doesnt belong to the are of influence it is considered invalid
+					if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+						invalidAddress = true;
+					}
+				}
+
+				catch (...) {
+					invalidAddress = true;
+				}
+
+				cout << endl;
+			} while (invalidAddress);
+			clients.at(clientChoice)->set_address(address);
+			break;
+
+	}
 }
