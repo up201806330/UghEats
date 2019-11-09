@@ -57,9 +57,9 @@ size_t Product::get_price() const
 
 ostream & operator<<(ostream & out, const Product & p)
 {
-	out << "Name: " << p.name << endl;
-	out << "Cuisine Type: " << p.cuisine_type << endl;
-	out << "Price: " << p.price << endl;
+	out << "   Name: " << p.name << endl;
+	out << "   Cuisine Type: " << p.cuisine_type << endl;
+	out << "   Price: " << p.price << endl;
 	return out;
 }
 
@@ -399,6 +399,31 @@ bool Order::calculate_fee() //implementar depois
 bool Order::calculate_time() //implementar depois
 {
 	return true;
+}
+
+ostream & operator<<(ostream & out, Order & o)
+{
+	out << "ID: " << o.id << endl;
+	out << "Restaurant: " << o.restaurant->get_name() << endl;
+	out << "Products: " << endl;
+	vector<Product*>::iterator it;
+	int c = 0;
+	for (it = o.products.begin(); it != o.products.end(); it++)
+	{
+		out << *(*it);
+		if (c != o.products.size() - 1)
+			cout << endl;
+		c++;
+		
+	}
+	out << "Time: " << o.time << endl;
+	out << "Date: " << o.date.str() << endl;
+	if (o.success)
+		out << "SUCCESSFUL" << endl;
+	else
+		out << o.insuccess_message << endl;
+	out << "Delivery Fee: " << o.delivery_fee;
+	return out;
 }
 
 

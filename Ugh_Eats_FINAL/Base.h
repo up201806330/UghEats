@@ -54,11 +54,12 @@ public:
 	void seeAllRestaurants(); // display all the restaurants that are connected to the base
 	void seeOneRestaurant();
 	void seeAllWorkers(); // display all the workers that are connected to the base
-	// see one
-	// ... de acordo com o doc word
+	void seeOneWorker();
+	void seeAllDeliverers();
+	void seeAllAdministrators();
 	// void seeAreOfInfluence(); // display the "area of influence" of the base (districts) <- talvez nao
 	void seeAllOrders();
-	// see one
+	void seeOneOrder();
 	void seeProfits(); // display the profits of the base
 	// base
 	// restaurante
