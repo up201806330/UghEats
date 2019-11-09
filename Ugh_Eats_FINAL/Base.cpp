@@ -201,6 +201,7 @@ void Base::seeOneRestaurant()
 			cout << *(*ite) << endl;
 		}
 	}
+}
 
 
 
