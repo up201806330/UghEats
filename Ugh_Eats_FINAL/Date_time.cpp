@@ -57,10 +57,10 @@ size_t Date::get_year() const {
 
 string Date::str() const 
 {
-	string result = day + "/";
-	result += month;
+	string result = to_string(day) + "/";
+	result += to_string(month);
 	result += "/";
-	result += year;
+	result += to_string(year);
 	return result;
 }
 

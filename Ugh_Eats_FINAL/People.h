@@ -88,7 +88,7 @@ public:
 };
 
 class Delivery : public Worker {
-	Vehicle * vehicle;
+	Vehicle  vehicle;
 	vector<Order*> history;
 
 public:
@@ -96,10 +96,10 @@ public:
 
 	~Delivery();
 
-	void set_vehicle(Vehicle * veiculo);
+	void set_vehicle(Vehicle veiculo);
 	void set_history(vector<Order*> historial);
 	Delivery * get_reference();
-	Vehicle * get_vehicle() const;
+	Vehicle  get_vehicle() const;
 	vector<Order*> get_history() const;
 	size_t calculate_wage();
 	void print();

@@ -204,6 +204,64 @@ void Base::seeOneRestaurant()
 }
 
 
+void Base::seeAllWorkers()
+{
+
+	cout << "ALL WORKERS" << endl << endl;
+	cout << "Administrators:" << endl << endl;
+	for (int i = 0; i < workers.size(); i++)
+	{
+		Admin *a = dynamic_cast<Admin *> (workers[i]);
+		if (a != NULL)
+		{
+			a->print();
+			cout << endl;
+		}
+			
+		else
+			continue;
+		
+	}
+	cout << endl << "Deliverers: " << endl << endl;
+
+	for (int j = 0; j < workers.size(); j++)
+	{
+		Delivery *d = dynamic_cast<Delivery *> (workers[j]);
+		if (d != NULL)
+		{
+			d->print();
+			cout << endl;
+
+		}
+			
+		else
+			continue;
+	}
+	
+}
+
+void Base::seeOneWorker()
+{
+	cout << "Pick the worker you want to see" << endl;
+	vector<Worker*>::iterator it;
+	int id = 1, answer;
+	for (it = workers.begin(); it != workers.end(); it++)
+	{
+		cout << id << "- " << (*it)->get_name() << endl;
+		id++;
+	}
+	cin >> answer;
+	Admin *a = dynamic_cast<Admin *> (workers[answer - 1]);
+	if (a != NULL)
+	{
+		cout << "Administrator" << endl;
+	}
+	else
+		cout << "Deliverer" << endl;
+	workers[answer - 1]->print();
+	cout << endl;
+
+}
 
 
 void Base::addClient() {

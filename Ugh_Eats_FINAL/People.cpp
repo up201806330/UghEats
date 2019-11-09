@@ -140,7 +140,7 @@ void Worker::load(string path, Base * base){
 		x.set_birthday(d);
 
 		getline(workers_text, textline);
-		Vehicle v; v.parse(textline); x.set_vehicle(&v);
+		Vehicle v; v.parse(textline); x.set_vehicle(v);
 
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
@@ -206,7 +206,7 @@ string Admin::get_role() const {
 
 void Admin::print() { 
 	Worker::print();
-	cout << "Role: " << role;
+	cout << "Role: " << role << endl;
 }
 
 Delivery::Delivery() {
@@ -217,7 +217,7 @@ Delivery::~Delivery() {
 
 }
 
-void Delivery::set_vehicle(Vehicle * veiculo) {
+void Delivery::set_vehicle(Vehicle  veiculo) {
 	vehicle = veiculo;
 }
 
@@ -230,7 +230,7 @@ Delivery * Delivery::get_reference()
 	return this;
 }
 
-Vehicle * Delivery::get_vehicle() const {
+Vehicle Delivery::get_vehicle() const {
 	return vehicle;
 }
 
@@ -241,15 +241,21 @@ vector<Order*> Delivery::get_history() const {
 void Delivery::print() {
 	Worker::print();
 	cout << "Vehicle: " << endl;
-	cout << "   Type: " << vehicle->get_type() << endl;
-	cout << "   Brand: " << vehicle->get_brand() << endl;
-	cout << "   Registration Date: " << vehicle->get_registration_date().str() << endl;
+	cout << "   Brand: " << vehicle.get_brand() << endl;
+	cout << "   Type: " << vehicle.get_type() << endl;
+	cout << "   Registration Date: " << vehicle.get_registration_date().str() << endl;
 	cout << "History: ";
-	vector<Order*>::iterator it;
-	for (it = history.begin(); it != history.end(); it++)
+	if (history.size() == 0)
+		cout << "none";
+	else
 	{
-		cout << (*it)->getID() << " ";
+		vector<Order*>::iterator it;
+		for (it = history.begin(); it != history.end(); it++)
+		{
+			cout << (*it)->getID() << " ";
+		}
 	}
+	
 	cout << endl;
 }
 
