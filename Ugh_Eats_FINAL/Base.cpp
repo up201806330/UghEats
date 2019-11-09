@@ -553,3 +553,43 @@ void Base::changeClient() {
 
 	}
 }
+
+void Base::removeClient() {
+
+	cout << "Pick the client you want to change information about:" << endl;
+
+	vector<Client*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int clientChoice;
+	unsigned index = 0;
+
+
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it = clients.begin(); it != clients.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			getline(cin, strChoice);
+			clientChoice = stoi(strChoice);
+
+			if (clientChoice < 1 || clientChoice > clients.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+	clientChoice--; // not to excede the max index available
+	
+	clients.erase(clients.begin() + clientChoice);
+
+}

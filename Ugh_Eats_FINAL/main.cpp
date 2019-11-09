@@ -19,8 +19,20 @@ int main(){
 	cout << "UPDATED: " << bases.at(0)->getClients().at(0)->get_name() << endl;
 	*/
 
-	bases.at(0)->seeOneOrder();
-	
+	// bases.at(0)->seeOneOrder();
+
+	/*
+	for (auto & c : bases.at(0)->getClients()) {
+		cout << c->get_name() << endl;
+	}
+	cout << endl;
+	bases.at(0)->removeClient();
+	cout << endl;
+	for (auto & c : bases.at(0)->getClients()) {
+		cout << c->get_name() << endl;
+	}
+	*/
+
 	/*
 	cout << bases.at(0)->getAddress();
 	cout << endl << endl;
