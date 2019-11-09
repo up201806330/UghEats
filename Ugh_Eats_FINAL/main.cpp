@@ -11,7 +11,7 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
-	bases.at(0)->seeAllOrders();
+	bases.at(0)->seeOneOrder();
 	
 	/*
 	cout << bases.at(0)->getAddress();

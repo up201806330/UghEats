@@ -251,6 +251,7 @@ void Base::seeOneWorker()
 		id++;
 	}
 	cin >> answer;
+	cout << "INFO" << endl;
 	Admin *a = dynamic_cast<Admin *> (workers[answer - 1]);
 	if (a != NULL)
 	{
@@ -300,6 +301,22 @@ void Base::seeAllOrders()
 		cout << *(*it);
 		cout << endl;
 	}
+}
+
+void Base::seeOneOrder()
+{
+	cout << "Pick the Order you want to see" << endl;
+	int op = 1, answer;
+	vector<Order*>::iterator it; 
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		cout << op << "- ID: " << (*it)->getID();
+		cout << endl;
+	}
+	cin >> answer;
+	cout << "INFO" << endl;
+	cout << *(orders[answer - 1]);
+
 }
 
 

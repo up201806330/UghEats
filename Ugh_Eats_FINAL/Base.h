@@ -59,7 +59,7 @@ public:
 	void seeAllAdministrators();
 	// void seeAreOfInfluence(); // display the "area of influence" of the base (districts) <- talvez nao
 	void seeAllOrders();
-	// see one
+	void seeOneOrder();
 	void seeProfits(); // display the profits of the base
 	// base
 	// restaurante
