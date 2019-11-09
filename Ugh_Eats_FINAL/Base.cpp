@@ -147,3 +147,9 @@ void Base::seeAllClients()
 		cout << endl << endl;
 	}
 }
+
+void Base::seeOneClient()
+{
+	
+
+}
