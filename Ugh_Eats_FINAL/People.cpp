@@ -347,3 +347,8 @@ void Client::print() {
 
 
 }
+
+void Client::make_order()
+{
+	//Needs implementing
+}

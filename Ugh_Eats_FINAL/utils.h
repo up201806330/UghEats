@@ -67,6 +67,8 @@ namespace utils
 	*/
 	void print(const bool input, std::ostream & stream = std::cout, std::string endl = "\n");
 
+	void print(std::vector<Base*> bases);
+
 	/**
 	Prints the entity to 'stream' (std::cout by default) followed by 'endl' ("\n") by default
 	There is an optional second argument you can use to specify the output stream

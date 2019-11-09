@@ -119,14 +119,15 @@ public:
 
 	void set_address(Address add);
 	void set_base(Base * b);
-	void set_value(int v = 0);
 	void set_orders(vector <Order*> orders_vec);
 	Address get_address() const;
 	Base * get_base() const;
-	int get_value() const;
 	vector <Order*> get_orders() const;
 
 	void print();
+
+	void make_order();
+	void edit();
 };
 
 

@@ -5,6 +5,7 @@
 #include <sstream>
 #include <ctype.h>
 #include <limits>
+#include "Base.h"
 
 size_t char_count(const std::string & input, const char delim);
 
@@ -70,6 +71,12 @@ void utils::print(const bool input, std::ostream & stream, std::string endl)
 		stream << "False" << std::endl;
 	
 	return;
+}
+
+void utils::print(std::vector<Base*> bases) {
+	for (auto n = 0; n < bases.size(); n++) {
+		cout << n << ". " << bases.at(n)->getDistrict() << endl;
+	}
 }
 
 void utils::trim(std::string & input)
