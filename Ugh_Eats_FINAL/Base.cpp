@@ -262,7 +262,20 @@ void Base::seeOneWorker()
 	cout << endl;
 
 }
+void Base::seeAllDeliverers()
+{
+	cout << "ALL DELIVERERS" << endl << endl;
+	for (int i = 0; i < workers.size(); i++)
+	{
+		Delivery *d = dynamic_cast<Delivery *> (workers[i]);
+		if (d != NULL)
+		{
+			d->print();
+			cout << endl;
+		}
 
+	}
+}
 
 void Base::addClient() {
 
