@@ -112,7 +112,7 @@ public:
 	size_t getDeliveryFee()const;
 	
 	vector <Order> findOrders(string textile);
-
+	friend ostream & operator<<(ostream & out, Order & o);
 
 	
 	

@@ -80,3 +80,19 @@ void Time::parse(string str){
 	time.tm_sec = stoi(parts.at(2));
 }
 
+ostream & operator<<(ostream & out, Time & t)
+{
+	if (t.time.tm_hour < 10)
+		out << 0 << t.time.tm_hour << ":";
+	else
+		out << t.time.tm_hour << ":";
+	if (t.time.tm_min < 10)
+		out << 0 << t.time.tm_min << ":";
+	else
+		out << t.time.tm_min << ":";
+	if (t.time.tm_sec < 10)
+		out << 0 << t.time.tm_sec;
+	else
+		out << t.time.tm_sec;
+	return out;
+}

@@ -291,6 +291,16 @@ void Base::seeAllAdministrators()
 	}
 }
 
+void Base::seeAllOrders()
+{
+	cout << "ALL ORDERS" << endl << endl;
+	vector<Order*>::iterator it;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		cout << *(*it);
+		cout << endl;
+	}
+}
 
 
 void Base::addClient() {

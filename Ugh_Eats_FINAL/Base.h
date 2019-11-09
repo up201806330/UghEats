@@ -57,7 +57,6 @@ public:
 	void seeOneWorker();
 	void seeAllDeliverers();
 	void seeAllAdministrators();
-	// ... de acordo com o doc word
 	// void seeAreOfInfluence(); // display the "area of influence" of the base (districts) <- talvez nao
 	void seeAllOrders();
 	// see one
