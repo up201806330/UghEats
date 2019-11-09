@@ -24,8 +24,8 @@ void main_menu_client(Client* client) {
 	}
 }
 
-void main_menu_admin() {
-	return;
+void main_menu_admin(Base * base) {
+	
 }
 
 void main_menu_client_login(Base * base){
@@ -33,7 +33,8 @@ void main_menu_client_login(Base * base){
 		string input;
 		utils::clear_screen();
 
-		cout << "login: "; cin.ignore(); getline(cin, input);
+		cout << "login: "; 
+		getline(cin, input);
 
 		vector<Client*>::iterator it;
 		vector<Client*> clients = base->getClients();
@@ -43,6 +44,7 @@ void main_menu_client_login(Base * base){
 
 		cout << "Client not found; Try again (Enter to continue)" << endl;
 		cout << ">> ";
+		cin.clear();
 		cin.ignore();
 	}
 }
@@ -68,6 +70,7 @@ void main_menu(vector<Base*> bases) {
 		else {
 			selected_base = bases.at(temp - 1);
 		}
+		cin.ignore();
 
 		cout << "\n\n";
 		cout << "Client or Admin ?" << endl;
@@ -75,10 +78,10 @@ void main_menu(vector<Base*> bases) {
 		cout << "2. Admin" << endl;
 		cout << ">> ";
 
-		cin >> input;
+		getline(cin, input);
 
 		if (input == "1") main_menu_client_login(selected_base);
-		if (input == "2") main_menu_admin();
+		if (input == "2") main_menu_admin(selected_base);
 
 		else continue;
 	}
