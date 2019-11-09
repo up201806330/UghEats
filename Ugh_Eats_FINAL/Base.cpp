@@ -136,7 +136,7 @@ vector<Order*> Base::getOrders() const{
 	return orders;
 }
 
-//Visualização de Informação
+//Visualizaï¿½ï¿½o de Informaï¿½ï¿½o
 void Base::seeAllClients()
 {
 	cout << "ALL CLIENTS" << endl << endl;
@@ -148,7 +148,59 @@ void Base::seeAllClients()
 	}
 }
 
+void Base::seeOneClient()
+{
+	cout << "Pick the Client you want to see: " << endl << endl;
+	vector<Client*>::iterator it;
+	int id = 1;
+	int answer;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		cout << id << "- " << (*it)->get_name() << endl;
+		id++;
+	}
+	cout << endl;
+	cin >> answer;
+	cout << endl << "INFO" << endl;
+	clients[answer - 1]->print();
 
+}
+
+void Base::seeAllRestaurants()
+{
+	cout << "ALL RESTAURANTS" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		cout << *(*it);
+	}
+}
+
+void Base::seeOneRestaurant()
+{
+	cout << "Pick the Restaurant you want to see" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	int id = 1, answer;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		cout << id << "- " << (*it)->get_name() << endl;
+		id++;
+	}
+	cout << endl;
+	cin >> answer;
+	cout << endl << "INFO" << endl;
+	cout << (*restaurants[answer - 1]);
+	if ((*restaurants[answer - 1]).get_products().size() == 0)
+		cout << endl;
+	else
+	{
+		cout << "Products:" << endl;
+		vector<Product*>::iterator ite;
+		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
+		{
+			cout << *(*ite) << endl;
+		}
+	}
 
 
 
@@ -236,4 +288,5 @@ void Base::addClient() {
 	
 	clients.push_back(ptr);
 	
+
 }

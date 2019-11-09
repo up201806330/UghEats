@@ -324,15 +324,20 @@ vector <Order*> Client::get_orders() const {
 
 void Client::print() { 
 	Person::print();
-	cout << "Address: " << address << endl;
-	cout << "Base: " << (*base).getDistrict() << endl;
+	cout << address;
+//	cout << "Base: " << base->getDistrict() << endl;
 	cout << "Orders: ";
-	vector<Order*>::iterator it;
-	for (it = orders.begin(); it != orders.end(); it++)
-	{
-		cout << (*it)->getID() << " ";
+	if (orders.size() == 0)
+		cout << "none"<<endl;
+	else {
+		vector<Order*>::iterator it;
+		for (it = orders.begin(); it != orders.end(); it++)
+		{
+			cout << (*it)->getID() << " ";
+		}
+		cout << endl;
 	}
-	cout << endl;
+
 
 
 }

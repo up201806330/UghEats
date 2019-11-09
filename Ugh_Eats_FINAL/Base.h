@@ -52,7 +52,7 @@ public:
 	void seeAllClients();
 	void seeOneClient();
 	void seeAllRestaurants(); // display all the restaurants that are connected to the base
-	// see one
+	void seeOneRestaurant();
 	void seeAllWorkers(); // display all the workers that are connected to the base
 	// see one
 	// ... de acordo com o doc word

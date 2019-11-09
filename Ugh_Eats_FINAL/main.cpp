@@ -10,7 +10,10 @@ int main(){
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
+
+	// bases.at(0)->seeOneRestaurant();
 	
+	/*
 	cout << bases.at(0)->getAddress();
 	cout << endl << endl;
 	cout << "Clients number: " << bases.at(0)->getClients().size() << endl;
@@ -18,6 +21,8 @@ int main(){
 	cout << endl;
 	cout << "Clients number: " << bases.at(0)->getClients().size() << endl;
 	cout << "Nome: " << bases.at(0)->getClients().at(4)->get_name() << endl;
+	*/
+	
 	return 0;
 }
 
