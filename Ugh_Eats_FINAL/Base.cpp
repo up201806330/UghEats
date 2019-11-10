@@ -187,11 +187,21 @@ void Base::seeOneClient()
 		cout << id << "- " << (*it)->get_name() << endl;
 		id++;
 	}
-	cout << endl;
+	cout << ">> ";
 	cin >> answer;
-	cout << endl << "INFO" << endl;
-	clients[answer - 1]->print();
+	if (cin.fail() || answer > clients.size() || cin.eof()) {
+		cin.clear();
+		return;
+	}
 
+	else {
+		cout << endl << "INFO" << endl;
+		clients.at(answer - 1)->print();
+		
+		cout << "\n>> ";
+		cin.ignore(); //WHY ????
+		cin.ignore();
+	}
 }
 
 void Base::seeAllRestaurants()
@@ -217,14 +227,14 @@ void Base::seeOneRestaurant()
 	cout << endl;
 	cin >> answer;
 	cout << endl << "INFO" << endl;
-	cout << (*restaurants[answer - 1]);
-	if ((*restaurants[answer - 1]).get_products().size() == 0)
+	cout << (*restaurants.at(answer-1));
+	if ((*restaurants.at(answer - 1)).get_products().size() == 0)
 		cout << endl;
 	else
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
+		for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
 		{
 			cout << *(*ite) << endl;
 		}
@@ -280,14 +290,14 @@ void Base::seeOneWorker()
 	}
 	cin >> answer;
 	cout << "INFO" << endl;
-	Admin *a = dynamic_cast<Admin *> (workers[answer - 1]);
+	Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
 	if (a != NULL)
 	{
 		cout << "Administrator" << endl;
 	}
 	else
 		cout << "Deliverer" << endl;
-	workers[answer - 1]->print();
+	workers.at(answer - 1)->print();
 	cout << endl;
 
 }
@@ -343,7 +353,7 @@ void Base::seeOneOrder()
 	}
 	cin >> answer;
 	cout << "INFO" << endl;
-	cout << *(orders[answer - 1]);
+	cout << *(orders.at(answer - 1));
 
 }
 
@@ -372,6 +382,7 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	c.set_name(name);
 	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) {
 		cout << "Client is blacklisted and cannot register" << endl;
+		cout << ">> ";
 		cin.ignore();
 		return;
 		//excecao aqui
@@ -437,6 +448,11 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	*ptr = c;
 	
 	clients.push_back(ptr);
+
+	cout << endl;
+	cout << "Client added successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 void Base::changeClient() {
@@ -480,7 +496,7 @@ void Base::changeClient() {
 
 void Base::removeClient() {
 
-	cout << "Pick the client you want to change information about:" << endl;
+	cout << "Pick the client you want to remove:" << endl;
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
@@ -514,7 +530,13 @@ void Base::removeClient() {
 
 	clientChoice--; // not to excede the max index available
 	
+	//loop a apagar todas as orders dele !!
+
 	clients.erase(clients.begin() + clientChoice);
+
+	cout << "Client removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
 
 }
 
