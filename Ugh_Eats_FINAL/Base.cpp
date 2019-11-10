@@ -1394,6 +1394,23 @@ void Base::searchForCuisineTypes()
 	vector<Restaurant*>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{
+		vector<Product*> vec = (*it)->get_products();
+		vector<Product*>::iterator ite;
+		int count = 0;
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		{
+			if ((*ite)->get_cuisine_type() == type)
+			{
+				if (!count)
+				{
+					cout << (*it)->get_name() << ": " << endl;
+					count++;
+				}
+				cout << *(*ite);
+				cout << endl;
+			}
+				
+		}
 
 	}
 }
