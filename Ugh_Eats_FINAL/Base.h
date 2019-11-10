@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "Address.h"
 #include "People.h"
 #include "Restaurant.h"
@@ -93,7 +94,7 @@ public:
 	// LEONOR
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
 	//				  -> usar algoritmos de procura
-	// por restaurante (mostra os produtos)
+	void searchForRestaurant();          // por restaurante (mostra os produtos)
 	// por zona geografica
 	// por intervalo de preços (por preço medio)
 	// por tipo de culinária
@@ -108,7 +109,9 @@ public:
 	// overload do <<
 	// 
 
-	
+
+
+
 
 };
 

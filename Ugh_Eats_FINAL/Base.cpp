@@ -409,3 +409,44 @@ void Base::addClient() {
 void Base::changeClient() {
 
 }
+
+
+//Search Options
+template<class T>
+bool sortRule(T left, T right)
+{
+	return (*left) < (*right);
+}
+
+
+
+void Base::searchForRestaurant()
+{
+	string name;
+	cout << "Which Restaurant do you want?" << endl;
+	getline(cin, name);
+	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_name() == name)
+		{
+			cout << "Products Available" << endl << endl;
+			vector<Product*>::iterator ite;
+			vector<Product*> vec = (*it)->get_products();
+			if (vec.size() == 0)
+				cout << "None";
+			else
+			{
+				for (ite = vec.begin(); ite != vec.end(); ite++);
+				{
+					cout << *(*ite);
+					cout << endl;
+				}
+			}			
+		}
+	}
+
+
+
+}
