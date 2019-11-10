@@ -13,7 +13,7 @@ int main(){
 	vector<Base*> bases = Base::load(path);
 
 
-	bases[0]->searchForRestaurant();
+	bases[0]->searchForPriceRange();
 
 	// cout << "Brand: " << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_vehicle().get_brand() << endl;
 	// cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_birthday().get_day() << endl;
@@ -70,7 +70,7 @@ int main(){
 	*/
 	
 
-	 main_menu(bases);
+	// main_menu(bases);
 
 	return 0;
 }

@@ -225,7 +225,7 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		out << r.cuisine_types[r.cuisine_types.size() - 1] << endl;
 	}
 	out << "Price Average: " << r.price_average << endl;
-	out << "Number of Products:" << r.products.size() << endl << endl;
+	//out << "Number of Products:" << r.products.size() << endl << endl;
 
 
 	/*
