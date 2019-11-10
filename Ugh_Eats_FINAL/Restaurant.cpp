@@ -105,6 +105,8 @@ void Restaurant::load(string path, Base * base){
 			// cout << prods.at(0)->get_name() << endl;
 		}
 		restaurant.setProducts(prods);
+		restaurant.setPriceAverage();
+
 		Restaurant * ptr = new Restaurant;
 		*ptr = restaurant;
 		restaurants_vec.push_back(ptr);
@@ -226,9 +228,25 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 	out << "Number of Products:" << r.products.size() << endl << endl;
 
 
+	/*
+	out << "Products:" << endl;
+	for (auto i = 0; i < r.products.size(); i++) {
+		out << r.products.at(i) << endl;
+	}*/
+	out << "Number of Products: " << r.products.size() << endl << endl;
+
 
 	return out;
 }
+
+
+
+bool operator<(Restaurant & left, Restaurant & right)
+{
+	return left.name < right.name;
+}
+
+
 
 Order::Order()
 {

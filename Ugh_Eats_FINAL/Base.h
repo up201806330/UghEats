@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "Address.h"
 #include "People.h"
 #include "Restaurant.h"
@@ -64,9 +65,8 @@ public:
 	void seeAllOrders();
 	void seeOneOrder();
 	void seeProfits(); // display the profits of the base
-	// base
-	// restaurante
-	// cliente
+	void seeProfitsPerRestaurant(); // restaurante
+	void seeProfitsPerClient(); // cliente
 	// periodo de tempo
 
 
@@ -100,7 +100,12 @@ public:
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
 	void searchForGeographicArea();  // por zona geografica
 	void searchForPriceRange(); // por intervalo de preços (por preço medio)
+
 	void searchForCuisineTypes();
+
+	// por intervalo de preços (por preço medio)
+
+
 	// por tipo de culinária
 
 	// camelCase

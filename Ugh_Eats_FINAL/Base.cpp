@@ -187,11 +187,21 @@ void Base::seeOneClient()
 		cout << id << "- " << (*it)->get_name() << endl;
 		id++;
 	}
-	cout << endl;
+	cout << ">> ";
 	cin >> answer;
-	cout << endl << "INFO" << endl;
-	clients[answer - 1]->print();
+	if (cin.fail() || answer > clients.size() || cin.eof()) {
+		cin.clear();
+		return;
+	}
 
+	else {
+		cout << endl << "INFO" << endl;
+		clients.at(answer - 1)->print();
+		
+		cout << "\n>> ";
+		cin.ignore(); //WHY ????
+		cin.ignore();
+	}
 }
 
 void Base::seeAllRestaurants()
@@ -217,14 +227,18 @@ void Base::seeOneRestaurant()
 	cout << endl;
 	cin >> answer;
 	cout << endl << "INFO" << endl;
-	cout << (*restaurants[answer - 1]);
-	if ((*restaurants[answer - 1]).get_products().size() == 0)
+	cout << (*restaurants.at(answer-1));
+	if ((*restaurants.at(answer - 1)).get_products().size() == 0)
 		cout << endl;
 	else
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
+
+		// REVERTED CHANGES HERE
+		vector<Product*> vec = restaurants[answer - 1]->get_products();
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
 		{
 			cout << *(*ite) << endl;
 		}
@@ -280,14 +294,14 @@ void Base::seeOneWorker()
 	}
 	cin >> answer;
 	cout << "INFO" << endl;
-	Admin *a = dynamic_cast<Admin *> (workers[answer - 1]);
+	Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
 	if (a != NULL)
 	{
 		cout << "Administrator" << endl;
 	}
 	else
 		cout << "Deliverer" << endl;
-	workers[answer - 1]->print();
+	workers.at(answer - 1)->print();
 	cout << endl;
 
 }
@@ -343,9 +357,127 @@ void Base::seeOneOrder()
 	}
 	cin >> answer;
 	cout << "INFO" << endl;
-	cout << *(orders[answer - 1]);
+	cout << *(orders.at(answer - 1));
 
 }
+
+
+void Base::seeProfits()
+{
+	cout << "Profit for this Base: ";
+	vector<Order*>::iterator it;
+	float total = 0;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		total += (*it)->getDeliveryFee();
+	}
+	cout << total << endl;
+
+
+}
+
+void Base::seeProfitsPerRestaurant()
+{
+	cout << "Profits per Restaurant" << endl << endl;
+	vector< Restaurant *>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		int total = 0;
+		vector<Order*>::iterator ite;
+		for (ite = orders.begin(); ite != orders.end(); ite++)
+		{
+			if ((*it)->get_name() == (*ite)->getRestaurant()->get_name())
+			{
+				total += (*ite)->getDeliveryFee();
+			}
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
+
+
+
+}
+
+void Base::seeProfitsPerClient()
+{
+	cout << "Profits per Client" << endl << endl;
+	vector<Client*>::iterator it;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		int total = 0;
+		vector<Order*> vec = (*it)->get_orders();
+		vector<Order*>::iterator ite;
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		{
+			total += (*ite)->getDeliveryFee();
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
+
+
+}
+
+//Search Options
+template<class T>
+bool sortRule(T left, T right)
+{
+	return (*left) < (*right);
+}
+
+
+void Base::searchForRestaurant()
+{
+	string name;
+	cout << "Which Restaurant do you want?" << endl;
+	getline(cin, name);
+	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_name() == name)
+		{
+			cout << "Products Available" << endl << endl;
+			vector<Product*>::iterator ite;
+			vector<Product*> vec = (*it)->get_products();
+			if (vec.size() == 0)
+				cout << "None";
+			else
+			{
+				for (ite = vec.begin(); ite != vec.end(); ite++);
+				{
+					cout << *(*ite);
+					cout << endl;
+				}
+			}
+		}
+	}
+}
+
+void Base::searchForGeographicArea()
+{
+	string city;
+	cout << "Which City do you want?" << endl;
+	getline(cin, city);
+	cout << "Products Available" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_address().get_town() == city)
+		{
+			cout << (*it)->get_name() << ": " << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+			cout << endl;
+		}
+	}
+}
+
+
 
 
 void Base::addClient() { //usar em try para apanhar execao blacklisted
@@ -372,6 +504,7 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	c.set_name(name);
 	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) {
 		cout << "Client is blacklisted and cannot register" << endl;
+		cout << ">> ";
 		cin.ignore();
 		return;
 		//excecao aqui
@@ -437,6 +570,11 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	*ptr = c;
 	
 	clients.push_back(ptr);
+
+	cout << endl;
+	cout << "Client added successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 void Base::changeClient() {
@@ -480,7 +618,7 @@ void Base::changeClient() {
 
 void Base::removeClient() {
 
-	cout << "Pick the client you want to change information about:" << endl;
+	cout << "Pick the client you want to remove:" << endl;
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
@@ -514,7 +652,13 @@ void Base::removeClient() {
 
 	clientChoice--; // not to excede the max index available
 	
+	//loop a apagar todas as orders dele !!
+
 	clients.erase(clients.begin() + clientChoice);
+
+	cout << "Client removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
 
 }
 
@@ -759,9 +903,396 @@ void Base::addWorker() {
 
 
 
-// TO DO
 void Base::changeWorker() {
-	
+
+	Admin *adminCheck;
+	Delivery *deliveryCheck;
+	int firstDeliveryIndex = 0;
+	bool foundFirstDelivery = false;
+	bool invalidOption = false;
+	string strWorkerChoice;
+	int workerChoice;
+
+
+	cout << "Pick the worker you want to change information about:" << endl;
+
+	do {
+		invalidOption = false;
+		foundFirstDelivery = false;
+
+		for (size_t i = 0; i < workers.size(); i++) {
+			adminCheck = dynamic_cast<Admin*> (workers.at(i));
+			if (adminCheck != NULL) {
+				firstDeliveryIndex++;
+				// if i == 0, then i converts to false, so !i == true
+				// 0 converts to false, any other convertable to bool convert to true
+				if (!i) {
+					cout << "Administrators" << endl;
+					cout << i + 1 << ". " << adminCheck->get_name() << " (" << adminCheck->get_role() << ")" << endl;
+				}
+				else {
+					cout << i + 1 << ". " << adminCheck->get_name() << endl;
+				}
+
+			}
+			else {
+				deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
+				if (!foundFirstDelivery) {
+					foundFirstDelivery = true;
+					cout << "\nDeliverers" << endl;
+				}
+				cout << i + 1 << ". " << deliveryCheck->get_name() << endl;
+			}
+		}
+
+		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
+
+		try {
+			getline(cin, strWorkerChoice);
+			workerChoice = stoi(strWorkerChoice);
+
+			if (workerChoice < 1 || workerChoice > workers.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		cout << endl;
+
+		// cout << dynamic_cast<Delivery*>(workers.at(3))->get_vehicle().get_brand() << endl;
+
+	} while (invalidOption);
+
+	workerChoice--; // not to excede the max index available
+
+
+
+	utils::clear_screen();
+
+
+
+	// cout << workers.at(workerChoice)->get_name() << endl;
+	unsigned index = 0;
+	string strAdminAttributeChoice;
+	int adminAttributeChoice;
+
+	string strDelivAttributeChoice;
+	int delivAttributeChoice;
+
+	vector<string>::iterator it1;
+	vector<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
+	vector<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
+	cout << "Pick the field you want to change information of:" << endl;
+	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
+	// auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
+	// Admin newAdmin;
+	// Delivery newDelivery;
+
+	auto adminObject = dynamic_cast<Admin*>(workers.at(workerChoice));
+	auto delivObject = dynamic_cast<Delivery*>(workers.at(workerChoice));
+
+	string newName;
+
+	string strNewNif;
+	int newNif = 0;
+	bool invalidNif = false;
+
+	bool invalidBirthday = false;
+	Date newBirthday;
+	string fullBirthday;
+
+	bool invalidWage = false;
+	string strNewWage;
+	int newWage;
+
+	bool adminExists = false;
+	bool invalidRole = false;
+	string newRole;
+
+	bool invalidRegistrationDate = false;
+	string newVehicleBrand;
+	string newVehicleType;
+	string strNewRegistDate;
+	Date newRegistDate;
+	Vehicle newVehicle;
+
+	// worker chosen is an Admin
+	if (workerChoice < firstDeliveryIndex) {
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = adminOptions.begin(); it1 != adminOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strAdminAttributeChoice);
+				adminAttributeChoice = stoi(strAdminAttributeChoice);
+
+				if (adminAttributeChoice < 1 || adminAttributeChoice > adminOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+		switch (adminAttributeChoice) {
+
+			// Name
+			case 1:
+				cout << "Current Name: " << adminObject->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				cout << endl;
+				adminObject->set_name(newName);
+				break;
+
+			// Nif
+			case 2:
+				do {
+					invalidNif = false;
+
+					cout << "Current Nif: " << adminObject->get_NIF() << endl;
+					cout << "Updated Nif: ";
+					getline(cin, strNewNif);
+					try {
+						newNif = stoi(strNewNif);
+					}
+
+					catch (...) {
+						invalidNif = true;
+					}
+					break;
+
+					cout << endl;
+				} while (invalidNif);
+				adminObject->set_NIF(newNif);
+				break;
+
+			// Birthday
+			case 3:
+				do {
+					invalidBirthday = false;
+
+					cout << "Current Birthday: " << adminObject->get_birthday().get_day() << " / "
+						<< adminObject->get_birthday().get_month() << " / " << adminObject->get_birthday().get_year() << endl;
+					cout << "Updated Birthday: ";
+					getline(cin, fullBirthday);
+
+					try {
+						newBirthday.parse(fullBirthday);
+					}
+					catch (...) {
+						invalidBirthday = true;
+					}
+
+					cout << endl;
+
+					cout << endl;
+				} while (invalidBirthday);
+				adminObject->set_birthday(newBirthday);
+				break;
+
+			// Wage
+			case 4:
+				do {
+					invalidWage = false;
+
+					cout << "Current Wage: " << adminObject->get_wage() << endl;
+					cout << "Updated Wage: ";
+					getline(cin, strNewWage);
+
+					try {
+						newWage = stoi(strNewWage);
+					}
+					catch (...) {
+						invalidWage = true;
+					}
+
+					cout << endl;
+				} while (invalidWage);
+				adminObject->set_wage(newWage);
+				break;
+
+			// Role
+			case 5:
+				adminExists = ((dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") && (workerChoice != 0)) ? true : false;
+				do {
+					cout << "Current role: " << adminObject->get_role() << endl;
+					cout << "Updated role: ";
+					getline(cin, newRole);
+
+					if (newRole == "manager" && adminExists) {
+						invalidRole = true;
+					}
+
+					cout << endl;
+				} while (invalidRole);
+				adminObject->set_role(newRole);
+				break;
+		}
+	}
+
+	// worker chosen is an Delivery
+	else if (workerChoice >= firstDeliveryIndex) {
+
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = deliveryOptions.begin(); it1 != deliveryOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strDelivAttributeChoice);
+				delivAttributeChoice = stoi(strDelivAttributeChoice);
+
+				if (delivAttributeChoice < 1 || delivAttributeChoice > deliveryOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+
+		switch (delivAttributeChoice) {
+
+			// Name
+			case 1:
+				cout << "Current Name: " << delivObject->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				cout << endl;
+				delivObject->set_name(newName);
+				break;
+
+			// Nif
+			case 2:
+				do {
+					invalidNif = false;
+
+					cout << "Current Nif: " << delivObject->get_NIF() << endl;
+					cout << "Updated Nif: ";
+					getline(cin, strNewNif);
+					try {
+						newNif = stoi(strNewNif);
+					}
+
+					catch (...) {
+						invalidNif = true;
+					}
+					break;
+
+					cout << endl;
+				} while (invalidNif);
+				delivObject->set_NIF(newNif);
+				break;
+
+			// Birthday
+			case 3:
+				do {
+					invalidBirthday = false;
+
+					cout << "Current Birthday: " << delivObject->get_birthday().get_day() << " / "
+						<< delivObject->get_birthday().get_month() << " / " << delivObject->get_birthday().get_year() << endl;
+					cout << "Updated Birthday: ";
+					getline(cin, fullBirthday);
+
+					try {
+						newBirthday.parse(fullBirthday);
+					}
+					catch (...) {
+						invalidBirthday = true;
+					}
+
+					cout << endl;
+
+					cout << endl;
+				} while (invalidBirthday);
+				delivObject->set_birthday(newBirthday);
+				break;
+
+			// Wage
+			case 4:
+				do {
+					invalidWage = false;
+
+					cout << "Current Wage: " << delivObject->get_wage() << endl;
+					cout << "Updated Wage: ";
+					getline(cin, strNewWage);
+
+					try {
+						newWage = stoi(strNewWage);
+					}
+					catch (...) {
+						invalidWage = true;
+					}
+
+					cout << endl;
+				} while (invalidWage);
+				delivObject->set_wage(newWage);
+				break;
+
+			// Vehicle
+			case 5:
+				cout << "Current Brand: " << delivObject->get_vehicle().get_brand() << endl;
+				cout << "Updated Brand: ";
+				getline(cin, newVehicleBrand);
+				newVehicle.set_brand(newVehicleBrand);
+				cout << endl;
+
+				
+				cout << "Current Type: " << delivObject->get_vehicle().get_type() << endl;
+				cout << "Updated Type: ";
+				getline(cin, newVehicleType);
+				newVehicle.set_type(newVehicleType);
+				cout << endl;
+
+				do {
+					invalidRegistrationDate = false;
+
+					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date().get_day()
+						<< " / " << delivObject->get_vehicle().get_registration_date().get_month() << " / "
+						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
+					cout << "Updated Registration Date: ";
+					getline(cin, strNewRegistDate);
+
+					try {
+						newRegistDate.parse(strNewRegistDate);
+					}
+
+					catch (...) {
+						invalidRegistrationDate = true;
+					}
+					cout << endl;
+				} while (invalidRegistrationDate);
+				newVehicle.set_registrationDate(newRegistDate);
+
+				// Vehicle * ptrNewVehicle = new Vehicle;
+				// *ptrNewVehicle = newVehicle;
+				delivObject->set_vehicle(newVehicle);
+				break;
+
+
+
+		}
+	}
+
 }
 
 
@@ -829,6 +1360,7 @@ void Base::createRestaurant() {
 }
 
 
+
 void Base::searchForRestaurant() 
 {
 	string name;
@@ -878,6 +1410,7 @@ void Base::searchForGeographicArea()
 		}
 	}
 }
+
 
 
 void Base::searchForPriceRange() // o price range não tá a ter casas decimais
