@@ -948,3 +948,34 @@ void Base::searchForGeographicArea()
 		}
 	}
 }
+
+
+void Base::searchForPriceRange() // o price range não tá a ter casas decimais
+{
+	float min, max;
+	cout << "Which Price Range do you want?" << endl;
+	cout << "Min: ";
+	cin >> min;
+	cout << "Max: ";
+	cin >> max;
+	cout << endl << "Products" << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		float price = (*it)->get_price_average();
+		if (price >= min && price <= max)
+		{
+			cout << (*it)->get_name() << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+		}
+	}
+
+
+
+}

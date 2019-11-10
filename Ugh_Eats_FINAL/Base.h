@@ -98,7 +98,7 @@ public:
 	//				  -> usar algoritmos de procura
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
 	void searchForGeographicArea();  // por zona geografica
-	// por intervalo de preços (por preço medio)
+	void searchForPriceRange(); // por intervalo de preços (por preço medio)
 	// por tipo de culinária
 
 	// camelCase
