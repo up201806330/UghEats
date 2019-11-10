@@ -227,6 +227,13 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 	return out;
 }
 
+bool operator<(Restaurant & left, Restaurant & right)
+{
+	return left.name < right.name;
+}
+
+
+
 Order::Order()
 {
 
