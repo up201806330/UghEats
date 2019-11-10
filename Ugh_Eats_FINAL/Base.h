@@ -4,7 +4,6 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <algorithm>
 #include "Address.h"
 #include "People.h"
 #include "Restaurant.h"
@@ -65,8 +64,9 @@ public:
 	void seeAllOrders();
 	void seeOneOrder();
 	void seeProfits(); // display the profits of the base
-	void seeProfitsPerRestaurant(); // restaurante
-	void seeProfitsPerClient(); // cliente
+	// base
+	// restaurante
+	// cliente
 	// periodo de tempo
 
 
@@ -96,8 +96,8 @@ public:
 	// LEONOR
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
 	//				  -> usar algoritmos de procura
-	void searchForRestaurant();          // por restaurante (mostra os produtos)
-	void searchForGeographicArea();  // por zona geografica
+	// por restaurante (mostra os produtos)
+	// por zona geografica
 	// por intervalo de preços (por preço medio)
 	// por tipo de culinária
 
@@ -111,9 +111,7 @@ public:
 	// overload do <<
 	// 
 
-
-
-
+	
 
 };
 

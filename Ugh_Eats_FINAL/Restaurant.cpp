@@ -74,13 +74,13 @@ Restaurant::~Restaurant()
 
 }
 
-void Restaurant::load(string path, Base * base) {
+void Restaurant::load(string path, Base * base){
 	ifstream restaurants_text(path);
 
 	string textline = "";
 	vector<Restaurant*> restaurants_vec;
-	while (getline(restaurants_text, textline)) {
-
+	while(getline(restaurants_text, textline)){
+		
 		if (textline == SEPARATOR) getline(restaurants_text, textline);
 		Restaurant restaurant;
 		restaurant.setName(textline);
@@ -91,11 +91,11 @@ void Restaurant::load(string path, Base * base) {
 		restaurant.setAddress(addr);
 
 		vector<Product*> prods;
-
-		while (getline(restaurants_text, textline)) {
+		
+		while(getline(restaurants_text, textline)){
 			if (textline == ";;;") break;
 			Product d;
-			//cout << "Textline: " << textline << endl;
+			cout << "Textline: " << textline << endl;
 			d.parse(textline);
 
 			Product * ptr2 = new Product;
@@ -107,9 +107,9 @@ void Restaurant::load(string path, Base * base) {
 		restaurant.setProducts(prods);
 		Restaurant * ptr = new Restaurant;
 		*ptr = restaurant;
-		restaurants_vec.push_back(ptr);
+		restaurants_vec.push_back(ptr); 
 	}
-	//cout << "Vector size: " << restaurants_vec.at(0)->get_products().size() << endl;
+	// cout << "Vector size: " << restaurants_vec.at(0)->get_products().size() << endl;
 	base->setRestaurants(restaurants_vec);
 }
 
@@ -218,15 +218,7 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 	out << "Number of Products: " << r.products.size() << endl << endl;
 
 
-
-
 	return out;
-}
-
-
-bool operator<(Restaurant & left, Restaurant & right)
-{
-	return left.name < right.name;
 }
 
 Order::Order()
