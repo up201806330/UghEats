@@ -445,7 +445,8 @@ void Client::edit() {
 		do {
 			invalidAddress = false;
 
-			cout << "Address: ";
+			cout << "Current Address: " << this->get_address().str() << endl;
+			cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
 			getline(cin, fullAddress);
 
 			try {
@@ -454,6 +455,7 @@ void Client::edit() {
 				// if it doesnt belong to the are of influence it is considered invalid
 				if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
 					invalidAddress = true;
+					cout << "Invalid District (must be in area of influence of the base)" << endl;
 				}
 			}
 

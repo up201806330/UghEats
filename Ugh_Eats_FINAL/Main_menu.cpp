@@ -8,7 +8,7 @@ void main_menu_client(Client* client) {
 		string input;
 		utils::clear_screen();
 
-		cout << "Welcome to Ugh Eats!" << endl;
+		cout << "Welcome to Ugh Eats, " << client->get_name() << endl;
 		cout << "1. Make order" << endl;
 		cout << "2. Edit Info" << endl;
 		cout << "CTRL+Z to save and exit" << endl;
@@ -33,19 +33,37 @@ void main_menu_client_login(Base * base){
 		string input;
 		utils::clear_screen();
 
-		cout << "login: "; 
+		cout << "1. Login" << endl;
+		cout << "2. Sign up" << endl;
+		cout << ">> ";
 		getline(cin, input);
 
-		vector<Client*>::iterator it;
-		vector<Client*> clients = base->getClients();
-		for (it = clients.begin(); it != clients.end(); it++) {
-			if ((*it)->get_name() == input) main_menu_client(*it);
+		if (input == "1") {
+			vector<Client*>::iterator it;
+			vector<Client*> clients = base->getClients();
+
+			cout << "\n\nClient name: ";
+			getline(cin, input);
+			if (cin.eof()) continue;
+			
+			for (it = clients.begin(); it != clients.end(); it++) {
+				if ((*it)->get_name() == input) main_menu_client(*it);
+			}
+			
+			cout << "\nClient not found; Try again (Enter to continue)" << endl;
+			cout << ">> ";
+			cin.ignore();
 		}
 
-		cout << "Client not found; Try again (Enter to continue)" << endl;
-		cout << ">> ";
-		cin.clear();
-		cin.ignore();
+		if (input == "2") {
+			utils::clear_screen();
+			base->addClient(); //try para apanhar execao blacklisted ; sem isto nao funciona corretamente
+			main_menu_client(base->getClients().at(base->getClients().size() - 1));
+		}
+
+		if (cin.eof()) break;
+		
+		else continue;
 	}
 }
 
@@ -65,7 +83,10 @@ void main_menu(vector<Base*> bases) {
 		cout << ">> ";
 		
 		cin >> temp;
-		if (cin.fail() || temp > bases.size()) continue;
+		if (cin.fail() || temp > bases.size() || cin.eof()) {
+			cin.clear();
+			continue;
+		}
 
 		else {
 			selected_base = bases.at(temp - 1);
@@ -82,7 +103,10 @@ void main_menu(vector<Base*> bases) {
 
 		if (input == "1") main_menu_client_login(selected_base);
 		if (input == "2") main_menu_admin(selected_base);
-
+		if (cin.eof()) {
+			cin.clear();
+			continue;
+		}
 		else continue;
 	}
 }

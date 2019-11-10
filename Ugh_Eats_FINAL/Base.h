@@ -28,6 +28,9 @@ public:
 	~Base();
 
 	static vector<Base*> load(string path);
+	static void load_blacklist();
+
+	static vector<string> blacklist ;
 	
 	Restaurant * findRestaurant(string str);
 	vector<Order*> findOrders(string str);

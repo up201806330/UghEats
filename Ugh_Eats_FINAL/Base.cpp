@@ -13,6 +13,9 @@ Base::~Base()
 }
 
 vector<Base*> Base::load(string path){
+
+	Base::load_blacklist();
+
 	ifstream base_text(path);
 
 	if (!base_text.is_open()) cout << "Error reading";
@@ -62,7 +65,27 @@ vector<Base*> Base::load(string path){
 		*ptr = base;
 		bases.push_back(ptr);
 	}
+	base_text.close();
+
 	return bases;
+}
+
+vector<string> Base::blacklist = {};
+
+void Base::load_blacklist()
+{
+	ifstream stream("blacklisted.txt"); 
+
+	if (!stream.is_open()) cout << "Error reading";
+
+	string input;
+
+	while (!stream.eof()) {
+		getline(stream, input);
+		blacklist.push_back(input);
+	}
+
+	stream.close();
 }
 
 Restaurant * Base::findRestaurant(string str){
@@ -325,7 +348,7 @@ void Base::seeOneOrder()
 }
 
 
-void Base::addClient() {
+void Base::addClient() { //usar em try para apanhar execao blacklisted
 
 	Client c;
 
@@ -347,6 +370,13 @@ void Base::addClient() {
 	} while (invalidName);
 
 	c.set_name(name);
+	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) {
+		cout << "Client is blacklisted and cannot register" << endl;
+		cin.ignore();
+		return;
+		//excecao aqui
+	}
+
 
 	// nif input
 	bool invalidNif;
@@ -377,7 +407,7 @@ void Base::addClient() {
 		invalidAddress = false;
 
 		string fullAddress;
-		cout << "Address: ";
+		cout << "Address (Town / District / Street / No / Floor / Latitude / Longitude):" << endl;
 		getline(cin, fullAddress);
 
 		try {
@@ -407,8 +437,6 @@ void Base::addClient() {
 	*ptr = c;
 	
 	clients.push_back(ptr);
-	
-
 }
 
 void Base::changeClient() {
