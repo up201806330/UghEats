@@ -789,7 +789,7 @@ void Base::changeWorker() {
 
 
 void Base::createRestaurant() {
-	
+
 	Restaurant r;
 
 	// HARD CODED FOR BASE PORTO
@@ -847,6 +847,57 @@ void Base::createRestaurant() {
 
 	Restaurant * ptr6 = new Restaurant;
 	*ptr6 = r;
-
 	restaurants.push_back(ptr6);
+}
+
+void Base::searchForGeographicArea()
+{
+	string city;
+	cout << "Which City do you want?" << endl;
+	getline(cin, city);
+	cout << "Products Available" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_address().get_town() == city)
+		{
+			cout << (*it)->get_name() << ": " << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+			cout << endl;
+		}
+	}
+}
+
+
+void Base::searchForPriceRange() // o price range não tá a ter casas decimais
+{
+	float min, max;
+	cout << "Which Price Range do you want?" << endl;
+	cout << "Min: ";
+	cin >> min;
+	cout << "Max: ";
+	cin >> max;
+	cout << endl << "Products" << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		float price = (*it)->get_price_average();
+		if (price >= min && price <= max)
+		{
+			cout << (*it)->get_name() << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+		}
+	}
 }
