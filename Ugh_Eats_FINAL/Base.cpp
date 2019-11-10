@@ -759,9 +759,396 @@ void Base::addWorker() {
 
 
 
-// TO DO
 void Base::changeWorker() {
-	
+
+	Admin *adminCheck;
+	Delivery *deliveryCheck;
+	int firstDeliveryIndex = 0;
+	bool foundFirstDelivery = false;
+	bool invalidOption = false;
+	string strWorkerChoice;
+	int workerChoice;
+
+
+	cout << "Pick the worker you want to change information about:" << endl;
+
+	do {
+		invalidOption = false;
+		foundFirstDelivery = false;
+
+		for (size_t i = 0; i < workers.size(); i++) {
+			adminCheck = dynamic_cast<Admin*> (workers.at(i));
+			if (adminCheck != NULL) {
+				firstDeliveryIndex++;
+				// if i == 0, then i converts to false, so !i == true
+				// 0 converts to false, any other convertable to bool convert to true
+				if (!i) {
+					cout << "Administrators" << endl;
+					cout << i + 1 << ". " << adminCheck->get_name() << " (" << adminCheck->get_role() << ")" << endl;
+				}
+				else {
+					cout << i + 1 << ". " << adminCheck->get_name() << endl;
+				}
+
+			}
+			else {
+				deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
+				if (!foundFirstDelivery) {
+					foundFirstDelivery = true;
+					cout << "\nDeliverers" << endl;
+				}
+				cout << i + 1 << ". " << deliveryCheck->get_name() << endl;
+			}
+		}
+
+		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
+
+		try {
+			getline(cin, strWorkerChoice);
+			workerChoice = stoi(strWorkerChoice);
+
+			if (workerChoice < 1 || workerChoice > workers.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		cout << endl;
+
+		// cout << dynamic_cast<Delivery*>(workers.at(3))->get_vehicle().get_brand() << endl;
+
+	} while (invalidOption);
+
+	workerChoice--; // not to excede the max index available
+
+
+
+	utils::clear_screen();
+
+
+
+	// cout << workers.at(workerChoice)->get_name() << endl;
+	unsigned index = 0;
+	string strAdminAttributeChoice;
+	int adminAttributeChoice;
+
+	string strDelivAttributeChoice;
+	int delivAttributeChoice;
+
+	vector<string>::iterator it1;
+	vector<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
+	vector<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
+	cout << "Pick the field you want to change information of:" << endl;
+	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
+	// auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
+	// Admin newAdmin;
+	// Delivery newDelivery;
+
+	auto adminObject = dynamic_cast<Admin*>(workers.at(workerChoice));
+	auto delivObject = dynamic_cast<Delivery*>(workers.at(workerChoice));
+
+	string newName;
+
+	string strNewNif;
+	int newNif = 0;
+	bool invalidNif = false;
+
+	bool invalidBirthday = false;
+	Date newBirthday;
+	string fullBirthday;
+
+	bool invalidWage = false;
+	string strNewWage;
+	int newWage;
+
+	bool adminExists = false;
+	bool invalidRole = false;
+	string newRole;
+
+	bool invalidRegistrationDate = false;
+	string newVehicleBrand;
+	string newVehicleType;
+	string strNewRegistDate;
+	Date newRegistDate;
+	Vehicle newVehicle;
+
+	// worker chosen is an Admin
+	if (workerChoice < firstDeliveryIndex) {
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = adminOptions.begin(); it1 != adminOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strAdminAttributeChoice);
+				adminAttributeChoice = stoi(strAdminAttributeChoice);
+
+				if (adminAttributeChoice < 1 || adminAttributeChoice > adminOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+		switch (adminAttributeChoice) {
+
+			// Name
+			case 1:
+				cout << "Current Name: " << adminObject->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				cout << endl;
+				adminObject->set_name(newName);
+				break;
+
+			// Nif
+			case 2:
+				do {
+					invalidNif = false;
+
+					cout << "Current Nif: " << adminObject->get_NIF() << endl;
+					cout << "Updated Nif: ";
+					getline(cin, strNewNif);
+					try {
+						newNif = stoi(strNewNif);
+					}
+
+					catch (...) {
+						invalidNif = true;
+					}
+					break;
+
+					cout << endl;
+				} while (invalidNif);
+				adminObject->set_NIF(newNif);
+				break;
+
+			// Birthday
+			case 3:
+				do {
+					invalidBirthday = false;
+
+					cout << "Current Birthday: " << adminObject->get_birthday().get_day() << " / "
+						<< adminObject->get_birthday().get_month() << " / " << adminObject->get_birthday().get_year() << endl;
+					cout << "Updated Birthday: ";
+					getline(cin, fullBirthday);
+
+					try {
+						newBirthday.parse(fullBirthday);
+					}
+					catch (...) {
+						invalidBirthday = true;
+					}
+
+					cout << endl;
+
+					cout << endl;
+				} while (invalidBirthday);
+				adminObject->set_birthday(newBirthday);
+				break;
+
+			// Wage
+			case 4:
+				do {
+					invalidWage = false;
+
+					cout << "Current Wage: " << adminObject->get_wage() << endl;
+					cout << "Updated Wage: ";
+					getline(cin, strNewWage);
+
+					try {
+						newWage = stoi(strNewWage);
+					}
+					catch (...) {
+						invalidWage = true;
+					}
+
+					cout << endl;
+				} while (invalidWage);
+				adminObject->set_wage(newWage);
+				break;
+
+			// Role
+			case 5:
+				adminExists = ((dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") && (workerChoice != 0)) ? true : false;
+				do {
+					cout << "Current role: " << adminObject->get_role() << endl;
+					cout << "Updated role: ";
+					getline(cin, newRole);
+
+					if (newRole == "manager" && adminExists) {
+						invalidRole = true;
+					}
+
+					cout << endl;
+				} while (invalidRole);
+				adminObject->set_role(newRole);
+				break;
+		}
+	}
+
+	// worker chosen is an Delivery
+	else if (workerChoice >= firstDeliveryIndex) {
+
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = deliveryOptions.begin(); it1 != deliveryOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strDelivAttributeChoice);
+				delivAttributeChoice = stoi(strDelivAttributeChoice);
+
+				if (delivAttributeChoice < 1 || delivAttributeChoice > deliveryOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+
+		switch (delivAttributeChoice) {
+
+			// Name
+			case 1:
+				cout << "Current Name: " << delivObject->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				cout << endl;
+				delivObject->set_name(newName);
+				break;
+
+			// Nif
+			case 2:
+				do {
+					invalidNif = false;
+
+					cout << "Current Nif: " << delivObject->get_NIF() << endl;
+					cout << "Updated Nif: ";
+					getline(cin, strNewNif);
+					try {
+						newNif = stoi(strNewNif);
+					}
+
+					catch (...) {
+						invalidNif = true;
+					}
+					break;
+
+					cout << endl;
+				} while (invalidNif);
+				delivObject->set_NIF(newNif);
+				break;
+
+			// Birthday
+			case 3:
+				do {
+					invalidBirthday = false;
+
+					cout << "Current Birthday: " << delivObject->get_birthday().get_day() << " / "
+						<< delivObject->get_birthday().get_month() << " / " << delivObject->get_birthday().get_year() << endl;
+					cout << "Updated Birthday: ";
+					getline(cin, fullBirthday);
+
+					try {
+						newBirthday.parse(fullBirthday);
+					}
+					catch (...) {
+						invalidBirthday = true;
+					}
+
+					cout << endl;
+
+					cout << endl;
+				} while (invalidBirthday);
+				delivObject->set_birthday(newBirthday);
+				break;
+
+			// Wage
+			case 4:
+				do {
+					invalidWage = false;
+
+					cout << "Current Wage: " << delivObject->get_wage() << endl;
+					cout << "Updated Wage: ";
+					getline(cin, strNewWage);
+
+					try {
+						newWage = stoi(strNewWage);
+					}
+					catch (...) {
+						invalidWage = true;
+					}
+
+					cout << endl;
+				} while (invalidWage);
+				delivObject->set_wage(newWage);
+				break;
+
+			// Vehicle
+			case 5:
+				cout << "Current Brand: " << delivObject->get_vehicle().get_brand() << endl;
+				cout << "Updated Brand: ";
+				getline(cin, newVehicleBrand);
+				newVehicle.set_brand(newVehicleBrand);
+				cout << endl;
+
+				
+				cout << "Current Type: " << delivObject->get_vehicle().get_type() << endl;
+				cout << "Updated Type: ";
+				getline(cin, newVehicleType);
+				newVehicle.set_type(newVehicleType);
+				cout << endl;
+
+				do {
+					invalidRegistrationDate = false;
+
+					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date().get_day()
+						<< " / " << delivObject->get_vehicle().get_registration_date().get_month() << " / "
+						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
+					cout << "Updated Registration Date: ";
+					getline(cin, strNewRegistDate);
+
+					try {
+						newRegistDate.parse(strNewRegistDate);
+					}
+
+					catch (...) {
+						invalidRegistrationDate = true;
+					}
+					cout << endl;
+				} while (invalidRegistrationDate);
+				newVehicle.set_registrationDate(newRegistDate);
+
+				// Vehicle * ptrNewVehicle = new Vehicle;
+				// *ptrNewVehicle = newVehicle;
+				delivObject->set_vehicle(newVehicle);
+				break;
+
+
+
+		}
+	}
+
 }
 
 
