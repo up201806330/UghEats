@@ -224,8 +224,9 @@ void Base::seeOneRestaurant()
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
-		{
+		
+		vector<Product*> vec = restaurants[answer - 1]->get_products();
+		for (ite = vec.begin(); ite != vec.end(); ite++) {
 			cout << *(*ite) << endl;
 		}
 	}
@@ -759,9 +760,181 @@ void Base::addWorker() {
 
 
 
-// TO DO
+
 void Base::changeWorker() {
-	
+	Admin *adminCheck;
+	Delivery *deliveryCheck;
+	int firstDeliveryIndex = 0;
+	bool foundFirstDelivery = false;
+	bool invalidOption = false;
+	string strWorkerChoice;
+	int workerChoice;
+
+
+	cout << "Pick the worker you want to change information about:" << endl;
+
+	do {
+		invalidOption = false;
+		foundFirstDelivery = false;
+
+		for (size_t i = 0; i < workers.size(); i++) {
+			adminCheck = dynamic_cast<Admin*> (workers.at(i));
+			if (adminCheck != NULL) {
+				firstDeliveryIndex++;
+				// if i == 0, then i converts to false, so !i == true
+				// 0 converts to false, any other convertable to bool convert to true
+				if (!i) {
+					cout << "Administrators" << endl;
+					cout << i + 1 << ". " << adminCheck->get_name() << " (" << adminCheck->get_role() << ")" << endl;
+				}
+				else {
+					cout << i + 1 << ". " << adminCheck->get_name() << endl;
+				}
+
+			}
+			else {
+				deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
+				if (!foundFirstDelivery) {
+					foundFirstDelivery = true;
+					cout << "\nDeliverers" << endl;
+				}
+				cout << i + 1 << ". " << deliveryCheck->get_name() << endl;
+			}
+		}
+
+		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
+
+		try {
+			getline(cin, strWorkerChoice);
+			workerChoice = stoi(strWorkerChoice);
+
+			if (workerChoice < 1 || workerChoice > workers.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		cout << endl;
+
+		// cout << dynamic_cast<Delivery*>(workers.at(3))->get_vehicle().get_brand() << endl;
+
+	} while (invalidOption);
+
+	workerChoice--; // not to excede the max index available
+
+
+
+	utils::clear_screen();
+
+
+
+	cout << workers.at(workerChoice)->get_name() << endl;
+	unsigned index = 0;
+	string strAdminAttributeChoice;
+	int adminAttributeChoice;
+
+	string strDelivAttributeChoice;
+	int delivAttributeChoice;
+
+	vector<string>::iterator it1;
+	vector<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role"};
+	vector<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
+	cout << "Pick the field you want to change information of:" << endl;
+	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
+	auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
+	// Admin newAdmin;
+	// Delivery newDelivery;
+
+	string newName;
+
+	string strNewNif;
+	int newNif = 0;
+	bool invalidNif = false;
+
+	// worker chosen is an Admin
+	if (workerChoice < firstDeliveryIndex) {
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = adminOptions.begin(); it1 != adminOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strAdminAttributeChoice);
+				adminAttributeChoice = stoi(strAdminAttributeChoice);
+
+				if (adminAttributeChoice < 1 || adminAttributeChoice > adminOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+		switch (adminAttributeChoice) {
+			case 1:
+				cout << "Current Name: " << x->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				x->set_name(newName);
+				break;
+			case 2:
+				// change nif
+				break;
+			case 3:
+				// change birthday
+				break;
+			case 4:
+				// change wage
+				break;
+			case 5:
+				// change role
+				break;
+		}
+
+		cout << "CONFIRMATION: " << workers.at(workerChoice)->get_name() << endl;
+	}
+
+	// worker chosen is an Delivery
+	else if (workerChoice >= firstDeliveryIndex) {
+
+		do {
+			index = 0;
+			invalidOption = false;
+
+			for (it1 = deliveryOptions.begin(); it1 != deliveryOptions.end(); ++it1, ++index) {
+				cout << index + 1 << ". " << (*it1) << endl;
+			}
+
+			try {
+				getline(cin, strDelivAttributeChoice);
+				delivAttributeChoice = stoi(strDelivAttributeChoice);
+
+				if (delivAttributeChoice < 1 || delivAttributeChoice > deliveryOptions.size()) {
+					invalidOption = true;
+				}
+			}
+
+			catch (...) {
+				invalidOption = true;
+			}
+
+			cout << endl;
+		} while (invalidOption);
+
+
+
+	}
+
+
 }
 
 
