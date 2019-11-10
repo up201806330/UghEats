@@ -925,3 +925,26 @@ void Base::searchForRestaurant()
 }
 
 
+void Base::searchForGeographicArea()
+{
+	string city;
+	cout << "Which City do you want?" << endl;
+	getline(cin, city);
+	cout << "Products Available" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_address().get_town() == city)
+		{
+			cout << (*it)->get_name() << ": " << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+			cout << endl;
+		}
+	}
+}

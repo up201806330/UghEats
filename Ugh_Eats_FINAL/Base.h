@@ -66,8 +66,7 @@ public:
 	void seeOneOrder();
 	void seeProfits(); // display the profits of the base
 	void seeProfitsPerRestaurant(); // restaurante
-	void seeProfitsPerClient();
-									// cliente
+	void seeProfitsPerClient(); // cliente
 	// periodo de tempo
 
 
@@ -98,7 +97,7 @@ public:
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
 	//				  -> usar algoritmos de procura
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
-                                     // por zona geografica
+	void searchForGeographicArea();  // por zona geografica
 	// por intervalo de preços (por preço medio)
 	// por tipo de culinária
 

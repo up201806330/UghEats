@@ -11,7 +11,7 @@ int main(){
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
-	//bases[0]->seeProfitsPerClient();
+	//bases[0]->searchForGeographicArea();
 
 	/*
 	cout << bases.at(0)->getWorkers().at(1)->get_birthday().get_day() << endl;
