@@ -42,11 +42,11 @@ public:
 
 	string getDistrict() const;
 	Address getAddress() const;
-	vector<Worker*> getWorkers() const;
+	const vector<Worker*> & getWorkers() const;
 	Admin * getAdmin() const;
-	vector<Client*> getClients() const;
-	vector<Restaurant*> getRestaurants() const;
-	vector <Order*> getOrders() const;
+	const vector<Client*> & getClients() const;
+	const vector<Restaurant*> & getRestaurants() const;
+	const vector <Order*> & getOrders() const;
 
 	//Visualização de Informação <- Leonor
 	void seeAllClients();

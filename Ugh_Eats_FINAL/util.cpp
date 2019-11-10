@@ -5,6 +5,7 @@
 #include <sstream>
 #include <ctype.h>
 #include <limits>
+#include "Base.h"
 
 size_t char_count(const std::string & input, const char delim);
 
