@@ -11,6 +11,7 @@ int main(){
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
+
 	bases[0]->searchForPriceRange();
 
 	/*
@@ -26,6 +27,7 @@ int main(){
 	*/
 	
 	// bases.at(0)->seeOneRestaurant();
+	
 	/*
 	cout << "PREVIOUS: " << bases.at(0)->getClients().at(0)->get_name() << endl;
 	bases.at(0)->changeClient();
