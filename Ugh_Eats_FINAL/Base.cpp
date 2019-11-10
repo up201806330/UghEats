@@ -596,8 +596,7 @@ void Base::addWorker() {
 
 	bool invalidRegistrationDate = false;
 	string strRegistrationDate;
-	Date registrationDate;
-	// CHANGED // 
+	Date registrationDate; 
 
 
 		// chose Admin
