@@ -197,15 +197,19 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		out << "none" << endl;
 	else
 	{
-		for (int i = 0; i < r.cuisine_types.size() - 1; i++)
+		for (auto i = 0; i < r.cuisine_types.size() - 1; i++)
 		{
 			out << r.cuisine_types[i] << ", ";
 		}
 		out << r.cuisine_types[r.cuisine_types.size() - 1] << endl;
 	}
-	out << "Number of products: " << r.products.size() << endl;
 	out << "Price Average: " << r.price_average << endl;
-	out << endl;
+	out << "Products:" << endl;
+	for (auto i = 0; i < r.products.size(); i++) {
+		out << r.products.at(i) << endl;
+	}
+
+
 	return out;
 }
 
@@ -226,7 +230,7 @@ Order::~Order()
 }
 
 void Order::load(string path, Base * base){
-	cout << "Path: " << path << endl;
+	// cout << "Path: " << path << endl;
 	ifstream orders_text(path);
 
 	string textline;

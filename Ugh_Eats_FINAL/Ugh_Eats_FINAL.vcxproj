@@ -130,6 +130,7 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Date_time.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main_menu.cpp" />
     <ClCompile Include="People.cpp" />
     <ClCompile Include="Restaurant.cpp" />
     <ClCompile Include="util.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Address.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Date_time.h" />
+    <ClInclude Include="Main_menu.h" />
     <ClInclude Include="People.h" />
     <ClInclude Include="Restaurant.h" />
     <ClInclude Include="utils.h" />

@@ -12,7 +12,7 @@ Address::~Address() {
 
 void Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
 	vector<string> parts = utils::split(str,'/');
-	//for (auto &part : parts) utils::trim(part);
+	for (auto &part : parts) utils::trim(part);
 
 	town = parts.at(0);
 	district = parts.at(1);
@@ -67,6 +67,18 @@ unsigned int Address::get_number() const {
 
 int Address::get_floor() const {
 	return floor;
+}
+
+string Address::str() const
+{
+	string result = district + " / ";
+	result += town + " / ";
+	result += street + " / ";
+	result += number + " / ";
+	result += floor + " / ";
+	result += to_string(latitude) + " / ";
+	result += to_string(longitude) + " / ";
+	return result;
 }
 
 std::ostream & operator<<(std::ostream & stream, Address address) {

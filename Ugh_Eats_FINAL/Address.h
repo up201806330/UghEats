@@ -32,6 +32,7 @@ public:
 	unsigned int get_number() const;
 	int get_floor() const;
 
+	string str() const;
 	friend ostream & operator<<(std::ostream & stream, Address address);
 
 
