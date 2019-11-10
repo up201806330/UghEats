@@ -1241,6 +1241,77 @@ void Base::changeWorker() {
 }
 
 
+void Base::removeWorker() {
+
+	Admin *adminCheck;
+	Delivery *deliveryCheck;
+	int firstDeliveryIndex = 0;
+	bool foundFirstDelivery = false;
+	bool invalidOption = false;
+	string strWorkerChoice;
+	int workerChoice;
+
+
+	cout << "Pick the worker you want to remove:" << endl;
+
+	do {
+		invalidOption = false;
+		foundFirstDelivery = false;
+
+		for (size_t i = 0; i < workers.size(); i++) {
+			adminCheck = dynamic_cast<Admin*> (workers.at(i));
+			if (adminCheck != NULL) {
+				firstDeliveryIndex++;
+				// if i == 0, then i converts to false, so !i == true
+				// 0 converts to false, any other convertable to bool convert to true
+				if (!i) {
+					cout << "Administrators" << endl;
+					cout << i + 1 << ". " << adminCheck->get_name() << " (" << adminCheck->get_role() << ")" << endl;
+				}
+				else {
+					cout << i + 1 << ". " << adminCheck->get_name() << endl;
+				}
+
+			}
+			else {
+				deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
+				if (!foundFirstDelivery) {
+					foundFirstDelivery = true;
+					cout << "\nDeliverers" << endl;
+				}
+				cout << i + 1 << ". " << deliveryCheck->get_name() << endl;
+			}
+		}
+
+		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
+
+		try {
+			getline(cin, strWorkerChoice);
+			workerChoice = stoi(strWorkerChoice);
+
+			if (workerChoice < 1 || workerChoice > workers.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+		cout << endl;
+
+		// cout << dynamic_cast<Delivery*>(workers.at(3))->get_vehicle().get_brand() << endl;
+
+	} while (invalidOption);
+
+	workerChoice--; // not to excede the max index available
+
+	workers.erase(workers.begin() + workerChoice);
+
+	cout << "Worker removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
+
+}
+
 
 void Base::createRestaurant() {
 

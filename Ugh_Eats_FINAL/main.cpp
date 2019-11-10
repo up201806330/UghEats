@@ -12,6 +12,11 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
+	/*
+	cout << bases.at(0)->getWorkers().at(2)->get_name() << endl;
+	bases.at(0)->removeWorker();
+	cout << bases.at(0)->getWorkers().at(2)->get_name() << endl;
+	*/
 
 	//bases[0]->searchForCuisineTypes();
 
