@@ -11,8 +11,20 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
-	// bases.at(0)->seeOneRestaurant();
+	/*
+	cout << bases.at(0)->getWorkers().at(1)->get_birthday().get_day() << endl;
+	bases.at(0)->addWorker();
+	cout << bases.at(0)->getWorkers().at(1)->get_birthday().get_day() << endl;
+	*/
 
+	/*
+	cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(bases.at(0)->getWorkers().size() - 1))->get_vehicle().get_brand() << endl;
+	bases.at(0)->addWorker();
+	cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(bases.at(0)->getWorkers().size() -1))->get_vehicle().get_brand() << endl;
+	*/
+	
+	// bases.at(0)->seeOneRestaurant();
+	
 	/*
 	cout << "PREVIOUS: " << bases.at(0)->getClients().at(0)->get_name() << endl;
 	bases.at(0)->changeClient();
