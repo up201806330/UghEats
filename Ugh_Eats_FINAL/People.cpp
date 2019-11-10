@@ -334,7 +334,7 @@ void Client::print() {
 //	cout << "Base: " << base->getDistrict() << endl;
 	cout << "Orders: ";
 	if (orders.size() == 0)
-		cout << "none"<<endl;
+		cout << "none" << endl;
 	else {
 		vector<Order*>::iterator it;
 		for (it = orders.begin(); it != orders.end(); it++)
@@ -343,9 +343,6 @@ void Client::print() {
 		}
 		cout << endl;
 	}
-
-
-
 }
 
 void Client::make_order()
@@ -360,7 +357,6 @@ void Client::edit() {
 	vector<Client*>::iterator it;
 	bool invalidOption;
 	string strChoice;
-	int clientChoice;
 	unsigned index = 0;
 
 	// Changing the (past) orders or the "value" isn't realistic, right?
@@ -469,6 +465,7 @@ void Client::edit() {
 		break;
 	}
 
+	cout << endl;
 	cout << "Client successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();

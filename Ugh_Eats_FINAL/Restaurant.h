@@ -40,7 +40,7 @@ class Restaurant {
 	Address address;
 	vector<string> cuisine_types;
 	vector<Product*> products;
-	size_t price_average;
+	float price_average;
 	Base * base;
 
 public:
@@ -55,6 +55,7 @@ public:
 	void setCuisineTypes(vector <string> cts);
 	void setProducts(vector <Product *> ps);
 	void setPriceAverage(size_t p);
+	void setPriceAverage();
 	void setBase(Base* b);
 	string get_name() const;
 	Address get_address() const;

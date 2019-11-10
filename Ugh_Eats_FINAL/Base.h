@@ -96,9 +96,15 @@ public:
 	// LEONOR
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
 	//				  -> usar algoritmos de procura
+
+	void searchForRestaurant();          // por restaurante (mostra os produtos)
+	void searchForGeographicArea();  // por zona geografica
+	void searchForPriceRange(); // por intervalo de preços (por preço medio)
+
 	// por restaurante (mostra os produtos)
 	// por zona geografica
 	// por intervalo de preços (por preço medio)
+
 	// por tipo de culinária
 
 	// camelCase

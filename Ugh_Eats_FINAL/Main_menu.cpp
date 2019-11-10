@@ -24,8 +24,81 @@ void main_menu_client(Client* client) {
 	}
 }
 
+void main_menu_admin_clients(Base * base) {
+	while (true) {
+		string input;
+		utils::clear_screen();
+
+		cout << "1. Show all clients" << endl;
+		cout << "2. Search a client" << endl;
+		cout << "3. Add a client" << endl;
+		cout << "4. Edit a client" << endl;
+		cout << "5. Remove a client" << endl;
+		cout << ">> " << endl;
+
+		getline(cin, input);
+
+		if (input == "1") {
+			utils::clear_screen();
+			base->seeAllClients();
+
+			cout << "\n>> ";
+			cin.ignore();
+		}
+
+		if (input == "2") {
+			utils::clear_screen();
+			base->seeOneClient();
+		}
+
+		if (input == "3") {
+			utils::clear_screen();
+			base->addClient();
+
+		}
+
+		if (input == "4") {
+			utils::clear_screen();
+			base->changeClient();
+
+		}
+
+		if (input == "5") {
+			utils::clear_screen();
+			base->removeClient();
+		}
+
+		if (cin.eof()) break;
+	}
+}
+
+void main_menu_admin_workers(Base * base) {
+
+}
+
+void main_menu_admin_restaurant(Base * base) {
+
+}
+
 void main_menu_admin(Base * base) {
-	
+	while (true) {
+		string input;
+		utils::clear_screen();
+
+		cout << "1. Clients" << endl;
+		cout << "2. Workers" << endl;
+		cout << "3. Restaurants" << endl;
+		cout << "CTRL+Z to save and exit" << endl;
+		cout << ">> ";
+
+		getline(cin, input);
+
+		if (input == "1") main_menu_admin_clients(base);
+		if (input == "2") main_menu_admin_workers(base);
+		if (input == "3") main_menu_admin_restaurant(base);
+
+		if (cin.eof()) exit(0); //<-------------- Same shit
+	}
 }
 
 void main_menu_client_login(Base * base){

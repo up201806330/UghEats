@@ -98,6 +98,8 @@ void Restaurant::load(string path, Base * base){
 			d.parse(textline);
 			prods.push_back(&d);
 		}
+		restaurant.setProducts(prods);
+		restaurant.setPriceAverage();
 
 		Restaurant * ptr = new Restaurant;
 		*ptr = restaurant;
@@ -128,6 +130,18 @@ void Restaurant::setProducts(vector <Product*> ps)
 void Restaurant::setPriceAverage(size_t p)
 {
 	price_average = p;
+}
+
+
+void Restaurant::setPriceAverage()
+{
+	float total = 0;
+	vector<Product*>::iterator it;
+	for (it = products.begin(); it != products.end(); it++)
+	{
+		total += (*it)->get_price();
+	}
+	price_average = total / products.size();
 }
 
 void Restaurant::setBase(Base * b)
