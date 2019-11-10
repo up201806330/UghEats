@@ -224,7 +224,8 @@ void Base::seeOneRestaurant()
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		for (ite = (*restaurants[answer - 1]).get_products().begin(); ite != (*restaurants[answer - 1]).get_products().end(); ite++)
+		vector<Product*> vec = restaurants[answer - 1]->get_products();
+		for (ite = vec.begin(); ite != vec.end(); ite++)
 		{
 			cout << *(*ite) << endl;
 		}
@@ -347,6 +348,20 @@ void Base::seeOneOrder()
 
 }
 
+
+void Base::seeProfits()
+{
+	cout << "Profit for this Base: ";
+	vector<Order*>::iterator it;
+	float total = 0;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		total += (*it)->getDeliveryFee();
+	}
+	cout << total << endl;
+
+
+}
 
 
 
