@@ -70,7 +70,7 @@ public:
 	
 	
 	friend ostream & operator<<(ostream & out, const Restaurant & r);
-
+	friend bool operator<(Restaurant & left, Restaurant & right);
 };
 
 class Order {
@@ -113,6 +113,7 @@ public:
 	
 	vector <Order> findOrders(string textile);
 	friend ostream & operator<<(ostream & out, Order & o);
+	
 
 	
 	

@@ -224,9 +224,9 @@ void Base::seeOneRestaurant()
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		
 		vector<Product*> vec = restaurants[answer - 1]->get_products();
-		for (ite = vec.begin(); ite != vec.end(); ite++) {
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		{
 			cout << *(*ite) << endl;
 		}
 	}
@@ -345,6 +345,62 @@ void Base::seeOneOrder()
 	cin >> answer;
 	cout << "INFO" << endl;
 	cout << *(orders[answer - 1]);
+
+}
+
+
+void Base::seeProfits()
+{
+	cout << "Profit for this Base: ";
+	vector<Order*>::iterator it;
+	float total = 0;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		total += (*it)->getDeliveryFee();
+	}
+	cout << total << endl;
+
+
+}
+
+void Base::seeProfitsPerRestaurant()
+{
+	cout << "Profits per Restaurant" << endl << endl;
+	vector< Restaurant *>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		int total = 0;
+		vector<Order*>::iterator ite;
+		for (ite = orders.begin(); ite != orders.end(); ite++)
+		{
+			if ((*it)->get_name() == (*ite)->getRestaurant()->get_name())
+			{
+				total += (*ite)->getDeliveryFee();
+			}
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
+
+
+
+}
+
+void Base::seeProfitsPerClient()
+{
+	cout << "Profits per Client" << endl << endl;
+	vector<Client*>::iterator it;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		int total = 0;
+		vector<Order*> vec = (*it)->get_orders();
+		vector<Order*>::iterator ite;
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		{
+			total += (*ite)->getDeliveryFee();
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
+
 
 }
 
@@ -760,7 +816,7 @@ void Base::addWorker() {
 
 
 
-
+/*
 void Base::changeWorker() {
 	Admin *adminCheck;
 	Delivery *deliveryCheck;
@@ -937,7 +993,7 @@ void Base::changeWorker() {
 
 }
 
-
+*/
 
 void Base::createRestaurant() {
 	
@@ -998,6 +1054,69 @@ void Base::createRestaurant() {
 
 	Restaurant * ptr6 = new Restaurant;
 	*ptr6 = r;
-
 	restaurants.push_back(ptr6);
+
+}
+
+
+//Search Options
+template<class T>
+bool sortRule(T left, T right)
+{
+	return (*left) < (*right);
+}
+
+
+
+void Base::searchForRestaurant()
+{
+	string name;
+	cout << "Which Restaurant do you want?" << endl;
+	getline(cin, name);
+	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_name() == name)
+		{
+			cout << "Products Available" << endl << endl;
+			vector<Product*>::iterator ite;
+			vector<Product*> vec = (*it)->get_products();
+			if (vec.size() == 0)
+				cout << "None";
+			else
+			{
+				for (ite = vec.begin(); ite != vec.end(); ite++);
+				{
+					cout << *(*ite);
+					cout << endl;
+				}
+			}			
+		}
+	}
+}
+
+
+void Base::searchForGeographicArea()
+{
+	string city;
+	cout << "Which City do you want?" << endl;
+	getline(cin, city);
+	cout << "Products Available" << endl << endl;
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+		if ((*it)->get_address().get_town() == city)
+		{
+			cout << (*it)->get_name() << ": " << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+			cout << endl;
+		}
+	}
 }
