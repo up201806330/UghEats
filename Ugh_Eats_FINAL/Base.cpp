@@ -363,7 +363,46 @@ void Base::seeProfits()
 
 }
 
+void Base::seeProfitsPerRestaurant()
+{
+	cout << "Profits per Restaurant" << endl << endl;
+	vector< Restaurant *>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		int total = 0;
+		vector<Order*>::iterator ite;
+		for (ite = orders.begin(); ite != orders.end(); ite++)
+		{
+			if ((*it)->get_name() == (*ite)->getRestaurant()->get_name())
+			{
+				total += (*ite)->getDeliveryFee();
+			}
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
 
+
+
+}
+
+void Base::seeProfitsPerClient()
+{
+	cout << "Profits per Client" << endl << endl;
+	vector<Client*>::iterator it;
+	for (it = clients.begin(); it != clients.end(); it++)
+	{
+		int total = 0;
+		vector<Order*> vec = (*it)->get_orders();
+		vector<Order*>::iterator ite;
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		{
+			total += (*ite)->getDeliveryFee();
+		}
+		cout << (*it)->get_name() << ": " << total << endl;
+	}
+
+
+}
 
 
 void Base::addClient() { //usar em try para apanhar execao blacklisted
@@ -883,7 +922,6 @@ void Base::searchForRestaurant()
 			}			
 		}
 	}
-
-
-
 }
+
+
