@@ -95,16 +95,22 @@ void Restaurant::load(string path, Base * base){
 		while(getline(restaurants_text, textline)){
 			if (textline == ";;;") break;
 			Product d;
+			//cout << "Textline: " << textline << endl;
 			d.parse(textline);
-			prods.push_back(&d);
+
+			Product * ptr2 = new Product;
+			*ptr2 = d;
+			//prods.push_back(&d);
+			prods.push_back(ptr2);
+			// cout << prods.at(0)->get_name() << endl;
 		}
 		restaurant.setProducts(prods);
 		restaurant.setPriceAverage();
-
 		Restaurant * ptr = new Restaurant;
 		*ptr = restaurant;
 		restaurants_vec.push_back(ptr); 
 	}
+	//cout << "Vector size: " << restaurants_vec.at(0)->get_products().size() << endl;
 	base->setRestaurants(restaurants_vec);
 }
 
@@ -218,14 +224,18 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		out << r.cuisine_types[r.cuisine_types.size() - 1] << endl;
 	}
 	out << "Price Average: " << r.price_average << endl;
+	/*
 	out << "Products:" << endl;
 	for (auto i = 0; i < r.products.size(); i++) {
 		out << r.products.at(i) << endl;
-	}
+	}*/
+	out << "Number of Products: " << r.products.size() << endl << endl;
 
 
 	return out;
 }
+
+
 
 bool operator<(Restaurant & left, Restaurant & right)
 {

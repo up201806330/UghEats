@@ -234,7 +234,11 @@ void Base::seeOneRestaurant()
 	{
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
-		for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
+
+		// REVERTED CHANGES HERE
+		vector<Product*> vec = restaurants[answer - 1]->get_products();
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+		// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
 		{
 			cout << *(*ite) << endl;
 		}
