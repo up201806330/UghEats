@@ -756,3 +756,75 @@ void Base::addWorker() {
 	
 	
 }
+
+
+
+// TO DO
+void Base::changeWorker() {
+	
+}
+
+
+
+void Base::createRestaurant() {
+	
+	Restaurant r;
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	string baseName = this->getDistrict();
+	r.setBase(this);
+
+	// name input
+	bool invalidName = false;
+	string name;
+	do {
+		invalidName = false;
+
+		cout << "Name: ";
+		getline(cin, name);
+	} while (invalidName);
+
+	r.setName(name);
+
+	// address input
+	bool invalidAddress;
+	Address address;
+	do {
+		invalidAddress = false;
+
+		string fullAddress;
+		cout << "Address: ";
+		getline(cin, fullAddress);
+
+		try {
+			address.parse(fullAddress);
+
+			// if it doesnt belong to the are of influence it is considered invalid
+			if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+				invalidAddress = true;
+			}
+		}
+
+		catch (...) {
+			invalidAddress = true;
+		}
+
+	} while (invalidAddress);
+
+	r.setAddress(address);
+
+	// products input
+	/**/
+
+	// cuisine types calculated from the vector of products
+	/**/
+
+	// price average calculated form the vector of products
+	/**/
+
+	Restaurant * ptr6 = new Restaurant;
+	*ptr6 = r;
+
+	restaurants.push_back(ptr6);
+}
