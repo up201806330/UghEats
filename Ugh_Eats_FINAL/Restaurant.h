@@ -109,6 +109,7 @@ public:
 	Client * getClient() const;
 	vector <Product*> getProducts() const;
 	Time getTime() const;
+	Date getDate() const;
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
 	size_t getDeliveryFee()const;

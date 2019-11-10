@@ -415,6 +415,11 @@ Time Order::getTime() const
 	return time;
 }
 
+Date Order::getDate() const
+{
+	return date;
+}
+
 bool Order::getSuccess() const
 {
 	return success;

@@ -64,6 +64,23 @@ string Date::str() const
 	return result;
 }
 
+
+bool operator<(const Date & l, const Date & r)
+{
+	if (l.year != r.year)
+		return l.year < r.year;
+	else
+	{
+		if (l.month != r.month)
+			return l.month < r.month;
+		else
+			return l.day < r.day;
+	}
+
+
+
+}
+
 Time::Time(){
 
 }
@@ -95,4 +112,17 @@ ostream & operator<<(ostream & out, Time & t)
 	else
 		out << t.time.tm_sec;
 	return out;
+}
+
+bool operator<(const Time & left, const Time & right)
+{
+	if (left.time.tm_hour != right.time.tm_hour)
+		return left.time.tm_hour < right.time.tm_hour;
+	else
+	{
+		if (left.time.tm_min != right.time.tm_min)
+			return left.time.tm_min < right.time.tm_min;
+		else
+			return left.time.tm_sec < right.time.tm_sec;
+	}
 }

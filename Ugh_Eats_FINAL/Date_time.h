@@ -44,6 +44,7 @@ public:
 	~Time();
 
 	void parse(string str);
+	friend bool operator<(const Time & left, const Time & right);
 	friend ostream & operator<<(ostream & out, Time & t);
 
 };

@@ -67,7 +67,7 @@ public:
 	void seeProfits(); // display the profits of the base
 	void seeProfitsPerRestaurant(); // restaurante
 	void seeProfitsPerClient(); // cliente
-	// periodo de tempo
+	void seeProfitsPerTime();  // periodo de tempo
 
 
 	
@@ -101,12 +101,12 @@ public:
 	void searchForGeographicArea();  // por zona geografica
 	void searchForPriceRange(); // por intervalo de preços (por preço medio)
 
-	void searchForCuisineTypes();
+	void searchForCuisineTypes(); // por tipo de culinária
 
-	// por intervalo de preços (por preço medio)
+	
 
 
-	// por tipo de culinária
+	
 
 	// camelCase
 

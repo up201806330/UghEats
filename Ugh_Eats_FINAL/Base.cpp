@@ -417,6 +417,61 @@ void Base::seeProfitsPerClient()
 
 }
 
+void Base::seeProfitsPerTime()
+{
+	string datei, datef, houri, hourf;
+	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
+	getline(cin, datei);
+	Date date1;
+	date1.parse(datei);
+	cout << "Type in the initial hours (hh:mm:ss)" << endl;
+	getline(cin, houri);
+	Time hour1;
+	hour1.parse(houri);
+	cout << "Type in the final date (dd/mm/yyyy)" << endl;
+	getline(cin, datef);
+	Date date2;
+	date2.parse(datef);
+	cout << "Type in the final hours (hh:mm:ss)" << endl;
+	getline(cin, hourf);
+	Time hour2;
+	hour2.parse(hourf);
+	int total = 0;
+	vector<Order*>::iterator it;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		if (date1 < (*it)->getDate()) // se a data for depois da data do início
+		{
+			if ((*it)->getDate() < date2) // a data for antes da data do fim
+				total += (*it)->getDeliveryFee();
+			else if (date2 < (*it)->getDate())  // a data for depois da data do fim
+				continue;
+			else // a data for igual à data do fim -> testar horas
+			{
+				if (hour2 < (*it)->getTime())
+					continue;
+				else
+					total += (*it)->getDeliveryFee();
+			}
+		}
+		else if ((*it)->getDate() < date1) // se a data for antes da data de início
+			continue;
+		else // se a data e a data de início forem iguais->testar horas
+		{
+			if (date2 < (*it)->getDate()) // se a data do fim for antes da data
+				continue;
+			else
+			{
+				if ((*it)->getTime() < hour1) // se a hora da data for antes da hora da data de inicio
+					continue;
+				else
+					total += (*it)->getDeliveryFee();
+			}
+		}
+	}
+	cout << "Profit made between the time defined: " << total;
+}
+
 
 
 
