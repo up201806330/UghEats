@@ -14,8 +14,8 @@ void Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos s
 	vector<string> parts = utils::split(str,'/');
 	for (auto &part : parts) utils::trim(part);
 
-	town = parts.at(0);
-	district = parts.at(1);
+	district = parts.at(0);
+	town = parts.at(1);
 	street = parts.at(2);
 	
 	try{

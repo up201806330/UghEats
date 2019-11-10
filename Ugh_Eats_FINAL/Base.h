@@ -100,11 +100,7 @@ public:
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
 	void searchForGeographicArea();  // por zona geografica
 	void searchForPriceRange(); // por intervalo de preços (por preço medio)
-
-	// por restaurante (mostra os produtos)
-	// por zona geografica
-	// por intervalo de preços (por preço medio)
-
+	void searchForCuisineTypes();
 	// por tipo de culinária
 
 	// camelCase

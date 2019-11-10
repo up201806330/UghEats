@@ -828,6 +828,33 @@ void Base::createRestaurant() {
 	restaurants.push_back(ptr6);
 }
 
+
+void Base::searchForRestaurant() 
+{
+	string name;
+	cout << "Which Restaurant do you want?" << endl;
+	getline(cin, name);
+	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+	{
+	    if ((*it)->get_name() == name)
+		{
+			cout << "Products Available" << endl;
+			vector<Product*> vec = (*it)->get_products();
+			vector<Product*>::iterator ite;
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+			{
+				cout << *(*ite);
+				cout << endl;
+			}
+			cout << endl;
+		}
+	}
+}
+
+
+
 void Base::searchForGeographicArea()
 {
 	string city;
@@ -877,5 +904,18 @@ void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 				cout << endl;
 			}
 		}
+	}
+}
+
+
+void Base::searchForCuisineTypes()
+{
+	string type;
+	cout << "Which Cuisine Type do you want?" << endl;
+	getline(cin, type);
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+
 	}
 }

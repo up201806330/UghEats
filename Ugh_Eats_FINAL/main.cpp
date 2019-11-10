@@ -12,8 +12,7 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
-	bases[0]->searchForPriceRange();
-
+	bases[0]->searchForRestaurant();
 	/*
 	cout << bases.at(0)->getWorkers().at(1)->get_birthday().get_day() << endl;
 	bases.at(0)->addWorker();
