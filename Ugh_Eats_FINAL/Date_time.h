@@ -42,15 +42,20 @@ public:
 };
 
 class Time {
-	struct tm time;
+	struct tm timeStruct;
 
 public:
 	Time();
-	Time(struct tm t);
+	Time(int h, int m, int s);
 
 	~Time();
 
 	void parse(string str);
+	// static Time getCurrentTime();
+
+
+
+
 	friend bool operator<(const Time & left, const Time & right);
 	friend ostream & operator<<(ostream & out, Time & t);
 	

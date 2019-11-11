@@ -160,8 +160,21 @@ bool operator<(const Date & l, const Date & r)
 
 }
 
+// by default, any Time object is initialized with the current time
 Time::Time(){
 
+	time_t t = time(NULL);
+	tm* timePtr = localtime(&t);
+
+	timeStruct.tm_hour = timePtr->tm_hour;
+	timeStruct.tm_min = timePtr->tm_min;
+	timeStruct.tm_sec = timePtr->tm_sec;
+}
+
+Time::Time(int h, int m, int s) {
+	timeStruct.tm_hour = h;
+	timeStruct.tm_min = m;
+	timeStruct.tm_sec = s;
 }
 
 Time::Time(struct tm t)
@@ -176,38 +189,44 @@ Time::~Time(){
 void Time::parse(string str){
 	vector<string> parts = utils::split(str, ':');
 
-	time.tm_hour = stoi(parts.at(0));
-	time.tm_min = stoi(parts.at(1));
-	time.tm_sec = stoi(parts.at(2));
+	timeStruct.tm_hour = stoi(parts.at(0));
+	timeStruct.tm_min = stoi(parts.at(1));
+	timeStruct.tm_sec = stoi(parts.at(2));
+}
+
+
+Time Time::getCurrentTime() {
+
+	
 }
 
 ostream & operator<<(ostream & out, Time & t)
 {
-	if (t.time.tm_hour < 10)
-		out << 0 << t.time.tm_hour << ":";
+	if (t.timeStruct.tm_hour < 10)
+		out << 0 << t.timeStruct.tm_hour << ":";
 	else
-		out << t.time.tm_hour << ":";
-	if (t.time.tm_min < 10)
-		out << 0 << t.time.tm_min << ":";
+		out << t.timeStruct.tm_hour << ":";
+	if (t.timeStruct.tm_min < 10)
+		out << 0 << t.timeStruct.tm_min << ":";
 	else
-		out << t.time.tm_min << ":";
-	if (t.time.tm_sec < 10)
-		out << 0 << t.time.tm_sec;
+		out << t.timeStruct.tm_min << ":";
+	if (t.timeStruct.tm_sec < 10)
+		out << 0 << t.timeStruct.tm_sec;
 	else
-		out << t.time.tm_sec;
+		out << t.timeStruct.tm_sec;
 	return out;
 }
 
 bool operator<(const Time & left, const Time & right)
 {
-	if (left.time.tm_hour != right.time.tm_hour)
-		return left.time.tm_hour < right.time.tm_hour;
+	if (left.timeStruct.tm_hour != right.timeStruct.tm_hour)
+		return left.timeStruct.tm_hour < right.timeStruct.tm_hour;
 	else
 	{
-		if (left.time.tm_min != right.time.tm_min)
-			return left.time.tm_min < right.time.tm_min;
+		if (left.timeStruct.tm_min != right.timeStruct.tm_min)
+			return left.timeStruct.tm_min < right.timeStruct.tm_min;
 		else
-			return left.time.tm_sec < right.time.tm_sec;
+			return left.timeStruct.tm_sec < right.timeStruct.tm_sec;
 	}
 }
 
