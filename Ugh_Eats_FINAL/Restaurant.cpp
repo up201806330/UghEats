@@ -226,7 +226,7 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		size_t index;
 		for (index = 0, it = r.cuisine_types.begin(); index < r.cuisine_types.size() - 1; index++, it++)
 		{
-			out << (*it) << " ; \n";
+			out << (*it) << " ; ";
 		}
 		out << (*it) << endl;
 	}
