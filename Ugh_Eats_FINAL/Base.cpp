@@ -1900,4 +1900,28 @@ void Base::searchForCuisineTypes()
 	}
 }
 
-
+Delivery* Base::getDeliveryMan()
+{
+	//buscar o delivery man c menos historial feito
+	vector<Delivery*> delivery_men;
+	for (int i = 0; i < workers.size(); i++)
+	{
+		Delivery *d = dynamic_cast<Delivery *> (workers[i]);
+		if (d != NULL)
+		{
+			delivery_men.push_back(d);
+		}
+	}
+	int comp = delivery_men[0]->get_history().size();
+	Delivery * result = delivery_men[0];
+	vector<Delivery*>::iterator it;
+	for (it = delivery_men.begin(); it != delivery_men.end(); it++)
+	{
+		if ((*it)->get_history().size() < comp)
+		{
+			comp = (*it)->get_history().size();
+			result = (*it);
+		}
+	}
+	return result;
+}

@@ -100,6 +100,7 @@ public:
 
 	void searchForCuisineTypes(); // por tipo de culinária
 
+	Delivery* getDeliveryMan();
 
 	
 

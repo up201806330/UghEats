@@ -506,12 +506,26 @@ void Client::make_order(Base * b)
 	vector<Product*> p;
 	for (int i = 0; i < answers.size(); i++)
 	{
-
+		p.push_back(products[answers[i]]);
 	}
 	Order o;
+	int last_id = b->getOrders()[b->getOrders().size() - 1]->getID();
+	o.setID(last_id + 1);
 	o.setBase(b);
 	o.setRestaurant(restaurants[answer1 - 1]);
-	o.
+	o.setProducts(p);
+	//falta time e date - como faço?
+	//preciso de ver onde checkar os concelhos que fazem parte do distrito ou que são adjacentes para a delivery fee
+	Deliver d;
+	d.setID(last_id + 1);
+	//falta time e date - como faço?
+	//como testo se foi successful ou não?
+	d.setDeliveryMan(b->getDeliveryMan());
+	orders.push_back(&o);
+	d.getDeliveryMan()->get_history().push_back(&o);
+
+
+
 
 
 
