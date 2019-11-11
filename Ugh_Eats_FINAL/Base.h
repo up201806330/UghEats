@@ -82,7 +82,7 @@ public:
 	void changeWorker();
 	void removeWorker();
 
-	void createRestaurant();
+	void addRestaurant();
 	void changeRestaurant();
 	void removeRestaurant();
 	// clients -> eliminar também orders
