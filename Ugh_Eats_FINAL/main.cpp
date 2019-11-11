@@ -12,6 +12,8 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
+	// bases.at(0)->changeRestaurant();
+
 	/*
 	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_name() << endl;
 	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_products().size() << endl;
