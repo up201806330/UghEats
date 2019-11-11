@@ -270,7 +270,7 @@ void Order::load(string path, Base * base){
 
 	string textline;
 	int temp; 
-	vector<Order*> orders_vec;
+	map<int, Order*> orders_map;
 	while(!orders_text.eof()){
 		
 
@@ -360,9 +360,10 @@ void Order::load(string path, Base * base){
 
 		Order * ptr = new Order;
 		*ptr = order;
-		orders_vec.push_back(ptr);
+		pair<int, Order*> pair; pair.first = order.id; pair.second =  ptr;
+		orders_map.insert(pair);
 
-		base->setOrders(orders_vec);
+		base->setOrders(orders_map);
 	}	
 }
 

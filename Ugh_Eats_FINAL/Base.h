@@ -18,7 +18,7 @@ private:
 	string district;
 	Address address;
 	vector<Restaurant*> restaurants;
-	vector<Order*> orders;
+	map<int, Order*> orders;
 	vector<Worker*> workers;
 	Admin * admin;
 	vector<Client*> clients;
@@ -41,7 +41,7 @@ public:
 	void setWorkers(vector<Worker*> workers);
 	void setAdmin(Admin * administrador);
 	void setClients(vector<Client*> clients);
-	void setOrders(vector<Order*> orders);
+	void setOrders(map<int,Order*> orders);
 	void setRestaurants(vector<Restaurant*> restaurants);
 
 	string getDistrict() const;
@@ -50,7 +50,7 @@ public:
 	Admin * getAdmin() const;
 	const vector<Client*> & getClients() const;
 	const vector<Restaurant*> & getRestaurants() const;
-	const vector <Order*> & getOrders() const;
+	const map<int, Order*> & getOrders() const;
 
 	//Visualização de Informação <- Leonor
 	void seeAllClients();

@@ -101,8 +101,8 @@ vector<Order*> Base::findOrders(string str) {
 	vector<string> ids = utils::split(str, ':');
 	for (auto i = 0 ; i < ids.size() ; i++) {
 		for (auto & order : this->getOrders()){
-			if (order->getID() == stoi(ids.at(i)))
-				result.push_back(order);
+			if (order.first == stoi(ids.at(i)))
+				result.push_back(order.second);
 		}
 	}
 	return result;
@@ -128,7 +128,7 @@ void Base::setClients(vector<Client*> clients){
 	this->clients = clients;
 }
 
-void Base::setOrders(vector<Order*> orders)
+void Base::setOrders(map<int, Order*> orders)
 {
 	this->orders = orders;
 }
@@ -161,7 +161,7 @@ const vector<Restaurant*> & Base::getRestaurants() const{
 	return restaurants;
 }
 
-const vector<Order*> & Base::getOrders() const{
+const map<int, Order*> & Base::getOrders() const{
 	return orders;
 }
 
@@ -364,10 +364,10 @@ void Base::seeAllAdministrators()
 void Base::seeAllOrders()
 {
 	cout << "ALL ORDERS" << endl << endl;
-	vector<Order*>::iterator it;
+	map<int, Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		cout << *(*it);
+		cout << *((*it).second);
 		cout << endl;
 	}
 }
@@ -376,10 +376,10 @@ void Base::seeOneOrder()
 {
 	cout << "Pick the Order you want to see" << endl;
 	int op = 1, answer;
-	vector<Order*>::iterator it; 
+	map<int, Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		cout << op << "- ID: " << (*it)->getID();
+		cout << op << "- ID: " << (*it).second;
 		cout << endl;
 	}
 	cin >> answer;
@@ -392,11 +392,11 @@ void Base::seeOneOrder()
 void Base::seeProfits()
 {
 	cout << "Profit for this Base: ";
-	vector<Order*>::iterator it;
+	map<int, Order*>::iterator it;
 	double total = 0;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		total += (*it)->getDeliveryFee();
+		total += (*it).second->getDeliveryFee();
 	}
 	cout << total << endl;
 
@@ -411,12 +411,12 @@ void Base::seeProfitsPerRestaurant()
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{
 		double total = 0;
-		vector<Order*>::iterator ite;
+		map<int, Order*>::iterator ite;
 		for (ite = orders.begin(); ite != orders.end(); ite++)
 		{
-			if ((*it)->get_name() == (*ite)->getRestaurant()->get_name())
+			if ((*it)->get_name() == (*ite).second->getRestaurant()->get_name())
 			{
-				total += (*ite)->getDeliveryFee();
+				total += (*ite).second->getDeliveryFee();
 			}
 		}
 		cout << (*it)->get_name() << ": " << total << endl;
@@ -467,35 +467,35 @@ void Base::seeProfitsPerTime()
 	Time hour2;
 	hour2.parse(hourf);
 	double total = 0;
-	vector<Order*>::iterator it;
+	map<int, Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		if (date1 < (*it)->getDate()) // se a data for depois da data do início
+		if (date1 < (*it).second->getDate()) // se a data for depois da data do início
 		{
-			if ((*it)->getDate() < date2) // a data for antes da data do fim
-				total += (*it)->getDeliveryFee();
-			else if (date2 < (*it)->getDate())  // a data for depois da data do fim
+			if ((*it).second->getDate() < date2) // a data for antes da data do fim
+				total += (*it).second->getDeliveryFee();
+			else if (date2 < (*it).second->getDate())  // a data for depois da data do fim
 				continue;
 			else // a data for igual à data do fim -> testar horas
 			{
-				if (hour2 < (*it)->getTime())
+				if (hour2 < (*it).second->getTime())
 					continue;
 				else
-					total += (*it)->getDeliveryFee();
+					total += (*it).second->getDeliveryFee();
 			}
 		}
-		else if ((*it)->getDate() < date1) // se a data for antes da data de início
+		else if ((*it).second->getDate() < date1) // se a data for antes da data de início
 			continue;
 		else // se a data e a data de início forem iguais->testar horas
 		{
-			if (date2 < (*it)->getDate()) // se a data do fim for antes da data
+			if (date2 < (*it).second->getDate()) // se a data do fim for antes da data
 				continue;
 			else
 			{
-				if ((*it)->getTime() < hour1) // se a hora da data for antes da hora da data de inicio
+				if ((*it).second->getTime() < hour1) // se a hora da data for antes da hora da data de inicio
 					continue;
 				else
-					total += (*it)->getDeliveryFee();
+					total += (*it).second->getDeliveryFee();
 			}
 		}
 	}
