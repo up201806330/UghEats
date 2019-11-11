@@ -18,7 +18,7 @@ int main(){
 	cout << bases.at(0)->getWorkers().at(2)->get_name() << endl;
 	*/
 
-	bases[0]->seeProfitsPerTime();
+	bases[0]->seeAllWorkers();
 
 	// cout << "Brand: " << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_vehicle().get_brand() << endl;
 	// cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_birthday().get_day() << endl;
