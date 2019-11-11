@@ -112,6 +112,7 @@ void Restaurant::load(string path, Base * base){
 		for (auto & prod : restaurant.get_products()) {
 			cuisineTypes.insert(prod->get_cuisine_type());
 		}
+		restaurant.setCuisineTypes(cuisineTypes);
 
 		restaurant.setPriceAverage();
 
