@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "utils.h"
 
+#include <set>
 
 Base::Base()
 {
@@ -1417,19 +1418,288 @@ void Base::createRestaurant() {
 	r.setAddress(address);
 
 	// products input
-	/**/
+	bool invalidProduct;
+	string strProduct;
+	Product product;
+	vector<Product*> productsVec;
 
-	// cuisine types calculated from the vector of products
-	/**/
+	bool notEnded = true;
 
+	cout << "List of Products (Name : Type : Price), type 'done' to stop input" << endl;
+
+	do {
+		
+		do {
+			invalidProduct = false;
+
+			getline(cin, strProduct);
+
+			if (strProduct == "done") {
+				notEnded = false;
+				break;
+			}
+
+			try {
+				product.parse(strProduct);
+				Product * productPtr = new Product;
+				*productPtr = product;
+				productsVec.push_back(productPtr);
+			}
+			catch (...) {
+				invalidProduct = true;
+				cout << "Invalid entry" << endl;
+			}
+		} while (invalidProduct);
+
+	} while (notEnded);
+
+	r.setProducts(productsVec);
+
+
+	// cuisine types
+	set<string> cuisineTypes;
+	for (auto & prod : r.get_products()) {
+		cuisineTypes.insert(prod->get_cuisine_type());
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// r.setCuisineTypes(cuisineTypes);  <-- make Cuisine types a set ?
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
 	// price average calculated form the vector of products
-	/**/
+	r.setPriceAverage();
 
-	Restaurant * ptr6 = new Restaurant;
-	*ptr6 = r;
-	restaurants.push_back(ptr6);
+	Restaurant * restaurantPtr = new Restaurant;
+	*restaurantPtr = r;
+	restaurants.push_back(restaurantPtr);
 }
 
+void Base::changeRestaurant() {
+
+	vector<Restaurant*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int restaurantChoice;
+	unsigned index = 0;
+
+	cout << "Pick the restaurant you want to change information about:" << endl;
+
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			getline(cin, strChoice);
+			restaurantChoice = stoi(strChoice);
+
+			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+	restaurantChoice--;	// not to excede the max index available
+
+	vector<string> options = { "name", "address", "products" };
+	cout << "Pick the field you want to change information of:" << endl;
+
+	vector<string>::iterator it2;
+	int attributeChoice;
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
+			cout << index + 1 << ". " << (*it2) << endl;
+		}
+
+		try {
+			getline(cin, strChoice);
+			attributeChoice = stoi(strChoice);
+
+			if (attributeChoice < 1 || attributeChoice > options.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+
+	string newName;
+	bool invalidName;
+
+	Address newAddress;
+	bool invalidAddress = false;
+	string fullAddress;
+
+	bool invalidProduct;
+	string strProduct;
+	Product product;
+	vector<Product*> productsVec;
+	bool notEnded = true;
+
+	set<string> cuisineTypes;
+
+	switch (attributeChoice) {
+		// Name
+		case 1:
+			do {
+				invalidName = false;
+				cout << "Current Name: " << restaurants.at(restaurantChoice)->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				cout << endl;
+				restaurants.at(restaurantChoice)->setName(newName);
+			} while (invalidName);
+			break;
+
+		// Address
+		case 2:
+			do {
+				invalidAddress = false;
+
+				cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
+				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
+				getline(cin, fullAddress);
+
+				try {
+					newAddress.parse(fullAddress);
+
+					// if it doesnt belong to the are of influence it is considered invalid
+					if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+						invalidAddress = true;
+						cout << "Invalid District (must be in area of influence of the base)" << endl;
+					}
+				}
+
+				catch (...) {
+					invalidAddress = true;
+				}
+
+				cout << endl;
+			} while (invalidAddress);
+
+			cout << endl;
+			restaurants.at(restaurantChoice)->setAddress(newAddress);
+			break;
+
+		// Products
+		case 3:
+			cout << "Current List of Products:" << endl;
+
+			for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
+				cout << prod->get_name() << " : " << prod->get_cuisine_type() << " : " << prod->get_price() << endl;
+			}
+
+			cout << endl;
+			cout << "Updated List of Products (Name : Type : Price), type 'done' to stop input" << endl;
+
+			do {
+				do {
+					invalidProduct = false;
+
+					getline(cin, strProduct);
+
+					if (strProduct == "done") {
+						notEnded = false;
+						break;
+					}
+
+					try {
+						product.parse(strProduct);
+						Product * productPtr = new Product;
+						*productPtr = product;
+						productsVec.push_back(productPtr);
+					}
+					catch (...) {
+						invalidProduct = true;
+						cout << "Invalid entry" << endl;
+					}
+				} while (invalidProduct);
+				
+			} while (notEnded);
+			restaurants.at(restaurantChoice)->setProducts(productsVec);
+
+			// updating cuisine types
+			
+			for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
+				cuisineTypes.insert(prod->get_cuisine_type());
+			}
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// restaurants.at(restaurantChoice)->setCuisineTypes(cuisineTypes);  <-- make Cuisine types a set ?
+			// 
+			// implement setCuisineTypes like the setPriceAverage ?
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+			// updating price average
+			restaurants.at(restaurantChoice)->setPriceAverage();
+
+			break;
+	}
+}
+
+
+void Base::removeRestaurant() {
+
+	vector<Restaurant*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int restaurantChoice;
+	unsigned index = 0;
+
+	cout << "Pick the restaurant you want to change information about:" << endl;
+
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			getline(cin, strChoice);
+			restaurantChoice = stoi(strChoice);
+
+			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+	restaurantChoice--;	// not to excede the max index available
+
+	restaurants.erase(restaurants.begin() + restaurantChoice);
+
+	cout << "Restaurant removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
+}
 
 
 void Base::searchForRestaurant() 

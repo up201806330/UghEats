@@ -354,7 +354,7 @@ void Client::edit() {
 
 	utils::clear_screen();
 
-	vector<Client*>::iterator it;
+	vector<Client*>::iterator it; // <-- not needed here ?
 	bool invalidOption;
 	string strChoice;
 	unsigned index = 0;
