@@ -28,16 +28,16 @@ public:
 
 	string str() const;
 
-	static Date getCurrentDate();
+	
 	int daysOfMonth(int month, int year);
 	bool validDate(Date & ToEvaluateDate);
 
-
+	static Date getCurrentDate(tm* temp);
 	//Implementar depois
 	friend bool operator==(const Date & l, const Date & r);
 	friend bool operator<(const Date & l, const Date & r);  //const??
 	friend ostream & operator<<(std::ostream & stream, const Date & date);
-
+	friend Date addOneDay(Date d);
 };
 
 class Time {
@@ -45,13 +45,17 @@ class Time {
 
 public:
 	Time();
+	Time(struct tm t);
 
 	~Time();
 
 	void parse(string str);
 	friend bool operator<(const Time & left, const Time & right);
 	friend ostream & operator<<(ostream & out, Time & t);
-
+	
 };
+
+bool addTimeAndMinutes(tm time, int min,tm * result);
+
 
 #endif

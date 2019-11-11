@@ -347,10 +347,7 @@ void Client::print() {
 	}
 }
 
-void Client::make_order(Base * base)
-{
-	//Needs implementing
-}
+
 
 void Client::edit() {
 
@@ -474,8 +471,9 @@ void Client::edit() {
 }
 
 
-void Client::make_order(Base * b)
+void Client::make_order(Base * b) //not working e faltam cenas
 {
+	srand(time(NULL));
 	cout << "Pick the Restaurant you want" << endl;
 	int c = 1, answer1;
 	vector<Restaurant*> restaurants = b->getRestaurants();
@@ -514,11 +512,23 @@ void Client::make_order(Base * b)
 	o.setBase(b);
 	o.setRestaurant(restaurants[answer1 - 1]);
 	o.setProducts(p);
-	//falta time e date - como faço?
+	tm * time;
+	o.setDate(Date::getCurrentDate(time));
+	Time t(*time);
+	o.setTime(t);
 	//preciso de ver onde checkar os concelhos que fazem parte do distrito ou que são adjacentes para a delivery fee
 	Deliver d;
 	d.setID(last_id + 1);
-	//falta time e date - como faço?
+	int delivery_minutes = (rand() % 60) + 11;
+	tm * dt;
+	if (addTimeAndMinutes(*time, delivery_minutes, dt))
+	{
+		Date dd;
+		dd = addOneDay(o.getDate());
+		d.setDate(dd);
+		Time time_d(*dt);
+		d.setTime(time_d);
+	}
 	//como testo se foi successful ou não?
 	d.setDeliveryMan(b->getDeliveryMan());
 	orders.push_back(&o);

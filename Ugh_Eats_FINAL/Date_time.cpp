@@ -66,12 +66,12 @@ string Date::str() const
 }
 
 
-Date Date::getCurrentDate() {
+Date Date::getCurrentDate(tm* temp) {
 
 	time_t t = time(NULL);
-	tm* timePtr = localtime(&t);
+	temp = localtime(&t);
 	
-	Date date(timePtr->tm_mday, timePtr->tm_mon, timePtr->tm_year);
+	Date date(temp->tm_mday, temp->tm_mon, temp->tm_year);
 
 	return date;
 }
@@ -100,7 +100,8 @@ int Date::daysOfMonth(int month, int year) {
 
 // checks if a date isn't before a reference (date)
 bool Date::validDate(Date & ToEvaluateDate) {
-	Date currentDate = Date::getCurrentDate();
+	tm * temp;
+	Date currentDate = Date::getCurrentDate(temp);
 	bool validDate = true;
 
 	// basic verification
@@ -153,6 +154,11 @@ Time::Time(){
 
 }
 
+Time::Time(struct tm t)
+{
+	time = t;
+}
+
 Time::~Time(){
 
 }
@@ -193,4 +199,55 @@ bool operator<(const Time & left, const Time & right)
 		else
 			return left.time.tm_sec < right.time.tm_sec;
 	}
+}
+
+
+bool addTimeAndMinutes(tm time, int min, tm * result) // returns true if the day changes
+{
+	if ((time.tm_min + min) > 60)
+	{
+		result->tm_sec = time.tm_sec;
+		result->tm_min = (time.tm_min + min) % 60;
+		result->tm_hour = time.tm_hour + ((time.tm_min + min) / 60);
+		if ((time.tm_hour >= 22) && (result->tm_hour < 2))
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		result->tm_sec = time.tm_sec;
+		result->tm_min = time.tm_min + min;
+		result->tm_hour = time.tm_hour;
+		return false;
+	}
+}
+
+
+Date addOneDay(Date d)
+{
+	Date result;
+	if ((d.day + 1) > d.daysOfMonth(d.month, d.year))
+	{
+		if (d.month == 12)
+		{
+			result.day = 1;
+			result.month = 1;
+			result.year = d.year + 1;
+		}
+		else
+		{
+			result.day = 1;
+			result.month = d.month++;
+			result.year = d.year;
+		}
+	}
+	else
+	{
+		result.day = d.day++;
+		result.month = d.month;
+		result.year = d.year;
+	}
+	return result;
+		
 }
