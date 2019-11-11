@@ -100,7 +100,8 @@ int main(){
 	*/
 	
 
-	// main_menu(bases);
+	
+	main_menu(bases);
 
 	return 0;
 }

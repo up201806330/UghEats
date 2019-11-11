@@ -476,7 +476,78 @@ void Base::seeProfitsPerTime()
 
 
 
+void Base::changeBase() {
+	vector<string> options = { "address" };
 
+	bool invalidOption;
+	string strChoice;
+	unsigned index = 0;
+
+	cout << "Pick the field you want to change information of:" << endl;
+	vector<string>::iterator optionsIt;
+	int attributeChoice;
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (optionsIt = options.begin(); optionsIt != options.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			getline(cin, strChoice);
+			attributeChoice = stoi(strChoice);
+
+			if (attributeChoice < 1 || attributeChoice > options.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+	// HARD CODED FOR BASE PORTO
+	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+
+	Address newAddress;
+	bool invalidAddress = false;
+	string fullAddress;
+
+	switch (attributeChoice) {
+		// Address
+		case 1:
+			do {
+				invalidAddress = false;
+
+				cout << "Current Address: " << this->getAddress().str() << endl;
+				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
+				getline(cin, fullAddress);
+
+				try {
+					address.parse(fullAddress);
+
+					// if it doesnt belong to the are of influence it is considered invalid
+					if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+						invalidAddress = true;
+						cout << "Invalid District (must be in area of influence of the base)" << endl;
+					}
+				}
+
+				catch (...) {
+					invalidAddress = true;
+				}
+
+				cout << endl;
+			} while (invalidAddress);
+			this->setAddress(address);
+			break;
+
+	}
+}
 
 
 
