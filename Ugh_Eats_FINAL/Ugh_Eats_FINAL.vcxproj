@@ -129,6 +129,7 @@
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Date_time.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Main_menu.cpp" />
     <ClCompile Include="People.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Address.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Date_time.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Main_menu.h" />
     <ClInclude Include="People.h" />
     <ClInclude Include="Restaurant.h" />
