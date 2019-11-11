@@ -263,7 +263,7 @@ void Order::load(string path, Base * base){
 	ifstream orders_text(path);
 
 	string textline;
-	size_t temp; 
+	int temp; 
 	vector<Order*> orders_vec;
 	while(!orders_text.eof()){
 		
@@ -272,12 +272,14 @@ void Order::load(string path, Base * base){
 			getline(orders_text, textline);
 		}
 		Order order;
+		Deliver deliver;
 
 	
 		getline(orders_text, textline);
 		temp = stoi(textline);		
 
 		order.setID(temp);
+		deliver.setID(temp);
 		
 		order.setBase(base);
 
@@ -296,18 +298,18 @@ void Order::load(string path, Base * base){
 		// orders_text >> textline;
 		getline(orders_text, textline);
 
-		order.setInsuccessMessage(textline);
+		deliver.setInsuccessMessage(textline);
 		if (textline == "-") {
-			order.setSuccess(true);
+			deliver.setSuccess(true);
 		}
 		else {
-			order.setSuccess(false);
+			deliver.setSuccess(false);
 		}
 
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
-		Time t; t.parse(textline);  // there was problem with what goes as textline in t.parse
+		Time t; t.parse(textline);  
 		order.setTime(t);
 
 		getline(orders_text, textline);
@@ -315,6 +317,23 @@ void Order::load(string path, Base * base){
 
 		Date d; d.parse(textline);
 		order.setDate(d);
+		
+		getline(orders_text, textline);
+		// orders_text >> textline;
+
+		Time x; x.parse(textline);  
+		deliver.setTime(x);
+
+		getline(orders_text, textline);
+		// orders_text >> textline;
+
+		Date y; y.parse(textline);
+		deliver.setDate(y);
+
+		//Delivery guy seria aqui
+
+
+		order.setDeliver(&deliver);
 
 		vector<Product*> prods;
 		while(getline(orders_text, textline)){
@@ -375,17 +394,7 @@ void Order::setDate(Date d){
 	date = d;
 }
 
-void Order::setSuccess(bool s)
-{
-	success = s;
-}
-
-void Order::setInsuccessMessage(string message)
-{
-	insuccess_message = message;
-}
-
-void Order::setDeliveryFee(size_t fee)
+void Order::setDeliveryFee(double fee)
 {
 	delivery_fee = fee;
 }
@@ -425,16 +434,6 @@ Date Order::getDate() const
 	return date;
 }
 
-bool Order::getSuccess() const
-{
-	return success;
-}
-
-string Order::getInsuccessMessage() const
-{
-	return insuccess_message;
-}
-
 double Order::getDeliveryFee() const
 {
 	return delivery_fee;
@@ -471,13 +470,21 @@ ostream & operator<<(ostream & out, Order & o)
 		c++;
 		
 	}
-	out << "Time: " << o.time << endl;
+	out << "Order Time: " << o.time << endl;
 	out << "Date: " << o.date.str() << endl;
-	if (o.success)
+	
+	if (o.getDeliver()->getSuccess())
 		out << "SUCCESSFUL" << endl;
 	else
-		out << o.insuccess_message << endl;
+		out << o.getDeliver()->getInsuccessMessage()<< endl;
+
+	out << "Arrival time: " << &o.getDeliver()->getTime() << endl;
+	out << "Date: " << &o.getDeliver()->getDate() << endl;
+
+	out << "Delivery worker: " << o.getDeliver()->getDeliveryMan() << endl;
+
 	out << "Delivery Fee: " << o.delivery_fee;
+	
 	return out;
 }
 
@@ -513,6 +520,11 @@ void Deliver::setDate(Date d)
 	date = d;
 }
 
+void Deliver::setInsuccessMessage(string s)
+{
+	insuccess_message == s;
+}
+
 
 void Deliver::setSuccess(bool s)
 {
@@ -542,6 +554,11 @@ Date Deliver::getDate() const
 bool Deliver::getSuccess() const
 {
 	return success;
+}
+
+string Deliver::getInsuccessMessage() const
+{
+	return insuccess_message;
 }
 
 Delivery* Deliver::getDeliveryMan() const

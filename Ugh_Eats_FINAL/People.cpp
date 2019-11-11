@@ -145,6 +145,8 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
 
+		//set Delivery * on each order on hat loop ^^
+
 		Delivery * ptr = new Delivery;
 		*ptr = x;
 		workers_vec.push_back(ptr);
@@ -469,4 +471,49 @@ void Client::edit() {
 	cout << "Client successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+}
+
+
+void Client::make_order(Base * b)
+{
+	cout << "Pick the Restaurant you want" << endl;
+	int c = 1, answer1;
+	vector<Restaurant*> restaurants = b->getRestaurants();
+	vector<Restaurant*>::iterator it;
+	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	{
+		cout << c << "- " << (*it)->get_name() << endl;
+		c++;
+	}
+	cin >> answer1;
+	cout << endl << "Pick the Products you want (Ex: 1 3 ...)" << endl;
+	c = 1;
+	string answer2;
+	vector<Product*> products = restaurants[answer1 - 1]->get_products();
+	vector<Product*>::iterator ite;
+	for (ite = products.begin(); ite != products.end(); ite++)
+	{
+		cout << c << ": " << endl;
+		cout << *(*ite);
+		cout << endl;
+	}
+	getline(cin, answer2);
+	vector<int> answers; // produtos que o cliente quer
+	int a;
+	istringstream ss(answer2);
+	while (ss >> a)
+		answers.push_back(a);
+	vector<Product*> p;
+	for (int i = 0; i < answers.size(); i++)
+	{
+
+	}
+	Order o;
+	o.setBase(b);
+	o.setRestaurant(restaurants[answer1 - 1]);
+	o.
+
+
+
+
 }

@@ -69,7 +69,7 @@ public:
 	void seeProfitsPerClient(); // cliente
 	void seeProfitsPerTime();  // periodo de tempo
 
-
+	
 	
 	void changeBase(); // change address of the base
 
@@ -82,7 +82,7 @@ public:
 	void changeWorker();
 	void removeWorker();
 
-	void createRestaurant();
+	void addRestaurant();
 	void changeRestaurant();
 	void removeRestaurant();
 	// clients -> eliminar também orders
@@ -100,10 +100,11 @@ public:
 
 	void searchForCuisineTypes(); // por tipo de culinária
 
-	
-
 
 	
+
+	
+
 
 	// camelCase
 
