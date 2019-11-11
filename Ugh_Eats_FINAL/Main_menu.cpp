@@ -176,12 +176,19 @@ void main_menu_admin_profits(Base * base) {
 		cout << "1. From this base" << endl;
 		cout << "2. Per restaurant" << endl;
 		cout << "3. Per client" << endl;
-		cout << "4. Per time" << endl;
+		cout << "4. Per time period" << endl;
 		cout << ">> ";
 
 		getline(cin, input);
 
-		if (input == "")
+		if (input == "1") base->seeProfits();
+		if (input == "2") base->seeProfitsPerRestaurant();
+		if (input == "3") base->seeProfitsPerClient();
+		if (input == "4") base->seeProfitsPerTime();
+
+		if (cin.eof()) break;
+		
+		else continue;
 
 	}
 }

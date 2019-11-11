@@ -386,7 +386,8 @@ void Base::seeProfits()
 	}
 	cout << total << endl;
 
-
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 void Base::seeProfitsPerRestaurant()
@@ -407,7 +408,8 @@ void Base::seeProfitsPerRestaurant()
 		cout << (*it)->get_name() << ": " << total << endl;
 	}
 
-
+	cout << "\n>> ";
+	cin.ignore();
 
 }
 
@@ -427,7 +429,8 @@ void Base::seeProfitsPerClient()
 		cout << (*it)->get_name() << ": " << total << endl;
 	}
 
-
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 void Base::seeProfitsPerTime()
@@ -482,7 +485,10 @@ void Base::seeProfitsPerTime()
 			}
 		}
 	}
-	cout << "Profit made between the time defined: " << total;
+	cout << "Profit made in the defined period: " << total;
+
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 
