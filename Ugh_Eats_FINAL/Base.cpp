@@ -1659,6 +1659,49 @@ void Base::changeRestaurant() {
 }
 
 
+void Base::removeRestaurant() {
+
+	vector<Restaurant*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int restaurantChoice;
+	unsigned index = 0;
+
+	cout << "Pick the restaurant you want to change information about:" << endl;
+
+	do {
+		index = 0;
+		invalidOption = false;
+
+		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			getline(cin, strChoice);
+			restaurantChoice = stoi(strChoice);
+
+			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
+				invalidOption = true;
+			}
+		}
+		catch (...) {
+			invalidOption = true;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+
+	restaurantChoice--;	// not to excede the max index available
+
+	restaurants.erase(restaurants.begin() + restaurantChoice);
+
+	cout << "Restaurant removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
+}
+
+
 void Base::searchForRestaurant() 
 {
 	string name;
