@@ -101,7 +101,7 @@ public:
 	void searchForCuisineTypes(); // por tipo de culinária
 
 	
-	void MakeAnOrder();
+	
 
 	
 
