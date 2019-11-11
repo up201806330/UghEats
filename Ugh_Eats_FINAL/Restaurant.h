@@ -75,7 +75,10 @@ public:
 
 };
 
-class Order { //cliente e entregador como membros privados para dps conseguirmos adicionar a order a cada vetor (??)
+
+class Deliver;
+
+class Order { 
 	size_t id;
 	Base * base;
 	Restaurant * restaurant;
@@ -85,6 +88,7 @@ class Order { //cliente e entregador como membros privados para dps conseguirmos
 	bool success;
 	string insuccess_message;
 	size_t delivery_fee;
+	Deliver * delivery;
 
 public:
 	Order();
@@ -103,6 +107,7 @@ public:
 	void setSuccess(bool s);
 	void setInsuccessMessage(string message);
 	void setDeliveryFee(size_t fee);
+	void setDeliver(Deliver *d);
 	size_t getID() const;
 	Base * getBase() const;
 	Restaurant* getRestaurant() const;
@@ -113,6 +118,7 @@ public:
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
 	size_t getDeliveryFee()const;
+	Deliver * getDeliver()const;
 	
 	vector <Order> findOrders(string textile);
 	friend ostream & operator<<(ostream & out, Order & o);
@@ -125,6 +131,32 @@ public:
 	
 	bool calculate_fee();
 	bool calculate_time();
+};
+
+
+
+class Deliver
+{
+private:
+	int id; // a partir daqui vai buscar a informação necessária ao vetor das orders
+	Time time;
+	Date date;
+	bool success;
+	Delivery * delivery_man;
+public:
+	Deliver();
+	Deliver(int i, Time t, Date d, bool s, Delivery * dm);
+	void setID(int i);
+	void setTime(Time t);
+	void setDate(Date d);
+	void setSuccess(bool s);
+	void setDeliveryMan(Delivery * dm);
+	int  getID() const;
+	Time getTime() const;
+	Date getDate() const;
+	bool getSuccess() const;
+	Delivery * getDeliveryMan() const;
+
 };
 
 #endif

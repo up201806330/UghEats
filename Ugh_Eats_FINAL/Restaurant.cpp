@@ -390,6 +390,11 @@ void Order::setDeliveryFee(size_t fee)
 	delivery_fee = fee;
 }
 
+void Order::setDeliver(Deliver *d)
+{
+	delivery = d;
+}
+
 size_t Order::getID() const
 {
 	return id;
@@ -435,6 +440,12 @@ size_t Order::getDeliveryFee() const
 	return delivery_fee;
 }
  
+
+Deliver * Order::getDeliver() const
+{
+	return delivery;
+}
+
 bool Order::calculate_fee() //implementar depois
 {
 	return true;
@@ -471,5 +482,70 @@ ostream & operator<<(ostream & out, Order & o)
 }
 
 
+Deliver::Deliver()
+{
 
+}
+
+Deliver::Deliver(int i, Time t, Date d, bool s, Delivery * dm)
+{
+	id = i;
+	time = t;
+	date = d;
+	success = s;
+	delivery_man = dm;
+}
+
+
+void Deliver::setID(int i)
+{
+	id = i;
+}
+
+void Deliver::setTime(Time t)
+{
+	time = t;
+}
+
+
+void Deliver::setDate(Date d)
+{
+	date = d;
+}
+
+
+void Deliver::setSuccess(bool s)
+{
+	success = s;
+}
+
+void Deliver::setDeliveryMan(Delivery * dm)
+{
+	delivery_man = dm;
+}
+
+int Deliver::getID() const
+{
+	return id;
+}
+
+Time Deliver::getTime() const
+{
+	return time;
+}
+
+Date Deliver::getDate() const
+{
+	return date;
+}
+
+bool Deliver::getSuccess() const
+{
+	return success;
+}
+
+Delivery* Deliver::getDeliveryMan() const
+{
+	return delivery_man;
+}
 
