@@ -33,6 +33,7 @@ public:
 	bool validDate(Date & ToEvaluateDate);
 
 	static Date getCurrentDate(tm* temp);
+	static Date getCurrentDate();
 	//Implementar depois
 	friend bool operator==(const Date & l, const Date & r);
 	friend bool operator<(const Date & l, const Date & r);  //const??

@@ -75,6 +75,16 @@ Date Date::getCurrentDate(tm* temp) {
 
 	return date;
 }
+Date Date::getCurrentDate()
+{
+
+	time_t t = time(NULL);
+	tm *temp = localtime(&t);
+
+	Date date(temp->tm_mday, temp->tm_mon, temp->tm_year);
+
+	return date;
+}
 
 
 // return the number of days given the month and year
@@ -100,8 +110,8 @@ int Date::daysOfMonth(int month, int year) {
 
 // checks if a date isn't before a reference (date)
 bool Date::validDate(Date & ToEvaluateDate) {
-	tm * temp;
-	Date currentDate = Date::getCurrentDate(temp);
+	//tm * temp;
+	Date currentDate = Date::getCurrentDate();
 	bool validDate = true;
 
 	// basic verification

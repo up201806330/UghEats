@@ -473,66 +473,66 @@ void Client::edit() {
 
 void Client::make_order(Base * b) //not working e faltam cenas
 {
-	srand(time(NULL));
-	cout << "Pick the Restaurant you want" << endl;
-	int c = 1, answer1;
-	vector<Restaurant*> restaurants = b->getRestaurants();
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++)
-	{
-		cout << c << "- " << (*it)->get_name() << endl;
-		c++;
-	}
-	cin >> answer1;
-	cout << endl << "Pick the Products you want (Ex: 1 3 ...)" << endl;
-	c = 1;
-	string answer2;
-	vector<Product*> products = restaurants[answer1 - 1]->get_products();
-	vector<Product*>::iterator ite;
-	for (ite = products.begin(); ite != products.end(); ite++)
-	{
-		cout << c << ": " << endl;
-		cout << *(*ite);
-		cout << endl;
-	}
-	getline(cin, answer2);
-	vector<int> answers; // produtos que o cliente quer
-	int a;
-	istringstream ss(answer2);
-	while (ss >> a)
-		answers.push_back(a);
-	vector<Product*> p;
-	for (int i = 0; i < answers.size(); i++)
-	{
-		p.push_back(products[answers[i]]);
-	}
-	Order o;
-	int last_id = b->getOrders()[b->getOrders().size() - 1]->getID();
-	o.setID(last_id + 1);
-	o.setBase(b);
-	o.setRestaurant(restaurants[answer1 - 1]);
-	o.setProducts(p);
-	tm * time;
-	o.setDate(Date::getCurrentDate(time));
-	Time t(*time);
-	o.setTime(t);
-	//preciso de ver onde checkar os concelhos que fazem parte do distrito ou que são adjacentes para a delivery fee
-	Deliver d;
-	d.setID(last_id + 1);
-	int delivery_minutes = (rand() % 60) + 11;
-	tm * dt;
-	if (addTimeAndMinutes(*time, delivery_minutes, dt))
-	{
-		Date dd;
-		dd = addOneDay(o.getDate());
-		d.setDate(dd);
-		Time time_d(*dt);
-		d.setTime(time_d);
-	}
-	//como testo se foi successful ou não?
-	d.setDeliveryMan(b->getDeliveryMan());
-	orders.push_back(&o);
-	d.getDeliveryMan()->get_history().push_back(&o);
+	//srand(time(NULL));
+	//cout << "Pick the Restaurant you want" << endl;
+	//int c = 1, answer1;
+	//vector<Restaurant*> restaurants = b->getRestaurants();
+	//vector<Restaurant*>::iterator it;
+	//for (it = restaurants.begin(); it != restaurants.end(); it++)
+	//{
+	//	cout << c << "- " << (*it)->get_name() << endl;
+	//	c++;
+	//}
+	//cin >> answer1;
+	//cout << endl << "Pick the Products you want (Ex: 1 3 ...)" << endl;
+	//c = 1;
+	//string answer2;
+	//vector<Product*> products = restaurants[answer1 - 1]->get_products();
+	//vector<Product*>::iterator ite;
+	//for (ite = products.begin(); ite != products.end(); ite++)
+	//{
+	//	cout << c << ": " << endl;
+	//	cout << *(*ite);
+	//	cout << endl;
+	//}
+	//getline(cin, answer2);
+	//vector<int> answers; // produtos que o cliente quer
+	//int a;
+	//istringstream ss(answer2);
+	//while (ss >> a)
+	//	answers.push_back(a);
+	//vector<Product*> p;
+	//for (int i = 0; i < answers.size(); i++)
+	//{
+	//	p.push_back(products[answers[i]]);
+	//}
+	//Order o;
+	//int last_id = b->getOrders()[b->getOrders().size() - 1]->getID();
+	//o.setID(last_id + 1);
+	//o.setBase(b);
+	//o.setRestaurant(restaurants[answer1 - 1]);
+	//o.setProducts(p);
+	//tm * time;
+	//o.setDate(Date::getCurrentDate(time));
+	//Time t(*time);
+	//o.setTime(t);
+	////preciso de ver onde checkar os concelhos que fazem parte do distrito ou que são adjacentes para a delivery fee
+	//Deliver d;
+	//d.setID(last_id + 1);
+	//int delivery_minutes = (rand() % 60) + 11;
+	//tm * dt;
+	//if (addTimeAndMinutes(*time, delivery_minutes, dt))
+	//{
+	//	Date dd;
+	//	dd = addOneDay(o.getDate());
+	//	d.setDate(dd);
+	//	Time time_d(*dt);
+	//	d.setTime(time_d);
+	//}
+	////como testo se foi successful ou não?
+	//d.setDeliveryMan(b->getDeliveryMan());
+	//orders.push_back(&o);
+	//d.getDeliveryMan()->get_history().push_back(&o);
 
 
 
