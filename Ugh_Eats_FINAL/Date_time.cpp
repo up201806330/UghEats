@@ -177,10 +177,12 @@ Time::Time(int h, int m, int s) {
 	timeStruct.tm_sec = s;
 }
 
+/*
 Time::Time(struct tm t)
 {
 	time = t;
 }
+*/
 
 Time::~Time(){
 
@@ -194,11 +196,12 @@ void Time::parse(string str){
 	timeStruct.tm_sec = stoi(parts.at(2));
 }
 
-
+/*
 Time Time::getCurrentTime() {
 
 	
 }
+*/
 
 ostream & operator<<(ostream & out, Time & t)
 {
