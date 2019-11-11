@@ -71,10 +71,7 @@ public:
 
 
 	
-	int changeBase(); // change info about the base. Calls the following functions:
-	// changeAddress(); // change the address of the base (must be in the same district?)
-
-
+	void changeBase(); // change address of the base
 
 	// criar, alterar e apagar coisas dos vetores de cada base <- JA
 	void addClient();
