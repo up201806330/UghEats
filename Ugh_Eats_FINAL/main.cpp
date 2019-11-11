@@ -13,12 +13,26 @@ int main(){
 	vector<Base*> bases = Base::load(path);
 
 	/*
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_name() << endl;
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_products().size() << endl;
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_products().at(0)->get_name() << endl;
+	cout << endl;
+	bases.at(0)->createRestaurant();
+	cout << endl;
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_name() << endl;
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_products().size() << endl;
+	cout << bases.at(0)->getRestaurants().at(bases.at(0)->getRestaurants().size() - 1)->get_products().at(0)->get_name() << endl;
+	*/
+
+	/*
 	cout << bases.at(0)->getWorkers().at(2)->get_name() << endl;
 	bases.at(0)->removeWorker();
 	cout << bases.at(0)->getWorkers().at(2)->get_name() << endl;
 	*/
 
-	bases[0]->seeProfitsPerTime();
+	// bases[0]->seeProfitsPerTime();
+
+	// bases.at(0)->createRestaurant();
 
 	// cout << "Brand: " << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_vehicle().get_brand() << endl;
 	// cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_birthday().get_day() << endl;

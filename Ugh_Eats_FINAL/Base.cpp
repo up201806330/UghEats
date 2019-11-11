@@ -1,6 +1,7 @@
 #include "Base.h"
 #include "utils.h"
 
+#include <set>
 
 Base::Base()
 {
@@ -1417,17 +1418,61 @@ void Base::createRestaurant() {
 	r.setAddress(address);
 
 	// products input
-	/**/
+	bool invalidProduct;
+	string strProduct;
+	Product product;
+	vector<Product*> productsVec;
 
-	// cuisine types calculated from the vector of products
-	/**/
+	bool notEnded = true;
 
+	cout << "List of Products (Name : Type : Price), type 'done' to stop input" << endl;
+
+	do {
+		
+		do {
+			invalidProduct = false;
+
+			getline(cin, strProduct);
+
+			if (strProduct == "done") {
+				notEnded = false;
+				break;
+			}
+
+			try {
+				product.parse(strProduct);
+				Product * productPtr = new Product;
+				*productPtr = product;
+				productsVec.push_back(productPtr);
+			}
+			catch (...) {
+				invalidProduct = true;
+				cout << "Invalid entry" << endl;
+			}
+		} while (invalidProduct);
+
+	} while (notEnded);
+
+	r.setProducts(productsVec);
+
+
+	// cuisine types
+	set<string> cuisineTypes;
+	for (auto & prod : r.get_products()) {
+		cuisineTypes.insert(prod->get_cuisine_type());
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// r.setCuisineTypes(cuisineTypes);  <-- make Cuisine types a set ?
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
 	// price average calculated form the vector of products
-	/**/
+	r.setPriceAverage();
 
-	Restaurant * ptr6 = new Restaurant;
-	*ptr6 = r;
-	restaurants.push_back(ptr6);
+	Restaurant * restaurantPtr = new Restaurant;
+	*restaurantPtr = r;
+	restaurants.push_back(restaurantPtr);
 }
 
 
