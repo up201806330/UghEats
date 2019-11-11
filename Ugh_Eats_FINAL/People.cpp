@@ -345,7 +345,7 @@ void Client::print() {
 	}
 }
 
-void Client::make_order()
+void Client::make_order(Base * base)
 {
 	//Needs implementing
 }

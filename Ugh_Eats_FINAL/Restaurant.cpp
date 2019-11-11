@@ -134,7 +134,7 @@ void Restaurant::setProducts(vector <Product*> ps)
 	products = ps;
 }
 
-void Restaurant::setPriceAverage(size_t p)
+void Restaurant::setPriceAverage(double p)
 {
 	price_average = p;
 }
@@ -142,7 +142,7 @@ void Restaurant::setPriceAverage(size_t p)
 
 void Restaurant::setPriceAverage()
 {
-	float total = 0;
+	double total = 0;
 	vector<Product*>::iterator it;
 	for (it = products.begin(); it != products.end(); it++)
 	{
@@ -176,7 +176,7 @@ vector <Product*> Restaurant::get_products() const
 	return products;
 }
 
-size_t Restaurant::get_price_average() const
+double Restaurant::get_price_average() const
 {
 	return price_average;
 }
@@ -430,7 +430,7 @@ string Order::getInsuccessMessage() const
 	return insuccess_message;
 }
 
-size_t Order::getDeliveryFee() const
+double Order::getDeliveryFee() const
 {
 	return delivery_fee;
 }

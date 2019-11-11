@@ -54,14 +54,14 @@ public:
 	void setAddress(Address add);
 	void setCuisineTypes(vector <string> cts);
 	void setProducts(vector <Product *> ps);
-	void setPriceAverage(size_t p);
+	void setPriceAverage(double p);
 	void setPriceAverage();
 	void setBase(Base* b);
 	string get_name() const;
 	Address get_address() const;
 	vector<string> get_cuisine_types() const;
 	vector<Product*> get_products() const;
-	size_t get_price_average() const;
+	double get_price_average() const;
 	Base * get_base() const;
 
 	void update_price_average();
@@ -112,7 +112,7 @@ public:
 	Date getDate() const;
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
-	size_t getDeliveryFee()const;
+	double getDeliveryFee()const;
 	
 	vector <Order> findOrders(string textile);
 	friend ostream & operator<<(ostream & out, Order & o);
