@@ -28,6 +28,11 @@ public:
 
 	string str() const;
 
+	static Date getCurrentDate();
+	int daysOfMonth(int month, int year);
+	bool validDate(Date & ToEvaluateDate);
+
+
 	//Implementar depois
 	friend bool operator==(const Date & l, const Date & r);
 	friend bool operator<(const Date & l, const Date & r);  //const??

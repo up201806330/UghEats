@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Date_time.h"
 #include "utils.h"
 #include <vector>
@@ -63,6 +64,73 @@ string Date::str() const
 	result += to_string(year);
 	return result;
 }
+
+
+Date Date::getCurrentDate() {
+
+	time_t t = time(NULL);
+	tm* timePtr = localtime(&t);
+	
+	Date date(timePtr->tm_mday, timePtr->tm_mon, timePtr->tm_year);
+
+	return date;
+}
+
+
+// return the number of days given the month and year
+int Date::daysOfMonth(int month, int year) {
+
+	bool leapYear = false;
+
+	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		leapYear = true;
+	}
+
+	if ((month < 8 && month % 2 == 1) || (month >= 8 && month % 2 == 0)) {
+		return 31;
+	}
+
+	else if (month == 2) {
+		return leapYear ? 29 : 28;
+	}
+
+	return 30;
+}
+
+
+// checks if a date isn't before a reference (date)
+bool Date::validDate(Date & ToEvaluateDate) {
+	Date currentDate = Date::getCurrentDate();
+	bool validDate = true;
+
+	// basic verification
+	if (ToEvaluateDate.get_year() <= 0 || (ToEvaluateDate.get_month() <= 0 || ToEvaluateDate.get_month() > 12) || ToEvaluateDate.get_day() <= 0) {
+		validDate = false;
+	}
+
+	// year verification
+	else if (ToEvaluateDate.get_year() < currentDate.get_year()) {
+		validDate = false;
+	}
+
+	// same year, month verification
+	else if ((ToEvaluateDate.get_year() == currentDate.get_year()) && (ToEvaluateDate.get_month() < currentDate.get_month())) {
+		validDate = false;
+	}
+
+	// same year / month, day verification
+	else if ((ToEvaluateDate.get_year() == currentDate.get_year()) && (ToEvaluateDate.get_month() == currentDate.get_month()) && (ToEvaluateDate.get_day() < currentDate.get_day())) {
+		validDate = false;
+	}
+
+	// day verification
+	else if (daysOfMonth(ToEvaluateDate.get_month(), ToEvaluateDate.get_year()) < ToEvaluateDate.get_day()) {
+		validDate = false;
+	}
+
+	return validDate;
+}
+
 
 
 bool operator<(const Date & l, const Date & r)
