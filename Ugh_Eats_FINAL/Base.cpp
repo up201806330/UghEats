@@ -367,7 +367,7 @@ void Base::seeProfits()
 {
 	cout << "Profit for this Base: ";
 	vector<Order*>::iterator it;
-	float total = 0;
+	double total = 0;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
 		total += (*it)->getDeliveryFee();
@@ -383,7 +383,7 @@ void Base::seeProfitsPerRestaurant()
 	vector< Restaurant *>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{
-		int total = 0;
+		double total = 0;
 		vector<Order*>::iterator ite;
 		for (ite = orders.begin(); ite != orders.end(); ite++)
 		{
@@ -437,7 +437,7 @@ void Base::seeProfitsPerTime()
 	getline(cin, hourf);
 	Time hour2;
 	hour2.parse(hourf);
-	int total = 0;
+	double total = 0;
 	vector<Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
@@ -1827,7 +1827,7 @@ void Base::searchForGeographicArea()
 
 void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 {
-	float min, max;
+	double min, max;
 	cout << "Which Price Range do you want?" << endl;
 	cout << "Min: ";
 	cin >> min;
@@ -1837,7 +1837,7 @@ void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 	vector<Restaurant*>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{
-		float price = (*it)->get_price_average();
+		double price = (*it)->get_price_average();
 		if (price >= min && price <= max)
 		{
 			cout << (*it)->get_name() << endl;

@@ -3,7 +3,7 @@
 #include "utils.h"
 
 
-void main_menu_client(Client* client) {
+void main_menu_client(Client* client, Base * base) {
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -16,7 +16,7 @@ void main_menu_client(Client* client) {
 
 		getline(cin, input);
 
-		if (input == "1") client->make_order();
+		if (input == "1") client->make_order(base);
 		if (input == "2") client->edit();
 		if (cin.eof()) exit(0); //<------------------------- implement something to save and exit
 
@@ -73,10 +73,54 @@ void main_menu_admin_clients(Base * base) {
 }
 
 void main_menu_admin_workers(Base * base) {
+	while (true) {
+		string input;
+		utils::clear_screen();
 
+		cout << "1. Show all workers" << endl;
+		cout << "2. Search a worker" << endl;
+		cout << "3. Add a worker" << endl;
+		cout << "4. Edit a worker" << endl;
+		cout << "5. Remove a worker" << endl;
+		cout << ">> " << endl;
+
+		getline(cin, input);
+
+		if (input == "1") {
+			utils::clear_screen();
+			base->seeAllWorkers();
+			
+			cout << "\n>> ";
+			cin.ignore();
+		}
+
+		if (input == "2") {
+			utils::clear_screen();
+			base->seeOneWorker();
+		}
+
+		if (input == "3") {
+			utils::clear_screen();
+			base->addWorker();
+		}
+
+		if (input == "4") {
+			utils::clear_screen();
+			base->changeWorker();
+		}
+
+		if (input == "5") {
+			utils::clear_screen();
+			base->removeWorker();
+		}
+	}
 }
 
 void main_menu_admin_restaurant(Base * base) {
+
+}
+
+void main_menu_admin_profits(Base * base) {
 
 }
 
@@ -88,6 +132,7 @@ void main_menu_admin(Base * base) {
 		cout << "1. Clients" << endl;
 		cout << "2. Workers" << endl;
 		cout << "3. Restaurants" << endl;
+		cout << "4. Profits" << endl;
 		cout << "CTRL+Z to save and exit" << endl;
 		cout << ">> ";
 
@@ -96,8 +141,11 @@ void main_menu_admin(Base * base) {
 		if (input == "1") main_menu_admin_clients(base);
 		if (input == "2") main_menu_admin_workers(base);
 		if (input == "3") main_menu_admin_restaurant(base);
+		if (input == "4") main_menu_admin_profits(base);
 
 		if (cin.eof()) exit(0); //<-------------- Same shit
+		
+		else continue;
 	}
 }
 
@@ -120,7 +168,7 @@ void main_menu_client_login(Base * base){
 			if (cin.eof()) continue;
 			
 			for (it = clients.begin(); it != clients.end(); it++) {
-				if ((*it)->get_name() == input) main_menu_client(*it);
+				if ((*it)->get_name() == input) main_menu_client(*it, base);
 			}
 			
 			cout << "\nClient not found; Try again (Enter to continue)" << endl;
@@ -131,7 +179,7 @@ void main_menu_client_login(Base * base){
 		if (input == "2") {
 			utils::clear_screen();
 			base->addClient(); //try para apanhar execao blacklisted ; sem isto nao funciona corretamente
-			main_menu_client(base->getClients().at(base->getClients().size() - 1));
+			main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
 		}
 
 		if (cin.eof()) break;
