@@ -1881,3 +1881,5 @@ void Base::searchForCuisineTypes()
 
 	}
 }
+
+
