@@ -419,7 +419,7 @@ void Base::seeProfitsPerClient()
 	vector<Client*>::iterator it;
 	for (it = clients.begin(); it != clients.end(); it++)
 	{
-		float total = 0;
+		double total = 0;
 		vector<Order*> vec = (*it)->get_orders();
 		vector<Order*>::iterator ite;
 		for (ite = vec.begin(); ite != vec.end(); ite++)

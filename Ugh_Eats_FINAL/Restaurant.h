@@ -40,7 +40,7 @@ class Restaurant {
 	Address address;
 	vector<string> cuisine_types;
 	vector<Product*> products;
-	float price_average;
+	double price_average;
 	Base * base;
 
 public:
@@ -85,9 +85,9 @@ class Order {
 	vector<Product*> products;
 	Time time;
 	Date date;
-	bool success;
-	string insuccess_message;
-	size_t delivery_fee;
+	//bool success;
+	//string insuccess_message;
+	double delivery_fee;
 	Deliver * delivery;
 
 public:
@@ -104,9 +104,7 @@ public:
 	void setProducts(vector <Product*> p);
 	void setTime(Time t);
 	void setDate(Date d);
-	void setSuccess(bool s);
-	void setInsuccessMessage(string message);
-	void setDeliveryFee(size_t fee);
+	void setDeliveryFee(double fee);
 	void setDeliver(Deliver *d);
 	size_t getID() const;
 	Base * getBase() const;
@@ -115,8 +113,6 @@ public:
 	vector <Product*> getProducts() const;
 	Time getTime() const;
 	Date getDate() const;
-	bool getSuccess() const;
-	string getInsuccessMessage() const;
 	double getDeliveryFee()const;
 	Deliver * getDeliver()const;
 	
@@ -142,6 +138,7 @@ private:
 	Time time;
 	Date date;
 	bool success;
+	string insuccess_message;
 	Delivery * delivery_man;
 public:
 	Deliver();
@@ -149,12 +146,14 @@ public:
 	void setID(int i);
 	void setTime(Time t);
 	void setDate(Date d);
+	void setInsuccessMessage(string s);
 	void setSuccess(bool s);
 	void setDeliveryMan(Delivery * dm);
 	int  getID() const;
 	Time getTime() const;
 	Date getDate() const;
 	bool getSuccess() const;
+	string getInsuccessMessage() const;
 	Delivery * getDeliveryMan() const;
 
 };
