@@ -59,6 +59,9 @@
     <ClCompile Include="Main_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Exceptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -80,6 +83,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Main_menu.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
