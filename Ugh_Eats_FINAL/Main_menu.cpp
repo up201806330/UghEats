@@ -113,15 +113,84 @@ void main_menu_admin_workers(Base * base) {
 			utils::clear_screen();
 			base->removeWorker();
 		}
+
+		if (cin.eof()) break;
+
+		else continue;
 	}
 }
 
 void main_menu_admin_restaurant(Base * base) {
+	while (true) {
+		string input;
+		utils::clear_screen();
 
+		cout << "1. Show all restaurant" << endl;
+		cout << "2. Search a restaurant" << endl;
+		cout << "3. Add a restaurant" << endl;
+		cout << "4. Edit a restaurant" << endl;
+		cout << "5. Remove a restaurant" << endl;
+		cout << ">> " << endl;
+
+		getline(cin, input);
+
+		if (input == "1") {
+			utils::clear_screen();
+			base->seeAllRestaurants();
+
+			cout << "\n>> ";
+			cin.ignore();
+		}
+
+		if (input == "2") {
+			utils::clear_screen();
+			base->seeOneRestaurant();
+		}
+
+		if (input == "3") {
+			utils::clear_screen();
+			base->addRestaurant();
+		}
+
+		if (input == "4") {
+			utils::clear_screen();
+			base->changeRestaurant();
+		}
+
+		if (input == "5") {
+			utils::clear_screen();
+			base->removeRestaurant();
+		}
+
+		if (cin.eof()) break;
+
+		else continue;
+	}
 }
 
 void main_menu_admin_profits(Base * base) {
+	while (true) {
+		string input;
+		utils::clear_screen();
 
+		cout << "1. From this base" << endl;
+		cout << "2. Per restaurant" << endl;
+		cout << "3. Per client" << endl;
+		cout << "4. Per time period" << endl;
+		cout << ">> ";
+
+		getline(cin, input);
+
+		if (input == "1") base->seeProfits();
+		if (input == "2") base->seeProfitsPerRestaurant();
+		if (input == "3") base->seeProfitsPerClient();
+		if (input == "4") base->seeProfitsPerTime();
+
+		if (cin.eof()) break;
+		
+		else continue;
+
+	}
 }
 
 void main_menu_admin(Base * base) {

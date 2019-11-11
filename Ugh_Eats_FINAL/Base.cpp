@@ -182,25 +182,25 @@ void Base::seeOneClient()
 	cout << "Pick the Client you want to see: " << endl << endl;
 	vector<Client*>::iterator it;
 	int id = 1;
-	int answer;
+	string answer;
 	for (it = clients.begin(); it != clients.end(); it++)
 	{
 		cout << id << "- " << (*it)->get_name() << endl;
 		id++;
 	}
 	cout << ">> ";
-	cin >> answer;
-	if (cin.fail() || answer > clients.size() || cin.eof()) {
+	getline(cin, answer);
+	int input = stoi(answer);
+	if (cin.fail() || input > clients.size() || cin.eof()) {
 		cin.clear();
 		return;
 	}
 
 	else {
 		cout << endl << "INFO" << endl;
-		clients.at(answer - 1)->print();
+		clients.at(input - 1)->print();
 		
 		cout << "\n>> ";
-		cin.ignore(); //WHY ????
 		cin.ignore();
 	}
 }
@@ -288,22 +288,34 @@ void Base::seeOneWorker()
 	cout << "Pick the worker you want to see" << endl;
 	vector<Worker*>::iterator it;
 	int id = 1, answer;
+	string input;
 	for (it = workers.begin(); it != workers.end(); it++)
 	{
 		cout << id << "- " << (*it)->get_name() << endl;
 		id++;
 	}
-	cin >> answer;
-	cout << "INFO" << endl;
-	Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
-	if (a != NULL)
-	{
-		cout << "Administrator" << endl;
+	
+	cout << ">> ";
+	getline(cin, input);
+	answer = stoi(input);
+	if (cin.fail() || answer > clients.size() || cin.eof()) {
+		cin.clear();
+		return;
 	}
-	else
-		cout << "Deliverer" << endl;
-	workers.at(answer - 1)->print();
-	cout << endl;
+	else {
+		cout << "\nINFO" << endl;
+		Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
+		if (a != NULL) //good practice ?
+		{
+			cout << "Administrator" << endl;
+		}
+		else
+			cout << "Deliverer" << endl;
+		workers.at(answer - 1)->print();
+		
+		cout << "\n>> ";
+		cin.ignore();
+	}
 
 }
 void Base::seeAllDeliverers()
@@ -374,7 +386,8 @@ void Base::seeProfits()
 	}
 	cout << total << endl;
 
-
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 void Base::seeProfitsPerRestaurant()
@@ -395,7 +408,8 @@ void Base::seeProfitsPerRestaurant()
 		cout << (*it)->get_name() << ": " << total << endl;
 	}
 
-
+	cout << "\n>> ";
+	cin.ignore();
 
 }
 
@@ -405,7 +419,7 @@ void Base::seeProfitsPerClient()
 	vector<Client*>::iterator it;
 	for (it = clients.begin(); it != clients.end(); it++)
 	{
-		int total = 0;
+		double total = 0;
 		vector<Order*> vec = (*it)->get_orders();
 		vector<Order*>::iterator ite;
 		for (ite = vec.begin(); ite != vec.end(); ite++)
@@ -415,7 +429,8 @@ void Base::seeProfitsPerClient()
 		cout << (*it)->get_name() << ": " << total << endl;
 	}
 
-
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 void Base::seeProfitsPerTime()
@@ -470,7 +485,10 @@ void Base::seeProfitsPerTime()
 			}
 		}
 	}
-	cout << "Profit made between the time defined: " << total;
+	cout << "Profit made in the defined period: " << total;
+
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 
@@ -1440,7 +1458,7 @@ void Base::removeWorker() {
 }
 
 
-void Base::createRestaurant() {
+void Base::addRestaurant() {
 
 	Restaurant r;
 
