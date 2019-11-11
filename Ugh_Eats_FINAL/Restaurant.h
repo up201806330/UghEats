@@ -75,7 +75,7 @@ public:
 
 };
 
-class Order {
+class Order { //cliente e entregador como membros privados para dps conseguirmos adicionar a order a cada vetor (??)
 	size_t id;
 	Base * base;
 	Restaurant * restaurant;

@@ -44,6 +44,7 @@ int main(){
 
 	// bases.at(0)->createRestaurant();
 
+
 	// cout << "Brand: " << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_vehicle().get_brand() << endl;
 	// cout << dynamic_cast<Delivery*>(bases.at(0)->getWorkers().at(3))->get_birthday().get_day() << endl;
 	//bases.at(0)->changeWorker();
