@@ -145,7 +145,7 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
 
-		//set Delivery * on each order on hat loop ^^
+		//set Delivery * on each order on that loop ^^
 
 		Delivery * ptr = new Delivery;
 		*ptr = x;

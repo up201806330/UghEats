@@ -4,6 +4,7 @@
 #include "Date_time.h"
 #include "Address.h"
 #include "People.h"
+#include <set>
 
 class Base;
 
@@ -38,7 +39,7 @@ public:
 class Restaurant {
 	string name;
 	Address address;
-	vector<string> cuisine_types;
+	set<string> cuisine_types;
 	vector<Product*> products;
 	double price_average;
 	Base * base;
@@ -52,21 +53,20 @@ public:
 
 	void setName(string nm);
 	void setAddress(Address add);
-	void setCuisineTypes(vector <string> cts);
+	void setCuisineTypes(set <string> cts); //USAR SET
 	void setProducts(vector <Product *> ps);
 	void setPriceAverage(double p);
 	void setPriceAverage();
 	void setBase(Base* b);
 	string get_name() const;
 	Address get_address() const;
-	vector<string> get_cuisine_types() const;
+	set<string> get_cuisine_types() const;
 	vector<Product*> get_products() const;
 	double get_price_average() const;
 	Base * get_base() const;
 
-	void update_price_average();
-	void print_price_average(); //estrelinhas
-	void update_cuisine_types();
+	void update_price_average(); //quando se adiciona produtos
+	//void update_cuisine_types(); //meter esta funcionalidade no add product
 	bool add_product();
 	
 	
@@ -109,7 +109,6 @@ public:
 	size_t getID() const;
 	Base * getBase() const;
 	Restaurant* getRestaurant() const;
-	Client * getClient() const;
 	vector <Product*> getProducts() const;
 	Time getTime() const;
 	Date getDate() const;

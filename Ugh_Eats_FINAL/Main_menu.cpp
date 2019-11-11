@@ -18,7 +18,10 @@ void main_menu_client(Client* client, Base * base) {
 
 		if (input == "1") client->make_order(base);
 		if (input == "2") client->edit();
-		if (cin.eof()) exit(0); //<------------------------- implement something to save and exit
+		if (cin.eof()) {
+			cin.clear();
+			exit(0); //<------------------------- implement something to save and exit
+		}
 
 		else continue;
 	}
@@ -34,7 +37,7 @@ void main_menu_admin_clients(Base * base) {
 		cout << "3. Add a client" << endl;
 		cout << "4. Edit a client" << endl;
 		cout << "5. Remove a client" << endl;
-		cout << ">> " << endl;
+		cout << ">> ";
 
 		getline(cin, input);
 
@@ -68,7 +71,10 @@ void main_menu_admin_clients(Base * base) {
 			base->removeClient();
 		}
 
-		if (cin.eof()) break;
+		if (cin.eof()) {
+			cin.clear();
+			break;
+		}
 	}
 }
 
@@ -82,7 +88,7 @@ void main_menu_admin_workers(Base * base) {
 		cout << "3. Add a worker" << endl;
 		cout << "4. Edit a worker" << endl;
 		cout << "5. Remove a worker" << endl;
-		cout << ">> " << endl;
+		cout << ">> ";
 
 		getline(cin, input);
 
@@ -114,7 +120,10 @@ void main_menu_admin_workers(Base * base) {
 			base->removeWorker();
 		}
 
-		if (cin.eof()) break;
+		if (cin.eof()) {
+			cin.clear();
+			break;
+		}
 
 		else continue;
 	}
@@ -130,7 +139,7 @@ void main_menu_admin_restaurant(Base * base) {
 		cout << "3. Add a restaurant" << endl;
 		cout << "4. Edit a restaurant" << endl;
 		cout << "5. Remove a restaurant" << endl;
-		cout << ">> " << endl;
+		cout << ">> ";
 
 		getline(cin, input);
 
@@ -162,7 +171,10 @@ void main_menu_admin_restaurant(Base * base) {
 			base->removeRestaurant();
 		}
 
-		if (cin.eof()) break;
+		if (cin.eof()) {
+			cin.clear();
+			break;
+		}
 
 		else continue;
 	}
@@ -186,7 +198,10 @@ void main_menu_admin_profits(Base * base) {
 		if (input == "3") base->seeProfitsPerClient();
 		if (input == "4") base->seeProfitsPerTime();
 
-		if (cin.eof()) break;
+		if (cin.eof()) {
+			cin.clear();
+			break;
+		}
 		
 		else continue;
 
@@ -212,7 +227,10 @@ void main_menu_admin(Base * base) {
 		if (input == "3") main_menu_admin_restaurant(base);
 		if (input == "4") main_menu_admin_profits(base);
 
-		if (cin.eof()) exit(0); //<-------------- Same shit
+		if (cin.eof()) {
+			cin.clear();
+			exit(0); //<-------------- Same shit
+		}
 		
 		else continue;
 	}
@@ -234,7 +252,10 @@ void main_menu_client_login(Base * base){
 
 			cout << "\n\nClient name: ";
 			getline(cin, input);
-			if (cin.eof()) continue;
+			if (cin.eof()) { 
+				cin.clear();
+				continue; 
+			}
 			
 			for (it = clients.begin(); it != clients.end(); it++) {
 				if ((*it)->get_name() == input) main_menu_client(*it, base);
@@ -251,7 +272,10 @@ void main_menu_client_login(Base * base){
 			main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
 		}
 
-		if (cin.eof()) break;
+		if (cin.eof()) {
+			cin.clear();
+			break;
+		}
 		
 		else continue;
 	}

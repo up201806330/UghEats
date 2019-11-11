@@ -219,30 +219,44 @@ void Base::seeOneRestaurant()
 {
 	cout << "Pick the Restaurant you want to see" << endl << endl;
 	vector<Restaurant*>::iterator it;
-	int id = 1, answer;
+	int id = 1;
+	string answer;
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{
 		cout << id << "- " << (*it)->get_name() << endl;
 		id++;
 	}
-	cout << endl;
-	cin >> answer;
-	cout << endl << "INFO" << endl;
-	cout << (*restaurants.at(answer-1));
-	if ((*restaurants.at(answer - 1)).get_products().size() == 0)
-		cout << endl;
-	else
-	{
-		cout << "Products:" << endl;
-		vector<Product*>::iterator ite;
+	cout << ">> ";
 
-		// REVERTED CHANGES HERE
-		vector<Product*> vec = restaurants[answer - 1]->get_products();
-		for (ite = vec.begin(); ite != vec.end(); ite++)
-		// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
+	getline(cin, answer);
+	int input = stoi(answer);
+	if (cin.fail() || input > restaurants.size() || cin.eof()) {
+		cin.clear();
+		return;
+	}
+
+	else {
+		cout << endl << "INFO" << endl;
+		cout << (*restaurants.at(input - 1));
+		if ((*restaurants.at(input - 1)).get_products().size() == 0)
+			cout << endl;
+		else
 		{
-			cout << *(*ite) << endl;
+			cout << "Products:" << endl;
+			vector<Product*>::iterator ite;
+
+			// REVERTED CHANGES HERE
+			vector<Product*> vec = restaurants.at(input - 1)->get_products();
+			for (ite = vec.begin(); ite != vec.end(); ite++)
+				// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
+			{
+				cout << *(*ite) << endl;
+			}
+
 		}
+
+		cout << "\n>> ";
+		cin.ignore();
 	}
 }
 

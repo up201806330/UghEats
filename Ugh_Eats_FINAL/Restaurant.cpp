@@ -1,6 +1,7 @@
 #include "Restaurant.h"
 #include "Base.h"
 #include "utils.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -105,6 +106,13 @@ void Restaurant::load(string path, Base * base){
 			// cout << prods.at(0)->get_name() << endl;
 		}
 		restaurant.setProducts(prods);
+		
+		// cuisine types
+		set<string> cuisineTypes;
+		for (auto & prod : restaurant.get_products()) {
+			cuisineTypes.insert(prod->get_cuisine_type());
+		}
+
 		restaurant.setPriceAverage();
 
 		Restaurant * ptr = new Restaurant;
@@ -124,7 +132,7 @@ void Restaurant::setAddress(Address add)
 	address = add;
 }
 
-void Restaurant::setCuisineTypes(vector <string> cts)
+void Restaurant::setCuisineTypes(set <string> cts)
 {
 	cuisine_types = cts;
 }
@@ -165,7 +173,7 @@ Address Restaurant::get_address() const
 	return address;
 }
 
-vector <string> Restaurant::get_cuisine_types() const
+set <string> Restaurant::get_cuisine_types() const
 {
 	return cuisine_types;
 
@@ -191,15 +199,10 @@ void Restaurant::update_price_average() //implementar depois
 
 }
 
-void Restaurant::print_price_average() //implementar depois - n�o seria necess�rio aqui um ostream ???
-{
-
-}
-
-void Restaurant::update_cuisine_types() //implementar depois
-{
-
-}
+//void Restaurant::update_cuisine_types() //implementar depois
+//{
+//
+//}
 
 bool Restaurant::add_product() //implementar depois
 {
@@ -218,13 +221,15 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		out << "none" << endl;
 	else
 	{
-		for (auto i = 0; i < r.cuisine_types.size() - 1; i++)
+		set<string>::iterator it;
+		size_t index;
+		for (index = 0, it = r.cuisine_types.begin(); index < r.cuisine_types.size() - 1; index++, it++)
 		{
-			out << r.cuisine_types[i] << ", ";
+			out << (*it) << " ; \n";
 		}
-		out << r.cuisine_types[r.cuisine_types.size() - 1] << endl;
+		out << (*it) << endl;
 	}
-	out << "Price Average: " << r.price_average << endl;
+	out << "Price Average: " << fixed << setprecision(2) << r.price_average << endl;
 	//out << "Number of Products:" << r.products.size() << endl << endl;
 
 
