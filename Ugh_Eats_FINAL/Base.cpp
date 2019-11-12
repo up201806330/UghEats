@@ -96,13 +96,15 @@ Restaurant * Base::findRestaurant(string str){
 	return nullptr;
 }
 
-vector<Order*> Base::findOrders(string str) {
-	vector<Order*> result;
+map<int, Order*> Base::findOrders(string str) {
+	map<int, Order*> result;
 	vector<string> ids = utils::split(str, ':');
 	for (auto i = 0 ; i < ids.size() ; i++) {
-		for (auto & order : this->getOrders()){
-			if (order.first == stoi(ids.at(i)))
-				result.push_back(order.second);
+		int x = stoi(ids.at(i));
+		
+		map<int, Order*>::iterator it = orders.find(x);
+		if (it != orders.end()) {
+			result.insert(pair<int, Order*>(x, (*it).second));
 		}
 	}
 	return result;
@@ -452,11 +454,11 @@ void Base::seeProfitsPerClient()
 	for (it = clients.begin(); it != clients.end(); it++)
 	{
 		double total = 0;
-		vector<Order*> vec = (*it)->get_orders();
-		vector<Order*>::iterator ite;
+		map<int, Order*> vec = (*it)->get_orders();
+		map<int, Order*>::iterator ite;
 		for (ite = vec.begin(); ite != vec.end(); ite++)
 		{
-			total += (*ite)->getDeliveryFee();
+			total += (*ite).second->getDeliveryFee();
 		}
 		cout << (*it)->get_name() << ": " << total << endl;
 	}
@@ -715,7 +717,7 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	c.set_address(address);
 	
 	// orders vector that starts empty
-	vector <Order*> clientOrders = {};
+	map<int, Order*> clientOrders = {};
 
 	c.set_orders(clientOrders);
 

@@ -477,7 +477,7 @@ ostream & operator<<(ostream & out, Order & o)
 	out << "Arrival time: " << o.getDeliver()->getTime() << endl;
 	out << "Date: " << o.getDeliver()->getDate() << endl;
 
-	out << "Delivery worker: " << o.getDeliver()->getDeliveryMan() << endl;
+	out << "Delivery worker: " << o.getDeliver()->getDeliveryMan()->get_name() << endl;
 
 	out << "Delivery Fee: " << o.delivery_fee;
 	
