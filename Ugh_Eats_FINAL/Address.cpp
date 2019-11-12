@@ -82,11 +82,20 @@ string Address::str() const
 }
 
 std::ostream & operator<<(std::ostream & stream, Address address) {
-	// IN PROGRESS
+	
+	/*
 	stream << "Town: " << address.town << endl;
 	stream << "District: " << address.district << endl;
 	stream << "Street: " << address.street << endl;
 	stream << "Number: " << address.number << endl;
+	*/
+	stream << address.district << " / ";
+	stream << address.town << " / ";
+	stream << address.street << " / ";
+	stream << address.number << " / ";
+	stream << address.floor << " / ";
+	stream << address.latitude << " / ";
+	stream << address.longitude;
 
 	return stream;
 }

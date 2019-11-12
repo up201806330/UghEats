@@ -12,6 +12,16 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
+	/*
+	cout << bases.at(0)->getAddress() << endl;
+	bases.at(0)->changeBase();
+	cout << bases.at(0)->getAddress() << endl;
+	*/
+
+	/*for (auto & t : bases.at(0)->getAreaOfInfluence()) {
+		cout << t << endl;
+	}*/
+	
 	//bases.at(0)->changeBase();
 	
 	//bases[0]->searchForCuisineTypes();

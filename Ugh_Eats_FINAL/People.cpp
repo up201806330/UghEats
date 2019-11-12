@@ -3,6 +3,8 @@
 #include "Restaurant.h"
 #include "utils.h"
 #include "Exceptions.h"
+#include <list>
+
 
 string MAIN_SEPARATOR = ";;;";
 string SEC_SEPARATOR = ";";
@@ -377,10 +379,10 @@ void Client::edit() {
 	unsigned index = 0;
 
 	// Changing the (past) orders or the "value" isn't realistic, right?
-	vector<string> options = { "Name", "Nif","Address" };
+	list<string> options = { "Name", "Nif","Address" };
 	cout << "Pick the field you want to change information of:" << endl;
 
-	vector<string>::iterator it2;
+	list<string>::iterator it2;
 	int attributeChoice;
 	do {
 		index = 0;
@@ -416,7 +418,8 @@ void Client::edit() {
 
 
 	// HARD CODED FOR BASE PORTO
-	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	vector<string> areaOfInf = this->get_base()->getAreaOfInfluence();
 
 	string newName;
 
@@ -474,9 +477,9 @@ void Client::edit() {
 				address.parse(fullAddress);
 
 				// if it doesnt belong to the are of influence it is considered invalid
-				if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 					invalidAddress = true;
-					cout << "Invalid District (must be in area of influence of the base)" << endl;
+					cout << "Invalid Address (must be the in area of influence of the base)" << endl;
 				}
 			}
 
