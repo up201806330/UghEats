@@ -12,7 +12,7 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
-	bases.at(0)->changeBase();
+	//bases.at(0)->changeBase();
 	
 	//bases[0]->searchForCuisineTypes();
 	/*

@@ -371,6 +371,9 @@ void Base::seeAllOrders()
 		cout << *((*it).second);
 		cout << endl;
 	}
+
+	cout << "\n>> ";
+	cin.ignore();
 }
 
 void Base::seeOneOrder()

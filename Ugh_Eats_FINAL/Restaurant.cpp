@@ -286,9 +286,6 @@ void Order::load(string path, Base * base){
 
 		order.setID(temp);
 		deliver.setID(temp);
-		
-		order.setBase(base);
-
 
 		// orders_text >> textline;  //tem que detetar se e nullptr
 		getline(orders_text, textline);
@@ -299,6 +296,7 @@ void Order::load(string path, Base * base){
 		// orders_text >> temp;
 		getline(orders_text, textline);
 
+		temp = stoi(textline);
 		order.setDeliveryFee(temp);
 
 		// orders_text >> textline;
@@ -373,11 +371,6 @@ void Order::setID(size_t i)
 	id = i;
 }
 
-void Order::setBase(Base * b)
-{
-	base = b;
-}
-
 void Order::setRestaurant(Restaurant* r)
 {
 	restaurant = r;
@@ -415,11 +408,6 @@ void Order::setDeliver(Deliver *d)
 size_t Order::getID() const
 {
 	return id;
-}
-
-Base * Order::getBase() const
-{
-	return base;
 }
 
 Restaurant* Order::getRestaurant() const
@@ -479,15 +467,15 @@ ostream & operator<<(ostream & out, Order & o)
 		
 	}
 	out << "Order Time: " << o.time << endl;
-	out << "Date: " << o.date.str() << endl;
+	out << "Date: " << o.date << endl;
 	
 	if (o.getDeliver()->getSuccess())
 		out << "SUCCESSFUL" << endl;
 	else
 		out << o.getDeliver()->getInsuccessMessage()<< endl;
 
-	out << "Arrival time: " << &o.getDeliver()->getTime() << endl;
-	out << "Date: " << &o.getDeliver()->getDate() << endl;
+	out << "Arrival time: " << o.getDeliver()->getTime() << endl;
+	out << "Date: " << o.getDeliver()->getDate() << endl;
 
 	out << "Delivery worker: " << o.getDeliver()->getDeliveryMan() << endl;
 
@@ -549,12 +537,12 @@ int Deliver::getID() const
 	return id;
 }
 
-Time Deliver::getTime() const
+Time & Deliver::getTime()
 {
 	return time;
 }
 
-Date Deliver::getDate() const
+Date & Deliver::getDate()
 {
 	return date;
 }

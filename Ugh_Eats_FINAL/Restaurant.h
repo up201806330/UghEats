@@ -80,7 +80,6 @@ class Deliver;
 
 class Order { 
 	size_t id;
-	Base * base;
 	Restaurant * restaurant;
 	vector<Product*> products;
 	Time time;
@@ -98,7 +97,6 @@ public:
 	static void load(string path, Base * base);
 
 	void setID(size_t i);
-	void setBase(Base * b);
 	void setRestaurant(Restaurant * r);
 	void setClient(Client * c);
 	void setProducts(vector <Product*> p);
@@ -107,7 +105,6 @@ public:
 	void setDeliveryFee(double fee);
 	void setDeliver(Deliver *d);
 	size_t getID() const;
-	Base * getBase() const;
 	Restaurant* getRestaurant() const;
 	vector <Product*> getProducts() const;
 	Time getTime() const;
@@ -149,8 +146,8 @@ public:
 	void setSuccess(bool s);
 	void setDeliveryMan(Delivery * dm);
 	int  getID() const;
-	Time getTime() const;
-	Date getDate() const;
+	Time & getTime();
+	Date & getDate();
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
 	Delivery * getDeliveryMan() const;
