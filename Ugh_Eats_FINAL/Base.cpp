@@ -2,6 +2,7 @@
 #include "utils.h"
 
 #include <set>
+#include <list>
 
 Base::Base()
 {
@@ -11,6 +12,18 @@ Base::Base()
 Base::~Base()
 {
 
+}
+
+tuple<string, vector<string> > Base::parseAreaOfInfluence(string str) {
+
+	// ':' separates the "name" of the base to the rest 
+	vector<string> parts = utils::split(str, ':');
+	for (auto & part : parts) utils::trim(part);
+
+	vector<string> towns = utils::split(parts.at(1), ';');
+	for (auto & town : towns) utils::trim(town);
+
+	return make_tuple(parts.at(0), towns);
 }
 
 vector<Base*> Base::load(string path){
@@ -24,10 +37,15 @@ vector<Base*> Base::load(string path){
 	vector<Base*> bases;
 	string textline;
 
+	vector<string> areaOfInfluence;
+
 	while(!base_text.eof()){
 		Base base;
 		getline(base_text, textline);
-		base.setDistrict(textline);
+		
+		tuple<string, vector<string> > distAndAreaOfInf = Base::parseAreaOfInfluence(textline);
+		base.setDistrict(get<0>(distAndAreaOfInf));
+		base.setAreaOfInfluence(get<1>(distAndAreaOfInf));
 
 		getline(base_text,textline);
 		Address addr;
@@ -112,6 +130,10 @@ void Base::setDistrict(string d){
 	district = d;
 }
 
+void Base::setAreaOfInfluence(vector<string> areaOfInf) {
+	areaOfInfluence = areaOfInf;
+}
+
 void Base::setAddress(Address add){
 	address = add;
 }
@@ -139,6 +161,10 @@ void Base::setRestaurants(vector<Restaurant*> restaurants){
 
 string Base::getDistrict() const{
 	return district;
+}
+
+vector<string> Base::getAreaOfInfluence() const {
+	return areaOfInfluence;
 }
 
 Address Base::getAddress() const{
@@ -524,14 +550,14 @@ void Base::seeProfitsPerTime()
 
 
 void Base::changeBase() {
-	vector<string> options = { "address" };
-
+	list<string> options = { "address" };
+	
 	bool invalidOption;
 	string strChoice;
 	unsigned index = 0;
 
 	cout << "Pick the field you want to change information of:" << endl;
-	vector<string>::iterator optionsIt;
+	list<string>::iterator optionsIt;
 	int attributeChoice;
 	do {
 		index = 0;
@@ -565,11 +591,12 @@ void Base::changeBase() {
 	} while (invalidOption);
 
 	// HARD CODED FOR BASE PORTO
-	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
 
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
+	vector<string> areaOfInf = this->getAreaOfInfluence();
 
 	switch (attributeChoice) {
 		// Address
@@ -577,8 +604,8 @@ void Base::changeBase() {
 			do {
 				invalidAddress = false;
 
-				cout << "Current Address: " << this->getAddress().str() << endl;
-				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
+				cout << "Current Address: " << this->getAddress() << endl;
+				cout << "Updated Address (District / Town / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
 
 				if (cin.eof()) {
@@ -590,9 +617,9 @@ void Base::changeBase() {
 					address.parse(fullAddress);
 
 					// if it doesnt belong to the are of influence it is considered invalid
-					if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 						invalidAddress = true;
-						cout << "Invalid District (must be in area of influence of the base)" << endl;
+						cout << "Invalid Address (must be the in area of influence of the base)" << endl;
 					}
 				}
 
@@ -614,14 +641,12 @@ void Base::changeBase() {
 }
 
 
-
-
 void Base::addClient() { //usar em try para apanhar execao blacklisted
 
 	Client c;
 
 	// HARD CODED FOR BASE PORTO
-	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
+	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
 	string baseName = this->getDistrict();
 	c.set_base(this);
 	
@@ -682,11 +707,13 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 	// address input
 	bool invalidAddress;
 	Address address;
+	vector<string> areaOfInf = this->getAreaOfInfluence();
+
 	do {
 		invalidAddress = false;
 
 		string fullAddress;
-		cout << "Address (Town / District / Street / No / Floor / Latitude / Longitude):" << endl;
+		cout << "Address (District / Town / Street / No / Floor / Latitude / Longitude):" << endl;
 		getline(cin, fullAddress);
 
 		if (cin.eof()) {
@@ -697,9 +724,10 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		try {
 			address.parse(fullAddress);
 
-			// if it doesnt belong to the are of influence it is considered invalid
-			if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+			// if it doesnt belong to the area of influence it is considered invalid
+			if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 				invalidAddress = true;
+				cout << "Invalid Address (must be in the area of influence of the base)" << endl;
 			}
 		}
 
@@ -829,8 +857,7 @@ void Base::removeClient() {
 
 
 // TESTING NEEDED -> need to check if I missed cases dinamically allocated memory vanishing after function ending
-void Base::addWorker() {
-	
+void Base::addWorker(){
 	
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
 	bool managerExists = (dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") ? true : false;
@@ -957,10 +984,10 @@ void Base::addWorker() {
 	Date registrationDate; 
 
 
-		// chose Admin
+	// chose Admin
 	if (workerType == 1) {
-		// if there isn't a manager yet gives the option that the admin to be the manager
-		if (!managerExists) {
+		
+		if (!managerExists) { // if there isn't a manager yet gives the option that the admin to be the manager
 
 			do {
 				invalidManagerInput = false;
@@ -986,13 +1013,13 @@ void Base::addWorker() {
 				cout << endl;
 			} while (invalidManagerInput);
 
-			// if it chooses to be manager
-			if (managerInput == 1) {
+		
+			if (managerInput == 1) { // if it chooses to be manager
 				admin.set_role("manager");
 			}
 
-			// if it chooses not to be manager
-			else {
+			
+			else { // if it chooses not to be manager
 				do {
 					invalidRoleInput = false;
 
@@ -1016,9 +1043,8 @@ void Base::addWorker() {
 			}
 
 		}
-
-		// if there is already a manager
-		else {
+		
+		else { // if there is already a manager
 
 			do {
 				invalidRoleInput = false;
@@ -1124,7 +1150,6 @@ void Base::addWorker() {
 }
 
 
-
 void Base::changeWorker() {
 
 	Admin *adminCheck;
@@ -1209,9 +1234,9 @@ void Base::changeWorker() {
 	string strDelivAttributeChoice;
 	int delivAttributeChoice;
 
-	vector<string>::iterator it1;
-	vector<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
-	vector<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
+	list<string>::iterator optionsIt;
+	list<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
+	list<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
 	cout << "Pick the field you want to change information of:" << endl;
 	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
 	// auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
@@ -1252,8 +1277,8 @@ void Base::changeWorker() {
 			index = 0;
 			invalidOption = false;
 
-			for (it1 = adminOptions.begin(); it1 != adminOptions.end(); ++it1, ++index) {
-				cout << index + 1 << ". " << (*it1) << endl;
+			for (optionsIt = adminOptions.begin(); optionsIt != adminOptions.end(); ++optionsIt, ++index) {
+				cout << index + 1 << ". " << (*optionsIt) << endl;
 			}
 
 			try {
@@ -1411,8 +1436,8 @@ void Base::changeWorker() {
 			index = 0;
 			invalidOption = false;
 
-			for (it1 = deliveryOptions.begin(); it1 != deliveryOptions.end(); ++it1, ++index) {
-				cout << index + 1 << ". " << (*it1) << endl;
+			for (optionsIt = deliveryOptions.begin(); optionsIt != deliveryOptions.end(); ++optionsIt, ++index) {
+				cout << index + 1 << ". " << (*optionsIt) << endl;
 			}
 
 			try {
@@ -1691,7 +1716,7 @@ void Base::addRestaurant() {
 	Restaurant r;
 
 	// HARD CODED FOR BASE PORTO
-	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
 	string baseName = this->getDistrict();
 	r.setBase(this);
 
@@ -1716,10 +1741,12 @@ void Base::addRestaurant() {
 	// address input
 	bool invalidAddress;
 	Address address;
+	string fullAddress;
+	vector<string> areaOfInf = this->getAreaOfInfluence();
+
 	do {
 		invalidAddress = false;
-
-		string fullAddress;
+	
 		cout << "Address: ";
 		getline(cin, fullAddress);
 
@@ -1732,8 +1759,9 @@ void Base::addRestaurant() {
 			address.parse(fullAddress);
 
 			// if it doesnt belong to the are of influence it is considered invalid
-			if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+			if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 				invalidAddress = true;
+				cout << "Invalid Address (must be the in area of influence of the base)" << endl;
 			}
 		}
 
@@ -1795,9 +1823,9 @@ void Base::addRestaurant() {
 		cuisineTypes.insert(prod->get_cuisine_type());
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// r.setCuisineTypes(cuisineTypes);  <-- make Cuisine types a set ?
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	r.setCuisineTypes(cuisineTypes);
+	
 
 	
 	// price average calculated form the vector of products
@@ -1855,17 +1883,17 @@ void Base::changeRestaurant() {
 
 	restaurantChoice--;	// not to excede the max index available
 
-	vector<string> options = { "name", "address", "products" };
+	list<string> options = { "name", "address", "products" };
 	cout << "Pick the field you want to change information of:" << endl;
 
-	vector<string>::iterator it2;
+	list<string>::iterator optionsIt;
 	int attributeChoice;
 	do {
 		index = 0;
 		invalidOption = false;
 
-		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
-			cout << index + 1 << ". " << (*it2) << endl;
+		for (optionsIt = options.begin(); optionsIt != options.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
 		}
 
 		try {
@@ -1894,7 +1922,7 @@ void Base::changeRestaurant() {
 
 
 	// HARD CODED FOR BASE PORTO
-	vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
+	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
 
 	string newName;
 	bool invalidName;
@@ -1902,6 +1930,7 @@ void Base::changeRestaurant() {
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
+	vector<string> areaOfInf = this->getAreaOfInfluence();
 
 	bool invalidProduct;
 	string strProduct;
@@ -1936,7 +1965,7 @@ void Base::changeRestaurant() {
 				invalidAddress = false;
 
 				cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
-				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
+				cout << "Updated Address (District / Town / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
 
 				if (cin.eof()) {
@@ -1948,9 +1977,9 @@ void Base::changeRestaurant() {
 					newAddress.parse(fullAddress);
 
 					// if it doesnt belong to the are of influence it is considered invalid
-					if (find(areaOfInfluence.begin(), areaOfInfluence.end(), address.get_district()) == areaOfInfluence.end()) {
+					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 						invalidAddress = true;
-						cout << "Invalid District (must be in area of influence of the base)" << endl;
+						cout << "Invalid Address (must be the in area of influence of the base)" << endl;
 					}
 				}
 
@@ -2013,11 +2042,8 @@ void Base::changeRestaurant() {
 				cuisineTypes.insert(prod->get_cuisine_type());
 			}
 
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			// restaurants.at(restaurantChoice)->setCuisineTypes(cuisineTypes);  <-- make Cuisine types a set ?
-			// 
-			// implement setCuisineTypes like the setPriceAverage ?
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			
+			restaurants.at(restaurantChoice)->setCuisineTypes(cuisineTypes);
 
 			// updating price average
 			restaurants.at(restaurantChoice)->setPriceAverage();
@@ -2030,7 +2056,6 @@ void Base::changeRestaurant() {
 	cout << ">> ";
 	cin.ignore();
 }
-
 
 void Base::removeRestaurant() {
 

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <tuple>
 #include "Address.h"
 #include "People.h"
 #include "Restaurant.h"
@@ -16,6 +17,7 @@ using namespace std;
 class Base {
 private:
 	string district;
+	vector<string> areaOfInfluence;
 	Address address;
 	vector<Restaurant*> restaurants;
 	map<int, Order*> orders;
@@ -28,15 +30,18 @@ public:
 
 	~Base();
 
+	static tuple<string, vector<string> > parseAreaOfInfluence(string str);
+
 	static vector<Base*> load(string path);
 	static void load_blacklist();
 
-	static vector<string> blacklist ;
+	static vector<string> blacklist;
 	
 	Restaurant * findRestaurant(string str);
 	vector<Order*> findOrders(string str);
 
 	void setDistrict(string d);
+	void setAreaOfInfluence(vector<string> areaOfInf);
 	void setAddress(Address add);
 	void setWorkers(vector<Worker*> workers);
 	void setAdmin(Admin * administrador);
@@ -45,6 +50,7 @@ public:
 	void setRestaurants(vector<Restaurant*> restaurants);
 
 	string getDistrict() const;
+	vector<string> getAreaOfInfluence() const;
 	Address getAddress() const;
 	const vector<Worker*> & getWorkers() const;
 	Admin * getAdmin() const;
