@@ -164,3 +164,17 @@ public:
 };
 
 // ostream & operator<<(ostream & out, InvalidPriceRangeException & p);
+
+
+class BlackListedException{
+private:
+	string client;
+public:
+	BlackListedException(string c) { client = c; }
+	string getClient() { return client; }
+	friend ostream & operator<< (ostream & out, BlackListedException & c)
+	{
+		out << "Black Listed Exception: " << c.getClient() << " is black listed" << endl;
+		return out;
+	}
+};
