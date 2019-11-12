@@ -128,6 +128,24 @@ map<int, Order*> Base::findOrders(string str) {
 	return result;
 }
 
+
+void Base::setRestaurantsFileName(string str) {
+	restaurantsFileName = str;
+}
+
+void Base::setDeliveriesFileName(string str) {
+	deliveriesFileName = str;
+}
+
+void Base::setWorkersFileName(string str) {
+	workersFileName = str;
+}
+
+void Base::setClientsFileName(string str) {
+	clientsFileName = str;
+}
+
+
 void Base::setDistrict(string d){
 	district = d;
 }
@@ -160,6 +178,26 @@ void Base::setOrders(map<int, Order*> orders)
 void Base::setRestaurants(vector<Restaurant*> restaurants){
 	this->restaurants = restaurants;
 }
+
+
+
+string Base::getRestaurantsFileName() const {
+	return restaurantsFileName;
+}
+
+string Base::getDeliveriesFileName() const {
+	return deliveriesFileName;
+}
+
+string Base::getWorkersFileName() const {
+	return workersFileName;
+}
+
+string Base::getClientsFileName() const {
+	return clientsFileName;
+}
+
+
 
 string Base::getDistrict() const{
 	return district;
