@@ -17,19 +17,34 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidStringException & s);
 
-class InvalidOptionException {
+class InvalidOptionException { //Implemented
 	int opt;
 public:
 	InvalidOptionException(int o) { opt = o; }
 	int getOption() { return opt; }
 
 	friend ostream & operator<<(ostream & out, InvalidOptionException & o) {
-		out << "Invalid Option Exception: " << o.getOption() << "isn't an option \n";
+		out << "Invalid Option Exception: " << o.getOption() << " isn't an option \n";
 		return out;
 	};
 };
 
 // ostream & operator<<(ostream & out, InvalidOptionException & o);
+
+class InvalidNumberException {
+private:
+	string n;
+public:
+	InvalidNumberException(string ni) { n = ni; }
+	string getString() { return n; }
+	friend ostream & operator<<(ostream  & out, InvalidNumberException & s)
+	{
+		out << "Invalid Number Exception: " << s.getString() << " isn't a number \n";
+		return out;
+	}
+};
+
+
 
 class InvalidDateException {
 	string date_error;
@@ -178,3 +193,12 @@ public:
 		return out;
 	}
 };
+
+
+inline bool InvalidOptions(int max, int ans)
+{
+	if (ans < 1 || ans > max)
+		return true;
+	else
+		return false;
+}

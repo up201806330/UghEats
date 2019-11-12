@@ -2,6 +2,7 @@
 #include "Base.h"
 #include "Restaurant.h"
 #include "utils.h"
+#include "Exceptions.h"
 
 string MAIN_SEPARATOR = ";;;";
 string SEC_SEPARATOR = ";";
@@ -392,14 +393,21 @@ void Client::edit() {
 		try {
 			cout << ">> ";
 			getline(cin, strChoice);
+			if (cin.eof())
+			{
+				cin.clear();
+				return;
+			}
 			attributeChoice = stoi(strChoice);
 
-			if (attributeChoice < 1 || attributeChoice > options.size()) {
-				invalidOption = true;
+			if (InvalidOptions(options.size(), attributeChoice)) {
+				throw InvalidOptionException(attributeChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;

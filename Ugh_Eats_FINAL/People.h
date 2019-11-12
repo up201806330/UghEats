@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "Date_time.h"
 #include "Address.h"
+#include "Exceptions.h"
 
 
 class Base;

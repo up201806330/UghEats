@@ -185,26 +185,43 @@ void Base::seeOneClient()
 	vector<Client*>::iterator it;
 	int id = 1;
 	string answer;
-	for (it = clients.begin(); it != clients.end(); it++)
+	bool retry = true;
+	do
 	{
-		cout << id << "- " << (*it)->get_name() << endl;
-		id++;
-	}
-	cout << ">> ";
-	getline(cin, answer);
-	int input = stoi(answer);
-	if (cin.fail() || input > clients.size() || cin.eof()) {
-		cin.clear();
-		return;
-	}
+		try
+		{
+			for (it = clients.begin(); it != clients.end(); it++)
+			{
+				cout << id << "- " << (*it)->get_name() << endl;
+				id++;
+			}
+			cout << ">> ";
+			getline(cin, answer);
+			if (cin.eof())
+			{
+				cin.clear();
+				return;
+			}
+			int input = stoi(answer);
+			retry = false;
+			if (InvalidOptions(clients.size(), input))
+				throw InvalidOptionException(input);
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+	}while(retry);
+	
 
-	else {
 		cout << endl << "INFO" << endl;
-		clients.at(input - 1)->print();
+		clients.at(stoi(answer) - 1)->print();
 		
 		cout << "\n>> ";
 		cin.ignore();
-	}
 }
 
 void Base::seeAllRestaurants()
@@ -223,21 +240,42 @@ void Base::seeOneRestaurant()
 	vector<Restaurant*>::iterator it;
 	int id = 1;
 	string answer;
-	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	bool retry = true;
+	do
 	{
-		cout << id << "- " << (*it)->get_name() << endl;
-		id++;
-	}
-	cout << ">> ";
+		try
+		{
+			retry = false;
+			for (it = restaurants.begin(); it != restaurants.end(); it++)
+			{
+				cout << id << "- " << (*it)->get_name() << endl;
+				id++;
+			}
+			cout << ">> ";
 
-	getline(cin, answer);
+			getline(cin, answer);
+			if (cin.eof())
+			{
+				cin.clear();
+				return;
+			}
+			int input = stoi(answer);
+			if (InvalidOptions(restaurants.size(), input))
+				throw InvalidOptionException(input);
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+
+	} while (retry);
+
+
+
 	int input = stoi(answer);
-	if (cin.fail() || input > restaurants.size() || cin.eof()) {
-		cin.clear();
-		return;
-	}
-
-	else {
 		cout << endl << "INFO" << endl;
 		cout << (*restaurants.at(input - 1));
 		if ((*restaurants.at(input - 1)).get_products().size() == 0)
@@ -259,7 +297,6 @@ void Base::seeOneRestaurant()
 
 		cout << "\n>> ";
 		cin.ignore();
-	}
 }
 
 
@@ -305,20 +342,39 @@ void Base::seeOneWorker()
 	vector<Worker*>::iterator it;
 	int id = 1, answer;
 	string input;
-	for (it = workers.begin(); it != workers.end(); it++)
+	bool retry = true;
+	do
 	{
-		cout << id << "- " << (*it)->get_name() << endl;
-		id++;
-	}
+		try
+		{
+			for (it = workers.begin(); it != workers.end(); it++)
+			{
+				cout << id << "- " << (*it)->get_name() << endl;
+				id++;
+			}
+
+			cout << ">> ";
+			getline(cin, input);
+			if (cin.eof())
+			{
+				cin.clear();
+				return;
+			}
+			answer = stoi(input);
+			retry = false;
+			if (InvalidOptions(workers.size(), answer))
+				throw InvalidOptionException(answer);
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+
+	} while (retry);
 	
-	cout << ">> ";
-	getline(cin, input);
-	answer = stoi(input);
-	if (cin.fail() || answer > clients.size() || cin.eof()) {
-		cin.clear();
-		return;
-	}
-	else {
 		cout << "\nINFO" << endl;
 		Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
 		if (a != NULL) //good practice ?
@@ -331,7 +387,7 @@ void Base::seeOneWorker()
 		
 		cout << "\n>> ";
 		cin.ignore();
-	}
+	
 
 }
 
@@ -472,18 +528,38 @@ void Base::seeProfitsPerTime()
 	string datei, datef, houri, hourf;
 	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
 	getline(cin, datei);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	Date date1;
 	date1.parse(datei);
 	cout << "Type in the initial hours (hh:mm:ss)" << endl;
 	getline(cin, houri);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	Time hour1;
 	hour1.parse(houri);
 	cout << "Type in the final date (dd/mm/yyyy)" << endl;
 	getline(cin, datef);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	Date date2;
 	date2.parse(datef);
 	cout << "Type in the final hours (hh:mm:ss)" << endl;
 	getline(cin, hourf);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	Time hour2;
 	hour2.parse(hourf);
 	double total = 0;
@@ -762,12 +838,14 @@ void Base::changeClient() {
 
 			clientChoice = stoi(strChoice);
 
-			if (clientChoice < 1 || clientChoice > clients.size()) {
-				invalidOption = true;
+			if (InvalidOptions(clients.size(), clientChoice)) {
+				throw InvalidOptionException(clientChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 		
 		cout << endl;
@@ -808,12 +886,14 @@ void Base::removeClient() {
 
 			clientChoice = stoi(strChoice);
 
-			if (clientChoice < 1 || clientChoice > clients.size()) {
-				invalidOption = true;
+			if (InvalidOptions(clients.size(), clientChoice)) {
+				throw InvalidOptionException(clientChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;
@@ -846,29 +926,33 @@ void Base::addWorker() {
 	string strWorkerType;
 	int workerType;
 	do {
-		invalidWorkerType = false;
-		cout << "Adding an Administrator or a Delivery person?" << endl;
-		cout << "1. Administrator" << endl;
-		cout << "2. Delivery" << endl;
-		cout << ">> ";
-		getline(cin, strWorkerType);
-
-		if (cin.eof()) {
-			cin.clear();
-			return;
+		try
+		{
+			invalidWorkerType = false;
+			cout << "Adding an Administrator or a Delivery person?" << endl;
+			cout << "1. Administrator" << endl;
+			cout << "2. Delivery" << endl;
+			cout << ">> ";
+			getline(cin, strWorkerType);
+			if (cin.eof())
+			{
+				cin.clear();
+				return;
+			}
+			if (InvalidOptions(2, stoi(strWorkerType)))
+				throw InvalidOptionException(stoi(strWorkerType));
 		}
-
-		try {
-			workerType = stoi(strWorkerType);
-		}
-		catch (...) {
+		catch(InvalidOptionException & o)
+		{
 			invalidWorkerType = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
-		cout << endl;
-
 	} while (invalidWorkerType);
-	
 
+	workerType = stoi(strWorkerType);
+	
+	cout << endl;
 	// name input
 	bool invalidName;
 	string name;
@@ -1177,20 +1261,23 @@ void Base::changeWorker() {
 		try {
 			cout << ">> ";
 			getline(cin, strWorkerChoice);
-
-			if (cin.eof()) {
+			if (cin.eof())
+			{
 				cin.clear();
 				return;
 			}
 
+
 			workerChoice = stoi(strWorkerChoice);
 
-			if (workerChoice < 1 || workerChoice > workers.size()) {
-				invalidOption = true;
+			if (InvalidOptions(workers.size(), workerChoice)) {
+				throw InvalidOptionException(workerChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
 
@@ -1264,21 +1351,23 @@ void Base::changeWorker() {
 			try {
 				cout << ">> ";
 				getline(cin, strAdminAttributeChoice);
-
-				if (cin.eof()) {
+				if (cin.eof())
+				{
 					cin.clear();
 					return;
 				}
 
 				adminAttributeChoice = stoi(strAdminAttributeChoice);
 
-				if (adminAttributeChoice < 1 || adminAttributeChoice > adminOptions.size()) {
-					invalidOption = true;
+				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) {
+					throw InvalidOptionException(adminAttributeChoice);
 				}
 			}
 
-			catch (...) {
+			catch (InvalidOptionException & o) {
 				invalidOption = true;
+				cout << o;
+				cout << "Try Again!" << endl;
 			}
 
 			cout << endl;
@@ -1423,21 +1512,23 @@ void Base::changeWorker() {
 			try {
 				cout << ">> ";
 				getline(cin, strDelivAttributeChoice);
-
-				if (cin.eof()) {
+				if (cin.eof())
+				{
 					cin.clear();
 					return;
 				}
 
 				delivAttributeChoice = stoi(strDelivAttributeChoice);
 
-				if (delivAttributeChoice < 1 || delivAttributeChoice > deliveryOptions.size()) {
-					invalidOption = true;
+				if (InvalidOptions(deliveryOptions.size(), delivAttributeChoice)) {
+					throw InvalidOptionException(delivAttributeChoice);
 				}
 			}
 
-			catch (...) {
+			catch (InvalidOptionException & o) {
 				invalidOption = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
 			}
 
 			cout << endl;
@@ -1659,20 +1750,22 @@ void Base::removeWorker() {
 		try {
 			cout << ">> ";
 			getline(cin, strWorkerChoice);
-
-			if (cin.eof()) {
+			if (cin.eof())
+			{
 				cin.clear();
 				return;
 			}
 
 			workerChoice = stoi(strWorkerChoice);
 
-			if (workerChoice < 1 || workerChoice > workers.size()) {
-				invalidOption = true;
+			if (InvalidOptions(workers.size(), workerChoice)) {
+				throw InvalidOptionException(workerChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
 
@@ -1838,20 +1931,22 @@ void Base::changeRestaurant() {
 		try {
 			cout << ">> ";
 			getline(cin, strChoice);
-
-			if (cin.eof()) {
+			if (cin.eof())
+			{
 				cin.clear();
 				return;
 			}
 
 			restaurantChoice = stoi(strChoice);
 
-			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
-				invalidOption = true;
+			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
+				throw InvalidOptionException(restaurantChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;
@@ -1877,19 +1972,22 @@ void Base::changeRestaurant() {
 			cout << ">> ";
 			getline(cin, strChoice);
 
-			if (cin.eof()) {
+			if (cin.eof())
+			{
 				cin.clear();
 				return;
 			}
 
 			attributeChoice = stoi(strChoice);
 
-			if (attributeChoice < 1 || attributeChoice > options.size()) {
-				invalidOption = true;
+			if (InvalidOptions(options.size(), attributeChoice)) {
+				throw InvalidOptionException(attributeChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;
@@ -2065,12 +2163,14 @@ void Base::removeRestaurant() {
 
 			restaurantChoice = stoi(strChoice);
 
-			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
-				invalidOption = true;
+			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
+				throw InvalidOptionException(restaurantChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidOptionException & o) {
 			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl;
 		}
 
 		cout << endl;
@@ -2092,6 +2192,11 @@ void Base::searchForRestaurant()
 	string name;
 	cout << "Which Restaurant do you want?" << endl;
 	getline(cin, name);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
 	vector<Restaurant*>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
@@ -2118,6 +2223,11 @@ void Base::searchForGeographicArea()
 	string city;
 	cout << "Which City do you want?" << endl;
 	getline(cin, city);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	cout << "Products Available" << endl << endl;
 	vector<Restaurant*>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
@@ -2172,6 +2282,11 @@ void Base::searchForCuisineTypes()
 	string type;
 	cout << "Which Cuisine Type do you want?" << endl;
 	getline(cin, type);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
 	vector<Restaurant*>::iterator it;
 	for (it = restaurants.begin(); it != restaurants.end(); it++)
 	{

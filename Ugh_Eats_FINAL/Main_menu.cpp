@@ -1,7 +1,7 @@
 #include "Main_menu.h"
 #include "Base.h"
 #include "utils.h"
-
+#include "Exceptions.h"
 
 void main_menu_client(Client* client, Base * base) {
 	while (true) {
@@ -9,12 +9,28 @@ void main_menu_client(Client* client, Base * base) {
 		utils::clear_screen();
 
 		cout << "Welcome to Ugh Eats, " << client->get_name() << endl;
-		cout << "1. Make order" << endl;
-		cout << "2. Edit Info" << endl;
-		cout << "CTRL+Z to save and exit" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do {
+			try
+			{
+				cout << "1. Make order" << endl;
+				cout << "2. Edit Info" << endl;
+				cout << "CTRL+Z to save and exit" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				getline(cin, input);
+				retry = false;
+				if (InvalidOptions(2, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o << endl;
+				cout << "Try Again!" << endl << endl;
+			}
+		} while (retry);
+
 
 		if (input == "1") client->make_order(base);
 		if (input == "2") client->edit();
@@ -31,15 +47,30 @@ void main_menu_admin_clients(Base * base) {
 	while (true) {
 		string input;
 		utils::clear_screen();
+		bool retry = true;
+		do {
+			try {
+				cout << "1. Show all clients" << endl;
+				cout << "2. Search a client" << endl;
+				cout << "3. Add a client" << endl;
+				cout << "4. Edit a client" << endl;
+				cout << "5. Remove a client" << endl;
+				cout << ">> ";
 
-		cout << "1. Show all clients" << endl;
-		cout << "2. Search a client" << endl;
-		cout << "3. Add a client" << endl;
-		cout << "4. Edit a client" << endl;
-		cout << "5. Remove a client" << endl;
-		cout << ">> ";
+				getline(cin, input);
+				retry = false;
+				if (InvalidOptions(5, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o << endl;
+				cout << "Try Again! " << endl << endl;
+			}
 
-		getline(cin, input);
+		} while (retry);
+		
 
 		if (input == "1") {
 			utils::clear_screen();
@@ -83,14 +114,31 @@ void main_menu_admin_workers(Base * base) {
 		string input;
 		utils::clear_screen();
 
-		cout << "1. Show all workers" << endl;
-		cout << "2. Search a worker" << endl;
-		cout << "3. Add a worker" << endl;
-		cout << "4. Edit a worker" << endl;
-		cout << "5. Remove a worker" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do
+		{
+			try {
+				cout << "1. Show all workers" << endl;
+				cout << "2. Search a worker" << endl;
+				cout << "3. Add a worker" << endl;
+				cout << "4. Edit a worker" << endl;
+				cout << "5. Remove a worker" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				getline(cin, input);
+				retry = false;
+				if (InvalidOptions(5, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			
+		} while (retry);
+		
 
 		if (input == "1") {
 			utils::clear_screen();
@@ -134,14 +182,32 @@ void main_menu_admin_restaurant(Base * base) {
 		string input;
 		utils::clear_screen();
 
-		cout << "1. Show all restaurant" << endl;
-		cout << "2. Search a restaurant" << endl;
-		cout << "3. Add a restaurant" << endl;
-		cout << "4. Edit a restaurant" << endl;
-		cout << "5. Remove a restaurant" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Show all restaurant" << endl;
+				cout << "2. Search a restaurant" << endl;
+				cout << "3. Add a restaurant" << endl;
+				cout << "4. Edit a restaurant" << endl;
+				cout << "5. Remove a restaurant" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(5, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (retry);
+		
 
 		if (input == "1") {
 			utils::clear_screen();
@@ -186,11 +252,29 @@ void main_menu_admin_orders(Base * base)
 		string input;
 		utils::clear_screen();
 
-		cout << "1. Show all orders" << endl;
-		cout << "2. Search an order" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Show all orders" << endl;
+				cout << "2. Search an order" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(2, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (retry);
+		
 
 		if (input == "1") {
 			utils::clear_screen();
@@ -199,7 +283,7 @@ void main_menu_admin_orders(Base * base)
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneOrder();
+			base->seeOneOrder(); //IMPLEMENTAR EXCEÇÕES DEPOIS DAS ALTERAÇÕES TODAS DA ORDER TIVEREM SIDO FEITAS
 		}
 		
 		if (cin.fail()) {
@@ -216,13 +300,30 @@ void main_menu_admin_profits(Base * base) {
 		string input;
 		utils::clear_screen();
 
-		cout << "1. From this base" << endl;
-		cout << "2. Per restaurant" << endl;
-		cout << "3. Per client" << endl;
-		cout << "4. Per time period" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. From this base" << endl;
+				cout << "2. Per restaurant" << endl;
+				cout << "3. Per client" << endl;
+				cout << "4. Per time period" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(4, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch(InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+		} while (retry);
+
 
 		if (input == "1") base->seeProfits();
 		if (input == "2") base->seeProfitsPerRestaurant();
@@ -244,15 +345,32 @@ void main_menu_admin(Base * base) {
 		string input;
 		utils::clear_screen();
 
-		cout << "1. Clients" << endl;
-		cout << "2. Workers" << endl;
-		cout << "3. Restaurants" << endl;
-		cout << "4. Orders" << endl;
-		cout << "5. Profits" << endl;
-		cout << "CTRL+Z to save and exit" << endl;
-		cout << ">> ";
+		bool retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Clients" << endl;
+				cout << "2. Workers" << endl;
+				cout << "3. Restaurants" << endl;
+				cout << "4. Orders" << endl;
+				cout << "5. Profits" << endl;
+				cout << "CTRL+Z to save and exit" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(5, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+		} while (retry);
+
 
 		if (input == "1") main_menu_admin_clients(base);
 		if (input == "2") main_menu_admin_workers(base);
@@ -274,10 +392,29 @@ void main_menu_client_login(Base * base){
 		string input;
 		utils::clear_screen();
 
-		cout << "1. Login" << endl;
-		cout << "2. Sign up" << endl;
-		cout << ">> ";
-		getline(cin, input);
+		bool retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Login" << endl;
+				cout << "2. Sign up" << endl;
+				cout << ">> ";
+				
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(2, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (retry);
+
 
 		if (input == "1") {
 			vector<Client*>::iterator it;
@@ -317,36 +454,67 @@ void main_menu_client_login(Base * base){
 void main_menu(vector<Base*> bases) {
 	while (true) {
 		string input;
-		size_t temp;
+		string temp;
 		Base * selected_base;
 		utils::clear_screen();
 
-		cout << "Pick a Base:" << endl;
+		bool retry = true;
+		do
+		{
+			try {
+				cout << "Pick a Base:" << endl;
 
-		for (auto n = 0; n < bases.size(); n++) {
-			cout << n + 1 << ". " << bases.at(n)->getDistrict() << endl;
-		}
+				for (auto n = 0; n < bases.size(); n++) {
+					cout << n + 1 << ". " << bases.at(n)->getDistrict() << endl;
+				}
 
-		cout << ">> ";
-		
-		cin >> temp;
-		if (cin.fail() || temp > bases.size() || cin.eof()) {
-			cin.clear();
-			continue;
-		}
+				cout << ">> ";
 
-		else {
-			selected_base = bases.at(temp - 1);
-		}
-		cin.ignore();
+				getline(cin, temp);
+				retry = false;
+				if (InvalidOptions(bases.size(), stoi(temp)))
+					throw InvalidOptionException(stoi(temp));
+			}
+			catch(InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+
+
+		} while (retry);
+
+	
+		selected_base = bases.at(stoi(temp) - 1);
+	
+		//cin.ignore();
 
 		cout << "\n\n";
 		cout << "Client or Admin ?" << endl;
-		cout << "1. Client" << endl;
-		cout << "2. Admin" << endl;
-		cout << ">> ";
+		retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Client" << endl;
+				cout << "2. Admin" << endl;
+				cout << ">> ";
 
-		getline(cin, input);
+				retry = false;
+				getline(cin, input);
+				if (InvalidOptions(2, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (retry);
+
 
 		if (input == "1") main_menu_client_login(selected_base);
 		if (input == "2") main_menu_admin(selected_base);
