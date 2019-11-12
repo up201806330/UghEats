@@ -332,6 +332,7 @@ void Base::seeOneWorker()
 	}
 
 }
+
 void Base::seeAllDeliverers()
 {
 	cout << "ALL DELIVERERS" << endl << endl;
@@ -541,7 +542,14 @@ void Base::changeBase() {
 		}
 
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return ;
+			}
+
 			attributeChoice = stoi(strChoice);
 
 			if (attributeChoice < 1 || attributeChoice > options.size()) {
@@ -573,6 +581,11 @@ void Base::changeBase() {
 				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
 
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				try {
 					address.parse(fullAddress);
 
@@ -590,9 +603,14 @@ void Base::changeBase() {
 				cout << endl;
 			} while (invalidAddress);
 			this->setAddress(address);
+			
 			break;
 
 	}
+
+	cout << "Based successfully edited! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 
@@ -616,6 +634,11 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		
 		cout << "Name: ";
 		getline(cin, name);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 		
 	} while (invalidName);
 
@@ -639,6 +662,11 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		cout << "NIF: ";
 		getline(cin, strNif);
 
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
 		try {
 			nif = stoi(strNif);
 		}
@@ -660,6 +688,11 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		string fullAddress;
 		cout << "Address (Town / District / Street / No / Floor / Latitude / Longitude):" << endl;
 		getline(cin, fullAddress);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 
 		try {
 			address.parse(fullAddress);
@@ -714,7 +747,14 @@ void Base::changeClient() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			clientChoice = stoi(strChoice);
 
 			if (clientChoice < 1 || clientChoice > clients.size()) {
@@ -753,7 +793,14 @@ void Base::removeClient() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			clientChoice = stoi(strChoice);
 
 			if (clientChoice < 1 || clientChoice > clients.size()) {
@@ -798,7 +845,13 @@ void Base::addWorker() {
 		cout << "Adding an Administrator or a Delivery person?" << endl;
 		cout << "1. Administrator" << endl;
 		cout << "2. Delivery" << endl;
+		cout << ">> ";
 		getline(cin, strWorkerType);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 
 		try {
 			workerType = stoi(strWorkerType);
@@ -820,6 +873,11 @@ void Base::addWorker() {
 		cout << "Name: ";
 		getline(cin, name);
 
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
 		cout << endl;
 	} while (invalidName);
 
@@ -834,6 +892,11 @@ void Base::addWorker() {
 
 		cout << "NIF: ";
 		getline(cin, strNif);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 
 		try {
 			nif = stoi(strNif);
@@ -857,6 +920,11 @@ void Base::addWorker() {
 		string fullBirthday;
 		cout << "Birthday: ";
 		getline(cin, fullBirthday);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 
 		try {
 			birthday.parse(fullBirthday);
@@ -900,7 +968,13 @@ void Base::addWorker() {
 				cout << "Is this Administrator the Manager? " << endl;
 				cout << "1. Yes" << endl;
 				cout << "2. No" << endl;
+				cout << ">> ";
 				getline(cin, strManagerInput);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
 
 				try {
 					managerInput = stoi(strManagerInput);
@@ -925,6 +999,11 @@ void Base::addWorker() {
 					cout << "Role: ";
 					getline(cin, roleInput);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					// if it chose not to be manager it can't then be manager
 					if (roleInput == "manager") {
 						invalidRoleInput = true;
@@ -946,6 +1025,11 @@ void Base::addWorker() {
 
 				cout << "Role: ";
 				getline(cin, roleInput);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
 
 				// can't be manager
 				if (roleInput == "manager") {
@@ -977,14 +1061,31 @@ void Base::addWorker() {
 	else if (workerType == 2) {
 		cout << "Vehicle Brand: ";
 		getline(cin, vehicleBrand);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
 		cout << endl;
 		cout << "Vehicle Type: ";
 		getline(cin, vehicleType);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
 		cout << endl;
 		do {
 			invalidRegistrationDate = false;
 			cout << "Registration Date: ";
 			getline(cin, strRegistrationDate);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
 
 			try {
 				registrationDate.parse(strRegistrationDate);
@@ -1016,7 +1117,10 @@ void Base::addWorker() {
 
 	}
 	
-	
+	cout << endl;
+	cout << "Worker successfully added! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 
@@ -1066,7 +1170,14 @@ void Base::changeWorker() {
 		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
 
 		try {
+			cout << ">> ";
 			getline(cin, strWorkerChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			workerChoice = stoi(strWorkerChoice);
 
 			if (workerChoice < 1 || workerChoice > workers.size()) {
@@ -1146,7 +1257,14 @@ void Base::changeWorker() {
 			}
 
 			try {
+				cout << ">> ";
 				getline(cin, strAdminAttributeChoice);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				adminAttributeChoice = stoi(strAdminAttributeChoice);
 
 				if (adminAttributeChoice < 1 || adminAttributeChoice > adminOptions.size()) {
@@ -1169,6 +1287,12 @@ void Base::changeWorker() {
 				cout << "Current Name: " << adminObject->get_name() << endl;
 				cout << "Updated Name: ";
 				getline(cin, newName);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				cout << endl;
 				adminObject->set_name(newName);
 				break;
@@ -1181,6 +1305,12 @@ void Base::changeWorker() {
 					cout << "Current Nif: " << adminObject->get_NIF() << endl;
 					cout << "Updated Nif: ";
 					getline(cin, strNewNif);
+
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newNif = stoi(strNewNif);
 					}
@@ -1205,6 +1335,11 @@ void Base::changeWorker() {
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newBirthday.parse(fullBirthday);
 					}
@@ -1228,6 +1363,11 @@ void Base::changeWorker() {
 					cout << "Updated Wage: ";
 					getline(cin, strNewWage);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newWage = stoi(strNewWage);
 					}
@@ -1247,6 +1387,11 @@ void Base::changeWorker() {
 					cout << "Current role: " << adminObject->get_role() << endl;
 					cout << "Updated role: ";
 					getline(cin, newRole);
+
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
 
 					if (newRole == "manager" && adminExists) {
 						invalidRole = true;
@@ -1271,7 +1416,14 @@ void Base::changeWorker() {
 			}
 
 			try {
+				cout << ">> ";
 				getline(cin, strDelivAttributeChoice);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				delivAttributeChoice = stoi(strDelivAttributeChoice);
 
 				if (delivAttributeChoice < 1 || delivAttributeChoice > deliveryOptions.size()) {
@@ -1295,6 +1447,12 @@ void Base::changeWorker() {
 				cout << "Current Name: " << delivObject->get_name() << endl;
 				cout << "Updated Name: ";
 				getline(cin, newName);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				cout << endl;
 				delivObject->set_name(newName);
 				break;
@@ -1307,6 +1465,12 @@ void Base::changeWorker() {
 					cout << "Current Nif: " << delivObject->get_NIF() << endl;
 					cout << "Updated Nif: ";
 					getline(cin, strNewNif);
+
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newNif = stoi(strNewNif);
 					}
@@ -1331,6 +1495,11 @@ void Base::changeWorker() {
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newBirthday.parse(fullBirthday);
 					}
@@ -1354,6 +1523,11 @@ void Base::changeWorker() {
 					cout << "Updated Wage: ";
 					getline(cin, strNewWage);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					try {
 						newWage = stoi(strNewWage);
 					}
@@ -1371,6 +1545,12 @@ void Base::changeWorker() {
 				cout << "Current Brand: " << delivObject->get_vehicle().get_brand() << endl;
 				cout << "Updated Brand: ";
 				getline(cin, newVehicleBrand);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				newVehicle.set_brand(newVehicleBrand);
 				cout << endl;
 
@@ -1378,6 +1558,12 @@ void Base::changeWorker() {
 				cout << "Current Type: " << delivObject->get_vehicle().get_type() << endl;
 				cout << "Updated Type: ";
 				getline(cin, newVehicleType);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				newVehicle.set_type(newVehicleType);
 				cout << endl;
 
@@ -1389,6 +1575,11 @@ void Base::changeWorker() {
 						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
 					cout << "Updated Registration Date: ";
 					getline(cin, strNewRegistDate);
+
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
 
 					try {
 						newRegistDate.parse(strNewRegistDate);
@@ -1405,12 +1596,14 @@ void Base::changeWorker() {
 				// *ptrNewVehicle = newVehicle;
 				delivObject->set_vehicle(newVehicle);
 				break;
-
-
-
+		
 		}
 	}
 
+	cout << endl;
+	cout << "Worker successfully edited! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 
@@ -1459,7 +1652,14 @@ void Base::removeWorker() {
 		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
 
 		try {
+			cout << ">> ";
 			getline(cin, strWorkerChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			workerChoice = stoi(strWorkerChoice);
 
 			if (workerChoice < 1 || workerChoice > workers.size()) {
@@ -1503,6 +1703,12 @@ void Base::addRestaurant() {
 
 		cout << "Name: ";
 		getline(cin, name);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
 	} while (invalidName);
 
 	r.setName(name);
@@ -1516,6 +1722,11 @@ void Base::addRestaurant() {
 		string fullAddress;
 		cout << "Address: ";
 		getline(cin, fullAddress);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
 
 		try {
 			address.parse(fullAddress);
@@ -1550,6 +1761,11 @@ void Base::addRestaurant() {
 			invalidProduct = false;
 
 			getline(cin, strProduct);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
 
 			if (strProduct == "done") {
 				notEnded = false;
@@ -1590,6 +1806,11 @@ void Base::addRestaurant() {
 	Restaurant * restaurantPtr = new Restaurant;
 	*restaurantPtr = r;
 	restaurants.push_back(restaurantPtr);
+
+	cout << endl;
+	cout << "Restaurant successfully added! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 void Base::changeRestaurant() {
@@ -1610,7 +1831,14 @@ void Base::changeRestaurant() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			restaurantChoice = stoi(strChoice);
 
 			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {
@@ -1641,7 +1869,14 @@ void Base::changeRestaurant() {
 		}
 
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			attributeChoice = stoi(strChoice);
 
 			if (attributeChoice < 1 || attributeChoice > options.size()) {
@@ -1684,6 +1919,12 @@ void Base::changeRestaurant() {
 				cout << "Current Name: " << restaurants.at(restaurantChoice)->get_name() << endl;
 				cout << "Updated Name: ";
 				getline(cin, newName);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
+
 				cout << endl;
 				restaurants.at(restaurantChoice)->setName(newName);
 			} while (invalidName);
@@ -1697,6 +1938,11 @@ void Base::changeRestaurant() {
 				cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
 				cout << "Updated Address (Town / District / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
+
+				if (cin.eof()) {
+					cin.clear();
+					return;
+				}
 
 				try {
 					newAddress.parse(fullAddress);
@@ -1736,6 +1982,11 @@ void Base::changeRestaurant() {
 
 					getline(cin, strProduct);
 
+					if (cin.eof()) {
+						cin.clear();
+						return;
+					}
+
 					if (strProduct == "done") {
 						notEnded = false;
 						break;
@@ -1773,6 +2024,11 @@ void Base::changeRestaurant() {
 
 			break;
 	}
+
+	cout << endl;
+	cout << "Restaurant successfully edited! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
 }
 
 
@@ -1794,7 +2050,14 @@ void Base::removeRestaurant() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
 			restaurantChoice = stoi(strChoice);
 
 			if (restaurantChoice < 1 || restaurantChoice > restaurants.size()) {

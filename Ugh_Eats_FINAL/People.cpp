@@ -373,6 +373,7 @@ void Client::edit() {
 		}
 
 		try {
+			cout << ">> ";
 			getline(cin, strChoice);
 			attributeChoice = stoi(strChoice);
 
