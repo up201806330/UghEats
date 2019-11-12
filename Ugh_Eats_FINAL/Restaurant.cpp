@@ -338,8 +338,9 @@ void Order::load(string path, Base * base){
 
 		//Delivery guy seria aqui
 
-
-		order.setDeliver(&deliver);
+		Deliver * bleh = new Deliver;
+		*bleh = deliver;
+		order.setDeliver(bleh);
 
 		vector<Product*> prods;
 		while(getline(orders_text, textline)){
@@ -363,8 +364,8 @@ void Order::load(string path, Base * base){
 		pair<int, Order*> pair; pair.first = order.id; pair.second =  ptr;
 		orders_map.insert(pair);
 
-		base->setOrders(orders_map);
 	}	
+	base->setOrders(orders_map);
 }
 
 void Order::setID(size_t i)

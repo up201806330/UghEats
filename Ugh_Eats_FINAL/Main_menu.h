@@ -10,6 +10,7 @@ void main_menu_client(Client* client, Base * base);
 void main_menu_admin_clients(Base * base);
 void main_menu_admin_workers(Base * base);
 void main_menu_admin_restaurant(Base * base);
+void main_menu_admin_orders(Base * base);
 void main_menu_admin_profits(Base * base);
 void main_menu_admin(Base * base);
 void main_menu_client_login(Base * base);

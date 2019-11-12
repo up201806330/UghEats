@@ -376,16 +376,30 @@ void Base::seeOneOrder()
 {
 	cout << "Pick the Order you want to see" << endl;
 	int op = 1, answer;
+	string input;
 	map<int, Order*>::iterator it;
+	vector<int> temporary_ids;
+
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		cout << op << "- ID: " << (*it).second;
+		cout << op << "- ID: " << (*it).second->getID();
 		cout << endl;
+		temporary_ids.push_back((*it).second->getID());
 	}
-	cin >> answer;
-	cout << "INFO" << endl;
-	cout << *(orders.at(answer - 1));
+	cout << ">> ";
+	getline(cin, input);
+	answer = stoi(input);
+	if (cin.fail() || answer > orders.size() || cin.eof()) {
+		cin.clear();
+		return;
+	}
+	else {
+		cout << "INFO" << endl;
+		cout << *(orders.at(temporary_ids.at(answer - 1)));
 
+		cout << "\n>> ";
+		cin.ignore();
+	}
 }
 
 

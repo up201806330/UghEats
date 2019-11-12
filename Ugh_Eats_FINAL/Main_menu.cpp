@@ -180,6 +180,37 @@ void main_menu_admin_restaurant(Base * base) {
 	}
 }
 
+void main_menu_admin_orders(Base * base)
+{
+	while (true) {
+		string input;
+		utils::clear_screen();
+
+		cout << "1. Show all orders" << endl;
+		cout << "2. Search an order" << endl;
+		cout << ">> ";
+
+		getline(cin, input);
+
+		if (input == "1") {
+			utils::clear_screen();
+			base->seeAllOrders();
+		}
+
+		if (input == "2") {
+			utils::clear_screen();
+			base->seeOneOrder();
+		}
+		
+		if (cin.fail()) {
+			cin.clear();
+			break;
+		}
+
+		else continue;
+	}
+}
+
 void main_menu_admin_profits(Base * base) {
 	while (true) {
 		string input;
@@ -216,7 +247,8 @@ void main_menu_admin(Base * base) {
 		cout << "1. Clients" << endl;
 		cout << "2. Workers" << endl;
 		cout << "3. Restaurants" << endl;
-		cout << "4. Profits" << endl;
+		cout << "4. Orders" << endl;
+		cout << "5. Profits" << endl;
 		cout << "CTRL+Z to save and exit" << endl;
 		cout << ">> ";
 
@@ -225,7 +257,8 @@ void main_menu_admin(Base * base) {
 		if (input == "1") main_menu_admin_clients(base);
 		if (input == "2") main_menu_admin_workers(base);
 		if (input == "3") main_menu_admin_restaurant(base);
-		if (input == "4") main_menu_admin_profits(base);
+		if (input == "4") main_menu_admin_orders(base);
+		if (input == "5") main_menu_admin_profits(base);
 
 		if (cin.eof()) {
 			cin.clear();
