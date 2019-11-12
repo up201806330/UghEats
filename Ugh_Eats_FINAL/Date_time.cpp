@@ -160,6 +160,12 @@ bool operator<(const Date & l, const Date & r)
 
 }
 
+ostream & operator<<(std::ostream & stream, const Date & date)
+{
+	stream <<  to_string(date.day)  << "/" << to_string(date.month) << "/" << to_string(date.year);
+	return stream;
+}
+
 // by default, any Time object is initialized with the current time
 Time::Time(){
 

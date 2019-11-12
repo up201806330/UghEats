@@ -89,7 +89,7 @@ public:
 
 class Delivery : public Worker {
 	Vehicle  vehicle;
-	vector<Order*> history;
+	map<int, Order*> history;
 
 public:
 	Delivery();
@@ -97,10 +97,11 @@ public:
 	~Delivery();
 
 	void set_vehicle(Vehicle veiculo);
-	void set_history(vector<Order*> historial);
+	void set_history(map<int, Order*> historial);
 	Delivery * get_reference();
 	Vehicle  get_vehicle() const;
-	vector<Order*> get_history() const;
+	map<int, Order*> get_history() const;
+	void setDeliveryManPointerOnOrders();
 	size_t calculate_wage();
 	void print();
 };
@@ -108,7 +109,7 @@ public:
 class Client : public Person {
 	Address address;
 	Base * base;
-	vector <Order*> orders;
+	map<int, Order*> orders;
 
 public:
 	Client();
@@ -119,10 +120,10 @@ public:
 
 	void set_address(Address add);
 	void set_base(Base * b);
-	void set_orders(vector <Order*> orders_vec);
+	void set_orders(map<int, Order*> orders_vec);
 	Address get_address() const;
 	Base * get_base() const;
-	vector <Order*> get_orders() const;
+	map<int, Order*> get_orders() const;
 
 	void print();
 

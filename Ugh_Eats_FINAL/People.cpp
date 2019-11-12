@@ -104,6 +104,8 @@ void Worker::load(string path, Base * base){
 	// cout << "Workers file: " << path << endl;
 	string textline;
 	vector <Worker*> workers_vec;
+
+	int admin_counter = 0;
 	while (getline(workers_text,textline) && textline != MAIN_SEPARATOR) {
 		if (textline == SEC_SEPARATOR) getline(workers_text, textline);
 		Admin x;
@@ -125,6 +127,7 @@ void Worker::load(string path, Base * base){
 		Admin * ptr = new Admin;
 		*ptr = x;
 		workers_vec.push_back(ptr);
+		admin_counter++;
 	}
 
 	while(getline(workers_text,textline)){
@@ -146,11 +149,17 @@ void Worker::load(string path, Base * base){
 		getline(workers_text, textline);
 		x.set_history(base->findOrders(textline));
 
-		//set Delivery * on each order on that loop ^^
-
 		Delivery * ptr = new Delivery;
 		*ptr = x;
 		workers_vec.push_back(ptr);
+	}
+
+	for (auto w : workers_vec) {
+		if (admin_counter != 0) {
+			admin_counter--;
+			continue;
+		}
+		dynamic_cast<Delivery*>(w)->setDeliveryManPointerOnOrders();
 	}
 
 	base->setWorkers(workers_vec);
@@ -224,7 +233,7 @@ void Delivery::set_vehicle(Vehicle  veiculo) {
 	vehicle = veiculo;
 }
 
-void Delivery::set_history(vector<Order*> historial) {
+void Delivery::set_history(map<int, Order*> historial) {
 	history = historial;
 }
 
@@ -237,8 +246,16 @@ Vehicle Delivery::get_vehicle() const {
 	return vehicle;
 }
 
-vector<Order*> Delivery::get_history() const {
+map<int, Order*> Delivery::get_history() const {
 	return history;
+}
+
+void Delivery::setDeliveryManPointerOnOrders()
+{
+	map<int, Order*>::iterator it;
+	for (it = history.begin(); it != history.end(); it++) {
+		(*it).second->getDeliver()->setDeliveryMan(this);
+	}
 }
 
 void Delivery::print() {
@@ -252,10 +269,10 @@ void Delivery::print() {
 		cout << "none";
 	else
 	{
-		vector<Order*>::iterator it;
+		map<int, Order*>::iterator it;
 		for (it = history.begin(); it != history.end(); it++)
 		{
-			cout << (*it)->getID() << " ";
+			cout << (*it).second->getID() << " ";
 		}
 	}
 	
@@ -315,7 +332,7 @@ void Client::set_base(Base * b) {
 	base = b;
 }
 
-void Client::set_orders(vector <Order*> orders_vec) {	
+void Client::set_orders(map<int, Order*> orders_vec) {
 	orders = orders_vec;
 }
 
@@ -327,7 +344,7 @@ Base * Client::get_base() const {
 	return base;
 }
 
-vector <Order*> Client::get_orders() const {
+map<int, Order*> Client::get_orders() const {
 	return orders;
 }
 
@@ -339,10 +356,10 @@ void Client::print() {
 	if (orders.size() == 0)
 		cout << "none" << endl;
 	else {
-		vector<Order*>::iterator it;
+		map<int, Order*>::iterator it;
 		for (it = orders.begin(); it != orders.end(); it++)
 		{
-			cout << (*it)->getID() << " ";
+			cout << (*it).second->getID() << " ";
 		}
 		cout << endl;
 	}

@@ -38,7 +38,7 @@ public:
 	static vector<string> blacklist;
 	
 	Restaurant * findRestaurant(string str);
-	vector<Order*> findOrders(string str);
+	map<int, Order*> findOrders(string str);
 
 	void setDistrict(string d);
 	void setAreaOfInfluence(vector<string> areaOfInf);
@@ -48,6 +48,8 @@ public:
 	void setClients(vector<Client*> clients);
 	void setOrders(map<int,Order*> orders);
 	void setRestaurants(vector<Restaurant*> restaurants);
+
+	void setDeliveryManPointerOnOrders(Delivery * x);
 
 	string getDistrict() const;
 	vector<string> getAreaOfInfluence() const;
