@@ -1,0 +1,10 @@
+Macdonal
+Porto / Porto / Rua S Joao / 34 / -1 / 234 / 298
+Buger : Hambruhger : 5
+Frie : Fast Food : 2
+aice crime : Dessert : 1
+;;;
+Pizza Hut
+Porto / Amarante / Vila velha / 34 / -1 / 234 / 958
+pepperooni : Pizza : 7
+conk : Drink : 2

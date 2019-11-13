@@ -149,6 +149,7 @@ void Worker::load(string path, Base * base){
 		Vehicle v; v.parse(textline); x.set_vehicle(v);
 
 		getline(workers_text, textline);
+		// cout << "Textline: " << textline << endl << endl;
 		x.set_history(base->findOrders(textline));
 
 		Delivery * ptr = new Delivery;

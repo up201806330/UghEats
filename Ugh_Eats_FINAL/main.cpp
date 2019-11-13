@@ -12,6 +12,11 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
+	// bases.at(0)->writeRestaurantsFile("idk.txt");
+	// bases.at(0)->writeDeliveriesFile("idk.txt");
+	// bases.at(0)->writeWorkersFile("idk.txt");
+	// bases.at(0)->writeClientsFile("idk.txt");
+
 	/*
 	cout << bases.at(0)->getAddress() << endl;
 	bases.at(0)->changeBase();
@@ -114,7 +119,7 @@ int main(){
 	
 
 	
-	main_menu(bases);
+	//main_menu(bases);
 
 	return 0;
 }
