@@ -31,7 +31,7 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidOptionException & o);
 
-class InvalidNumberException {
+class InvalidNumberException { //Implemented
 private:
 	string n;
 public:

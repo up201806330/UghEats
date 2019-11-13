@@ -1,5 +1,6 @@
 #include "Base.h"
 #include "utils.h"
+using namespace std;
 
 #include <set>
 #include <list>

@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Date_time.h"
 #include "utils.h"
+#include "Exceptions.h"
 #include <vector>
 
 Date::Date()
@@ -20,11 +21,23 @@ Date::~Date() {
 
 };
 
-void Date::parse(string str){
+bool Date::parse(string str){
 	vector <string> parts = utils::split(str,'/');
+	if (parts.size() != 3)
+		return false;
+	if (!isNumber(parts[0]) || !isNumber(parts[1]) || !isNumber(parts[2]))
+		return false;
 	day = stoi(parts.at(0));
 	month = stoi(parts.at(1));
 	year = stoi(parts.at(2));
+	if (month < 1 || month > 12 || year < 0)
+		return false;
+	else
+	{
+		if (day < 1 || day > daysOfMonth(month, year))
+			return false;
+	}
+	return true;
 }
 
 void Date::setDay(size_t d)
