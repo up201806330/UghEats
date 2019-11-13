@@ -2562,7 +2562,7 @@ void Base::writeRestaurantsFile(string fileName) {
 			restFileInput << product->get_price() << endl;
 		}
 	}
-
+	restFileInput.close();
 }
 
 void Base::writeDeliveriesFile(string filename) {
@@ -2580,11 +2580,11 @@ void Base::writeDeliveriesFile(string filename) {
 		deliveriesFileInput << order.second->getID() << endl;
 		deliveriesFileInput << order.second->getRestaurant()->get_name() << endl;
 		deliveriesFileInput << order.second->getDeliveryFee() << endl;
-		deliveriesFileInput << endl; // missing reason 
+		deliveriesFileInput << order.second->getDeliver()->getInsuccessMessage() << endl; // missing reason 
 		deliveriesFileInput << endl; // time
 		deliveriesFileInput << endl; // date
 		deliveriesFileInput << endl; // delivery time
-		deliveriesFileInput << endl; // delivery date
+		deliveriesFileInput << order.second->getDeliver()->getDateTime() << endl; // delivery date
 		for (auto & prod : order.second->getProducts()) {
 			if (firstProd) {
 				firstProd = false;
@@ -2599,6 +2599,7 @@ void Base::writeDeliveriesFile(string filename) {
 			deliveriesFileInput << prod->get_price();
 		}
 	}
+	deliveriesFileInput.close();
 }
 
 void Base::writeWorkersFile(string fileName) {
@@ -2665,6 +2666,7 @@ void Base::writeWorkersFile(string fileName) {
 			workersFileInput << endl;
 		}
 	}
+	workersFileInput.close();
 }
 
 void Base::writeClientsFile(string fileName) {
@@ -2704,4 +2706,5 @@ void Base::writeClientsFile(string fileName) {
 		}
 		clientsFileInput << endl;
 	}
+	clientsFileInput.close();
 }

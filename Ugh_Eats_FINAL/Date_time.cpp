@@ -306,6 +306,10 @@ Date_time::Date_time()
 void Date_time::setYear(int y)
 {
 	tm->tm_year = y;
+	//
+	// se calhar querias isto?
+	// tm->tm_year -= 1900;
+	//
 	// date_time = mktime(tm - 1900);
 	date_time = mktime(tm);
 }
