@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 #include <vector>
-
+/*
 Date::Date()
 {
 
@@ -196,12 +196,12 @@ Time::Time(int h, int m, int s) {
 	timeStruct.tm_sec = s;
 }
 
-/*
+/ *
 Time::Time(struct tm t)
 {
 	time = t;
 }
-*/
+* /
 
 Time::~Time(){
 
@@ -215,12 +215,12 @@ void Time::parse(string str){
 	timeStruct.tm_sec = stoi(parts.at(2));
 }
 
-/*
+/ *
 Time Time::getCurrentTime() {
 
 	
 }
-*/
+* /
 
 ostream & operator<<(ostream & out, Time & t)
 {
@@ -274,6 +274,11 @@ bool addTimeAndMinutes(tm time, int min, tm * result) // returns true if the day
 	}
 }
 
+bool operator<(const Date_time & left, const Date_time & right)
+{
+	return left.date_time < right.date_time;
+}
+
 
 Date addOneDay(Date d)
 {
@@ -302,3 +307,96 @@ Date addOneDay(Date d)
 	return result;
 		
 }
+
+*/
+
+Date_time::Date_time()
+{
+	time(&date_time);
+	tm = localtime(&date_time);
+}
+
+void Date_time::setYear(int y)
+{
+	tm->tm_year = y;
+	// date_time = mktime(tm - 1900);
+	date_time = mktime(tm);
+}
+
+void Date_time::setMonth(int m)
+{
+	tm->tm_mon = m;
+	date_time = mktime(tm);
+}
+
+void Date_time::setDay(int d)
+{
+	tm->tm_mday= d;
+	date_time = mktime(tm);
+}
+
+void Date_time::setHours(int h)
+{
+	tm->tm_hour = h;
+	date_time = mktime(tm);
+}
+
+void Date_time::setMinutes(int m)
+{
+	tm->tm_min = m;
+	date_time = mktime(tm);
+}
+
+int Date_time::getYear() const
+{
+	return tm->tm_year;
+}
+
+int Date_time::getMonth() const
+{
+	return tm->tm_mon;
+}
+
+int Date_time::getDay() const
+{
+	return tm->tm_mday;
+}
+
+int Date_time::getHours() const
+{
+	return tm->tm_hour;
+}
+
+int Date_time::getMinutes() const
+{
+	return tm->tm_min;
+}
+
+void Date_time::parse(string x)
+{
+	vector<string> parts = utils::split(x, ':');
+	if (parts.size() == 3) { //É so uma data
+		this->setDay(stoi(parts.at(0)));
+		this->setMonth(stoi(parts.at(1)));
+		this->setYear(stoi(parts.at(2)));
+		just_date = true;
+	}
+
+	else if (parts.size() == 5) { // Tb tem hora
+		this->setDay(stoi(parts.at(0)));
+		this->setMonth(stoi(parts.at(1)));
+		this->setYear(stoi(parts.at(2)));
+		this->setHours(stoi(parts.at(3)));
+		this->setMinutes(stoi(parts.at(4)));
+		just_date = false;
+	}
+	
+	//else throw something
+}
+
+ostream& operator<<(ostream & out, const Date_time & right) {
+	out << right.getDay() << " / " << right.getMonth() << " / " << 1900 + right.getYear();
+	if (!right.just_date) out << " : " << right.getHours() << ":" << right.getMinutes();
+	return out;
+}
+

@@ -126,8 +126,10 @@ public:
 	Delivery* getDeliveryMan();
 
 	
-
-	
+	void writeRestaurantsFile(string fileName);
+	void writeDeliveriesFile(string fileName);
+	void writeWorkersFile(string fileName);
+	void writeClientsFile(string fileName);
 
 
 	// camelCase

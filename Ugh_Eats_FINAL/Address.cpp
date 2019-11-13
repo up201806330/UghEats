@@ -21,8 +21,8 @@ void Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos s
 	try{
 	number = stoi(parts.at(3));
 	floor = stoi(parts.at(4));
-	latitude = stoi(parts.at(5));
-	longitude = stoi(parts.at(6));
+	latitude = stod(parts.at(5));
+	longitude = stod(parts.at(6));
 	}
 	catch (...){
 		//throw algo

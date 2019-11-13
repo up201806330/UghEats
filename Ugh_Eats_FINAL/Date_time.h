@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-
+/*
 class Date {
 	size_t day;
 	size_t month;
@@ -63,5 +63,32 @@ public:
 
 bool addTimeAndMinutes(tm time, int min,tm * result);
 
+*/
+
+class Date_time {
+	time_t date_time;
+	struct tm * tm;
+	bool just_date;
+
+public:
+	Date_time();
+
+	void setYear(int y);
+	void setMonth(int m);
+	void setDay(int d);
+	void setHours(int h);
+	void setMinutes(int m);
+
+	int getYear() const;
+	int getMonth() const;
+	int getDay() const;
+	int getHours() const;
+	int getMinutes() const;
+
+	friend bool operator<(const Date_time & left, const Date_time & right);
+	friend ostream& operator<<(ostream & out, const Date_time & right);
+
+	void parse(string x);
+};
 
 #endif

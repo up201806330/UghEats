@@ -116,13 +116,22 @@ Restaurant * Base::findRestaurant(string str){
 }
 
 map<int, Order*> Base::findOrders(string str) {
+	// cout << "String: " << str << endl;
 	map<int, Order*> result;
 	vector<string> ids = utils::split(str, ':');
+	// cout << "Size: " << ids.size() << endl;
 	for (auto i = 0 ; i < ids.size() ; i++) {
 		int x = stoi(ids.at(i));
+		// cout << "x: " << x << endl;
 		
 		map<int, Order*>::iterator it = orders.find(x);
+		for (it = orders.begin(); it != orders.end(); it++) {
+			// cout << "Order: " << (*it).first << " " << ((*it).second)->getID() << endl;
+		}
+
+
 		if (it != orders.end()) {
+			// cout << "x: " << x << " second: " << (*it).second << " ." << endl;
 			result.insert(pair<int, Order*>(x, (*it).second));
 		}
 	}
@@ -197,6 +206,8 @@ string Base::getWorkersFileName() const {
 string Base::getClientsFileName() const {
 	return clientsFileName;
 }
+
+
 
 
 
@@ -617,6 +628,7 @@ void Base::seeProfitsPerClient()
 
 void Base::seeProfitsPerTime()
 {
+	/*
 	string datei, datef, houri, hourf;
 	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
 	getline(cin, datei);
@@ -691,6 +703,7 @@ void Base::seeProfitsPerTime()
 
 	cout << "\n>> ";
 	cin.ignore();
+	*/
 }
 
 
@@ -1120,7 +1133,7 @@ void Base::addWorker(){
 
 	// birthday input
 	bool invalidBirthday;
-	Date birthday;
+	Date_time birthday;
 	do {
 		invalidBirthday = false;
 
@@ -1161,7 +1174,7 @@ void Base::addWorker(){
 
 	bool invalidRegistrationDate = false;
 	string strRegistrationDate;
-	Date registrationDate; 
+	Date_time registrationDate; 
 
 
 	// chose Admin
@@ -1455,7 +1468,7 @@ void Base::changeWorker() {
 	bool invalidNif = false;
 
 	bool invalidBirthday = false;
-	Date newBirthday;
+	Date_time newBirthday;
 	string fullBirthday;
 
 	bool invalidWage = false;
@@ -1470,7 +1483,7 @@ void Base::changeWorker() {
 	string newVehicleBrand;
 	string newVehicleType;
 	string strNewRegistDate;
-	Date newRegistDate;
+	Date_time newRegistDate;
 	Vehicle newVehicle;
 
 	// worker chosen is an Admin
@@ -1567,8 +1580,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << adminObject->get_birthday().get_day() << " / "
-						<< adminObject->get_birthday().get_month() << " / " << adminObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << adminObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1737,8 +1749,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << delivObject->get_birthday().get_day() << " / "
-						<< delivObject->get_birthday().get_month() << " / " << delivObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << delivObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1817,9 +1828,7 @@ void Base::changeWorker() {
 				do {
 					invalidRegistrationDate = false;
 
-					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date().get_day()
-						<< " / " << delivObject->get_vehicle().get_registration_date().get_month() << " / "
-						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
+					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date() << endl;
 					cout << "Updated Registration Date: ";
 					getline(cin, strNewRegistDate);
 
@@ -2508,7 +2517,7 @@ Delivery* Base::getDeliveryMan()
 			delivery_men.push_back(d);
 		}
 	}
-	int comp = delivery_men[0]->get_history().size();
+	size_t comp = delivery_men[0]->get_history().size();
 	Delivery * result = delivery_men[0];
 	vector<Delivery*>::iterator it;
 	for (it = delivery_men.begin(); it != delivery_men.end(); it++)
@@ -2520,4 +2529,180 @@ Delivery* Base::getDeliveryMan()
 		}
 	}
 	return result;
+}
+
+
+
+void Base::writeRestaurantsFile(string fileName) {
+
+	ofstream restFileInput("restaurants_p_copy_.txt");
+
+	if (!(restFileInput.is_open())) {
+		// Need an Exception Here!
+	}
+	bool first = true;
+
+	for (auto & restaurant : restaurants) {
+
+		if (first) {
+			first = false;
+		}
+
+		else {
+			restFileInput << ";;;" << endl;
+		}
+
+		restFileInput << restaurant->get_name() << endl;
+		restFileInput << restaurant->get_address() << endl;
+
+		for (auto & product : restaurant->get_products()) {
+			restFileInput << product->get_name();
+			restFileInput << " : ";
+			restFileInput << product->get_cuisine_type();
+			restFileInput << " : ";
+			restFileInput << product->get_price() << endl;
+		}
+	}
+
+}
+
+void Base::writeDeliveriesFile(string filename) {
+
+	ofstream deliveriesFileInput("deliveries_p_copy_.txt");
+
+	if (!(deliveriesFileInput.is_open())) {
+		// Need an Exception Here!
+	}
+
+	bool firstOrder = true;
+	bool firstProd = true;
+
+	for (auto & order : orders) {
+		deliveriesFileInput << order.second->getID() << endl;
+		deliveriesFileInput << order.second->getRestaurant()->get_name() << endl;
+		deliveriesFileInput << order.second->getDeliveryFee() << endl;
+		deliveriesFileInput << endl; // missing reason 
+		deliveriesFileInput << endl; // time
+		deliveriesFileInput << endl; // date
+		deliveriesFileInput << endl; // delivery time
+		deliveriesFileInput << endl; // delivery date
+		for (auto & prod : order.second->getProducts()) {
+			if (firstProd) {
+				firstProd = false;
+			}
+			else {
+				deliveriesFileInput << endl;
+			}
+			deliveriesFileInput << prod->get_name();
+			deliveriesFileInput << " : ";
+			deliveriesFileInput << prod->get_cuisine_type();
+			deliveriesFileInput << " : ";
+			deliveriesFileInput << prod->get_price();
+		}
+	}
+}
+
+void Base::writeWorkersFile(string fileName) {
+
+	ofstream workersFileInput("workers_p_copy_.txt");
+
+	if (!(workersFileInput.is_open())) {
+		// Need an Exception Here!
+	}
+
+	bool foundFirstDelivery = false;
+	bool firstWorker = true;
+	bool firstOrder = true;
+	
+	Admin *adminCheck;
+	Delivery *deliveryCheck;
+
+	for (size_t i = 0; i < workers.size(); i++) {
+		adminCheck = dynamic_cast<Admin*> (workers.at(i));
+		if (adminCheck != NULL) {
+			if (firstWorker) {
+				firstWorker = false;
+			}
+			else {
+				workersFileInput << ";" << endl;
+			}
+			workersFileInput << adminCheck->get_name() << endl;
+			workersFileInput << adminCheck->get_NIF() << endl;
+			workersFileInput << adminCheck->get_birthday() << endl;
+			workersFileInput << adminCheck->get_wage() << endl;
+			workersFileInput << adminCheck->get_role() << endl;
+
+		}
+		else {
+			deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
+			if (!foundFirstDelivery) {
+				foundFirstDelivery = true;
+				workersFileInput << ";;;" << endl;
+			}
+			else {
+				workersFileInput << ";" << endl;
+			}
+			workersFileInput << deliveryCheck->get_name() << endl;
+			workersFileInput << deliveryCheck->get_NIF() << endl;
+			workersFileInput << deliveryCheck->get_birthday() << endl;
+			workersFileInput << deliveryCheck->get_vehicle().get_brand();
+			workersFileInput << " : ";
+			workersFileInput << deliveryCheck->get_vehicle().get_type();
+			workersFileInput << " : ";
+			workersFileInput << deliveryCheck->get_vehicle().get_registration_date();
+			workersFileInput << endl;
+
+			// To "Fix" when orders.find is working correctly
+			for (auto & order : deliveryCheck->get_history()) {
+				if (firstOrder) {
+					firstOrder = false;
+				}
+				else {
+					workersFileInput << " : ";
+				}
+
+				workersFileInput << order.second->getID();
+			}
+			workersFileInput << endl;
+		}
+	}
+}
+
+void Base::writeClientsFile(string fileName) {
+
+	ofstream clientsFileInput("clients_p_copy_.txt");
+
+	if (!(clientsFileInput.is_open())) {
+		// Need an Exception Here!
+	}
+	bool firstClient = true;
+	bool firstOrder = true;
+
+	for (auto & client : clients) {
+
+		if (firstClient) {
+			firstClient = false;
+		}
+
+		else {
+			clientsFileInput << ";" << endl;
+		}
+
+		clientsFileInput << client->get_name() << endl;
+		clientsFileInput << client->get_address() << endl;
+		clientsFileInput << client->get_NIF() << endl;
+
+		// To "Fix" when orders.find is working correctly
+		for (auto & order : client->get_orders()) {
+			if (firstOrder) {
+				firstOrder = false;
+			}
+			else {
+				clientsFileInput << " : ";
+			}
+
+			clientsFileInput << order.second->getID();
+		}
+		clientsFileInput << endl;
+	}
 }

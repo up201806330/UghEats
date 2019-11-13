@@ -313,26 +313,12 @@ void Order::load(string path, Base * base){
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
-		Time t; t.parse(textline);  
-		order.setTime(t);
-
-		getline(orders_text, textline);
-		// orders_text >> textline;
-
-		Date d; d.parse(textline);
-		order.setDate(d);
+		Date_time x; x.parse(textline);
 		
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
-		Time x; x.parse(textline);  
-		deliver.setTime(x);
-
-		getline(orders_text, textline);
-		// orders_text >> textline;
-
-		Date y; y.parse(textline);
-		deliver.setDate(y);
+		Date_time y; y.parse(textline);
 
 		//Delivery guy seria aqui
 
@@ -386,13 +372,8 @@ void Order::setProducts(vector <Product*> p)
 }
 
 
-void Order::setTime(Time t)
-{
-	time = t;
-}
-
-void Order::setDate(Date d){
-	date = d;
+void Order::setDateTime(Date_time t) {
+	date_time = t;
 }
 
 void Order::setDeliveryFee(double fee)
@@ -420,14 +401,9 @@ vector <Product*> Order::getProducts()  const
 	return products;
 }
 
-Time Order::getTime() const
+Date_time Order::getDateTime() const
 {
-	return time;
-}
-
-Date Order::getDate() const
-{
-	return date;
+	return date_time;
 }
 
 double Order::getDeliveryFee() const
@@ -466,16 +442,14 @@ ostream & operator<<(ostream & out, Order & o)
 		c++;
 		
 	}
-	out << "Order Time: " << o.time << endl;
-	out << "Date: " << o.date << endl;
+	out << "Order Date: " << o.date_time << endl;
 	
 	if (o.getDeliver()->getSuccess())
 		out << "SUCCESSFUL" << endl;
 	else
 		out << o.getDeliver()->getInsuccessMessage()<< endl;
 
-	out << "Arrival time: " << o.getDeliver()->getTime() << endl;
-	out << "Date: " << o.getDeliver()->getDate() << endl;
+	out << "Arrival Date: " << o.getDeliver()->getDateTime() << endl;
 
 	out << "Delivery worker: " << o.getDeliver()->getDeliveryMan()->get_name() << endl;
 
@@ -490,11 +464,10 @@ Deliver::Deliver()
 
 }
 
-Deliver::Deliver(int i, Time t, Date d, bool s, Delivery * dm)
+Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm)
 {
 	id = i;
-	time = t;
-	date = d;
+	date_time = t;
 	success = s;
 	delivery_man = dm;
 }
@@ -505,15 +478,8 @@ void Deliver::setID(int i)
 	id = i;
 }
 
-void Deliver::setTime(Time t)
-{
-	time = t;
-}
-
-
-void Deliver::setDate(Date d)
-{
-	date = d;
+void Deliver::setDateTime(Date_time t) {
+	date_time = t;
 }
 
 void Deliver::setInsuccessMessage(string s)
@@ -537,14 +503,9 @@ int Deliver::getID() const
 	return id;
 }
 
-Time & Deliver::getTime()
+Date_time & Deliver::getDateTime()
 {
-	return time;
-}
-
-Date & Deliver::getDate()
-{
-	return date;
+	return date_time;
 }
 
 bool Deliver::getSuccess() const

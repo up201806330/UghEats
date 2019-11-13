@@ -16,7 +16,7 @@ using namespace std;
 class Vehicle {  //ideias para funcoes para aqui??
 	string brand;
 	string type;
-	Date registration_date;
+	Date_time registration_date;
 
 public:
 	Vehicle();
@@ -25,10 +25,10 @@ public:
 
 	void parse(string str);
 
-	void set_registrationDate(Date data);
+	void set_registrationDate(Date_time data);
 	void set_type(string tipo);
 	void set_brand(string marca);
-	Date get_registration_date() const;
+	Date_time get_registration_date() const;
 	string get_type() const;
 	string get_brand() const;
 };
@@ -54,7 +54,7 @@ public:
 
 class Worker : public Person {
 protected:
-	Date birthday;
+	Date_time birthday;
 	size_t wage;
 
 public:
@@ -64,10 +64,10 @@ public:
 
 	static void load(string path, Base * base);
 	
-	virtual void set_birthday(Date data);
+	virtual void set_birthday(Date_time data);
 	virtual void set_wage(size_t salario);
 	virtual Worker * get_reference();
-	Date get_birthday() const;
+	Date_time get_birthday() const;
 	size_t get_wage() const;
 
 	virtual void print();
