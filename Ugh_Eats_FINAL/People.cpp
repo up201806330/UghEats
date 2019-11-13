@@ -370,7 +370,7 @@ void Client::print() {
 
 
 
-void Client::edit() {
+void Client::edit(Base * base) {
 
 	utils::clear_screen();
 
@@ -401,8 +401,10 @@ void Client::edit() {
 				cin.clear();
 				return;
 			}
+			/*
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
+			*/
 			attributeChoice = stoi(strChoice);
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
@@ -427,8 +429,8 @@ void Client::edit() {
 
 	// HARD CODED FOR BASE PORTO
 	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
-	vector<string> areaOfInf = this->get_base()->getAreaOfInfluence();
-
+	vector<string> areaOfInf = base->getAreaOfInfluence();
+	cout << ": " << areaOfInf.size() << endl;
 	string newName;
 
 	string strNewNif;

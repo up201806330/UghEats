@@ -47,7 +47,6 @@ vector<Base*> Base::load(string path){
 		tuple<string, vector<string> > distAndAreaOfInf = Base::parseAreaOfInfluence(textline);
 		base.setDistrict(get<0>(distAndAreaOfInf));
 		base.setAreaOfInfluence(get<1>(distAndAreaOfInf));
-
 		getline(base_text,textline);
 		Address addr;
 		addr.parse(textline);
@@ -78,7 +77,7 @@ vector<Base*> Base::load(string path){
 		 
 		getline(base_text, textline);
 		Client::load(textline, &base);
-
+		// cout << base.getClients().at(0)->get_base()->getAreaOfInfluence().size() << endl;
 		getline(base_text, textline);
 
 		Base * ptr = new Base;
@@ -985,8 +984,8 @@ void Base::changeClient() {
 	} while (invalidOption);
 	
 	clientChoice--; // not to excede the max index available
-
-	clients.at(clientChoice)->edit();
+	
+	clients.at(clientChoice)->edit(this);
 }
 
 void Base::removeClient() {
