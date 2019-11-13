@@ -97,7 +97,7 @@ public:
 	string getCityError() { return city_error; }
 
 	friend ostream & operator<<(ostream & out, InvalidCityException & c) {
-		out << "Invalid City Exception: " << c.getCityError() << "isn't covered by this Base \n";
+		out << "Invalid City Exception: " << c.getCityError() << " isn't covered by this Base \n";
 		return out;
 	}
 };
@@ -208,7 +208,22 @@ inline bool isNumber(string str)
 	for (int i = 0; i < str.size(); i++)
 	{
 		if ((int(str[i]) < 48) || (int(str[i]) > 57))
-			return false;
+			if (int(str[i]) != 46)
+				return false;
 	}
 	return true;
+}
+
+inline bool isString(string str)
+{
+	for (int i = 0; i < str.size(); i++) 
+	{
+		if (str[i] < 65 || str[i] > 90) //letras maiusculas
+			if (str[i] < 97 || str[i] > 122) //letras minusculas
+				if (str[i] != 45 || str[i] != 32) //aceitar "-" e espaço
+					return false;
+
+	}
+	return true;
+
 }

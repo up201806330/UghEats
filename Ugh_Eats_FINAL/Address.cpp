@@ -1,6 +1,7 @@
 #include "Address.h"
 #include <vector>
 #include "utils.h"
+#include "Exceptions.h"
 
 Address::Address() {
 
@@ -10,24 +11,33 @@ Address::~Address() {
 
 }
 
-void Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
-	vector<string> parts = utils::split(str,'/');
+bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
+	vector<string> parts = utils::split(str, '/');
 	for (auto &part : parts) utils::trim(part);
 
+	if (parts.size() != 7)
+		return false;
 	district = parts.at(0);
+	if (!isString(district))
+		return false;
 	town = parts.at(1);
+	if (!isString(town))
+		return false;
 	street = parts.at(2);
+	if (!isString(street))
+		return false;
+
 	
-	try{
+	if (!isNumber(parts.at(3)) || !isNumber(parts.at(4)) || !isNumber(parts.at(5)) || !isNumber(parts.at(6)))
+		return false;
 	number = stoi(parts.at(3));
 	floor = stoi(parts.at(4));
 	latitude = stod(parts.at(5));
 	longitude = stod(parts.at(6));
-	}
-	catch (...){
-		//throw algo
-	}
+	return true;
+	
 }
+
 
 void Address::setTown(string cidade) {
 	town = cidade;
@@ -74,8 +84,8 @@ string Address::str() const
 	string result = district + " / ";
 	result += town + " / ";
 	result += street + " / ";
-	result += number + " / ";
-	result += floor + " / ";
+	result += to_string(number) + " / ";
+	result += to_string(floor) + " / ";
 	result += to_string(latitude) + " / ";
 	result += to_string(longitude) + " / ";
 	return result;

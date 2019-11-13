@@ -773,18 +773,26 @@ void Base::changeBase() {
 					return;
 				}
 
-				try {
-					address.parse(fullAddress);
-
+				try { //esta exceção não está testada
+					bool teste = address.parse(fullAddress);
+					if (!teste)
+						throw InvalidAddressException(fullAddress);
 					// if it doesnt belong to the are of influence it is considered invalid
 					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-						invalidAddress = true;
-						cout << "Invalid Address (must be the in area of influence of the base)" << endl;
+						throw InvalidCityException(address.get_town());
 					}
 				}
 
-				catch (...) {
+				catch (InvalidAddressException & a) {
 					invalidAddress = true;
+					cout << a;
+					cout << "Try Again!" << endl << endl;
+				}
+				catch (InvalidCityException & c)
+				{
+					invalidAddress = true;
+					cout << c;
+					cout << "Try Again!" << endl << endl;
 				}
 
 				cout << endl;
@@ -882,17 +890,26 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		}
 
 		try {
-			address.parse(fullAddress);
-
+			bool teste = address.parse(fullAddress);
+			if (!teste)
+				throw InvalidAddressException(fullAddress);
 			// if it doesnt belong to the area of influence it is considered invalid
 			if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-				invalidAddress = true;
-				cout << "Invalid Address (must be in the area of influence of the base)" << endl;
+				throw InvalidCityException(address.get_town());
 			}
 		}
 
-		catch (...) {
+		catch (InvalidAddressException & a) {
 			invalidAddress = true;
+			cout << a;
+			cout << "Try Again!" << endl << endl;
+
+		}
+		catch (InvalidCityException & c)
+		{
+			invalidAddress = true;
+			cout << c;
+			cout << "Try Again!" << endl << endl;
 		}
 
 	} while (invalidAddress);
@@ -1999,17 +2016,26 @@ void Base::addRestaurant() {
 		}
 
 		try {
-			address.parse(fullAddress);
+			bool teste = address.parse(fullAddress);
+			if (!teste)
+				throw InvalidAddressException(fullAddress);
 
 			// if it doesnt belong to the are of influence it is considered invalid
 			if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-				invalidAddress = true;
-				cout << "Invalid Address (must be the in area of influence of the base)" << endl;
+				throw InvalidCityException(address.get_town());
 			}
 		}
 
-		catch (...) {
+		catch (InvalidAddressException & a) {
 			invalidAddress = true;
+			cout << a;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidCityException & c)
+		{
+			invalidAddress = true;
+			cout << c;
+			cout << "Try Again!" << endl << endl;
 		}
 
 	} while (invalidAddress);
@@ -2237,17 +2263,26 @@ void Base::changeRestaurant() {
 				}
 
 				try {
-					newAddress.parse(fullAddress);
+					bool teste = newAddress.parse(fullAddress);
+					if (!teste)
+						throw InvalidAddressException(fullAddress);
 
 					// if it doesnt belong to the are of influence it is considered invalid
 					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-						invalidAddress = true;
-						cout << "Invalid Address (must be the in area of influence of the base)" << endl;
+						throw InvalidCityException(newAddress.get_town());
 					}
 				}
 
-				catch (...) {
+				catch (InvalidAddressException & a) {
 					invalidAddress = true;
+					cout << a;
+					cout << "Try Again!" << endl << endl;
+				}
+				catch (InvalidCityException & c)
+				{
+					invalidAddress = true;
+					cout << c;
+					cout << "Try Again!" << endl << endl;
 				}
 
 				cout << endl;
