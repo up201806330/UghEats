@@ -125,10 +125,6 @@ map<int, Order*> Base::findOrders(string str) {
 		// cout << "x: " << x << endl;
 		
 		map<int, Order*>::iterator it = orders.find(x);
-		for (it = orders.begin(); it != orders.end(); it++) {
-			// cout << "Order: " << (*it).first << " " << ((*it).second)->getID() << endl;
-		}
-
 
 		if (it != orders.end()) {
 			// cout << "x: " << x << " second: " << (*it).second << " ." << endl;
