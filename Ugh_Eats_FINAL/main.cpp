@@ -119,8 +119,7 @@ int main(){
 	
 
 	
-	//main_menu(bases);
-bases[0]->searchForRestaurant();
+	main_menu(bases);
 
 	return 0;
 }

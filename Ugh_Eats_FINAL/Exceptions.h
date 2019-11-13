@@ -75,7 +75,7 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidTimeException & t);
 
-class InvalidAddressException { //Implemented
+class InvalidAddressException {
 	string address_error;
 public:
 	InvalidAddressException(string a) { address_error = a; }
@@ -90,7 +90,7 @@ public:
 // ostream & operator<<(ostream & out, InvalidAddressException & a);
 
 
-class InvalidCityException { // when the client lives in a city that the base doesn't cover // Implemented
+class InvalidCityException { // when the client lives in a city that the base doesn't cover
 	string city_error;
 public:
 	InvalidCityException(string c) { city_error = c; }
