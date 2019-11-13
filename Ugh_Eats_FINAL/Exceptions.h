@@ -202,3 +202,13 @@ inline bool InvalidOptions(int max, int ans)
 	else
 		return false;
 }
+
+inline bool isNumber(string str)
+{
+	for (int i = 0; i < str.size(); i++)
+	{
+		if ((int(str[i]) < 48) || (int(str[i]) > 57))
+			return false;
+	}
+	return true;
+}

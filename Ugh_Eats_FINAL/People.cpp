@@ -27,7 +27,7 @@ void Vehicle::parse(string str){
 	registration_date.parse(parts.at(2));
 }
 
-void Vehicle::set_registrationDate(Date data)
+void Vehicle::set_registrationDate(Date_time data)
 {
 	registration_date = data;
 
@@ -43,7 +43,7 @@ void Vehicle::set_brand(string marca)
 	brand = marca;
 }
 
-Date Vehicle::get_registration_date() const
+Date_time Vehicle::get_registration_date() const
 {
 	return registration_date;
 }
@@ -117,7 +117,7 @@ void Worker::load(string path, Base * base){
 		x.set_NIF(stoi(textline));
 
 		getline(workers_text, textline);
-		Date d; d.parse(textline);
+		Date_time d; d.parse(textline);
 		x.set_birthday(d);
 		
 		getline(workers_text, textline);
@@ -142,7 +142,7 @@ void Worker::load(string path, Base * base){
 		x.set_NIF(stoi(textline));
 
 		getline(workers_text, textline);
-		Date d; d.parse(textline);
+		Date_time d; d.parse(textline);
 		x.set_birthday(d);
 
 		getline(workers_text, textline);
@@ -168,7 +168,7 @@ void Worker::load(string path, Base * base){
 	base->setWorkers(workers_vec);
 }
 
-void Worker::set_birthday(Date data) {
+void Worker::set_birthday(Date_time data) {
 	birthday = data;
 }
 
@@ -181,7 +181,7 @@ Worker * Worker::get_reference()
 	return this;
 }
 
-Date Worker::get_birthday() const {
+Date_time Worker::get_birthday() const {
 	return birthday;
 }
 
@@ -192,7 +192,7 @@ size_t Worker::get_wage() const {
 void Worker::print(){
 
 	Person::print();
-	cout << "Birthday: " << birthday.str() << endl;
+	cout << "Birthday: " << birthday << endl;
 	cout << "Wage: " << wage << endl;
 
 
@@ -266,7 +266,7 @@ void Delivery::print() {
 	cout << "Vehicle: " << endl;
 	cout << "   Brand: " << vehicle.get_brand() << endl;
 	cout << "   Type: " << vehicle.get_type() << endl;
-	cout << "   Registration Date: " << vehicle.get_registration_date().str() << endl;
+	cout << "   Registration Date: " << vehicle.get_registration_date() << endl;
 	cout << "History: ";
 	if (history.size() == 0)
 		cout << "none";
@@ -353,7 +353,7 @@ map<int, Order*> Client::get_orders() const {
 
 void Client::print() { 
 	Person::print();
-	cout << address;
+	cout << address << endl;
 //	cout << "Base: " << base->getDistrict() << endl;
 	cout << "Orders: ";
 	if (orders.size() == 0)
@@ -401,8 +401,9 @@ void Client::edit() {
 				cin.clear();
 				return;
 			}
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			attributeChoice = stoi(strChoice);
-
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
 			}
@@ -410,6 +411,12 @@ void Client::edit() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 

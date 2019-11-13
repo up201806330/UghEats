@@ -20,6 +20,8 @@ void main_menu_client(Client* client, Base * base) {
 
 				getline(cin, input);
 				retry = false;
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(2, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -27,6 +29,12 @@ void main_menu_client(Client* client, Base * base) {
 			{
 				retry = true;
 				cout << o << endl;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
 			}
 		} while (retry);
@@ -59,6 +67,8 @@ void main_menu_admin_clients(Base * base) {
 
 				getline(cin, input);
 				retry = false;
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(5, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -67,6 +77,12 @@ void main_menu_admin_clients(Base * base) {
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again! " << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s << endl;
+				cout << "Try Again!" << endl << endl;
 			}
 
 		} while (retry);
@@ -127,6 +143,8 @@ void main_menu_admin_workers(Base * base) {
 
 				getline(cin, input);
 				retry = false;
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(5, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -136,7 +154,12 @@ void main_menu_admin_workers(Base * base) {
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 			}
-			
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
 		} while (retry);
 		
 
@@ -196,6 +219,8 @@ void main_menu_admin_restaurant(Base * base) {
 
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(5, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -203,6 +228,12 @@ void main_menu_admin_restaurant(Base * base) {
 			{
 				retry = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 
@@ -263,6 +294,8 @@ void main_menu_admin_orders(Base * base)
 
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(2, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -271,6 +304,12 @@ void main_menu_admin_orders(Base * base)
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again" << endl << endl;
 			}
 
 		} while (retry);
@@ -313,6 +352,8 @@ void main_menu_admin_profits(Base * base) {
 
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(4, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -320,6 +361,12 @@ void main_menu_admin_profits(Base * base) {
 			{
 				retry = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 		} while (retry);
@@ -360,6 +407,8 @@ void main_menu_admin(Base * base) {
 
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(5, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -367,6 +416,12 @@ void main_menu_admin(Base * base) {
 			{
 				retry = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 		} while (retry);
@@ -403,6 +458,8 @@ void main_menu_client_login(Base * base){
 				
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(2, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -412,7 +469,12 @@ void main_menu_client_login(Base * base){
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 			}
-
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
 		} while (retry);
 
 
@@ -471,7 +533,15 @@ void main_menu(vector<Base*> bases) {
 				cout << ">> ";
 
 				getline(cin, temp);
+				if (cin.eof())
+				{
+					cin.clear();
+					return;
+				}
+
 				retry = false;
+				if (!isNumber(temp))
+					throw InvalidNumberException(temp);
 				if (InvalidOptions(bases.size(), stoi(temp)))
 					throw InvalidOptionException(stoi(temp));
 			}
@@ -481,7 +551,12 @@ void main_menu(vector<Base*> bases) {
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 			}
-
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
 
 		} while (retry);
 
@@ -503,6 +578,8 @@ void main_menu(vector<Base*> bases) {
 
 				retry = false;
 				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
 				if (InvalidOptions(2, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
@@ -510,6 +587,12 @@ void main_menu(vector<Base*> bases) {
 			{
 				retry = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 

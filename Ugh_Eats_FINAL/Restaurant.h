@@ -82,8 +82,7 @@ class Order {
 	size_t id;
 	Restaurant * restaurant;
 	vector<Product*> products;
-	Time time;
-	Date date;
+	Date_time date_time;
 	//bool success;
 	//string insuccess_message;
 	double delivery_fee;
@@ -100,15 +99,13 @@ public:
 	void setRestaurant(Restaurant * r);
 	void setClient(Client * c);
 	void setProducts(vector <Product*> p);
-	void setTime(Time t);
-	void setDate(Date d);
+	void setDateTime(Date_time t);
 	void setDeliveryFee(double fee);
 	void setDeliver(Deliver *d);
 	size_t getID() const;
 	Restaurant* getRestaurant() const;
 	vector <Product*> getProducts() const;
-	Time getTime() const;
-	Date getDate() const;
+	Date_time getDateTime() const;
 	double getDeliveryFee()const;
 	Deliver * getDeliver()const;
 	
@@ -131,23 +128,20 @@ class Deliver
 {
 private:
 	int id; // a partir daqui vai buscar a informa��o necess�ria ao vetor das orders
-	Time time;
-	Date date;
+	Date_time date_time;
 	bool success;
 	string insuccess_message;
 	Delivery * delivery_man;
 public:
 	Deliver();
-	Deliver(int i, Time t, Date d, bool s, Delivery * dm);
+	Deliver(int i, Date_time t, bool s, Delivery * dm);
 	void setID(int i);
-	void setTime(Time t);
-	void setDate(Date d);
+	void setDateTime(Date_time t);
 	void setInsuccessMessage(string s);
 	void setSuccess(bool s);
 	void setDeliveryMan(Delivery * dm);
 	int  getID() const;
-	Time & getTime();
-	Date & getDate();
+	Date_time & getDateTime(); //cant be const cuz must return reference
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
 	Delivery * getDeliveryMan() const;

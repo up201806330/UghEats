@@ -277,6 +277,8 @@ void Base::seeOneClient()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(answer))
+				throw InvalidNumberException(answer);
 			int input = stoi(answer);
 			retry = false;
 			if (InvalidOptions(clients.size(), input))
@@ -286,6 +288,13 @@ void Base::seeOneClient()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -334,6 +343,8 @@ void Base::seeOneRestaurant()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(answer))
+				throw InvalidNumberException(answer);
 			int input = stoi(answer);
 			if (InvalidOptions(restaurants.size(), input))
 				throw InvalidOptionException(input);
@@ -342,6 +353,13 @@ void Base::seeOneRestaurant()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -435,6 +453,8 @@ void Base::seeOneWorker()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(input))
+				throw InvalidNumberException(input);
 			answer = stoi(input);
 			retry = false;
 			if (InvalidOptions(workers.size(), answer))
@@ -444,6 +464,13 @@ void Base::seeOneWorker()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -600,6 +627,7 @@ void Base::seeProfitsPerClient()
 
 void Base::seeProfitsPerTime()
 {
+	/*
 	string datei, datef, houri, hourf;
 	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
 	getline(cin, datei);
@@ -674,6 +702,7 @@ void Base::seeProfitsPerTime()
 
 	cout << "\n>> ";
 	cin.ignore();
+	*/
 }
 
 
@@ -912,7 +941,9 @@ void Base::changeClient() {
 				cin.clear();
 				return;
 			}
-
+			
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			clientChoice = stoi(strChoice);
 
 			if (InvalidOptions(clients.size(), clientChoice)) {
@@ -922,6 +953,12 @@ void Base::changeClient() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		
@@ -961,6 +998,9 @@ void Base::removeClient() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
+
 			clientChoice = stoi(strChoice);
 
 			if (InvalidOptions(clients.size(), clientChoice)) {
@@ -970,6 +1010,12 @@ void Base::removeClient() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 
@@ -1015,6 +1061,8 @@ void Base::addWorker(){
 				cin.clear();
 				return;
 			}
+			if (!isNumber(strWorkerType))
+				throw InvalidNumberException(strWorkerType);
 			if (InvalidOptions(2, stoi(strWorkerType)))
 				throw InvalidOptionException(stoi(strWorkerType));
 		}
@@ -1022,6 +1070,12 @@ void Base::addWorker(){
 		{
 			invalidWorkerType = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidWorkerType = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 	} while (invalidWorkerType);
@@ -1078,7 +1132,7 @@ void Base::addWorker(){
 
 	// birthday input
 	bool invalidBirthday;
-	Date birthday;
+	Date_time birthday;
 	do {
 		invalidBirthday = false;
 
@@ -1119,7 +1173,7 @@ void Base::addWorker(){
 
 	bool invalidRegistrationDate = false;
 	string strRegistrationDate;
-	Date registrationDate; 
+	Date_time registrationDate; 
 
 
 	// chose Admin
@@ -1142,10 +1196,22 @@ void Base::addWorker(){
 				}
 
 				try {
+					if (!isNumber(strManagerInput))
+						throw InvalidNumberException(strManagerInput);
 					managerInput = stoi(strManagerInput);
+					if (InvalidOptions(2, managerExists))
+						throw InvalidOptionException(managerExists);
 				}
-				catch (...) {
+				catch (InvalidOptionException & o) {
 					invalidManagerInput = true;
+					cout << o;
+					cout << "Try Again!" << endl << endl;
+				}
+				catch (InvalidNumberException & s)
+				{
+					invalidManagerInput = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
 				}
 
 				cout << endl;
@@ -1341,7 +1407,8 @@ void Base::changeWorker() {
 				return;
 			}
 
-
+			if (!isNumber(strWorkerChoice))
+				throw InvalidNumberException(strWorkerChoice);
 			workerChoice = stoi(strWorkerChoice);
 
 			if (InvalidOptions(workers.size(), workerChoice)) {
@@ -1351,6 +1418,12 @@ void Base::changeWorker() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
@@ -1394,7 +1467,7 @@ void Base::changeWorker() {
 	bool invalidNif = false;
 
 	bool invalidBirthday = false;
-	Date newBirthday;
+	Date_time newBirthday;
 	string fullBirthday;
 
 	bool invalidWage = false;
@@ -1409,7 +1482,7 @@ void Base::changeWorker() {
 	string newVehicleBrand;
 	string newVehicleType;
 	string strNewRegistDate;
-	Date newRegistDate;
+	Date_time newRegistDate;
 	Vehicle newVehicle;
 
 	// worker chosen is an Admin
@@ -1431,6 +1504,8 @@ void Base::changeWorker() {
 					return;
 				}
 
+				if (!isNumber(strAdminAttributeChoice))
+					throw InvalidNumberException(strAdminAttributeChoice);
 				adminAttributeChoice = stoi(strAdminAttributeChoice);
 
 				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) {
@@ -1442,6 +1517,12 @@ void Base::changeWorker() {
 				invalidOption = true;
 				cout << o;
 				cout << "Try Again!" << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				invalidOption = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
 			}
 
 			cout << endl;
@@ -1498,8 +1579,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << adminObject->get_birthday().get_day() << " / "
-						<< adminObject->get_birthday().get_month() << " / " << adminObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << adminObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1592,6 +1672,8 @@ void Base::changeWorker() {
 					return;
 				}
 
+				if (!isNumber(strDelivAttributeChoice))
+					throw InvalidNumberException(strDelivAttributeChoice);
 				delivAttributeChoice = stoi(strDelivAttributeChoice);
 
 				if (InvalidOptions(deliveryOptions.size(), delivAttributeChoice)) {
@@ -1602,6 +1684,12 @@ void Base::changeWorker() {
 			catch (InvalidOptionException & o) {
 				invalidOption = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				invalidOption = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 
@@ -1660,8 +1748,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << delivObject->get_birthday().get_day() << " / "
-						<< delivObject->get_birthday().get_month() << " / " << delivObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << delivObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1740,9 +1827,7 @@ void Base::changeWorker() {
 				do {
 					invalidRegistrationDate = false;
 
-					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date().get_day()
-						<< " / " << delivObject->get_vehicle().get_registration_date().get_month() << " / "
-						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
+					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date() << endl;
 					cout << "Updated Registration Date: ";
 					getline(cin, strNewRegistDate);
 
@@ -1830,6 +1915,10 @@ void Base::removeWorker() {
 				return;
 			}
 
+			if (!isNumber(strWorkerChoice))
+			{
+				throw InvalidNumberException(strWorkerChoice);
+			}
 			workerChoice = stoi(strWorkerChoice);
 
 			if (InvalidOptions(workers.size(), workerChoice)) {
@@ -1839,6 +1928,12 @@ void Base::removeWorker() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
@@ -2014,6 +2109,8 @@ void Base::changeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			restaurantChoice = stoi(strChoice);
 
 			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
@@ -2025,7 +2122,12 @@ void Base::changeRestaurant() {
 			cout << o;
 			cout << "Try Again!" << endl << endl;
 		}
-
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
 		cout << endl;
 
 	} while (invalidOption);
@@ -2055,6 +2157,8 @@ void Base::changeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			attributeChoice = stoi(strChoice);
 
 			if (InvalidOptions(options.size(), attributeChoice)) {
@@ -2064,6 +2168,12 @@ void Base::changeRestaurant() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 
@@ -2235,6 +2345,8 @@ void Base::removeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			restaurantChoice = stoi(strChoice);
 
 			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
@@ -2246,6 +2358,13 @@ void Base::removeRestaurant() {
 			cout << o;
 			cout << "Try Again!" << endl;
 		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
 
 		cout << endl;
 
@@ -2397,7 +2516,7 @@ Delivery* Base::getDeliveryMan()
 			delivery_men.push_back(d);
 		}
 	}
-	int comp = delivery_men[0]->get_history().size();
+	size_t comp = delivery_men[0]->get_history().size();
 	Delivery * result = delivery_men[0];
 	vector<Delivery*>::iterator it;
 	for (it = delivery_men.begin(); it != delivery_men.end(); it++)
