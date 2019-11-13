@@ -2419,30 +2419,51 @@ void Base::removeRestaurant() {
 void Base::searchForRestaurant() 
 {
 	string name;
-	cout << "Which Restaurant do you want?" << endl;
-	getline(cin, name);
-	if (cin.eof())
+	bool retry = true;
+	do
 	{
-		cin.clear();
-		return;
-	}
-	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
-	{
-	    if ((*it)->get_name() == name)
+		try
 		{
-			cout << "Products Available" << endl;
-			vector<Product*> vec = (*it)->get_products();
-			vector<Product*>::iterator ite;
-			for (ite = vec.begin(); ite != vec.end(); ite++)
+			retry = false;
+			cout << "Which Restaurant do you want?" << endl;
+			getline(cin, name);
+			if (cin.eof())
 			{
-				cout << *(*ite);
-				cout << endl;
+				cin.clear();
+				return;
 			}
-			cout << endl;
+			//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+			vector<Restaurant*>::iterator it;
+			bool notFound = true;
+			for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
+			{
+				if ((*it)->get_name() == name)
+				{
+					cout << "Products Available" << endl;
+					vector<Product*> vec = (*it)->get_products();
+					vector<Product*>::iterator ite;
+					for (ite = vec.begin(); ite != vec.end(); ite++)
+					{
+						cout << *(*ite);
+						cout << endl;
+						notFound = false;
+					}
+					cout << endl;
+				}
+			}
+			if(notFound)
+				throw RestaurantNotFoundException(name);
 		}
-	}
+		catch (RestaurantNotFoundException & r)
+		{
+			retry = true;
+			cout << r;
+			cout << "Try Again!" << endl << endl;
+		}
+		
+	} while (retry);
+
+	
 }
 
 
