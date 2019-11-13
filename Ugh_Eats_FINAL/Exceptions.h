@@ -197,7 +197,7 @@ public:
 
 inline bool InvalidOptions(int max, int ans)
 {
-	if (ans < 1 || ans > max)
+	if (ans < 0 || ans > max)
 		return true;
 	else
 		return false;
