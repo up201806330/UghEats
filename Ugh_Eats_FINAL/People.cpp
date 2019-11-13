@@ -370,7 +370,7 @@ void Client::print() {
 
 
 
-void Client::edit() {
+void Client::edit() { // Bugs com a Address
 
 	utils::clear_screen();
 
@@ -487,7 +487,7 @@ void Client::edit() {
 					throw InvalidAddressException(fullAddress);
 
 				// if it doesnt belong to the are of influence it is considered invalid
-				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
+				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) { // area of influence is empty
 					throw InvalidCityException(address.get_town());
 				}
 			}
