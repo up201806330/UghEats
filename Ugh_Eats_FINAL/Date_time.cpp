@@ -311,64 +311,61 @@ Date addOneDay(Date d)
 */
 
 Date_time::Date_time()
-{
+{/*
+	time_t date_time;
 	time(&date_time);
-	tm = localtime(&date_time);
+	strct = *localtime(&date_time);
+*/
 }
 
 void Date_time::setYear(int y)
 {
-	tm->tm_year = y - 1900;
-	date_time = mktime(tm);
+	strct.tm_year = y - 1900;
 }
 
 void Date_time::setMonth(int m)
 {
-	tm->tm_mon = m;
-	date_time = mktime(tm);
+	strct.tm_mon = m - 1;
 }
 
 void Date_time::setDay(int d)
 {
-	tm->tm_mday= d;
-	date_time = mktime(tm);
+	strct.tm_mday= d;
 }
 
 void Date_time::setHours(int h)
 {
-	tm->tm_hour = h;
-	date_time = mktime(tm);
+	strct.tm_hour = h;
 }
 
 void Date_time::setMinutes(int m)
 {
-	tm->tm_min = m;
-	date_time = mktime(tm);
+	strct.tm_min = m;
 }
 
 int Date_time::getYear() const
 {
-	return tm->tm_year;
+	return strct.tm_year + 1900;
 }
 
 int Date_time::getMonth() const
 {
-	return tm->tm_mon;
+	return strct.tm_mon + 1;
 }
 
 int Date_time::getDay() const
 {
-	return tm->tm_mday;
+	return strct.tm_mday;
 }
 
 int Date_time::getHours() const
 {
-	return tm->tm_hour;
+	return strct.tm_hour;
 }
 
 int Date_time::getMinutes() const
 {
-	return tm->tm_min;
+	return strct.tm_min;
 }
 
 void Date_time::parse(string x)
@@ -393,8 +390,8 @@ void Date_time::parse(string x)
 	//else throw something
 }
 
-ostream& operator<<(ostream & out, const Date_time & right) {
-	out << right.getDay() << " / " << right.getMonth() << " / " << 1900 + right.getYear();
+ostream& operator<<(ostream & out, const Date_time right) {
+	out << right.getDay() << " / " << right.getMonth() << " / " << right.getYear();
 	if (!right.just_date) out << " : " << right.getHours() << ":" << right.getMinutes();
 	return out;
 }

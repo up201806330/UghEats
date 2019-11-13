@@ -66,8 +66,7 @@ bool addTimeAndMinutes(tm time, int min,tm * result);
 */
 
 class Date_time {
-	time_t date_time;
-	struct tm * tm;
+	struct tm strct;
 	bool just_date;
 
 public:
@@ -86,7 +85,7 @@ public:
 	int getMinutes() const;
 
 	friend bool operator<(const Date_time & left, const Date_time & right);
-	friend ostream& operator<<(ostream & out, const Date_time & right);
+	friend ostream& operator<<(ostream & out, const Date_time right);
 
 	void parse(string x);
 };
