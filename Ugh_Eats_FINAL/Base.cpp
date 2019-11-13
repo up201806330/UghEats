@@ -1343,7 +1343,7 @@ void Base::addWorker(){
 
 		vehicle.set_brand(vehicleBrand);
 		vehicle.set_type(vehicleType);
-		vehicle.set_registrationDate(&registrationDate);
+		vehicle.set_registrationDate(registrationDate);
 
 		// Vehicle * ptr2 = new Vehicle;
 		// *ptr2 = vehicle;
@@ -1858,7 +1858,7 @@ void Base::changeWorker() {
 					}
 					cout << endl;
 				} while (invalidRegistrationDate);
-				newVehicle.set_registrationDate(&newRegistDate);
+				newVehicle.set_registrationDate(newRegistDate);
 
 				// Vehicle * ptrNewVehicle = new Vehicle;
 				// *ptrNewVehicle = newVehicle;
