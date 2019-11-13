@@ -128,6 +128,24 @@ map<int, Order*> Base::findOrders(string str) {
 	return result;
 }
 
+
+void Base::setRestaurantsFileName(string str) {
+	restaurantsFileName = str;
+}
+
+void Base::setDeliveriesFileName(string str) {
+	deliveriesFileName = str;
+}
+
+void Base::setWorkersFileName(string str) {
+	workersFileName = str;
+}
+
+void Base::setClientsFileName(string str) {
+	clientsFileName = str;
+}
+
+
 void Base::setDistrict(string d){
 	district = d;
 }
@@ -160,6 +178,26 @@ void Base::setOrders(map<int, Order*> orders)
 void Base::setRestaurants(vector<Restaurant*> restaurants){
 	this->restaurants = restaurants;
 }
+
+
+
+string Base::getRestaurantsFileName() const {
+	return restaurantsFileName;
+}
+
+string Base::getDeliveriesFileName() const {
+	return deliveriesFileName;
+}
+
+string Base::getWorkersFileName() const {
+	return workersFileName;
+}
+
+string Base::getClientsFileName() const {
+	return clientsFileName;
+}
+
+
 
 string Base::getDistrict() const{
 	return district;
@@ -228,6 +266,8 @@ void Base::seeOneClient()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(answer))
+				throw InvalidNumberException(answer);
 			int input = stoi(answer);
 			retry = false;
 			if (InvalidOptions(clients.size(), input))
@@ -237,6 +277,13 @@ void Base::seeOneClient()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -285,6 +332,8 @@ void Base::seeOneRestaurant()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(answer))
+				throw InvalidNumberException(answer);
 			int input = stoi(answer);
 			if (InvalidOptions(restaurants.size(), input))
 				throw InvalidOptionException(input);
@@ -293,6 +342,13 @@ void Base::seeOneRestaurant()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -386,6 +442,8 @@ void Base::seeOneWorker()
 				cin.clear();
 				return;
 			}
+			if (!isNumber(input))
+				throw InvalidNumberException(input);
 			answer = stoi(input);
 			retry = false;
 			if (InvalidOptions(workers.size(), answer))
@@ -395,6 +453,13 @@ void Base::seeOneWorker()
 		{
 			retry = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+			id = 1;
+		}
+		catch (InvalidNumberException & s)
+		{
+			retry = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
@@ -865,7 +930,9 @@ void Base::changeClient() {
 				cin.clear();
 				return;
 			}
-
+			
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			clientChoice = stoi(strChoice);
 
 			if (InvalidOptions(clients.size(), clientChoice)) {
@@ -875,6 +942,12 @@ void Base::changeClient() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		
@@ -914,6 +987,9 @@ void Base::removeClient() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
+
 			clientChoice = stoi(strChoice);
 
 			if (InvalidOptions(clients.size(), clientChoice)) {
@@ -923,6 +999,12 @@ void Base::removeClient() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 
@@ -968,6 +1050,8 @@ void Base::addWorker(){
 				cin.clear();
 				return;
 			}
+			if (!isNumber(strWorkerType))
+				throw InvalidNumberException(strWorkerType);
 			if (InvalidOptions(2, stoi(strWorkerType)))
 				throw InvalidOptionException(stoi(strWorkerType));
 		}
@@ -975,6 +1059,12 @@ void Base::addWorker(){
 		{
 			invalidWorkerType = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidWorkerType = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 	} while (invalidWorkerType);
@@ -1095,10 +1185,22 @@ void Base::addWorker(){
 				}
 
 				try {
+					if (!isNumber(strManagerInput))
+						throw InvalidNumberException(strManagerInput);
 					managerInput = stoi(strManagerInput);
+					if (InvalidOptions(2, managerExists))
+						throw InvalidOptionException(managerExists);
 				}
-				catch (...) {
+				catch (InvalidOptionException & o) {
 					invalidManagerInput = true;
+					cout << o;
+					cout << "Try Again!" << endl << endl;
+				}
+				catch (InvalidNumberException & s)
+				{
+					invalidManagerInput = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
 				}
 
 				cout << endl;
@@ -1294,7 +1396,8 @@ void Base::changeWorker() {
 				return;
 			}
 
-
+			if (!isNumber(strWorkerChoice))
+				throw InvalidNumberException(strWorkerChoice);
 			workerChoice = stoi(strWorkerChoice);
 
 			if (InvalidOptions(workers.size(), workerChoice)) {
@@ -1304,6 +1407,12 @@ void Base::changeWorker() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
@@ -1384,6 +1493,8 @@ void Base::changeWorker() {
 					return;
 				}
 
+				if (!isNumber(strAdminAttributeChoice))
+					throw InvalidNumberException(strAdminAttributeChoice);
 				adminAttributeChoice = stoi(strAdminAttributeChoice);
 
 				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) {
@@ -1395,6 +1506,12 @@ void Base::changeWorker() {
 				invalidOption = true;
 				cout << o;
 				cout << "Try Again!" << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				invalidOption = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
 			}
 
 			cout << endl;
@@ -1544,6 +1661,8 @@ void Base::changeWorker() {
 					return;
 				}
 
+				if (!isNumber(strDelivAttributeChoice))
+					throw InvalidNumberException(strDelivAttributeChoice);
 				delivAttributeChoice = stoi(strDelivAttributeChoice);
 
 				if (InvalidOptions(deliveryOptions.size(), delivAttributeChoice)) {
@@ -1554,6 +1673,12 @@ void Base::changeWorker() {
 			catch (InvalidOptionException & o) {
 				invalidOption = true;
 				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				invalidOption = true;
+				cout << s;
 				cout << "Try Again!" << endl << endl;
 			}
 
@@ -1779,6 +1904,10 @@ void Base::removeWorker() {
 				return;
 			}
 
+			if (!isNumber(strWorkerChoice))
+			{
+				throw InvalidNumberException(strWorkerChoice);
+			}
 			workerChoice = stoi(strWorkerChoice);
 
 			if (InvalidOptions(workers.size(), workerChoice)) {
@@ -1788,6 +1917,12 @@ void Base::removeWorker() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 		cout << endl;
@@ -1963,6 +2098,8 @@ void Base::changeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			restaurantChoice = stoi(strChoice);
 
 			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
@@ -1974,7 +2111,12 @@ void Base::changeRestaurant() {
 			cout << o;
 			cout << "Try Again!" << endl << endl;
 		}
-
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
 		cout << endl;
 
 	} while (invalidOption);
@@ -2004,6 +2146,8 @@ void Base::changeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			attributeChoice = stoi(strChoice);
 
 			if (InvalidOptions(options.size(), attributeChoice)) {
@@ -2013,6 +2157,12 @@ void Base::changeRestaurant() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 
@@ -2184,6 +2334,8 @@ void Base::removeRestaurant() {
 				return;
 			}
 
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			restaurantChoice = stoi(strChoice);
 
 			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
@@ -2195,6 +2347,13 @@ void Base::removeRestaurant() {
 			cout << o;
 			cout << "Try Again!" << endl;
 		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
 
 		cout << endl;
 

@@ -16,6 +16,10 @@ using namespace std;
 
 class Base {
 private:
+	string restaurantsFileName;
+	string deliveriesFileName;
+	string workersFileName;
+	string clientsFileName;
 	string district;
 	vector<string> areaOfInfluence;
 	Address address;
@@ -40,6 +44,11 @@ public:
 	Restaurant * findRestaurant(string str);
 	map<int, Order*> findOrders(string str);
 
+	void setRestaurantsFileName(string str);
+	void setDeliveriesFileName(string str);
+	void setWorkersFileName(string str);
+	void setClientsFileName(string str);
+
 	void setDistrict(string d);
 	void setAreaOfInfluence(vector<string> areaOfInf);
 	void setAddress(Address add);
@@ -50,6 +59,12 @@ public:
 	void setRestaurants(vector<Restaurant*> restaurants);
 
 	void setDeliveryManPointerOnOrders(Delivery * x);
+
+
+	string getRestaurantsFileName() const;
+	string getDeliveriesFileName() const;
+	string getWorkersFileName() const;
+	string getClientsFileName() const;
 
 	string getDistrict() const;
 	vector<string> getAreaOfInfluence() const;

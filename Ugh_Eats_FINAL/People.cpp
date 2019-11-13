@@ -400,8 +400,9 @@ void Client::edit() {
 				cin.clear();
 				return;
 			}
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
 			attributeChoice = stoi(strChoice);
-
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
 			}
@@ -409,6 +410,12 @@ void Client::edit() {
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
 			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
 
