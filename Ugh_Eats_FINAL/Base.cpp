@@ -124,10 +124,6 @@ map<int, Order*> Base::findOrders(string str) {
 		// cout << "x: " << x << endl;
 		
 		map<int, Order*>::iterator it = orders.find(x);
-		for (it = orders.begin(); it != orders.end(); it++) {
-			// cout << "Order: " << (*it).first << " " << ((*it).second)->getID() << endl;
-		}
-
 
 		if (it != orders.end()) {
 			// cout << "x: " << x << " second: " << (*it).second << " ." << endl;
@@ -1347,7 +1343,7 @@ void Base::addWorker(){
 
 		vehicle.set_brand(vehicleBrand);
 		vehicle.set_type(vehicleType);
-		vehicle.set_registrationDate(registrationDate);
+		vehicle.set_registrationDate(&registrationDate);
 
 		// Vehicle * ptr2 = new Vehicle;
 		// *ptr2 = vehicle;
@@ -1862,7 +1858,7 @@ void Base::changeWorker() {
 					}
 					cout << endl;
 				} while (invalidRegistrationDate);
-				newVehicle.set_registrationDate(newRegistDate);
+				newVehicle.set_registrationDate(&newRegistDate);
 
 				// Vehicle * ptrNewVehicle = new Vehicle;
 				// *ptrNewVehicle = newVehicle;

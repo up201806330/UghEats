@@ -24,10 +24,10 @@ void Vehicle::parse(string str){
 	vector<string> parts = utils::split(str, ':');
 	brand = parts.at(0);
 	type = parts.at(1);
-	registration_date.parse(parts.at(2));
+	registration_date->parse(parts.at(2));
 }
 
-void Vehicle::set_registrationDate(Date_time data)
+void Vehicle::set_registrationDate(Date_time * data)
 {
 	registration_date = data;
 
@@ -43,7 +43,7 @@ void Vehicle::set_brand(string marca)
 	brand = marca;
 }
 
-Date_time Vehicle::get_registration_date() const
+Date_time * Vehicle::get_registration_date() const
 {
 	return registration_date;
 }
@@ -370,7 +370,7 @@ void Client::print() {
 
 
 
-void Client::edit(Base * base) {
+void Client::edit() { // Bugs com a Address
 
 	utils::clear_screen();
 
@@ -401,10 +401,8 @@ void Client::edit(Base * base) {
 				cin.clear();
 				return;
 			}
-			/*
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			*/
 			attributeChoice = stoi(strChoice);
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
@@ -429,8 +427,8 @@ void Client::edit(Base * base) {
 
 	// HARD CODED FOR BASE PORTO
 	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
-	vector<string> areaOfInf = base->getAreaOfInfluence();
-	
+	vector<string> areaOfInf = this->get_base()->getAreaOfInfluence();
+
 	string newName;
 
 	string strNewNif;
@@ -564,7 +562,7 @@ void Client::make_order(Base * b) //not working e faltam cenas
 	//o.setDate(Date::getCurrentDate(time));
 	//Time t(*time);
 	//o.setTime(t);
-	////preciso de ver onde checkar os concelhos que fazem parte do distrito ou que sï¿½o adjacentes para a delivery fee
+	////preciso de ver onde checkar os concelhos que fazem parte do distrito ou que são adjacentes para a delivery fee
 	//Deliver d;
 	//d.setID(last_id + 1);
 	//int delivery_minutes = (rand() % 60) + 11;
@@ -577,7 +575,7 @@ void Client::make_order(Base * b) //not working e faltam cenas
 	//	Time time_d(*dt);
 	//	d.setTime(time_d);
 	//}
-	////como testo se foi successful ou nï¿½o?
+	////como testo se foi successful ou não?
 	//d.setDeliveryMan(b->getDeliveryMan());
 	//orders.push_back(&o);
 	//d.getDeliveryMan()->get_history().push_back(&o);
