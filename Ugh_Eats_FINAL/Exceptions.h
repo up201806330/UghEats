@@ -220,7 +220,7 @@ inline bool isString(string str)
 	{
 		if (str[i] < 65 || str[i] > 90) //letras maiusculas
 			if (str[i] < 97 || str[i] > 122) //letras minusculas
-				if (str[i] != 45 || str[i] != 32) //aceitar "-" e espaço
+				if (str[i] != 45 && str[i] != 32) //aceitar "-" e espaço
 					return false;
 
 	}

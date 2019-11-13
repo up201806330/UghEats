@@ -24,12 +24,16 @@ bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos s
 	if (!isString(town))
 		return false;
 	street = parts.at(2);
+	
 	if (!isString(street))
 		return false;
-
 	
+	
+
+	/*
 	if (!isNumber(parts.at(3)) || !isNumber(parts.at(4)) || !isNumber(parts.at(5)) || !isNumber(parts.at(6)))
 		return false;
+	*/
 	number = stoi(parts.at(3));
 	floor = stoi(parts.at(4));
 	latitude = stod(parts.at(5));

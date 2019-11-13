@@ -129,7 +129,7 @@ public:
 	void print();
 
 	void make_order(Base * base);
-	void edit();
+	void edit(Base * base);
 };
 
 

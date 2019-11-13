@@ -41,7 +41,7 @@ void main_menu_client(Client* client, Base * base) {
 
 
 		if (input == "1") client->make_order(base);
-		if (input == "2") client->edit();
+		if (input == "2") client->edit(base);
 		if (cin.eof()) {
 			cin.clear();
 			exit(0); //<------------------------- implement something to save and exit

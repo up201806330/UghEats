@@ -314,17 +314,20 @@ void Order::load(string path, Base * base){
 		// orders_text >> textline;
 
 		Date_time x; x.parse(textline);
+		order.setDateTime(x);
 		
 		getline(orders_text, textline);
 		// orders_text >> textline;
 
 		Date_time y; y.parse(textline);
-
 		//Delivery guy seria aqui
 
 		Deliver * bleh = new Deliver;
 		*bleh = deliver;
 		order.setDeliver(bleh);
+
+		order.getDeliver()->setDateTime(&y); // must be done here
+
 
 		vector<Product*> prods;
 		while(getline(orders_text, textline)){
@@ -464,7 +467,7 @@ Deliver::Deliver()
 
 }
 
-Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm)
+Deliver::Deliver(int i, Date_time * t, bool s, Delivery * dm)
 {
 	id = i;
 	date_time = t;
@@ -478,7 +481,7 @@ void Deliver::setID(int i)
 	id = i;
 }
 
-void Deliver::setDateTime(Date_time t) {
+void Deliver::setDateTime(Date_time * t) {
 	date_time = t;
 }
 
@@ -503,7 +506,7 @@ int Deliver::getID() const
 	return id;
 }
 
-Date_time & Deliver::getDateTime()
+Date_time * Deliver::getDateTime()
 {
 	return date_time;
 }

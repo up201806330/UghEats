@@ -16,4 +16,4 @@ Porto / Lousada / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
 ytka
 Porto / Gondomar / Unknown / 34 / -1 / 234.435 / 998.235
 999999999
-6 
+6
