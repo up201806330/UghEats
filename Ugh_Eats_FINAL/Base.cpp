@@ -551,6 +551,7 @@ void Base::seeProfitsPerClient()
 
 void Base::seeProfitsPerTime()
 {
+	/*
 	string datei, datef, houri, hourf;
 	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
 	getline(cin, datei);
@@ -625,6 +626,7 @@ void Base::seeProfitsPerTime()
 
 	cout << "\n>> ";
 	cin.ignore();
+	*/
 }
 
 
@@ -1029,7 +1031,7 @@ void Base::addWorker(){
 
 	// birthday input
 	bool invalidBirthday;
-	Date birthday;
+	Date_time birthday;
 	do {
 		invalidBirthday = false;
 
@@ -1070,7 +1072,7 @@ void Base::addWorker(){
 
 	bool invalidRegistrationDate = false;
 	string strRegistrationDate;
-	Date registrationDate; 
+	Date_time registrationDate; 
 
 
 	// chose Admin
@@ -1345,7 +1347,7 @@ void Base::changeWorker() {
 	bool invalidNif = false;
 
 	bool invalidBirthday = false;
-	Date newBirthday;
+	Date_time newBirthday;
 	string fullBirthday;
 
 	bool invalidWage = false;
@@ -1360,7 +1362,7 @@ void Base::changeWorker() {
 	string newVehicleBrand;
 	string newVehicleType;
 	string strNewRegistDate;
-	Date newRegistDate;
+	Date_time newRegistDate;
 	Vehicle newVehicle;
 
 	// worker chosen is an Admin
@@ -1449,8 +1451,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << adminObject->get_birthday().get_day() << " / "
-						<< adminObject->get_birthday().get_month() << " / " << adminObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << adminObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1611,8 +1612,7 @@ void Base::changeWorker() {
 				do {
 					invalidBirthday = false;
 
-					cout << "Current Birthday: " << delivObject->get_birthday().get_day() << " / "
-						<< delivObject->get_birthday().get_month() << " / " << delivObject->get_birthday().get_year() << endl;
+					cout << "Current Birthday: " << delivObject->get_birthday() << endl;
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
@@ -1691,9 +1691,7 @@ void Base::changeWorker() {
 				do {
 					invalidRegistrationDate = false;
 
-					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date().get_day()
-						<< " / " << delivObject->get_vehicle().get_registration_date().get_month() << " / "
-						<< delivObject->get_vehicle().get_registration_date().get_year() << endl;
+					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date() << endl;
 					cout << "Updated Registration Date: ";
 					getline(cin, strNewRegistDate);
 
@@ -2348,7 +2346,7 @@ Delivery* Base::getDeliveryMan()
 			delivery_men.push_back(d);
 		}
 	}
-	int comp = delivery_men[0]->get_history().size();
+	size_t comp = delivery_men[0]->get_history().size();
 	Delivery * result = delivery_men[0];
 	vector<Delivery*>::iterator it;
 	for (it = delivery_men.begin(); it != delivery_men.end(); it++)
