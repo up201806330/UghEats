@@ -19,7 +19,7 @@ public:
 
 	~Address();
 	
-	void parse(string str);
+	bool parse(string str);
 
 	void setTown(string cidade);
 	void setDistrict(string distrito);

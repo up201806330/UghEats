@@ -17,7 +17,7 @@ public:
 
 	~Date();
 
-	void parse(string str);
+	bool parse(string str);
 
 	void setDay(size_t d);
 	void setMonth(size_t m);

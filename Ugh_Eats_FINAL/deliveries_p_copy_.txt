@@ -1,0 +1,10 @@
+1
+Macdonal
+3
+
+
+
+
+
+pepperooni : Pizza : 7
+conk : Drink : 2
