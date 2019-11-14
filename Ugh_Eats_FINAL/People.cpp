@@ -399,15 +399,15 @@ void Client::edit(Base * base) {
 		try {
 			cout << ">> ";
 			getline(cin, strChoice);
-			if (cin.eof())
-			{
-				cin.clear();
-				return;
-			}
-			/*
+			//if (cin.eof())
+			//{
+			//	cin.clear();
+			//	return;
+			//}
+			
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			*/
+			
 			attributeChoice = stoi(strChoice);
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
@@ -481,18 +481,21 @@ void Client::edit(Base * base) {
 			cout << "Updated Nif: ";
 			getline(cin, strNewNif);
 			try {
-				newNif = stoi(strNewNif);
+				if (!isNumber(strNewNif) || strNewNif.size() != 9)
+					throw InvalidNIFException(strNewNif);
 			}
 
-			catch (...) {
+			catch (InvalidNIFException & n) {
 				invalidNif = true;
+				cout << n;
+				cout <<"Try Again!" << endl << endl;
 			}
-			break;
+			
 
 			cout << endl;
 
 		} while (invalidNif);
-		this->set_NIF(newNif);
+		this->set_NIF(stoi(strNewNif));
 		break;
 
 		// Address

@@ -941,16 +941,19 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 			//}
 
 			try {
-				nif = stoi(strNif);
+				if (!isNumber(strNif) || strNif.size() != 9)
+					throw InvalidNIFException(strNif);
 			}
 
-			catch (...) {
+			catch (InvalidNIFException & n) {
 				invalidNif = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
 			}
 
 		} while (invalidNif);
 
-		c.set_NIF(nif);
+		c.set_NIF(stoi(strNif));
 
 		// address input
 		bool invalidAddress;
@@ -1240,17 +1243,20 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		cout << "NIF: ";
 		getline(cin, strNif);
 
-		if (cin.eof()) {
-			cin.clear();
-			return;
-		}
+		//if (cin.eof()) {
+		//	cin.clear();
+		//	return;
+		//}
 
 		try {
-			nif = stoi(strNif);
+			if (!isNumber(strNif) || strNif.size() != 9)
+				throw InvalidNIFException(strNif);
 		}
 
-		catch (...) {
+		catch (InvalidNIFException & n) {
 			invalidNif = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;
@@ -1423,7 +1429,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		}
 
 		admin.set_name(name);
-		admin.set_NIF(nif);
+		admin.set_NIF(stoi(strNif));
 		admin.set_birthday(birthday);
 
 		Admin * ptr3 = new Admin;
@@ -1523,7 +1529,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		delivery.set_vehicle(vehicle);
 
 		delivery.set_name(name);
-		delivery.set_NIF(nif);
+		delivery.set_NIF(stoi(strNif));
 		delivery.set_birthday(birthday);
 
 		Delivery * ptr4 = new Delivery;
@@ -1758,19 +1764,22 @@ void Base::changeWorker() {
 					cout << "Updated Nif: ";
 					getline(cin, strNewNif);
 
-					if (cin.eof()) {
-						cin.clear();
-						return;
-					}
+					//if (cin.eof()) {
+					//	cin.clear();
+					//	return;
+					//}
 
 					try {
-						newNif = stoi(strNewNif);
+						if (!isNumber(strNewNif) || strNewNif.size() != 9)
+							throw InvalidNIFException(strNewNif);
 					}
 
-					catch (...) {
+					catch (InvalidNIFException & n) {
 						invalidNif = true;
+						cout << n;
+						cout <<"Try Again!" << endl << endl;
 					}
-					break;
+					
 
 					cout << endl;
 				} while (invalidNif);
@@ -1958,19 +1967,22 @@ void Base::changeWorker() {
 					cout << "Updated Nif: ";
 					getline(cin, strNewNif);
 
-					if (cin.eof()) {
-						cin.clear();
-						return;
-					}
+					//if (cin.eof()) {
+					//	cin.clear();
+					//	return;
+					//}
 
 					try {
-						newNif = stoi(strNewNif);
+						if (!isNumber(strNewNif) || strNewNif.size() != 9)
+							throw InvalidNIFException(strNewNif);
 					}
 
-					catch (...) {
+					catch (InvalidNIFException & n) {
 						invalidNif = true;
+						cout << n;
+						cout << "Try Again!" << endl << endl;
 					}
-					break;
+					
 
 					cout << endl;
 				} while (invalidNif);

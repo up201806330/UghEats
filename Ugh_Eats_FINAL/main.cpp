@@ -140,7 +140,7 @@ int main(){
 
 	// main_menu(bases);
 //bases[0]->searchForCuisineTypes();
-	//main_menu(bases);
+	main_menu(bases);
 
 
 	return 0;

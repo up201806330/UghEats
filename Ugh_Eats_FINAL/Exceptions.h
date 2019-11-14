@@ -103,7 +103,20 @@ public:
 };
 
 
-// ostream & operator<<(ostream & out, InvalidCityException & c);
+class InvalidNIFException {
+private:
+	string nif;
+public:
+	InvalidNIFException(string n) { nif = n; }
+	string getNIF() { return nif; }
+	friend ostream & operator<<(ostream & out, InvalidNIFException & n)
+	{
+		out << "Invalid NIF Exception: " << n.getNIF() << " isn't a valid NIF \n";
+		return out;
+	}
+};
+
+
 
 class RestaurantNotFoundException { //Implemented
 	string restaurant_error;
@@ -204,6 +217,9 @@ public:
 		return out;
 	}
 };
+
+
+
 
 
 inline bool InvalidOptions(int max, int ans)
