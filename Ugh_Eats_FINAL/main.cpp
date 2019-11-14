@@ -12,7 +12,7 @@ int main(){
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 	
-	bases.at(0)->getClients().at(0)->make_order(bases.at(0));
+	// bases.at(0)->getClients().at(0)->make_order(bases.at(0));
 
 	// bases.at(0)->changeClient();
 	// cout << bases.at(0)->getAreaOfInfluence().size() << endl;
@@ -23,8 +23,8 @@ int main(){
 	// cout << bases.at(0)->getClients().at(0)->get_base()->getAreaOfInfluence().size() << endl;
 
 	// bases.at(0)->writeRestaurantsFile("idk.txt");
-	bases.at(0)->writeDeliveriesFile("idk.txt");
-	// bases.at(0)->writeWorkersFile("idk.txt");
+	// bases.at(0)->writeDeliveriesFile("idk.txt");
+	bases.at(0)->writeWorkersFile("idk.txt");
 	// bases.at(0)->writeClientsFile("idk.txt");
 
 	/*
@@ -130,7 +130,7 @@ int main(){
 
 	
 
-	main_menu(bases);
+	// main_menu(bases);
 //bases[0]->searchForCuisineTypes();
 	//main_menu(bases);
 

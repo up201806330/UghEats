@@ -2879,6 +2879,7 @@ void Base::writeWorkersFile(string fileName) {
 			workersFileInput << endl;
 
 			// To "Fix" when orders.find is working correctly
+			// cout << "history: " << deliveryCheck->get_history().size() << endl;
 			for (auto & order : deliveryCheck->get_history()) {
 				if (firstOrder) {
 					firstOrder = false;
@@ -2887,7 +2888,7 @@ void Base::writeWorkersFile(string fileName) {
 					workersFileInput << " : ";
 				}
 
-				workersFileInput << order.second->getID();
+				workersFileInput << order.first;
 			}
 			workersFileInput << endl;
 		}
@@ -2930,7 +2931,7 @@ void Base::writeClientsFile(string fileName) {
 
 			clientsFileInput << order.second->getID();
 		}
-		clientsFileInput << endl;
+		// clientsFileInput << endl;
 	}
 	clientsFileInput.close();
 }
