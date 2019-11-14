@@ -755,6 +755,11 @@ void main_menu(vector<Base*> bases) {
 			if (input == "3")
 			{
 				cin.clear();
+				vector<Base*>::iterator it;
+				for (it = bases.begin(); it != bases.end(); it++)
+				{
+					(*it)->writeAll();
+				}
 				exit(0); //aplicar função que guarde nos ficheiros
 			}
 		} while (retry);

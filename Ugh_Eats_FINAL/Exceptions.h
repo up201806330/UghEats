@@ -233,7 +233,17 @@ public:
 };
 
 
-
+class FileOpenErrorException {
+private:
+	string filename;
+public:
+	FileOpenErrorException(string f) { filename = f; }
+	string getFilename() { return filename; }
+	friend ostream & operator<<(ostream & out, FileOpenErrorException & f)
+	{
+		out << "File Open Error Exception: couldn't open " << f.getFilename() << endl;
+	}
+};
 
 
 inline bool InvalidOptions(int max, int ans)
