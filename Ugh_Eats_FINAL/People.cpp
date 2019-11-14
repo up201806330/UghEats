@@ -4,6 +4,8 @@
 #include "utils.h"
 #include "Exceptions.h"
 #include <list>
+#include <thread>
+#include <chrono>
 
 
 string MAIN_SEPARATOR = ";;;";
@@ -519,8 +521,164 @@ void Client::edit(Base * base) {
 }
 
 
-void Client::make_order(Base * b) //not working e faltam cenas
-{
+void Client::make_order(Base * b) {
+
+	// Tasks:
+	// - Select Restaurant
+	// - Select Products
+	// - Create Order / Deliver
+	// - Assign delivery guy
+	// - Determining if it was successfull
+	
+	bool invalidRestaurant;
+	string strRestaurant;
+	int restaurantChoice;
+
+	// choosing restaurant
+	cout << "Available Restaurants: " << endl;
+	do {
+		invalidRestaurant = false;
+
+		for (size_t i = 0; i < b->getRestaurants().size(); ++i) {
+			cout << i + 1 << ". " << b->getRestaurants().at(i)->get_name() << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strRestaurant);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
+			restaurantChoice = stoi(strRestaurant);
+
+			if (restaurantChoice < 1 || restaurantChoice > b->getRestaurants().size()) {
+				invalidRestaurant = true;
+			}
+		}
+		catch (...) {
+			invalidRestaurant = true;
+		}
+		cout << endl;
+	} while (invalidRestaurant);
+
+	restaurantChoice--; // not to excede the max index available
+	
+	Restaurant * restPtr = new Restaurant;
+	restPtr = b->getRestaurants().at(restaurantChoice);
+
+	cout << endl;
+
+	vector<Product*> pickedProducts;
+	bool invalidProduct;
+	string strProducts;
+	int productChoice;
+	
+
+	// choosing product(s)
+	for (size_t i = 0; i < restPtr->get_products().size(); ++i) {
+		cout << i + 1 << ". " << restPtr->get_products().at(i)->get_name();
+		cout << " (" << restPtr->get_products().at(i)->get_cuisine_type();
+		cout << "), " << restPtr->get_products().at(i)->get_price() << " euros" << endl;
+	}
+	cout << "Insert the id of the products you wish to order, separating them from each other with ':'" << endl;
+	do {
+		invalidProduct = false;
+		
+		getline(cin, strProducts);
+
+		if (cin.eof()) {
+			cin.clear();
+			return;
+		}
+
+		try {
+			vector<string> splitProducts = utils::split(strProducts, ':');
+			for (auto & prod : splitProducts) {
+				Product * productPtr = new Product;
+				productPtr = b->getRestaurants().at(restaurantChoice)->get_products().at(stoi(prod) - 1);
+				pickedProducts.push_back(productPtr);
+			}
+		}
+		catch (...) {
+			invalidProduct = true;
+			cout << "Invalid entry" << endl << endl;
+		}
+	} while (invalidProduct);
+	
+	
+	int lastId = b->getOrders().rbegin()->first;
+	double fee = (this->get_address().get_town() != b->getAreaOfInfluence().at(0)) ? 5.0 : 3.0;
+	Order order;
+	order.setID(lastId + 1);
+	order.setRestaurant(restPtr);
+	// order.setClient(this); <-- nao existe data member para isto e a funcao nao esta implementada
+	order.setProducts(pickedProducts);
+	// Date/Time
+	order.setDeliveryFee(fee);
+	
+	Deliver deliver;
+	deliver.setID(order.getID());
+	// deliver.setDateTime()
+	deliver.setDeliveryMan(b->getDeliveryMan()); 
+	
+	// Success/Insuccess and message
+	vector<string> errorReasons = { "traffic", "unknown", "inexistent address" };
+	srand(time(NULL));
+	int randomSuccess = rand() % 2;
+	bool delivSuccess = (randomSuccess) ? true : false;
+	int randomMessage = rand() % errorReasons.size();
+	string insuccessMessage = (delivSuccess) ? "-" : errorReasons.at(randomMessage);
+	
+	deliver.setSuccess(delivSuccess);
+	deliver.setInsuccessMessage(insuccessMessage);
+
+	Deliver * deliverPtr = new Deliver;
+	*deliverPtr = deliver;
+
+	order.setDeliver(deliverPtr);
+
+	// Updating Delivery man history
+	map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
+	updatedHistory.insert(pair<int, Order*>(order.getID(), &order));
+	b->getDeliveryMan()->set_history(updatedHistory);
+
+	// Updating Base Orders
+	map<int, Order*> updatedOrders = b->getOrders();
+	updatedOrders.insert(pair<int, Order*>(order.getID(), &order));
+	b->setOrders(updatedOrders);
+
+	// Loading effect
+	cout << "\nLoading";
+	string loadingDelivery = "...";
+	
+	for (char c : loadingDelivery) {
+		this_thread::sleep_for(std::chrono::milliseconds(1000));
+		cout << c << std::flush;
+	}
+
+	cout << endl;
+
+	if (delivSuccess) {
+		for (char c : "Successful Delivery!") {
+			this_thread::sleep_for(std::chrono::milliseconds(50));
+			cout << c << std::flush;
+		}
+	}
+	else {
+		for (char c : "Unsuccessful Delivery (reason: " + insuccessMessage + ")") {
+			this_thread::sleep_for(std::chrono::milliseconds(50));
+			cout << c << std::flush;
+		}
+	}
+	// if (delivSuccess) cout << "Successful Delivery!" << endl;
+	// else cout << "Unsuccessful Delivery (" << insuccessMessage << ")" << endl;
+
+
+	// ---------------------------------------------------------------------------
+
 	//srand(time(NULL));
 	//cout << "Pick the Restaurant you want" << endl;
 	//int c = 1, answer1;

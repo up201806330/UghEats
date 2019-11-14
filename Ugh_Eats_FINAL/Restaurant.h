@@ -94,7 +94,6 @@ public:
 	~Order();
 
 	static void load(string path, Base * base);
-
 	void setID(size_t i);
 	void setRestaurant(Restaurant * r);
 	void setClient(Client * c);

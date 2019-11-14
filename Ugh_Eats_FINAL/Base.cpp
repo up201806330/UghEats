@@ -745,9 +745,7 @@ void Base::changeBase() {
 
 	} while (invalidOption);
 
-	// HARD CODED FOR BASE PORTO
-	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
-
+	
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
@@ -803,13 +801,11 @@ void Base::changeBase() {
 	cin.ignore();
 }
 
-
 void Base::addClient() { //usar em try para apanhar execao blacklisted
 
 	Client c;
 
-	// HARD CODED FOR BASE PORTO
-	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
+	
 	string baseName = this->getDistrict();
 	c.set_base(this);
 	
@@ -1048,8 +1044,6 @@ void Base::removeClient() {
 
 }
 
-
-// TESTING NEEDED -> need to check if I missed cases dinamically allocated memory vanishing after function ending
 void Base::addWorker(){
 	
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
@@ -1365,7 +1359,6 @@ void Base::addWorker(){
 	cout << ">> ";
 	cin.ignore();
 }
-
 
 void Base::changeWorker() {
 
@@ -1874,7 +1867,6 @@ void Base::changeWorker() {
 	cin.ignore();
 }
 
-
 void Base::removeWorker() {
 
 	Admin *adminCheck;
@@ -1964,7 +1956,6 @@ void Base::removeWorker() {
 	cin.ignore();
 
 }
-
 
 void Base::addRestaurant() {
 
@@ -2440,8 +2431,6 @@ void Base::searchForRestaurant()
 	}
 }
 
-
-
 void Base::searchForGeographicArea()
 {
 	string city;
@@ -2471,8 +2460,6 @@ void Base::searchForGeographicArea()
 	}
 }
 
-
-
 void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 {
 	double min, max;
@@ -2499,7 +2486,6 @@ void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 		}
 	}
 }
-
 
 void Base::searchForCuisineTypes()
 {
