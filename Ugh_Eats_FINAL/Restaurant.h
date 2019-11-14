@@ -24,7 +24,7 @@ public:
 	
 	~Product();
 
-	void parse(string str);
+	bool parse(string str);
 
 	void setName(string nm);
 	void setCuisineType(string ct);

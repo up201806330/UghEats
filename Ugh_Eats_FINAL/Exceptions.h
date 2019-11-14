@@ -3,7 +3,7 @@
 using namespace std;
 //Exception Handling
 
-class InvalidStringException {
+class InvalidStringException { //Implemented
 	string error;
 public:	
 	InvalidStringException(string e) { error = e; }
@@ -103,7 +103,34 @@ public:
 };
 
 
-// ostream & operator<<(ostream & out, InvalidCityException & c);
+class InvalidNIFException { // Implemnented
+private:
+	string nif;
+public:
+	InvalidNIFException(string n) { nif = n; }
+	string getNIF() { return nif; }
+	friend ostream & operator<<(ostream & out, InvalidNIFException & n)
+	{
+		out << "Invalid NIF Exception: " << n.getNIF() << " isn't a valid NIF \n";
+		return out;
+	}
+};
+
+
+class InvalidProductException // Implemented
+{
+private:
+	string product;
+public:
+	InvalidProductException(string p) { product = p; }
+	string getProduct() { return product; }
+	friend ostream & operator<<(ostream & out, InvalidProductException & p)
+	{
+		out << "Invalid Product Exception: " << p.getProduct() << " can't be converted to a product \n";
+		return out;
+	}
+};
+
 
 class RestaurantNotFoundException { //Implemented
 	string restaurant_error;
@@ -147,7 +174,7 @@ public:
 	}
 };
 
-class ClientNotFoundException {
+class ClientNotFoundException { //Implemented
 private:
 	string name;
 public:
@@ -204,6 +231,9 @@ public:
 		return out;
 	}
 };
+
+
+
 
 
 inline bool InvalidOptions(int max, int ans)

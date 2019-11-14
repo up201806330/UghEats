@@ -399,15 +399,15 @@ void Client::edit(Base * base) {
 		try {
 			cout << ">> ";
 			getline(cin, strChoice);
-			if (cin.eof())
-			{
-				cin.clear();
-				return;
-			}
-			/*
+			//if (cin.eof())
+			//{
+			//	cin.clear();
+			//	return;
+			//}
+			
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			*/
+			
 			attributeChoice = stoi(strChoice);
 			if (InvalidOptions(options.size(), attributeChoice)) {
 				throw InvalidOptionException(attributeChoice);
@@ -443,13 +443,31 @@ void Client::edit(Base * base) {
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
+	bool retry = true;
 
 	switch (attributeChoice) {
 		// Name
 	case 1:
-		cout << "Current Name: " << this->get_name() << endl;
-		cout << "Updated Name: ";
-		getline(cin, newName);
+		do
+		{
+			try
+			{
+				retry = false;
+				cout << "Current Name: " << this->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				if (!isString(newName))
+					throw InvalidStringException(newName);
+			}
+			catch (InvalidStringException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+			
+		} while (retry);
+
 		this->set_name(newName);
 
 		break;
@@ -463,18 +481,21 @@ void Client::edit(Base * base) {
 			cout << "Updated Nif: ";
 			getline(cin, strNewNif);
 			try {
-				newNif = stoi(strNewNif);
+				if (!isNumber(strNewNif) || strNewNif.size() != 9)
+					throw InvalidNIFException(strNewNif);
 			}
 
-			catch (...) {
+			catch (InvalidNIFException & n) {
 				invalidNif = true;
+				cout << n;
+				cout <<"Try Again!" << endl << endl;
 			}
-			break;
+			
 
 			cout << endl;
 
 		} while (invalidNif);
-		this->set_NIF(newNif);
+		this->set_NIF(stoi(strNewNif));
 		break;
 
 		// Address
@@ -522,7 +543,7 @@ void Client::edit(Base * base) {
 }
 
 
-void Client::make_order(Base * b) {
+void Client::make_order(Base * b) { 
 
 	// Tasks:
 	// - Select Restaurant
@@ -545,22 +566,40 @@ void Client::make_order(Base * b) {
 		}
 
 		try {
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strRestaurant);
 
-			if (cin.eof()) {
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+			if (strRestaurant == "0")
+			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
+			
+			if (!isNumber(strRestaurant))
+				throw InvalidNumberException(strRestaurant);
 
 			restaurantChoice = stoi(strRestaurant);
 
-			if (restaurantChoice < 1 || restaurantChoice > b->getRestaurants().size()) {
-				invalidRestaurant = true;
+			if (InvalidOptions(b->getRestaurants().size(), restaurantChoice)) {
+				throw InvalidOptionException(restaurantChoice);
 			}
 		}
-		catch (...) {
+		catch (InvalidNumberException & n) {
 			invalidRestaurant = true;
+			cout << n;
+			cout << "Try Again!" << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidRestaurant = true;
+			cout << o;
+			cout << "Try Again!" << endl;
 		}
 		cout << endl;
 	} while (invalidRestaurant);
@@ -590,22 +629,33 @@ void Client::make_order(Base * b) {
 		
 		getline(cin, strProducts);
 
-		if (cin.eof()) {
-			cin.clear();
-			return;
-		}
+		//if (cin.eof()) {
+		//	cin.clear();
+		//	return;
+		//}
 
 		try {
-			vector<string> splitProducts = utils::split(strProducts, ':');
+			vector<string> splitProducts = utils::split(strProducts, ':'); 
 			for (auto & prod : splitProducts) {
+				if (!isNumber(prod))
+					throw InvalidNumberException(prod);
+				if (InvalidOptions(splitProducts.size(), stoi(prod)) || stoi(prod) == 0)
+					throw InvalidOptionException(stoi(prod));
 				Product * productPtr = new Product;
 				productPtr = b->getRestaurants().at(restaurantChoice)->get_products().at(stoi(prod) - 1);
 				pickedProducts.push_back(productPtr);
 			}
 		}
-		catch (...) {
+		catch (InvalidNumberException & n) {
 			invalidProduct = true;
-			cout << "Invalid entry" << endl << endl;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidProduct = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
 		}
 	} while (invalidProduct);
 	

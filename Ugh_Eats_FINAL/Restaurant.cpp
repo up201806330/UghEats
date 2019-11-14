@@ -17,12 +17,19 @@ Product::~Product()
 
 }
 
-void Product::parse(string str){
+bool Product::parse(string str){
 	vector<string> parts = utils::split(str, ':');
-
+	if (parts.size() != 3)
+		return false;
 	name = parts.at(0);
 	cuisine_type = parts.at(1);
+	if (!isString(name) || !isString(cuisine_type))
+		return false;
+	if (!isNumber(parts.at(2)))
+		return false;
 	price = stoi(parts.at(2));
+	return true;
+
 }
 
 void Product::setName(string nm)
