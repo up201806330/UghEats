@@ -24,7 +24,7 @@ int main(){
 
 	// bases.at(0)->writeRestaurantsFile("idk.txt");
 	// bases.at(0)->writeDeliveriesFile("idk.txt");
-	bases.at(0)->writeWorkersFile("idk.txt");
+	// bases.at(0)->writeWorkersFile("idk.txt");
 	// bases.at(0)->writeClientsFile("idk.txt");
 
 	/*

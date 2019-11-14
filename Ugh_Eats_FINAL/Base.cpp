@@ -116,8 +116,14 @@ Restaurant * Base::findRestaurant(string str){
 }
 
 map<int, Order*> Base::findOrders(string str) {
-	// cout << "String: " << str << endl;
-	map<int, Order*> result;
+	
+	map<int, Order*> result = {};
+
+	// in case there are no orders, the textline is "-" and therefore the map should have 0 elements
+	if (str == "-") {
+		return result;
+	}
+
 	vector<string> ids = utils::split(str, ':');
 	// cout << "Size: " << ids.size() << endl;
 	for (auto i = 0 ; i < ids.size() ; i++) {
@@ -2667,7 +2673,7 @@ void Base::searchForCuisineTypes()
 	{
 		try
 		{
-			retry = false;
+ 			retry = false;
 			string type;
 			cout << "Which Cuisine Type do you want?" << endl;
 			getline(cin, type);
@@ -2880,15 +2886,22 @@ void Base::writeWorkersFile(string fileName) {
 
 			// To "Fix" when orders.find is working correctly
 			// cout << "history: " << deliveryCheck->get_history().size() << endl;
-			for (auto & order : deliveryCheck->get_history()) {
-				if (firstOrder) {
-					firstOrder = false;
-				}
-				else {
-					workersFileInput << " : ";
-				}
 
-				workersFileInput << order.first;
+			if (deliveryCheck->get_history().size() == 0) {
+				workersFileInput << "-";
+			}
+
+			else {
+				for (auto & order : deliveryCheck->get_history()) {
+					if (firstOrder) {
+						firstOrder = false;
+					}
+					else {
+						workersFileInput << " : ";
+					}
+
+					workersFileInput << order.second->getID();
+				}
 			}
 			workersFileInput << endl;
 		}
@@ -2919,19 +2932,24 @@ void Base::writeClientsFile(string fileName) {
 		clientsFileInput << client->get_name() << endl;
 		clientsFileInput << client->get_address() << endl;
 		clientsFileInput << client->get_NIF() << endl;
-
-		// To "Fix" when orders.find is working correctly
-		for (auto & order : client->get_orders()) {
-			if (firstOrder) {
-				firstOrder = false;
-			}
-			else {
-				clientsFileInput << " : ";
-			}
-
-			clientsFileInput << order.second->getID();
+		
+		if (client->get_orders().size() == 0) {
+			clientsFileInput << "-";
 		}
-		// clientsFileInput << endl;
+		else {
+			for (auto & order : client->get_orders()) {
+
+				if (firstOrder) {
+					firstOrder = false;
+				}
+				else {
+					clientsFileInput << " : ";
+				}
+
+				clientsFileInput << order.second->getID();
+			}
+		}
+		clientsFileInput << endl;
 	}
 	clientsFileInput.close();
 }
