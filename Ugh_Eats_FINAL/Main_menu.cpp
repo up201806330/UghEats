@@ -693,8 +693,7 @@ void main_menu(vector<Base*> bases) {
 		selected_base = bases.at(stoi(temp) - 1);
 
 		//cin.ignore();
-
-		cout << "\n\n";
+		utils::clear_screen();
 		cout << "Client or Admin ?" << endl; // já volta atrás e já fecha
 		retry = true;
 		do

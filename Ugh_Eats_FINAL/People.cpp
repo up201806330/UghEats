@@ -358,14 +358,14 @@ void Client::print() {
 	Person::print();
 	cout << address << endl;
 //	cout << "Base: " << base->getDistrict() << endl;
-	cout << "Orders: ";
+	cout << "Orders' IDs: ";
 	if (orders.size() == 0)
 		cout << "none" << endl;
 	else {
 		map<int, Order*>::iterator it;
 		for (it = orders.begin(); it != orders.end(); it++)
 		{
-			cout << (*it).second->getID() << " ";
+			cout << (*it).first << " ";
 		}
 		cout << endl;
 	}
@@ -699,6 +699,13 @@ void Client::make_order(Base * b) {
 	*deliverPtr = deliver;
 
 	orderPtr->setDeliver(deliverPtr);
+
+	// Updating Client orders
+	map<int, Order*> updatedClients = this->get_orders();
+	updatedClients.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+	this->set_orders(updatedClients);
+
+
 
 	// Updating Delivery man history
 	map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
