@@ -541,8 +541,12 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 			
 			bool notFound = true;
 			for (it = clients.begin(); it != clients.end(); it++) {
-				if ((*it)->get_name() == input) main_menu_client(*it, base);
-				notFound = false;
+				if ((*it)->get_name() == input)
+				{
+					main_menu_client(*it, base);
+					notFound = false;
+				}
+
 			}
 			
 			if (notFound) {
@@ -555,8 +559,14 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->addClient(); //try para apanhar execao blacklisted ; sem isto nao funciona corretamente
-			main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
+			bool teste = base->addClient();//try para apanhar execao blacklisted ; sem isto nao funciona corretamente
+			if (teste)
+				main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
+			else
+			{
+				utils::clear_screen();
+				continue;
+			}
 		}
 
 		if (input == "0") {

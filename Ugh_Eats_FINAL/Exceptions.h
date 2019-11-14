@@ -147,6 +147,17 @@ public:
 	}
 };
 
+class ClientNotFoundException {
+private:
+	string name;
+public:
+	ClientNotFoundException(string n) { name = n; }
+	string getName() { return name; }
+	friend ostream & operator<<(ostream & out, ClientNotFoundException & c) {
+		out << "Client Not Found Exception: " << c.getName() << " not found \n";
+		return out;
+	}
+};
 // ostream & operator<<(ostream & out, CuisineTypeNotFoundException & c);
 
 class InvalidDatesException { //when the user says the final date is before the first

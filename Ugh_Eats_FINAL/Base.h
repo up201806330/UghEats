@@ -97,7 +97,7 @@ public:
 	void changeBase(); // change address of the base
 
 	// criar, alterar e apagar coisas dos vetores de cada base <- JA
-	void addClient();
+	bool addClient(); //alterei o valor de retorno para bater certo c os menus
 	void changeClient();
 	void removeClient();
 
