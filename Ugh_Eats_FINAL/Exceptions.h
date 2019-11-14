@@ -3,7 +3,7 @@
 using namespace std;
 //Exception Handling
 
-class InvalidStringException {
+class InvalidStringException { //Implemented
 	string error;
 public:	
 	InvalidStringException(string e) { error = e; }
@@ -147,7 +147,7 @@ public:
 	}
 };
 
-class ClientNotFoundException {
+class ClientNotFoundException { //Implemented
 private:
 	string name;
 public:

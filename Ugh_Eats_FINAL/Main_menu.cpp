@@ -17,14 +17,14 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 				cout << "2. My info" << endl;
 				cout << "3. Edit Info" << endl;
 				cout << "0. Go Back" << endl;
-				cout << "3. Close Program" << endl;
+				cout << "4. Close Program" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(3, stoi(input)))
+				if (InvalidOptions(4, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -53,13 +53,17 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			cout << "\n>>"; 
 			cin.ignore(); 
 		}
-		if (input == "3") client->edit(base);  //Já volta atrás
+		if (input == "3")
+		{
+			client->edit(base);
+			continue;
+		} //Já volta atrás
 		if (input == "0") {
 			cin.clear();
 			utils::clear_screen();
 			return; //<------------------------- implement something to save and exit
 		}
-		if (input == "3")
+		if (input == "4")
 		{
 			cin.clear();
 			exit(0); //aplicar função que guarde nos ficheiros
@@ -215,8 +219,8 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 		}
 
 		if (input == "5") {
-			utils::clear_screen();
 			base->removeWorker(); //Já volta para trás
+			utils::clear_screen();
 		}
 
 		if (input == "0") {
@@ -556,37 +560,64 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 
 
 		if (input == "1") {
-			vector<Client*>::iterator it;
-			vector<Client*> clients = base->getClients();
-
-			cout << "\n\nClient name: ";
-			getline(cin, input);
 			
-			bool notFound = true;
-			for (it = clients.begin(); it != clients.end(); it++) {
-				if ((*it)->get_name() == input)
+			bool retry = true;
+			do
+			{
+				try
 				{
-					main_menu_client(*it, base);
-					notFound = false;
-				}
+					retry = false;
+					vector<Client*>::iterator it;
+					vector<Client*> clients = base->getClients();
 
-				if ((*it)->get_name() == input) {
-					main_menu_client(*it, base);
-					notFound = false;
+					cout << "\n\nClient name: ";
+					getline(cin, input);
+
+					if (!isString(input))
+						throw InvalidStringException(input);
+
+
+
+					bool notFound = true;
+					for (it = clients.begin(); it != clients.end(); it++) {
+						if ((*it)->get_name() == input)
+						{
+							main_menu_client(*it, base);
+							notFound = false;
+						}
+
+						if ((*it)->get_name() == input) {
+							main_menu_client(*it, base);
+							notFound = false;
+						}
+					}
+
+
+					if (notFound) {
+						throw ClientNotFoundException(input);
+					}
 				}
-			}
+				catch (ClientNotFoundException & c)
+				{
+					cout << c;
+					cout << ">> ";
+					cin.ignore();
+				}
+				catch (InvalidStringException & s)
+				{
+					retry = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (retry);
 			
-			if (notFound) {
-				cout << "\nClient not found; Try again (Enter to continue)" << endl;
-				cout << ">> ";
-				cin.ignore();
-			}
+
 
 		}
 
 		if (input == "2") {
 			utils::clear_screen();
-			bool teste = base->addClient();//try para apanhar execao blacklisted ; sem isto nao funciona corretamente
+			bool teste = base->addClient();
 			if (teste)
 				main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
 			else

@@ -443,13 +443,31 @@ void Client::edit(Base * base) {
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
+	bool retry = true;
 
 	switch (attributeChoice) {
 		// Name
 	case 1:
-		cout << "Current Name: " << this->get_name() << endl;
-		cout << "Updated Name: ";
-		getline(cin, newName);
+		do
+		{
+			try
+			{
+				retry = false;
+				cout << "Current Name: " << this->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				if (!isString(newName))
+					throw InvalidStringException(newName);
+			}
+			catch (InvalidStringException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+			
+		} while (retry);
+
 		this->set_name(newName);
 
 		break;
