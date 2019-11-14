@@ -2503,120 +2503,214 @@ void Base::removeRestaurant() {
 void Base::searchForRestaurant() 
 {
 	string name;
-	cout << "Which Restaurant do you want?" << endl;
-	getline(cin, name);
-	if (cin.eof())
+	bool retry = true;
+	do
 	{
-		cin.clear();
-		return;
-	}
-	//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
-	{
-	    if ((*it)->get_name() == name)
+		try
 		{
-			cout << "Products Available" << endl;
-			vector<Product*> vec = (*it)->get_products();
-			vector<Product*>::iterator ite;
-			for (ite = vec.begin(); ite != vec.end(); ite++)
+			retry = false;
+			cout << "Which Restaurant do you want?" << endl;
+			getline(cin, name);
+			bool notFound = true;
+			//if (cin.eof())
+			//{
+			//	cin.clear();
+			//	return;
+			//}
+			//sort(restaurants.begin(), restaurants.end(), sortRule<Restaurant *>);
+			vector<Restaurant*>::iterator it;
+			for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
 			{
-				cout << *(*ite);
-				cout << endl;
+				if ((*it)->get_name() == name)
+				{
+					notFound = false;
+				    cout << "Products Available" << endl;
+					vector<Product*> vec = (*it)->get_products();
+					vector<Product*>::iterator ite;
+					for (ite = vec.begin(); ite != vec.end(); ite++)
+					{
+						cout << *(*ite);
+						cout << endl;
+					}
+					cout << endl;
+				}
 			}
-			cout << endl;
+			if (notFound)
+				throw RestaurantNotFoundException(name);
 		}
-	}
+		catch (RestaurantNotFoundException & r)
+		{
+			retry = true;
+			cout << r;
+			cout << "Try Again!" << endl << endl;
+		}
+		
+	} while (retry);
+	
 }
 
 void Base::searchForGeographicArea()
 {
-	string city;
-	cout << "Which City do you want?" << endl;
-	getline(cin, city);
-	if (cin.eof())
+	bool retry = true;
+	do
 	{
-		cin.clear();
-		return;
-	}
-	cout << "Products Available" << endl << endl;
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
-	{
-		if ((*it)->get_address().get_town() == city)
+		try
 		{
-			cout << (*it)->get_name() << ": " << endl;
-			vector<Product*> vec = (*it)->get_products();
-			vector<Product*>::iterator ite;
-			for (ite = vec.begin(); ite != vec.end(); ite++)
+			retry = false;
+			string city;
+			cout << "Which City do you want?" << endl;
+			getline(cin, city);
+			bool notFound = true;
+			//if (cin.eof())
+			//{
+			//	cin.clear();
+			//	return;
+			//}
+			vector<Restaurant*>::iterator it;
+			for (it = restaurants.begin(); it != restaurants.end(); it++) // Sequencial Search
 			{
-				cout << *(*ite);
-				cout << endl;
+				if ((*it)->get_address().get_town() == city)
+				{
+					notFound = false;
+					cout << "Products Available" << endl << endl;
+					cout << (*it)->get_name() << ": " << endl;
+					vector<Product*> vec = (*it)->get_products();
+					vector<Product*>::iterator ite;
+					for (ite = vec.begin(); ite != vec.end(); ite++)
+					{
+						cout << *(*ite);
+						cout << endl;
+					}
+					cout << endl;
+				}
 			}
-			cout << endl;
+			if (notFound)
+				throw GeographicAreaNotFoundException(city);
 		}
-	}
+		catch (GeographicAreaNotFoundException & g)
+		{
+			retry = true;
+			cout << g;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (retry);
+	
 }
 
 void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 {
-	double min, max;
-	cout << "Which Price Range do you want?" << endl;
-	cout << "Min: ";
-	cin >> min;
-	cout << "Max: ";
-	cin >> max;
-	cout << endl << "Products" << endl;
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++)
+	bool retry = true;
+	do
 	{
-		double price = (*it)->get_price_average();
-		if (price >= min && price <= max)
+		try
 		{
-			cout << (*it)->get_name() << endl;
-			vector<Product*> vec = (*it)->get_products();
-			vector<Product*>::iterator ite;
-			for (ite = vec.begin(); ite != vec.end(); ite++)
+			retry = false;
+			string min, max;
+			double min_num, max_num;
+			cout << "Which Price Range do you want?" << endl;
+			cout << "Min: ";
+			getline(cin, min);
+			if (!isNumber(min))
+				throw InvalidNumberException(min);
+			cout << "Max: ";
+			getline(cin, max);
+			if (!isNumber(max))
+				throw InvalidNumberException(max);
+			min_num = stod(min);
+			max_num = stod(max);
+			if (max_num < min_num)
+				throw InvalidPriceRangeException(min_num, max_num);
+			cout << endl << "Products" << endl;
+			bool none = true;
+			vector<Restaurant*>::iterator it;
+			for (it = restaurants.begin(); it != restaurants.end(); it++)
 			{
-				cout << *(*ite);
-				cout << endl;
+				double price = (*it)->get_price_average();
+				if (price >= min_num && price <= max_num)
+				{
+					none = false;
+					cout << (*it)->get_name() << endl;
+					vector<Product*> vec = (*it)->get_products();
+					vector<Product*>::iterator ite;
+					for (ite = vec.begin(); ite != vec.end(); ite++)
+					{
+						cout << *(*ite);
+						cout << endl;
+					}
+				}
 			}
+			if (none)
+				cout << "None" << endl;
 		}
-	}
+		catch (InvalidNumberException & n)
+		{
+			retry = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidPriceRangeException & p)
+		{
+			retry = true;
+			cout << p;
+			cout << "Try Again!" << endl << endl;
+		}
+		
+	} while (retry);
+	
 }
 
 void Base::searchForCuisineTypes()
 {
-	string type;
-	cout << "Which Cuisine Type do you want?" << endl;
-	getline(cin, type);
-	if (cin.eof())
+	bool retry = true;
+	do
 	{
-		cin.clear();
-		return;
-	}
-	vector<Restaurant*>::iterator it;
-	for (it = restaurants.begin(); it != restaurants.end(); it++)
-	{
-		vector<Product*> vec = (*it)->get_products();
-		vector<Product*>::iterator ite;
-		int count = 0;
-		for (ite = vec.begin(); ite != vec.end(); ite++)
+		try
 		{
-			if ((*ite)->get_cuisine_type() == type)
+			retry = false;
+			string type;
+			cout << "Which Cuisine Type do you want?" << endl;
+			getline(cin, type);
+			bool notFound = true;
+			//if (cin.eof())
+			//{
+			//	cin.clear();
+			//	return;
+			//}
+			vector<Restaurant*>::iterator it;
+			for (it = restaurants.begin(); it != restaurants.end(); it++)
 			{
-				if (!count)
+				vector<Product*> vec = (*it)->get_products();
+				vector<Product*>::iterator ite;
+				int count = 0;
+				for (ite = vec.begin(); ite != vec.end(); ite++)
 				{
-					cout << (*it)->get_name() << ": " << endl;
-					count++;
-				}
-				cout << *(*ite);
-				cout << endl;
-			}
-				
-		}
+					if ((*ite)->get_cuisine_type() == type)
+					{
+						notFound = false;
+						if (!count)
+						{
+							cout << (*it)->get_name() << ": " << endl;
+							count++;
+						}
+						cout << *(*ite);
+						cout << endl;
+					}
 
-	}
+				}
+
+			}
+			if (notFound)
+				throw CuisineTypeNotFoundException(type);
+		}
+		catch (CuisineTypeNotFoundException & c)
+		{
+			retry = true;
+			cout << c;
+			cout << "Try Again!" << endl << endl;
+		}
+		
+	} while (retry);
+	
 }
 
 Delivery* Base::getDeliveryMan()

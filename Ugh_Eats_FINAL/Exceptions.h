@@ -75,7 +75,7 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidTimeException & t);
 
-class InvalidAddressException {
+class InvalidAddressException { //Implemented
 	string address_error;
 public:
 	InvalidAddressException(string a) { address_error = a; }
@@ -105,7 +105,7 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidCityException & c);
 
-class RestaurantNotFoundException {
+class RestaurantNotFoundException { //Implemented
 	string restaurant_error;
 public:
 	RestaurantNotFoundException(string r) { restaurant_error = r; }
@@ -119,7 +119,7 @@ public:
 
 // ostream & operator<<(ostream & out, RestaurantNotFoundException & r);
 
-class GeographicAreaNotFoundException {
+class GeographicAreaNotFoundException { //Implemented
 	string geographic_area_error;
 public:
 	GeographicAreaNotFoundException(string g) { geographic_area_error = g; }
@@ -135,7 +135,7 @@ public:
 // ostream & operator<<(ostream & out, GeographicAreaNotFoundException & g);
 
 
-class CuisineTypeNotFoundException {
+class CuisineTypeNotFoundException { //Implemented
 	string cuisine_type_error;
 public:
 	CuisineTypeNotFoundException(string c) { cuisine_type_error = c; }
@@ -176,15 +176,15 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidDatesException & d);
 
-class InvalidPriceRangeException { //when the minimum value is bigger than the maximum value
-	int min, max;
+class InvalidPriceRangeException { //when the minimum value is bigger than the maximum value // Implemented
+	double min, max;
 public:
-	InvalidPriceRangeException(int mi, int ma) { min = mi; max = ma; }
-	int getMin() { return min; }
-	int getMax() { return max; }
+	InvalidPriceRangeException(double mi, double ma) { min = mi; max = ma; }
+	double getMin() { return min; }
+	double getMax() { return max; }
 
 	friend ostream & operator<<(ostream & out, InvalidPriceRangeException & p) {
-		out << "Invalid Price Range Exception: " << p.getMin() << " is bigger than " << p.getMax();
+		out << "Invalid Price Range Exception: " << p.getMin() << " is bigger than " << p.getMax() << endl;
 		return out;
 	}
 };
@@ -192,7 +192,7 @@ public:
 // ostream & operator<<(ostream & out, InvalidPriceRangeException & p);
 
 
-class BlackListedException{
+class BlackListedException{ //Implemented 
 private:
 	string client;
 public:

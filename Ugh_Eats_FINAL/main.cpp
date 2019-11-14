@@ -130,6 +130,8 @@ int main(){
 
 	
 	main_menu(bases);
+//bases[0]->searchForCuisineTypes();
+	
 
 	return 0;
 }
