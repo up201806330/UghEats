@@ -655,6 +655,33 @@ void Base::seeProfitsPerClient()
 
 void Base::seeProfitsPerTime()
 {
+
+	Date_time left, right, null;
+	string temp;
+
+	cout << "Please input starting date (day:month:year): "; getline(cin, temp);
+	left.parse(temp); 
+	if (left == null) { //pode se por a propria parse a detetar isto, talvez seja mais elegante
+		//throw something
+	}
+
+	cout << endl << "Please input ending date (day:month:year): "; getline(cin, temp);
+	right.parse(temp);
+	if (right == null) {
+		//same
+	}
+	double total = 0;
+	map<int, Order*>::iterator it;
+	for (it = orders.begin(); it != orders.end(); it++) {
+		if (left < (*it).second->getDateTime() && (*it).second->getDeliver()->getDateTime() < right)
+			total += (*it).second->getDeliveryFee();
+	}
+
+	cout << "Profits in set period: " << total << endl;
+
+	cout << "\n>>";
+	cin.ignore();
+
 	/*
 	string datei, datef, houri, hourf;
 	cout << "Type in the initial date (dd/mm/yyyy)" << endl;

@@ -85,6 +85,7 @@ public:
 	int getMinutes() const;
 
 	friend bool operator<(const Date_time & left, const Date_time & right);
+	friend bool operator==(const Date_time & left, const Date_time & right);
 	friend ostream& operator<<(ostream & out, const Date_time right);
 
 	void parse(string x);
