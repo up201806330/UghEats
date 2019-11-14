@@ -301,7 +301,6 @@ void Order::load(string path, Base * base){
 
 		// orders_text >> textline;
 		getline(orders_text, textline);
-
 		deliver.setInsuccessMessage(textline);
 		if (textline == "-") {
 			deliver.setSuccess(true);
@@ -487,7 +486,7 @@ void Deliver::setDateTime(Date_time t) {
 
 void Deliver::setInsuccessMessage(string s)
 {
-	insuccess_message == s;
+	insuccess_message = s;
 }
 
 

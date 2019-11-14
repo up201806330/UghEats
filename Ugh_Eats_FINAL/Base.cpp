@@ -4,6 +4,7 @@ using namespace std;
 
 #include <set>
 #include <list>
+#include <iomanip>
 
 Base::Base()
 {
@@ -2786,14 +2787,30 @@ void Base::writeDeliveriesFile(string filename) {
 	bool firstProd = true;
 
 	for (auto & order : orders) {
+		if (firstOrder) {
+			firstOrder = false;
+		}
+		else {
+			deliveriesFileInput << "\n;;;" << endl;
+		}
 		deliveriesFileInput << order.second->getID() << endl;
 		deliveriesFileInput << order.second->getRestaurant()->get_name() << endl;
 		deliveriesFileInput << order.second->getDeliveryFee() << endl;
 		deliveriesFileInput << order.second->getDeliver()->getInsuccessMessage() << endl; // missing reason 
-		deliveriesFileInput << endl; // time
-		deliveriesFileInput << endl; // date
-		deliveriesFileInput << endl; // delivery time
-		deliveriesFileInput << order.second->getDeliver()->getDateTime() << endl; // delivery date
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDateTime().getDay() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDateTime().getMonth() << ":";
+		deliveriesFileInput << order.second->getDateTime().getYear() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDateTime().getHours() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDateTime().getMinutes() << endl;
+
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDeliver()->getDateTime().getDay() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDeliver()->getDateTime().getMonth() << ":";
+		deliveriesFileInput << order.second->getDeliver()->getDateTime().getYear() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDeliver()->getDateTime().getHours() << ":";
+		deliveriesFileInput << setw(2) << setfill('0') << order.second->getDeliver()->getDateTime().getMinutes() << endl;
+
+		firstProd = true;
+
 		for (auto & prod : order.second->getProducts()) {
 			if (firstProd) {
 				firstProd = false;

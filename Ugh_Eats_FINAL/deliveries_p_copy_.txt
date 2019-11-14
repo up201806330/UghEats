@@ -1,10 +1,17 @@
 1
 Macdonal
 3
-
-
-
-
--858993460 / -858993459 / -858991560
+-
+01:01:2019:17:30
+01:01:2019:18:05
 pepperooni : Pizza : 7
 conk : Drink : 2
+;;;
+2
+Macdonal
+5
+-
+00:01:1900:00:00
+00:01:1900:00:00
+Buger : Hambruhger : 5
+aice crime : Dessert : 1
