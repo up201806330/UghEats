@@ -618,6 +618,7 @@ void Client::make_order(Base * b) {
 	
 
 	// choosing product(s)
+	
 	for (size_t i = 0; i < restPtr->get_products().size(); ++i) {
 		cout << i + 1 << ". " << restPtr->get_products().at(i)->get_name();
 		cout << " (" << restPtr->get_products().at(i)->get_cuisine_type();
@@ -639,7 +640,7 @@ void Client::make_order(Base * b) {
 			for (auto & prod : splitProducts) {
 				if (!isNumber(prod))
 					throw InvalidNumberException(prod);
-				if (InvalidOptions(splitProducts.size(), stoi(prod)) || stoi(prod) == 0)
+				if (InvalidOptions(restPtr->get_products().size(), stoi(prod)) || stoi(prod) == 0)
 					throw InvalidOptionException(stoi(prod));
 				Product * productPtr = new Product;
 				productPtr = b->getRestaurants().at(restaurantChoice)->get_products().at(stoi(prod) - 1);
