@@ -2960,7 +2960,7 @@ Delivery* Base::getDeliveryMan()
 
 void Base::writeRestaurantsFile(string fileName) {
 
-	ofstream restFileInput(fileName);
+	ofstream restFileInput("restaurants_p_copy.txt");
 
 	if (!(restFileInput.is_open())) {
 		// Need an Exception Here!
@@ -2993,7 +2993,7 @@ void Base::writeRestaurantsFile(string fileName) {
 
 void Base::writeDeliveriesFile(string filename) {
 
-	ofstream deliveriesFileInput(filename);
+	ofstream deliveriesFileInput("deliveries_p_copy_.txt");
 
 	if (!(deliveriesFileInput.is_open())) {
 		// Need an Exception Here!
@@ -3046,7 +3046,7 @@ void Base::writeDeliveriesFile(string filename) {
 
 void Base::writeWorkersFile(string fileName) {
 
-	ofstream workersFileInput(fileName);
+	ofstream workersFileInput("workers_p_copy.txt");
 
 	if (!(workersFileInput.is_open())) {
 		// Need an Exception Here!
@@ -3121,7 +3121,7 @@ void Base::writeWorkersFile(string fileName) {
 
 void Base::writeClientsFile(string fileName) {
 
-	ofstream clientsFileInput(fileName);
+	ofstream clientsFileInput("clients_p_copy.txt");
 
 	if (!(clientsFileInput.is_open())) {
 		// Need an Exception Here!
@@ -3165,10 +3165,10 @@ void Base::writeClientsFile(string fileName) {
 }
 
 
-void Base::writeAll()
-{
+//void Base::writeAll()
+//{
 	writeRestaurantsFile(restaurantsFileName);
-	writeDeliveriesFile(deliveriesFileName);
-	writeWorkersFile(workersFileName);
-	writeClientsFile(clientsFileName);
-}
+//	writeDeliveriesFile(deliveriesFileName);
+//	writeWorkersFile(workersFileName);
+//	writeClientsFile(clientsFileName);
+//}
