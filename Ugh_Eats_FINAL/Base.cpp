@@ -2337,10 +2337,10 @@ void Base::addRestaurant() {
 
 			getline(cin, strProduct);
 
-			if (cin.eof()) {
-				cin.clear();
-				return;
-			}
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
 
 			if (strProduct == "done") {
 				notEnded = false;
@@ -2348,14 +2348,17 @@ void Base::addRestaurant() {
 			}
 
 			try {
-				product.parse(strProduct);
+				bool teste = product.parse(strProduct);
+				if (!teste)
+					throw InvalidProductException(strProduct);
 				Product * productPtr = new Product;
 				*productPtr = product;
 				productsVec.push_back(productPtr);
 			}
-			catch (...) {
+			catch (InvalidProductException & p) {
 				invalidProduct = true;
-				cout << "Invalid entry" << endl;
+				cout << p;
+				cout << "Try Again!" << endl << endl;
 			}
 		} while (invalidProduct);
 
@@ -2601,10 +2604,10 @@ void Base::changeRestaurant() {
 
 					getline(cin, strProduct);
 
-					if (cin.eof()) {
-						cin.clear();
-						return;
-					}
+					//if (cin.eof()) {
+					//	cin.clear();
+					//	return;
+					//}
 
 					if (strProduct == "done") {
 						notEnded = false;
@@ -2612,14 +2615,18 @@ void Base::changeRestaurant() {
 					}
 
 					try {
-						product.parse(strProduct);
+						bool teste = product.parse(strProduct);
+						if (!teste)
+							throw InvalidProductException(strProduct);
 						Product * productPtr = new Product;
 						*productPtr = product;
 						productsVec.push_back(productPtr);
 					}
-					catch (...) {
+					catch (InvalidProductException & p) {
 						invalidProduct = true;
-						cout << "Invalid entry" << endl;
+						cout << p;
+						cout << "Try Again!" << endl << endl;
+
 					}
 				} while (invalidProduct);
 				

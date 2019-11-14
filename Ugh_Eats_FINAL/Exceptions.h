@@ -103,7 +103,7 @@ public:
 };
 
 
-class InvalidNIFException {
+class InvalidNIFException { // Implemnented
 private:
 	string nif;
 public:
@@ -116,6 +116,20 @@ public:
 	}
 };
 
+
+class InvalidProductException // Implemented
+{
+private:
+	string product;
+public:
+	InvalidProductException(string p) { product = p; }
+	string getProduct() { return product; }
+	friend ostream & operator<<(ostream & out, InvalidProductException & p)
+	{
+		out << "Invalid Product Exception: " << p.getProduct() << " can't be converted to a product \n";
+		return out;
+	}
+};
 
 
 class RestaurantNotFoundException { //Implemented
