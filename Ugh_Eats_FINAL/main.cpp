@@ -31,8 +31,7 @@ int main(){
 	//bases.at(0)->writeDeliveriesFile("idk.txt");
 
 	// bases.at(0)->writeDeliveriesFile("idk.txt");
-
-	// bases.at(0)->writeWorkersFile("idk.txt");
+	//bases.at(0)->writeWorkersFile("idk.txt");
 	// bases.at(0)->writeClientsFile("idk.txt");
 
 	/*
@@ -138,8 +137,6 @@ int main(){
 
 	
 
-	// main_menu(bases);
-//bases[0]->searchForCuisineTypes();
 	main_menu(bases);
 
 

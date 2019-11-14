@@ -77,7 +77,12 @@ public:
 	void setDay(int d);
 	void setHours(int h);
 	void setMinutes(int m);
+	void setTm(struct tm x);
 
+	void setCurrentTime();
+	void addRandomTimeInterval();
+
+	struct tm * getTm();
 	int getYear() const;
 	int getMonth() const;
 	int getDay() const;
@@ -86,6 +91,7 @@ public:
 
 	friend bool operator<(const Date_time & left, const Date_time & right);
 	friend bool operator==(const Date_time & left, const Date_time & right);
+	friend Date_time operator+(const Date_time & left, const Date_time & right);
 	friend ostream& operator<<(ostream & out, const Date_time right);
 
 	void parse(string x);
