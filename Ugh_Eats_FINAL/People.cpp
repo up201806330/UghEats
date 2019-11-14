@@ -618,8 +618,8 @@ void Client::make_order(Base * b) {
 	// order.setClient(this); <-- nao existe data member para isto e a funcao nao esta implementada
 	orderPtr->setProducts(pickedProducts);
 
-	Date_time dateTimeOrder;
-	orderPtr->setDateTime(dateTimeOrder); // <-------- adicionar data e hora de entrega
+	// Date_time dateTimeOrder;
+	// orderPtr->setDateTime(dateTimeOrder); // <-------- adicionar data e hora de entrega
 
 	orderPtr->setDeliveryFee(fee);
 	
