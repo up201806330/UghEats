@@ -671,8 +671,18 @@ void main_menu(vector<Base*> bases) {
 				retry = false;
 				if (!isNumber(temp))
 					throw InvalidNumberException(temp);
-				if (InvalidOptions(bases.size(), stoi(temp)))
-					throw InvalidOptionException(stoi(temp));
+				if (temp != "")
+				{
+					if (InvalidOptions(bases.size(), stoi(temp)))
+						throw InvalidOptionException(stoi(temp));
+				}
+				else
+
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+			
 			}
 			catch (InvalidOptionException & o)
 			{
