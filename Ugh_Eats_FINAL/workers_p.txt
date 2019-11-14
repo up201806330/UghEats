@@ -1,29 +1,29 @@
 Ze Manel
 212345456
-11/11/1999
+11:11:1999
 1200
 manager
 ;
 Pedro Abrunhosa
 234567843
-09/02/1754
+09:02:1754
 4000
 customer service
 ;
 Jose Cid
 222222222
-22/23/2000
+22:23:2000
 10
 ya boi
 ;;;
 Ze Maria
 123456432
 11:02:1990
-Honda : Bike : 11:11:2345
+Honda ; Bike ; 11:11:2345
 3 : 4 : 6
 ;
 Ric Fazeres
 167889097
 01:01:1976
-Yamazaki : Bike : 11/11/2345
+Yamazaki ; Bike ; 11:11:2345
 1 : 2 : 5

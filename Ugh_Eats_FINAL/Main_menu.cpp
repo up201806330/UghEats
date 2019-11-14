@@ -14,7 +14,8 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			try
 			{
 				cout << "1. Make order" << endl;
-				cout << "2. Edit Info" << endl;
+				cout << "2. My info" << endl;
+				cout << "3. Edit Info" << endl;
 				cout << "0. Go Back" << endl;
 				cout << "3. Close Program" << endl;
 				cout << ">> ";
@@ -41,8 +42,18 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 		} while (retry);
 
 
-		if (input == "1") client->make_order(base);
-		if (input == "2") client->edit(base);  //Já volta atrás
+		if (input == "1") { 
+			utils::clear_screen();
+			client->make_order(base); 
+		}
+		if (input == "2") { 
+			utils::clear_screen(); 
+			client->print(); 
+			
+			cout << "\n>>"; 
+			cin.ignore(); 
+		}
+		if (input == "3") client->edit(base);  //Já volta atrás
 		if (input == "0") {
 			cin.clear();
 			utils::clear_screen();
@@ -412,10 +423,22 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 		} while (retry);
 
 
-		if (input == "1") base->seeProfits(); //Já volta atrás
-		if (input == "2") base->seeProfitsPerRestaurant(); //Já volta atrás
-		if (input == "3") base->seeProfitsPerClient(); //Já volta atrás
-		if (input == "4") base->seeProfitsPerTime(); //-> implementar as cenas qd a função tiver pronta
+		if (input == "1") {
+			utils::clear_screen();
+			base->seeProfits(); //Já volta atrás
+		}
+		if (input == "2") {
+			utils::clear_screen();
+			base->seeProfitsPerRestaurant(); //Já volta atrás
+		}
+		if (input == "3") {
+			utils::clear_screen();
+			base->seeProfitsPerClient(); //Já volta atrás
+		}
+		if (input == "4") {
+			utils::clear_screen();
+			base->seeProfitsPerTime(); //-> implementar as cenas qd a função tiver pronta
+		}
 
 		if (input == "0") {
 			cin.clear();
@@ -547,6 +570,10 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 					notFound = false;
 				}
 
+				if ((*it)->get_name() == input) {
+					main_menu_client(*it, base);
+					notFound = false;
+				}
 			}
 			
 			if (notFound) {

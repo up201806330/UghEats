@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 #include <vector>
+#include <iomanip>
 /*
 Date::Date()
 {
@@ -390,9 +391,27 @@ void Date_time::parse(string x)
 	//else throw something
 }
 
+bool operator<(const Date_time & left, const Date_time & right) {
+	return (left.getYear() < right.getYear() || (left.getYear() == right.getYear() && left.getMonth() < right.getMonth()) || (left.getYear() == right.getYear() && left.getMonth() == right.getMonth() && left.getDay() < right.getDay()) || (left.getYear() == right.getYear() && left.getMonth() == right.getMonth() && left.getDay() == right.getDay() && left.getHours() < right.getHours()) || (left.getYear() == right.getYear() && left.getMonth() == right.getMonth() && left.getDay() == right.getDay() && left.getHours() == right.getHours() && left.getMinutes() < right.getMinutes()));
+}
+
+
+bool operator==(const Date_time & left, const Date_time & right) {
+	if (left.just_date != right.just_date) return false;
+
+	else if (left.just_date) {
+		return (left.getDay() == right.getDay() && left.getMonth() == right.getMonth() && left.getYear() == right.getYear());
+	}
+
+	else {
+		return (left.getDay() == right.getDay() && left.getMonth() == right.getMonth() && left.getYear() == right.getYear() && left.getMinutes() == right.getMinutes() && left.getHours() == right.getHours());
+	}
+
+}
+
 ostream& operator<<(ostream & out, const Date_time right) {
-	out << right.getDay() << " / " << right.getMonth() << " / " << right.getYear();
-	if (!right.just_date) out << " : " << right.getHours() << ":" << right.getMinutes();
+	out << setw(2) << setfill('0') << right.getDay() << " / " << setw(2) << setfill('0') << right.getMonth() << " / " << right.getYear();
+	if (!right.just_date) out << " ; " << setw(2) << setfill('0') << right.getHours() << ":" << setw(2) << setfill('0') << right.getMinutes();
 	return out;
 }
 

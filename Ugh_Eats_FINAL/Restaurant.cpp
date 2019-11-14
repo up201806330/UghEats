@@ -326,7 +326,7 @@ void Order::load(string path, Base * base){
 		*bleh = deliver;
 		order.setDeliver(bleh);
 
-		order.getDeliver()->setDateTime(&y); // must be done here
+		order.getDeliver()->setDateTime(y); // must be done here
 
 
 		vector<Product*> prods;
@@ -354,6 +354,7 @@ void Order::load(string path, Base * base){
 	}	
 	base->setOrders(orders_map);
 }
+
 
 void Order::setID(size_t i)
 {
@@ -413,7 +414,6 @@ double Order::getDeliveryFee() const
 {
 	return delivery_fee;
 }
- 
 
 Deliver * Order::getDeliver() const
 {
@@ -467,7 +467,7 @@ Deliver::Deliver()
 
 }
 
-Deliver::Deliver(int i, Date_time * t, bool s, Delivery * dm)
+Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm)
 {
 	id = i;
 	date_time = t;
@@ -481,7 +481,7 @@ void Deliver::setID(int i)
 	id = i;
 }
 
-void Deliver::setDateTime(Date_time * t) {
+void Deliver::setDateTime(Date_time t) {
 	date_time = t;
 }
 
@@ -506,7 +506,7 @@ int Deliver::getID() const
 	return id;
 }
 
-Date_time * Deliver::getDateTime()
+Date_time Deliver::getDateTime()
 {
 	return date_time;
 }

@@ -94,7 +94,6 @@ public:
 	~Order();
 
 	static void load(string path, Base * base);
-
 	void setID(size_t i);
 	void setRestaurant(Restaurant * r);
 	void setClient(Client * c);
@@ -128,20 +127,20 @@ class Deliver
 {
 private:
 	int id; // a partir daqui vai buscar a informa��o necess�ria ao vetor das orders
-	Date_time * date_time;
+	Date_time date_time;
 	bool success;
 	string insuccess_message;
 	Delivery * delivery_man;
 public:
 	Deliver();
-	Deliver(int i, Date_time * t, bool s, Delivery * dm);
+	Deliver(int i, Date_time t, bool s, Delivery * dm);
 	void setID(int i);
-	void setDateTime(Date_time * t);
+	void setDateTime(Date_time t);
 	void setInsuccessMessage(string s);
 	void setSuccess(bool s);
 	void setDeliveryMan(Delivery * dm);
 	int  getID() const;
-	Date_time * getDateTime(); //cant be const cuz must return reference
+	Date_time getDateTime(); //cant be const cuz must return reference
 	bool getSuccess() const;
 	string getInsuccessMessage() const;
 	Delivery * getDeliveryMan() const;
