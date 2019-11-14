@@ -618,20 +618,26 @@ void Client::make_order(Base * b) {
 	// order.setClient(this); <-- nao existe data member para isto e a funcao nao esta implementada
 	orderPtr->setProducts(pickedProducts);
 
-	// Date_time dateTimeOrder;
-	// orderPtr->setDateTime(dateTimeOrder); // <-------- adicionar data e hora de entrega
+	Date_time dateTimeOrder; dateTimeOrder.setCurrentTime();
+	orderPtr->setDateTime(dateTimeOrder); // <-------- adicionar data e hora de entrega
 
 	orderPtr->setDeliveryFee(fee);
 	
 	Deliver deliver;
-	deliver.setID(orderPtr->getID());
+
+	Date_time deliverTime; 
+	deliverTime = dateTimeOrder; 
+	deliverTime.addRandomTimeInterval();
+	deliver.setDateTime(deliverTime);
+
+	deliver.setID(orderPtr->getID()); 
 	// deliver.setDateTime() <-------- adicionar data e hora de entrega
 	deliver.setDeliveryMan(b->getDeliveryMan()); 
 	
 	// Success/Insuccess and message
 	vector<string> errorReasons = { "traffic", "unknown", "inexistent address" };
 	srand(time(NULL));
-	int randomSuccess = rand() % 3;
+	int randomSuccess = rand() % 8; //test different values
 	bool delivSuccess = (randomSuccess) ? true : false;
 	int randomMessage = rand() % errorReasons.size();
 	string insuccessMessage = (delivSuccess) ? "-" : errorReasons.at(randomMessage);
