@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 #include <vector>
+#include <iomanip>
 /*
 Date::Date()
 {
@@ -391,8 +392,8 @@ void Date_time::parse(string x)
 }
 
 ostream& operator<<(ostream & out, const Date_time right) {
-	out << right.getDay() << " / " << right.getMonth() << " / " << right.getYear();
-	if (!right.just_date) out << " : " << right.getHours() << ":" << right.getMinutes();
+	out << setw(2) << setfill('0') << right.getDay() << " / " << setw(2) << setfill('0') << right.getMonth() << " / " << right.getYear();
+	if (!right.just_date) out << " ; " << setw(2) << setfill('0') << right.getHours() << ":" << setw(2) << setfill('0') << right.getMinutes();
 	return out;
 }
 

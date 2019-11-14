@@ -23,7 +23,7 @@ Vehicle::~Vehicle()
 }
 
 void Vehicle::parse(string str){
-	vector<string> parts = utils::split(str, ':');
+	vector<string> parts = utils::split(str, ';');
 	brand = parts.at(0);
 	type = parts.at(1);
 	registration_date.parse(parts.at(2));
@@ -148,7 +148,8 @@ void Worker::load(string path, Base * base){
 		x.set_birthday(d);
 
 		getline(workers_text, textline);
-		Vehicle v; v.parse(textline); x.set_vehicle(v);
+		Vehicle v; v.parse(textline); 
+		x.set_vehicle(v);
 
 		getline(workers_text, textline);
 		// cout << "Textline: " << textline << endl << endl;
@@ -673,6 +674,10 @@ void Client::make_order(Base * b) {
 			cout << c << std::flush;
 		}
 	}
+
+	cout << "\n>>";
+	cin.ignore();
+
 	// if (delivSuccess) cout << "Successful Delivery!" << endl;
 	// else cout << "Unsuccessful Delivery (" << insuccessMessage << ")" << endl;
 
