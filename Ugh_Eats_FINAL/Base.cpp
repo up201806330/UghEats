@@ -861,127 +861,148 @@ void Base::changeBase() {
 	cin.ignore();
 }
 
-void Base::addClient() { //usar em try para apanhar execao blacklisted
+bool Base::addClient() { //usar em try para apanhar execao blacklisted
 
-	Client c;
+	try
+	{
+		Client c;
+
+		// HARD CODED FOR BASE PORTO
+		// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
+		string baseName = this->getDistrict();
+		c.set_base(this);
+
 
 	
-	string baseName = this->getDistrict();
-	c.set_base(this);
-	
 
-	// name input
-	bool invalidName;
-	string name;
-	do {
-		invalidName = false;
-		
-		cout << "Name: ";
-		getline(cin, name);
 
-	/*	if (cin.eof()) {
-			cin.clear();
-			return;
-		}*/
-		
-	} while (invalidName);
 
-	c.set_name(name);
-	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) { //EXCEÇÂO BLACKLISTED
-		cout << "Client is blacklisted and cannot register" << endl;
+		// name input
+		bool invalidName;
+		string name;
+		do {
+			invalidName = false;
+
+			cout << "Name: ";
+			getline(cin, name);
+
+			/*	if (cin.eof()) {
+					cin.clear();
+					return;
+				}*/
+
+		} while (invalidName);
+
+		c.set_name(name);
+
+		if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) { //EXCEÇÂO BLACKLISTED
+			throw BlackListedException(c.get_name());
+
+
+
+		}
+
+
+
+
+
+		// nif input
+		bool invalidNif;
+		string strNif;
+		int nif;
+		do {
+			invalidNif = false;
+
+			cout << "NIF: ";
+			getline(cin, strNif);
+
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+
+			try {
+				nif = stoi(strNif);
+			}
+
+			catch (...) {
+				invalidNif = true;
+			}
+
+		} while (invalidNif);
+
+		c.set_NIF(nif);
+
+		// address input
+		bool invalidAddress;
+		Address address;
+		vector<string> areaOfInf = this->getAreaOfInfluence();
+
+		do {
+			invalidAddress = false;
+
+			string fullAddress;
+			cout << "Address (District / Town / Street / No / Floor / Latitude / Longitude):" << endl;
+			getline(cin, fullAddress);
+
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+
+			try {
+				bool teste = address.parse(fullAddress);
+				if (!teste)
+					throw InvalidAddressException(fullAddress);
+				// if it doesnt belong to the area of influence it is considered invalid
+				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
+					throw InvalidCityException(address.get_town());
+				}
+			}
+
+			catch (InvalidAddressException & a) {
+				invalidAddress = true;
+				cout << a;
+				cout << "Try Again!" << endl << endl;
+
+			}
+			catch (InvalidCityException & c)
+			{
+				cout << c;
+				cout << ">>";
+				cin.ignore();
+				return false;
+			}
+
+		} while (invalidAddress);
+
+		c.set_address(address);
+
+		// orders vector that starts empty
+		map<int, Order*> clientOrders = {};
+
+		c.set_orders(clientOrders);
+
+
+		Client * ptr = new Client;
+		*ptr = c;
+
+		clients.push_back(ptr);
+
+		cout << endl;
+		cout << "Client added successfully" << endl;
 		cout << ">> ";
 		cin.ignore();
-		return;
-		//excecao aqui
 	}
+	catch (BlackListedException & b)
+	{
+		cout << b;
+		cout << ">> ";
+		cin.ignore();
+		return false;
 
-
-	// nif input
-	bool invalidNif;
-	string strNif;
-	int nif;
-	do {
-		invalidNif = false;
-		
-		cout << "NIF: ";
-		getline(cin, strNif);
-
-		if (cin.eof()) {
-			cin.clear();
-			return;
-		}
-
-		try {
-			nif = stoi(strNif);
-		}
-
-		catch (...) {
-			invalidNif = true;
-		}
-
-	} while (invalidNif);
-
-	c.set_NIF(nif);
-
-	// address input
-	bool invalidAddress;
-	Address address;
-	vector<string> areaOfInf = this->getAreaOfInfluence();
-
-	do {
-		invalidAddress = false;
-
-		string fullAddress;
-		cout << "Address (District / Town / Street / No / Floor / Latitude / Longitude):" << endl;
-		getline(cin, fullAddress);
-
-		if (cin.eof()) {
-			cin.clear();
-			return;
-		}
-
-		try {
-			bool teste = address.parse(fullAddress);
-			if (!teste)
-				throw InvalidAddressException(fullAddress);
-			// if it doesnt belong to the area of influence it is considered invalid
-			if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-				throw InvalidCityException(address.get_town());
-			}
-		}
-
-		catch (InvalidAddressException & a) {
-			invalidAddress = true;
-			cout << a;
-			cout << "Try Again!" << endl << endl;
-
-		}
-		catch (InvalidCityException & c)
-		{
-			invalidAddress = true;
-			cout << c;
-			cout << "Try Again!" << endl << endl;
-		}
-
-	} while (invalidAddress);
-
-	c.set_address(address);
-	
-	// orders vector that starts empty
-	map<int, Order*> clientOrders = {};
-
-	c.set_orders(clientOrders);
-
-
-	Client * ptr = new Client;
-	*ptr = c;
-	
-	clients.push_back(ptr);
-
-	cout << endl;
-	cout << "Client added successfully" << endl;
-	cout << ">> ";
-	cin.ignore();
+	}
+	return true;
 }
 
 void Base::changeClient() {
