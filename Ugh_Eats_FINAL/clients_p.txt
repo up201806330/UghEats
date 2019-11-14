@@ -6,7 +6,7 @@ Porto / Matosinhos / Avenida azul / 77 / -1 / 663.555 / 333.666
 Salvador Sobral
 Porto / Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
 234567654
-2
+-
 ;
 Rui Rio
 Porto / Lousada / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
