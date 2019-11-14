@@ -263,14 +263,16 @@ void Base::seeOneClient()
 		{
 			for (it = clients.begin(); it != clients.end(); it++)
 			{
-				cout << id << "- " << (*it)->get_name() << endl;
+				cout << id << ". " << (*it)->get_name() << endl;
 				id++;
 			}
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, answer);
-			if (cin.eof())
+			if (answer == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 			if (!isNumber(answer))
@@ -328,15 +330,17 @@ void Base::seeOneRestaurant()
 			retry = false;
 			for (it = restaurants.begin(); it != restaurants.end(); it++)
 			{
-				cout << id << "- " << (*it)->get_name() << endl;
+				cout << id << ". " << (*it)->get_name() << endl;
 				id++;
 			}
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 
 			getline(cin, answer);
-			if (cin.eof())
+			if (answer == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 			if (!isNumber(answer))
@@ -438,15 +442,17 @@ void Base::seeOneWorker()
 		{
 			for (it = workers.begin(); it != workers.end(); it++)
 			{
-				cout << id << "- " << (*it)->get_name() << endl;
+				cout << id << ". " << (*it)->get_name() << endl;
 				id++;
 			}
 
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, input);
-			if (cin.eof())
+			if (input == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 			if (!isNumber(input))
@@ -534,32 +540,58 @@ void Base::seeAllOrders()
 
 void Base::seeOneOrder()
 {
-	cout << "Pick the Order you want to see" << endl;
-	int op = 1, answer;
-	string input;
-	map<int, Order*>::iterator it;
-	vector<int> temporary_ids;
-
-	for (it = orders.begin(); it != orders.end(); it++)
+	bool retry = true;
+	do
 	{
-		cout << op << "- ID: " << (*it).second->getID();
-		cout << endl;
-		temporary_ids.push_back((*it).second->getID());
-	}
-	cout << ">> ";
-	getline(cin, input);
-	answer = stoi(input);
-	if (cin.fail() || answer > orders.size() || cin.eof()) {
-		cin.clear();
-		return;
-	}
-	else {
-		cout << "INFO" << endl;
-		cout << *(orders.at(temporary_ids.at(answer - 1)));
+		try
+		{
+			retry = false;
+			cout << "Pick the Order you want to see" << endl;
+			int op = 1, answer;
+			string input;
+			map<int, Order*>::iterator it;
+			vector<int> temporary_ids;
 
-		cout << "\n>> ";
-		cin.ignore();
-	}
+			for (it = orders.begin(); it != orders.end(); it++)
+			{
+				cout << op << ". ID: " << (*it).second->getID();
+				cout << endl;
+				temporary_ids.push_back((*it).second->getID());
+			}
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+			getline(cin, input);
+			if (input == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input))
+				throw InvalidNumberException(input);
+			answer = stoi(input);
+			if (InvalidOptions(orders.size(), answer))
+				throw InvalidOptionException(answer);
+			cout << "INFO" << endl;
+			cout << *(orders.at(temporary_ids.at(answer - 1)));
+
+			cout << "\n>> ";
+			cin.ignore();
+		}
+		catch (InvalidNumberException & n)
+		{
+			retry = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (retry);
+	
 }
 
 
@@ -819,15 +851,15 @@ void Base::addClient() { //usar em try para apanhar execao blacklisted
 		cout << "Name: ";
 		getline(cin, name);
 
-		if (cin.eof()) {
+	/*	if (cin.eof()) {
 			cin.clear();
 			return;
-		}
+		}*/
 		
 	} while (invalidName);
 
 	c.set_name(name);
-	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) {
+	if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) { //EXCEÇÂO BLACKLISTED
 		cout << "Client is blacklisted and cannot register" << endl;
 		cout << ">> ";
 		cin.ignore();
@@ -943,13 +975,19 @@ void Base::changeClient() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strChoice);
-
-			if (cin.eof()) {
+			if (strChoice == "0")
+			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
 			
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
@@ -999,11 +1037,13 @@ void Base::removeClient() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strChoice);
 
-			if (cin.eof()) {
+			if (strChoice == "0") {
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 
@@ -1061,11 +1101,13 @@ void Base::addWorker(){
 			cout << "Adding an Administrator or a Delivery person?" << endl;
 			cout << "1. Administrator" << endl;
 			cout << "2. Delivery" << endl;
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strWorkerType);
-			if (cin.eof())
+			if (strWorkerType == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 			if (!isNumber(strWorkerType))
@@ -1405,11 +1447,13 @@ void Base::changeWorker() {
 		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
 
 		try {
+			cout << endl << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strWorkerChoice);
-			if (cin.eof())
+			if (strWorkerChoice == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 
@@ -1912,11 +1956,13 @@ void Base::removeWorker() {
 		// cout << "\nFirst Index Delivery: " << firstDeliveryIndex << endl;
 
 		try {
+			cout << endl << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strWorkerChoice);
-			if (cin.eof())
+			if (strWorkerChoice == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 
@@ -2114,11 +2160,13 @@ void Base::changeRestaurant() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strChoice);
-			if (cin.eof())
+			if (strChoice == "0")
 			{
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 
@@ -2359,11 +2407,13 @@ void Base::removeRestaurant() {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
 		try {
+			cout << "0. Go Back" << endl;
 			cout << ">> ";
 			getline(cin, strChoice);
 
-			if (cin.eof()) {
+			if (strChoice == "0") {
 				cin.clear();
+				utils::clear_screen();
 				return;
 			}
 

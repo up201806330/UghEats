@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 
-void main_menu_client(Client* client, Base * base) {
+void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -15,14 +15,15 @@ void main_menu_client(Client* client, Base * base) {
 			{
 				cout << "1. Make order" << endl;
 				cout << "2. Edit Info" << endl;
-				cout << "CTRL+Z to save and exit" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "3. Close Program" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(2, stoi(input)))
+				if (InvalidOptions(3, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -41,17 +42,23 @@ void main_menu_client(Client* client, Base * base) {
 
 
 		if (input == "1") client->make_order(base);
-		if (input == "2") client->edit(base);
-		if (cin.eof()) {
+		if (input == "2") client->edit(base);  //Já volta atrás
+		if (input == "0") {
 			cin.clear();
-			exit(0); //<------------------------- implement something to save and exit
+			utils::clear_screen();
+			return; //<------------------------- implement something to save and exit
+		}
+		if (input == "3")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
 		}
 
 		else continue;
 	}
 }
 
-void main_menu_admin_clients(Base * base) {
+void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -63,13 +70,15 @@ void main_menu_admin_clients(Base * base) {
 				cout << "3. Add a client" << endl;
 				cout << "4. Edit a client" << endl;
 				cout << "5. Remove a client" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "6. Close Program" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(5, stoi(input)))
+				if (InvalidOptions(6, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -90,7 +99,7 @@ void main_menu_admin_clients(Base * base) {
 
 		if (input == "1") {
 			utils::clear_screen();
-			base->seeAllClients();
+			base->seeAllClients(); //Já volta atrás
 
 			cout << "\n>> ";
 			cin.ignore();
@@ -98,34 +107,40 @@ void main_menu_admin_clients(Base * base) {
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneClient();
+			base->seeOneClient(); //Já volta atrás
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addClient();
+			base->addClient(); //Já volta atrás
 
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeClient();
+			base->changeClient(); //Já volta atrás
 
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeClient();
+			base->removeClient(); //Já volta atrás
 		}
 
-		if (cin.eof()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
+		}
+		if (input == "6")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheirosS
 		}
 	}
 }
 
-void main_menu_admin_workers(Base * base) {
+void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -139,13 +154,15 @@ void main_menu_admin_workers(Base * base) {
 				cout << "3. Add a worker" << endl;
 				cout << "4. Edit a worker" << endl;
 				cout << "5. Remove a worker" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "6. Close Program" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(5, stoi(input)))
+				if (InvalidOptions(6, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -165,7 +182,7 @@ void main_menu_admin_workers(Base * base) {
 
 		if (input == "1") {
 			utils::clear_screen();
-			base->seeAllWorkers();
+			base->seeAllWorkers(); //Já volta para trás
 			
 			cout << "\n>> ";
 			cin.ignore();
@@ -173,34 +190,40 @@ void main_menu_admin_workers(Base * base) {
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneWorker();
+			base->seeOneWorker(); //Já volta para trás
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addWorker();
+			base->addWorker(); //Já volta para trás
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeWorker();
+			base->changeWorker(); //Já volta para trás
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeWorker();
+			base->removeWorker(); //Já volta para trás
 		}
 
-		if (cin.eof()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
+		}
+		if (input == "6")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
 		}
 
 		else continue;
 	}
 }
 
-void main_menu_admin_restaurant(Base * base) {
+void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -215,13 +238,15 @@ void main_menu_admin_restaurant(Base * base) {
 				cout << "3. Add a restaurant" << endl;
 				cout << "4. Edit a restaurant" << endl;
 				cout << "5. Remove a restaurant" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "6. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(5, stoi(input)))
+				if (InvalidOptions(6, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -242,7 +267,7 @@ void main_menu_admin_restaurant(Base * base) {
 
 		if (input == "1") {
 			utils::clear_screen();
-			base->seeAllRestaurants();
+			base->seeAllRestaurants(); //Já volta para trás
 
 			cout << "\n>> ";
 			cin.ignore();
@@ -250,34 +275,39 @@ void main_menu_admin_restaurant(Base * base) {
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneRestaurant();
+			base->seeOneRestaurant(); //Já volta para trás
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addRestaurant();
+			base->addRestaurant(); //Já volta para trás
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeRestaurant();
+			base->changeRestaurant(); //Já volta para trás
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeRestaurant();
+			base->removeRestaurant(); //Já volta para trás
 		}
 
-		if (cin.eof()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
 		}
-
+		if (input == "6")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
+		}
 		else continue;
 	}
 }
 
-void main_menu_admin_orders(Base * base)
+void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 {
 	while (true) {
 		string input;
@@ -290,13 +320,15 @@ void main_menu_admin_orders(Base * base)
 			{
 				cout << "1. Show all orders" << endl;
 				cout << "2. Search an order" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "3. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(2, stoi(input)))
+				if (InvalidOptions(3, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -317,24 +349,30 @@ void main_menu_admin_orders(Base * base)
 
 		if (input == "1") {
 			utils::clear_screen();
-			base->seeAllOrders();
+			base->seeAllOrders(); //Já volta atrás
 		}
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneOrder(); //IMPLEMENTAR EXCEÇÕES DEPOIS DAS ALTERAÇÕES TODAS DA ORDER TIVEREM SIDO FEITAS
+			base->seeOneOrder(); //Já volta atrás
 		}
 		
-		if (cin.fail()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
+		}
+		if (input == "3")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
 		}
 
 		else continue;
 	}
 }
 
-void main_menu_admin_profits(Base * base) {
+void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -348,13 +386,15 @@ void main_menu_admin_profits(Base * base) {
 				cout << "2. Per restaurant" << endl;
 				cout << "3. Per client" << endl;
 				cout << "4. Per time period" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "5. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(4, stoi(input)))
+				if (InvalidOptions(5, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch(InvalidOptionException & o)
@@ -372,14 +412,20 @@ void main_menu_admin_profits(Base * base) {
 		} while (retry);
 
 
-		if (input == "1") base->seeProfits();
-		if (input == "2") base->seeProfitsPerRestaurant();
-		if (input == "3") base->seeProfitsPerClient();
-		if (input == "4") base->seeProfitsPerTime();
+		if (input == "1") base->seeProfits(); //Já volta atrás
+		if (input == "2") base->seeProfitsPerRestaurant(); //Já volta atrás
+		if (input == "3") base->seeProfitsPerClient(); //Já volta atrás
+		if (input == "4") base->seeProfitsPerTime(); //-> implementar as cenas qd a função tiver pronta
 
-		if (cin.eof()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
+		}
+		if (input == "5")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
 		}
 		
 		else continue;
@@ -387,7 +433,7 @@ void main_menu_admin_profits(Base * base) {
 	}
 }
 
-void main_menu_admin(Base * base) {
+void main_menu_admin(Base * base) { // já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -402,14 +448,15 @@ void main_menu_admin(Base * base) {
 				cout << "3. Restaurants" << endl;
 				cout << "4. Orders" << endl;
 				cout << "5. Profits" << endl;
-				cout << "CTRL+Z to save and exit" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "6. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(5, stoi(input)))
+				if (InvalidOptions(6, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -433,16 +480,21 @@ void main_menu_admin(Base * base) {
 		if (input == "4") main_menu_admin_orders(base);
 		if (input == "5") main_menu_admin_profits(base);
 
-		if (cin.eof()) {
+		if (input == "0") { // volta atrás
 			cin.clear();
-			exit(0); //<-------------- Same shit
+			utils::clear_screen();
+			return; //<-------------- Same shit
 		}
-		
+		if (input == "6")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
+		}
 		else continue;
 	}
 }
 
-void main_menu_client_login(Base * base){
+void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 	while (true) {
 		string input;
 		utils::clear_screen();
@@ -454,13 +506,15 @@ void main_menu_client_login(Base * base){
 			{
 				cout << "1. Login" << endl;
 				cout << "2. Sign up" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "3. Close Program" << endl;
 				cout << ">> ";
 				
 				retry = false;
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(2, stoi(input)))
+				if (InvalidOptions(3, stoi(input)))
 					throw InvalidOptionException(stoi(input));
 			}
 			catch (InvalidOptionException & o)
@@ -484,18 +538,19 @@ void main_menu_client_login(Base * base){
 
 			cout << "\n\nClient name: ";
 			getline(cin, input);
-			if (cin.eof()) { 
-				cin.clear();
-				continue; 
-			}
 			
+			bool notFound = true;
 			for (it = clients.begin(); it != clients.end(); it++) {
 				if ((*it)->get_name() == input) main_menu_client(*it, base);
+				notFound = false;
 			}
 			
-			cout << "\nClient not found; Try again (Enter to continue)" << endl;
-			cout << ">> ";
-			cin.ignore();
+			if (notFound) {
+				cout << "\nClient not found; Try again (Enter to continue)" << endl;
+				cout << ">> ";
+				cin.ignore();
+			}
+
 		}
 
 		if (input == "2") {
@@ -504,16 +559,22 @@ void main_menu_client_login(Base * base){
 			main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
 		}
 
-		if (cin.eof()) {
+		if (input == "0") {
 			cin.clear();
+			utils::clear_screen();
 			break;
+		}
+		if (input == "3")
+		{
+			cin.clear();
+			exit(0); //aplicar função que guarde nos ficheiros
 		}
 		
 		else continue;
 	}
 }
 
-void main_menu(vector<Base*> bases) {
+void main_menu(vector<Base*> bases) { 
 	while (true) {
 		string input;
 		string temp;
@@ -545,44 +606,6 @@ void main_menu(vector<Base*> bases) {
 				if (InvalidOptions(bases.size(), stoi(temp)))
 					throw InvalidOptionException(stoi(temp));
 			}
-			catch(InvalidOptionException & o)
-			{
-				retry = true;
-				cout << o;
-				cout << "Try Again!" << endl << endl;
-			}
-			catch (InvalidNumberException & s)
-			{
-				retry = true;
-				cout << s;
-				cout << "Try Again!" << endl << endl;
-			}
-
-		} while (retry);
-
-	
-		selected_base = bases.at(stoi(temp) - 1);
-	
-		//cin.ignore();
-
-		cout << "\n\n";
-		cout << "Client or Admin ?" << endl;
-		retry = true;
-		do
-		{
-			try
-			{
-				cout << "1. Client" << endl;
-				cout << "2. Admin" << endl;
-				cout << ">> ";
-
-				retry = false;
-				getline(cin, input);
-				if (!isNumber(input))
-					throw InvalidNumberException(input);
-				if (InvalidOptions(2, stoi(input)))
-					throw InvalidOptionException(stoi(input));
-			}
 			catch (InvalidOptionException & o)
 			{
 				retry = true;
@@ -599,12 +622,64 @@ void main_menu(vector<Base*> bases) {
 		} while (retry);
 
 
-		if (input == "1") main_menu_client_login(selected_base);
-		if (input == "2") main_menu_admin(selected_base);
-		if (cin.eof()) {
-			cin.clear();
-			continue;
-		}
-		else continue;
+		selected_base = bases.at(stoi(temp) - 1);
+
+		//cin.ignore();
+
+		cout << "\n\n";
+		cout << "Client or Admin ?" << endl; // já volta atrás e já fecha
+		retry = true;
+		do
+		{
+			try
+			{
+				cout << "1. Client" << endl;
+				cout << "2. Admin" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "3. Close Program" << endl;
+				cout << ">> ";
+
+				retry = false;
+				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
+				if (InvalidOptions(3, stoi(input)))
+					throw InvalidOptionException(stoi(input));
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+			if (input == "1")
+			{
+				main_menu_client_login(selected_base);
+				retry = true;
+				cout << endl;
+			}
+			if (input == "2")
+			{
+				main_menu_admin(selected_base);
+				retry = true;
+				cout << endl;
+			}
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				continue;
+			}
+			if (input == "3")
+			{
+				cin.clear();
+				exit(0); //aplicar função que guarde nos ficheiros
+			}
+		} while (retry);
 	}
 }
