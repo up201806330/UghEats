@@ -14,10 +14,11 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			try
 			{
 				cout << "1. Make order" << endl;
-				cout << "2. My info" << endl;
-				cout << "3. Edit Info" << endl;
+				cout << "2. Previous orders" << endl;
+				cout << "3. My info" << endl;
+				cout << "4. Edit Info" << endl;
 				cout << "0. Go Back" << endl;
-				cout << "4. Close Program" << endl;
+				cout << "5. Close Program" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
@@ -46,14 +47,28 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			utils::clear_screen();
 			client->make_order(base); 
 		}
-		if (input == "2") { 
+
+		if (input == "2") {
+			utils::clear_screen();
+
+			if (client->get_orders().size() == 0) cout << "None" << endl;
+			else {
+				for (auto order : client->get_orders()) {
+					cout << *order.second << endl << "-------------------------------" << endl;
+				}
+			}
+			cout << ">>";
+			cin.ignore();
+		}
+
+		if (input == "3") { 
 			utils::clear_screen(); 
 			client->print(); 
 			
 			cout << "\n>>"; 
 			cin.ignore(); 
 		}
-		if (input == "3")
+		if (input == "4")
 		{
 			client->edit(base);
 			continue;
@@ -63,7 +78,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			utils::clear_screen();
 			return; //<------------------------- implement something to save and exit
 		}
-		if (input == "4")
+		if (input == "5")
 		{
 			cin.clear();
 			exit(0); //aplicar função que guarde nos ficheiros
@@ -760,6 +775,11 @@ void main_menu(vector<Base*> bases) {
 				//{
 				//	(*it)->writeAll();
 				//}
+				for (it = bases.begin(); it != bases.end(); it++)
+				{
+					//(*it)->writeAll();
+				}
+
 				exit(0); //aplicar função que guarde nos ficheiros
 			}
 		} while (retry);
