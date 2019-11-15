@@ -88,13 +88,15 @@ public:
 	int getDay() const;
 	int getHours() const;
 	int getMinutes() const;
+	bool getJustDate() const;
 
 	friend bool operator<(const Date_time & left, const Date_time & right);
 	friend bool operator==(const Date_time & left, const Date_time & right);
 	friend Date_time operator+(const Date_time & left, const Date_time & right);
 	friend ostream& operator<<(ostream & out, const Date_time right);
 
-	void parse(string x);
+	bool parse(string x);
+
 };
 
 #endif
