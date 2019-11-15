@@ -642,7 +642,7 @@ void Client::make_order(Base * b) {
 			bool typeFound = false;
 
 			for (jt = selectedTypes.begin(); jt != selectedTypes.end(); jt++) {
-				if (((*it)->get_cuisine_types().find((*jt))!=(*it)->get_cuisine_types().end()) {
+				if (((*it)->get_cuisine_types().find((*jt))!=(*it)->get_cuisine_types().end())) {
 					typeFound = true;
 					break;
 				}
