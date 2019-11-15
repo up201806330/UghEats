@@ -35,7 +35,16 @@ vector<Base*> Base::load(string path){
 
 	ifstream base_text(path);
 
-	if (!base_text.is_open()) cout << "Error reading";
+	try {
+		if (!base_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+
 
 	vector<Base*> bases;
 	string textline;
@@ -97,7 +106,17 @@ void Base::load_blacklist()
 {
 	ifstream stream("blacklisted.txt"); 
 
-	if (!stream.is_open()) cout << "Error reading";
+	try
+	{
+		if (!stream.is_open())
+			throw FileOpenErrorException("blacklisted.txt");
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+
 
 	string input;
 
@@ -3254,11 +3273,22 @@ Delivery* Base::getDeliveryMan()
 
 void Base::writeRestaurantsFile(string fileName) {
 
-	ofstream restFileInput("restaurants_p_copy.txt");
+	ofstream restFileInput("restaurants_p_copy_.txt");
 
-	if (!(restFileInput.is_open())) {
-		// Need an Exception Here!
+	try
+	{
+		if (restFileInput.fail())
+			throw FileOpenErrorException("restaurants_p_copy_.txt");
 	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+	
+
+
+
 	bool first = true;
 
 	for (auto & restaurant : restaurants) {
@@ -3289,9 +3319,7 @@ void Base::writeDeliveriesFile(string filename) {
 
 	ofstream deliveriesFileInput("deliveries_p_copy_.txt");
 
-	if (!(deliveriesFileInput.is_open())) {
-		// Need an Exception Here!
-	}
+
 
 	bool firstOrder = true;
 	bool firstProd = true;
@@ -3342,9 +3370,18 @@ void Base::writeWorkersFile(string fileName) {
 
 	ofstream workersFileInput("workers_p_copy.txt");
 
-	if (!(workersFileInput.is_open())) {
-		// Need an Exception Here!
+	try
+	{
+		if (workersFileInput.fail())
+			throw FileOpenErrorException("restaurants_p_copy_.txt");
 	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+
+
 
 	bool foundFirstDelivery = false;
 	bool firstWorker = true;
@@ -3417,9 +3454,18 @@ void Base::writeClientsFile(string fileName) {
 
 	ofstream clientsFileInput("clients_p_copy.txt");
 
-	if (!(clientsFileInput.is_open())) {
-		// Need an Exception Here!
+	try
+	{
+		if (clientsFileInput.fail())
+			throw FileOpenErrorException("restaurants_p_copy_.txt");
 	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+
+
 	bool firstClient = true;
 	bool firstOrder = true;
 

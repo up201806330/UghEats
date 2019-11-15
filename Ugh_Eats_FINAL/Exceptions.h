@@ -251,6 +251,7 @@ public:
 	friend ostream & operator<<(ostream & out, FileOpenErrorException & f)
 	{
 		out << "File Open Error Exception: couldn't open " << f.getFilename() << endl;
+		return out;
 	}
 };
 

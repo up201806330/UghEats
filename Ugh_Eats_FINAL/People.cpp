@@ -106,7 +106,16 @@ Worker::~Worker() {
 
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
-	// cout << "Workers file: " << path << endl;
+	try
+	{
+		if (!workers_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 	string textline;
 	vector <Worker*> workers_vec;
 
@@ -300,7 +309,16 @@ Client::~Client() {
 
 void Client::load(string path, Base * base) { 
 	ifstream clients_text(path);
-
+	try
+	{
+		if (!clients_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 	string textline;
 	vector <Client*> clients_vec;
 	while (getline(clients_text,textline))
