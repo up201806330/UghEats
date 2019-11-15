@@ -554,16 +554,101 @@ void Client::make_order(Base * b) {
 	// - Determining if it was successfull
 	
 	bool invalidRestaurant;
-	string strRestaurant;
+	string strRestaurant, temp;
 	int restaurantChoice;
+	double starting, ending;
+
+	vector<Restaurant*> selectedRestaurants = b->getRestaurants();
+
+	cout << "Search Restaurant:" << endl;
+	cout << "1. Show all" << endl;
+	cout << "2. By town" << endl;
+	cout << "3. By price average" << endl;
+	cout << "4. By cuisine type" << endl;
+	cout << "0. Go Back" << endl;
+	cout << ">> ";
+
+	getline(cin, temp);
+	utils::clear_screen();
+
+	if (temp == "0") {
+		return;
+	}
+
+	if (temp == "1");
+
+	if (temp == "2") {
+		cout << "Type the town you want to search in: "; getline(cin, temp); utils::trim(temp);
+
+		vector<Restaurant*>::iterator it;
+		for (it = selectedRestaurants.begin(); it != selectedRestaurants.end();) {
+			if ((*it)->get_address().get_town() != temp) it = selectedRestaurants.erase(it);
+			else it++;
+		}
+	}
+
+	if (temp == "3") {
+		try {
+			cout << "Type start of interval: "; getline(cin, temp);
+			if (temp == "") temp = "0";
+			starting = stod(temp);
+			cout << "\nType end of interval: "; getline(cin, temp);
+			if (temp == "") temp = "9999";
+			ending = stod(temp);
+		}
+		catch (...) {
+			cout << "\nInvalid price" << endl << ">>";
+			cin.ignore();
+			return;
+		}
+
+		vector<Restaurant*>::iterator it;
+		for (it = selectedRestaurants.begin(); it != selectedRestaurants.end();) {
+			if ((*it)->get_price_average() < starting || (*it)->get_price_average() > ending) it = selectedRestaurants.erase(it);
+			else it++;
+		}
+	}
+
+	if (temp == "4") {
+		cout << "Type desired cuisine types (separated by ':'): "; getline(cin, temp);
+		vector<string> selectedTypes = utils::split(temp, ':');
+		for (auto & x : selectedTypes) {
+			x = utils::uppercase(x); //set all to uppercase
+			utils::trim(x);	//trim whitespaces
+		}
+
+		vector<Restaurant*>::iterator it;
+		vector<string>::iterator jt;
+		for (it = selectedRestaurants.begin(); it != selectedRestaurants.end();) {
+			bool typeFound = false;
+
+			for (jt = selectedTypes.begin(); jt != selectedTypes.end(); jt++) {
+				if ((*it)->get_cuisine_types().find((*jt))!=(*it)->get_cuisine_types().end()) {
+					typeFound = true;
+					break;
+				}
+			}
+			if (!typeFound) it = selectedRestaurants.erase(it);
+			else it++;
+		}
+	}
+
+	if (selectedRestaurants.size() == 0) {
+		cout << endl << "No restaurants found" << endl;
+		cout << ">>";
+		cin.ignore();
+		return;
+	}
+
 
 	// choosing restaurant
+	utils::clear_screen();
 	cout << "Available Restaurants: " << endl;
 	do {
 		invalidRestaurant = false;
 
-		for (size_t i = 0; i < b->getRestaurants().size(); ++i) {
-			cout << i + 1 << ". " << b->getRestaurants().at(i)->get_name() << endl;
+		for (size_t i = 0; i < selectedRestaurants.size(); ++i) {
+			cout << i + 1 << ". " << selectedRestaurants.at(i)->get_name() << endl;
 		}
 
 		try {
@@ -577,8 +662,6 @@ void Client::make_order(Base * b) {
 			//}
 			if (strRestaurant == "0")
 			{
-				cin.clear();
-				utils::clear_screen();
 				return;
 			}
 			
@@ -608,9 +691,12 @@ void Client::make_order(Base * b) {
 	restaurantChoice--; // not to excede the max index available
 	
 	Restaurant * restPtr = new Restaurant;
-	restPtr = b->getRestaurants().at(restaurantChoice);
+	restPtr = selectedRestaurants.at(restaurantChoice);
 
 	cout << endl;
+
+	double fee = (this->get_address().get_town() != b->getAreaOfInfluence().at(0)) ? 5.0 : 3.0;
+	cout << "Delivery fee: " << (int)fee << " euros" << endl;
 
 	vector<Product*> pickedProducts;
 	bool invalidProduct;
@@ -630,11 +716,6 @@ void Client::make_order(Base * b) {
 		invalidProduct = false;
 		
 		getline(cin, strProducts);
-
-		//if (cin.eof()) {
-		//	cin.clear();
-		//	return;
-		//}
 
 		try {
 			vector<string> splitProducts = utils::split(strProducts, ':'); 
@@ -663,7 +744,6 @@ void Client::make_order(Base * b) {
 	
 	
 	int lastId = b->getOrders().rbegin()->first;
-	double fee = (this->get_address().get_town() != b->getAreaOfInfluence().at(0)) ? 5.0 : 3.0;
 	Order *orderPtr = new Order;
 	orderPtr->setID(lastId + 1);
 	orderPtr->setRestaurant(restPtr);
@@ -687,7 +767,7 @@ void Client::make_order(Base * b) {
 	deliver.setDeliveryMan(b->getDeliveryMan()); 
 	
 	// Success/Insuccess and message
-	vector<string> errorReasons = { "traffic", "unknown", "inexistent address" };
+	vector<string> errorReasons = { "traffic", "unknown", "restaurant cancelled the order", "driver couldn't meet client" };
 	srand(time(NULL));
 	int randomSuccess = rand() % 8; //test different values
 	bool delivSuccess = (randomSuccess) ? true : false;

@@ -74,9 +74,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			continue;
 		} //Já volta atrás
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
-			return; //<------------------------- implement something to save and exit
+			break; 
 		}
 		if (input == "5")
 		{
@@ -158,8 +156,6 @@ void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 		}
 
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "6")
@@ -239,8 +235,6 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 		}
 
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "6")
@@ -324,8 +318,6 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 		}
 
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "6")
@@ -388,8 +380,6 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 		}
 		
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "3")
@@ -460,8 +450,6 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 		}
 
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "5")
@@ -523,9 +511,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 		if (input == "5") main_menu_admin_profits(base);
 
 		if (input == "0") { // volta atrás
-			cin.clear();
-			utils::clear_screen();
-			return; //<-------------- Same shit
+			break; //<-------------- Same shit
 		}
 		if (input == "6")
 		{
@@ -643,8 +629,6 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 		}
 
 		if (input == "0") {
-			cin.clear();
-			utils::clear_screen();
 			break;
 		}
 		if (input == "3")
@@ -718,13 +702,14 @@ void main_menu(vector<Base*> bases) {
 		selected_base = bases.at(stoi(temp) - 1);
 
 		//cin.ignore();
-		utils::clear_screen();
-		cout << "Client or Admin ?" << endl; // já volta atrás e já fecha
+
 		retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
+				cout << "Client or Admin ?" << endl; // já volta atrás e já fecha
 				cout << "1. Client" << endl;
 				cout << "2. Admin" << endl;
 				cout << "0. Go Back" << endl;
@@ -763,9 +748,7 @@ void main_menu(vector<Base*> bases) {
 				cout << endl;
 			}
 			if (input == "0") {
-				cin.clear();
-				utils::clear_screen();
-				continue;
+				break; ///////
 			}
 			if (input == "3")
 			{

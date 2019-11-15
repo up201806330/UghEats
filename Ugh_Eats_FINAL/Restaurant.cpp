@@ -181,7 +181,7 @@ Address Restaurant::get_address() const
 	return address;
 }
 
-set <string> Restaurant::get_cuisine_types() const
+set <string> & Restaurant::get_cuisine_types()
 {
 	return cuisine_types;
 
