@@ -112,6 +112,10 @@ public:
 	// workers
 	// restaurants
 
+	void orderClients();
+	void orderRestaurants();
+	void orderWorkers();
+	void orderOrders(); //lmao 
 
 	// LEONOR
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
@@ -132,22 +136,22 @@ public:
 	void writeClientsFile(string fileName);
 	//void writeAll();
 
-	// camelCase
-
-
-	
-	// guardar informacao
-	// fazer só no fim de tudo
-
-	// overload do <<
-	// 
 
 	
 
 };
 
-
-
+//comparison operators for sorts
+bool clientByName(const Client * left, const Client * right);
+bool clientByNIF(const Client * left, const Client * right);
+bool restaurantByName(const Restaurant * left, const Restaurant * right);
+bool restaurantByPrice(const Restaurant * left, const Restaurant * right);
+bool workerByName(const Worker * left, const Worker * right);
+bool workerByNIF(const Worker * left, const Worker * right);
+/*
+bool orderByPrice(const pair<int, Order*> & left, const pair<int, Order*> & right);
+bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right);
+*/
 
 #endif
 

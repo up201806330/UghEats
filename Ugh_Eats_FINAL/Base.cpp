@@ -5,6 +5,7 @@ using namespace std;
 #include <set>
 #include <list>
 #include <iomanip>
+#include <algorithm>
 
 Base::Base()
 {
@@ -2895,6 +2896,113 @@ void Base::removeRestaurant() {
 	cin.ignore();
 }
 
+bool clientByName(const Client * left, const Client * right) {
+	return left->get_name() < right->get_name();
+}
+
+bool clientByNIF(const Client * left, const Client * right) {
+	return left->get_NIF() < right->get_NIF();
+}
+
+void Base::orderClients()
+{
+	string input;
+
+	cout << "What parameter do you want the clients to be sorted by? " << endl;
+	cout << "1. Name" << endl;
+	cout << "2. NIF" << endl;
+	cout << ">> ";
+
+	getline(cin, input);
+
+	if (input == "1") sort(clients.begin(), clients.end(), clientByName);
+	if (input == "2") sort(clients.begin(), clients.end(), clientByNIF);
+	else return;
+	
+}
+
+bool restaurantByName(const Restaurant * left, const Restaurant * right) {
+	return left->get_name() < right->get_name();
+}
+
+bool restaurantByPrice(const Restaurant * left, const Restaurant * right) {
+	return left->get_price_average() < right->get_price_average();
+}
+
+void Base::orderRestaurants()
+{
+	string input;
+
+	cout << "What parameter do you want the restaurants to be sorted by? " << endl;
+	cout << "1. Name" << endl;
+	cout << "2. Price" << endl;
+	cout << ">> ";
+
+	getline(cin, input);
+
+	if (input == "1") sort(restaurants.begin(), restaurants.end(), restaurantByName);
+	if (input == "2") sort(restaurants.begin(), restaurants.end(), restaurantByPrice);
+	else return;
+}
+
+bool workerByName(const Worker * left, const Worker * right) {
+	return left->get_name() < right->get_name();
+}
+
+bool workerByNIF(const Worker * left, const Worker * right) {
+	return left->get_NIF() < right->get_NIF();
+}
+
+void Base::orderWorkers()
+{
+	string input;
+
+	cout << "What parameter do you want the workers to be sorted by? " << endl;
+	cout << "1. Name" << endl;
+	cout << "2. NIF" << endl;
+	cout << ">> ";
+
+	getline(cin, input);
+
+	if (input == "1") sort(workers.begin(), workers.end(), workerByName);
+	if (input == "2") sort(workers.begin(), workers.end(), workerByNIF);
+	else return;
+}
+/*
+bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
+	double priceLeft, priceRight;
+	
+	for (auto p : left.second->getProducts()) priceLeft += p->get_price();
+	priceLeft += left.second->getDeliveryFee();
+
+	for (auto q : right.second->getProducts()) priceRight += q->get_price();
+	priceRight += right.second->getDeliveryFee();
+
+	return priceLeft < priceRight;
+}
+
+bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right) {
+	return left.second->getDeliveryFee() < right.second->getDeliveryFee();
+}
+
+void Base::orderOrders()
+{
+	string input;
+
+	cout << "What parameter do you want the orders to be sorted by? " << endl;
+	cout << "1. ID" << endl;
+	cout << "2. Total price" << endl;
+	cout << "3. Delivery fee" << endl;
+	cout << ">> ";
+
+	getline(cin, input);
+
+	if (input == "1") sort(orders.begin(), orders.end());
+	if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
+	if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
+	else return;
+}
+*/
 
 void Base::searchForRestaurant() 
 {
