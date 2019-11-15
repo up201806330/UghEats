@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Date_time.h"
 using namespace std;
 //Exception Handling
 
@@ -46,7 +47,7 @@ public:
 
 
 
-class InvalidDateException {
+class InvalidDateException { // Implemented
 	string date_error;
 public:
 	
@@ -61,17 +62,17 @@ public:
 
 // ostream & operator<<(ostream & out, InvalidDateException & d);
 
-class InvalidTimeException {
-	string time_error;
-public:
-	InvalidTimeException(string t) { time_error = t; }
-	string getTimeError() { return time_error; }
-
-	friend ostream & operator<<(ostream & out, InvalidTimeException & t) {
-		out << "Invalid Time Exception: " << t.getTimeError() << " is invalid \n";
-		return out;
-	}
-};
+//class InvalidTimeException {
+//	string time_error;
+//public:
+//	InvalidTimeException(string t) { time_error = t; }
+//	string getTimeError() { return time_error; }
+//
+//	friend ostream & operator<<(ostream & out, InvalidTimeException & t) {
+//		out << "Invalid Time Exception: " << t.getTimeError() << " is invalid \n";
+//		return out;
+//	}
+//};
 
 // ostream & operator<<(ostream & out, InvalidTimeException & t);
 
@@ -187,7 +188,7 @@ public:
 };
 // ostream & operator<<(ostream & out, CuisineTypeNotFoundException & c);
 
-class InvalidDatesException { //when the user says the final date is before the first
+class InvalidDatesException { //when the user says the final date is before the first // Implemented
 	string datei, datef;
 public:
 
@@ -196,7 +197,7 @@ public:
 	string getDateF() { return datef; }
 
 	friend ostream & operator<<(ostream & out, InvalidDatesException & d) {
-		out << "Invalid Dates Exception: " << d.getDateI() << " is after " << d.getDateF();
+		out << "Invalid Dates Exception: " << d.getDateI() << " is after " << d.getDateF()<<endl;
 		return out;
 	}
 };
@@ -276,5 +277,48 @@ inline bool isString(string str)
 
 	}
 	return true;
+
+}
+
+inline bool isDateValid(Date_time d)
+{
+	int m = d.getMonth();
+	int day = d.getDay();
+	int y = d.getYear();
+	if (m < 1 || m > 12)
+		return false;
+	if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12)
+	{
+		if (day > 31 || day < 1)
+			return false;
+	}
+	else if (m == 2)
+	{
+		if (y % 4 != 0)
+		{
+			if (day >29 || day < 1)
+				return false;
+		}
+		else
+		{
+			if (day > 28 || day < 1)
+				return false;
+		}
+	}
+	else
+	{
+		if (day > 30 || day < 1)
+			return false;
+	}
+	if (d.getJustDate())
+		return true;
+	else
+	{
+		if (d.getHours() < 0 || d.getHours() > 23 || d.getMinutes() < 0 || d.getMinutes() > 59)
+			return false;
+		else
+			return true;
+	}
+		
 
 }

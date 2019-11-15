@@ -664,19 +664,68 @@ void Base::seeProfitsPerTime()
 {
 
 	Date_time left, right, null;
-	string temp;
+	string left_string, right_string;
+	bool retry = true;
+	bool teste;
+	bool re = true;
+	do {
+		re = false;
+		try {
+			do
+			{
+				try
+				{
+					retry = false;
+					cout << "Please input starting date (day:month:year): "; getline(cin, left_string);
+					teste = left.parse(left_string);
+					if (!teste || !isDateValid(left)) {
+						throw InvalidDateException(left_string);
+					}
+				}
+				catch (InvalidDateException & d)
+				{
+					retry = true;
+					cout << d;
+					cout << "Try Again!" << endl << endl;
+				}
 
-	cout << "Please input starting date (day:month:year): "; getline(cin, temp);
-	left.parse(temp); 
-	if (left == null) { //pode se por a propria parse a detetar isto, talvez seja mais elegante
-		//throw something
-	}
+			} while (retry);
 
-	cout << endl << "Please input ending date (day:month:year): "; getline(cin, temp);
-	right.parse(temp);
-	if (right == null) {
-		//same
-	}
+
+			retry = true;
+			do
+			{
+				try
+				{
+					retry = false;
+					cout << endl << "Please input ending date (day:month:year): "; getline(cin, right_string);
+					teste = right.parse(right_string);
+					if (!teste || !isDateValid(right)) {
+						throw InvalidDateException(right_string);
+					}
+				}
+				catch (InvalidDateException & d)
+				{
+					retry = true;
+					cout << d;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (retry);
+
+			if (right < left)
+				throw InvalidDatesException(left_string, right_string);
+		}
+		catch (InvalidDatesException & d)
+		{
+			re = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+		
+	} while (re);
+
+	
+
 	double total = 0;
 	map<int, Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++) {
@@ -1267,6 +1316,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 	// birthday input
 	bool invalidBirthday;
 	Date_time birthday;
+	bool teste;
 	do {
 		invalidBirthday = false;
 
@@ -1274,16 +1324,22 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		cout << "Birthday: ";
 		getline(cin, fullBirthday);
 
-		if (cin.eof()) {
-			cin.clear();
-			return;
-		}
+		//if (cin.eof()) {
+		//	cin.clear();
+		//	return;
+		//}
 
 		try {
-			birthday.parse(fullBirthday);
+			teste = birthday.parse(fullBirthday);
+			if (!teste || !isDateValid(birthday))
+			{
+				throw InvalidDateException(fullBirthday);
+			}
 		}
-		catch (...) {
+		catch (InvalidDateException & d) {
 			invalidBirthday = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
 		}
 
 		cout << endl;
@@ -1504,17 +1560,21 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 			cout << "Registration Date: ";
 			getline(cin, strRegistrationDate);
 
-			if (cin.eof()) {
-				cin.clear();
-				return;
-			}
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
 
 			try {
-				registrationDate.parse(strRegistrationDate);
+				teste = registrationDate.parse(strRegistrationDate);
+				if (!teste || !isDateValid(registrationDate))
+					throw InvalidDateException(strRegistrationDate);
 			}
 
-			catch (...) {
+			catch (InvalidDateException & d) {
 				invalidRegistrationDate = true;
+				cout << d;
+				cout << "Try Again!" << endl << endl;
 			}
 
 			cout << endl;
@@ -1678,6 +1738,7 @@ void Base::changeWorker() {
 	Date_time newRegistDate;
 	Vehicle newVehicle;
 	bool retry = true;
+	bool teste;
 	// worker chosen is an Admin
 	if (workerChoice < firstDeliveryIndex) {
 		do {
@@ -1795,16 +1856,20 @@ void Base::changeWorker() {
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
-					if (cin.eof()) {
-						cin.clear();
-						return;
-					}
+					//if (cin.eof()) {
+					//	cin.clear();
+					//	return;
+					//}
 
 					try {
-						newBirthday.parse(fullBirthday);
+						teste = newBirthday.parse(fullBirthday);
+						if (!teste || !isDateValid(newBirthday))
+							throw InvalidDateException(fullBirthday);
 					}
-					catch (...) {
+					catch (InvalidDateException & d) {
 						invalidBirthday = true;
+						cout << d;
+						cout << "Try Again!" << endl << endl;
 					}
 
 					cout << endl;
@@ -1998,16 +2063,20 @@ void Base::changeWorker() {
 					cout << "Updated Birthday: ";
 					getline(cin, fullBirthday);
 
-					if (cin.eof()) {
-						cin.clear();
-						return;
-					}
-
+					//if (cin.eof()) {
+					//	cin.clear();
+					//	return;
+					//}
+					
 					try {
-						newBirthday.parse(fullBirthday);
+						teste = newBirthday.parse(fullBirthday);
+						if (!teste || !isDateValid(newBirthday))
+							throw InvalidDateException(fullBirthday);
 					}
-					catch (...) {
+					catch (InvalidDateException & d) {
 						invalidBirthday = true;
+						cout << d;
+						cout << "Try Again!" << endl << endl;
 					}
 
 					cout << endl;
@@ -2114,17 +2183,21 @@ void Base::changeWorker() {
 					cout << "Updated Registration Date: ";
 					getline(cin, strNewRegistDate);
 
-					if (cin.eof()) {
+	/*				if (cin.eof()) {
 						cin.clear();
 						return;
-					}
+					}*/
 
 					try {
-						newRegistDate.parse(strNewRegistDate);
+						teste = newRegistDate.parse(strNewRegistDate);
+						if (!teste || !isDateValid(newRegistDate))
+							throw InvalidDateException(strNewRegistDate);
 					}
 
-					catch (...) {
+					catch (InvalidDateException & d) {
 						invalidRegistrationDate = true;
+						cout << d;
+						cout << "Try Again!" << endl << endl;
 					}
 					cout << endl;
 				} while (invalidRegistrationDate);
@@ -3167,7 +3240,7 @@ void Base::writeClientsFile(string fileName) {
 
 //void Base::writeAll()
 //{
-	writeRestaurantsFile(restaurantsFileName);
+	//writeRestaurantsFile(restaurantsFileName);
 //	writeDeliveriesFile(deliveriesFileName);
 //	writeWorkersFile(workersFileName);
 //	writeClientsFile(clientsFileName);
