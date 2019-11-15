@@ -531,6 +531,25 @@ void Client::make_order(Base * b) {
 	// - Assign delivery guy
 	// - Determining if it was successfull
 	
+	
+	/*
+	bool invalidSearchOption;
+	
+	// TO DO -> options for choosing search criteria
+	list<string> searchOptions = { "" };
+	cout << "Search Options:" << endl;
+
+	do {
+		invalidSearchOption = false;
+
+
+
+
+	} while (invalidSearchOption);
+	*/
+
+
+
 	bool invalidRestaurant;
 	string strRestaurant;
 	int restaurantChoice;
@@ -615,7 +634,6 @@ void Client::make_order(Base * b) {
 	Order *orderPtr = new Order;
 	orderPtr->setID(lastId + 1);
 	orderPtr->setRestaurant(restPtr);
-	// order.setClient(this); <-- nao existe data member para isto e a funcao nao esta implementada
 	orderPtr->setProducts(pickedProducts);
 
 	// Date_time dateTimeOrder;

@@ -108,7 +108,7 @@ public:
 	double getDeliveryFee()const;
 	Deliver * getDeliver()const;
 	
-	vector <Order> findOrders(string textile);
+	// vector <Order> findOrders(string textile);
 	friend ostream & operator<<(ostream & out, Order & o);
 
 	
