@@ -2579,7 +2579,8 @@ void Base::addRestaurant() {
 	cin.ignore();
 }
 
-void Base::changeRestaurant() { // ainda a corrigir bugs
+
+void Base::changeRestaurant() { 
 
 	vector<Restaurant*>::iterator it;
 	bool invalidOption;
@@ -2587,12 +2588,12 @@ void Base::changeRestaurant() { // ainda a corrigir bugs
 	int restaurantChoice;
 	unsigned index = 0;
 
-	cout << "Pick the restaurant you want to change information about:" << endl;
+	
 
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the restaurant you want to change information about:" << endl;
 		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
@@ -2635,21 +2636,20 @@ void Base::changeRestaurant() { // ainda a corrigir bugs
 			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
-		cout << endl;
+		//cout << endl;
 
 	} while (invalidOption);
 
 	restaurantChoice--;	// not to excede the max index available
 
 	list<string> options = { "name", "address", "products" };
-	cout << "Pick the field you want to change information of:" << endl;
-
+	
 	list<string>::iterator optionsIt;
 	int attributeChoice;
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the field you want to change information of:" << endl;
 		for (optionsIt = options.begin(); optionsIt != options.end(); ++optionsIt, ++index) {
 			cout << index + 1 << ". " << (*optionsIt) << endl;
 		}
@@ -2678,6 +2678,7 @@ void Base::changeRestaurant() { // ainda a corrigir bugs
 			{
 				invalidOption = true;
 				utils::clear_screen();
+
 			}
 			
 		}
@@ -2868,12 +2869,11 @@ void Base::removeRestaurant() {
 	int restaurantChoice;
 	unsigned index = 0;
 
-	cout << "Pick the restaurant you want to change information about:" << endl;
-
+	
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the restaurant you want to change information about:" << endl;
 		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
@@ -2890,10 +2890,18 @@ void Base::removeRestaurant() {
 
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			restaurantChoice = stoi(strChoice);
+			if (strChoice != "")
+			{
+				restaurantChoice = stoi(strChoice);
 
-			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
-				throw InvalidOptionException(restaurantChoice);
+				if (InvalidOptions(restaurants.size(), restaurantChoice)) {
+					throw InvalidOptionException(restaurantChoice);
+				}
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
 			}
 		}
 		catch (InvalidOptionException & o) {
@@ -2909,7 +2917,7 @@ void Base::removeRestaurant() {
 		}
 
 
-		cout << endl;
+		//cout << endl;
 
 	} while (invalidOption);
 

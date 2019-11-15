@@ -385,14 +385,14 @@ void Client::edit(Base * base) {
 
 	// Changing the (past) orders or the "value" isn't realistic, right?
 	list<string> options = { "Name", "Nif","Address" };
-	cout << "Pick the field you want to change information of:" << endl;
+
 
 	list<string>::iterator it2;
 	int attributeChoice;
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the field you want to change information of:" << endl;
 		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
 			cout << index + 1 << ". " << (*it2) << endl;
 		}
@@ -409,9 +409,17 @@ void Client::edit(Base * base) {
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
 			
-			attributeChoice = stoi(strChoice);
-			if (InvalidOptions(options.size(), attributeChoice)) {
-				throw InvalidOptionException(attributeChoice);
+			if (strChoice != "")
+			{
+				attributeChoice = stoi(strChoice);
+				if (InvalidOptions(options.size(), attributeChoice)) {
+					throw InvalidOptionException(attributeChoice);
+				}
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
 			}
 		}
 		catch (InvalidOptionException & o) {
@@ -426,7 +434,7 @@ void Client::edit(Base * base) {
 			cout << "Try Again!" << endl << endl;
 		}
 
-		cout << endl;
+		
 
 	} while (invalidOption);
 
@@ -578,16 +586,48 @@ void Client::make_order(Base * b) {
 	double starting, ending;
 
 	vector<Restaurant*> selectedRestaurants = b->getRestaurants();
+	bool retry = true;
+	do {
+		try {
+			retry = false;
+			cout << "Search Restaurant:" << endl;
+			cout << "1. Show all" << endl;
+			cout << "2. By town" << endl;
+			cout << "3. By price average" << endl;
+			cout << "4. By cuisine type" << endl;
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
 
-	cout << "Search Restaurant:" << endl;
-	cout << "1. Show all" << endl;
-	cout << "2. By town" << endl;
-	cout << "3. By price average" << endl;
-	cout << "4. By cuisine type" << endl;
-	cout << "0. Go Back" << endl;
-	cout << ">> ";
+			getline(cin, temp);
+			if (!isNumber(temp))
+				throw InvalidNumberException(temp);
+			if (temp != "")
+			{
+				if (InvalidOptions(4, stoi(temp)))
+					throw InvalidOptionException(stoi(temp));
+			}
+			else
+			{
+				retry = true;
+				utils::clear_screen();
 
-	getline(cin, temp);
+			}
+		}
+		catch (InvalidNumberException & n)
+		{
+			retry = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
 	utils::clear_screen();
 
 	if (temp == "0") {
