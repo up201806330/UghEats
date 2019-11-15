@@ -845,8 +845,8 @@ void main_menu(vector<Base*> bases) {
 				{
 					//(*it)->writeAll();
 				}
-
-				exit(0); //aplicar função que guarde nos ficheiros
+				return;
+				// exit(0); //aplicar função que guarde nos ficheiros
 			}
 		} while (retry);
 	}
