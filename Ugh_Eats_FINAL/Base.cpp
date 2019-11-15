@@ -339,6 +339,7 @@ void Base::seeOneClient()
 		
 		cout << "\n>> ";
 		cin.ignore();
+		cin.clear();
 }
 
 void Base::seeAllRestaurants()
@@ -436,6 +437,7 @@ void Base::seeOneRestaurant()
 
 		cout << "\n>> ";
 		cin.ignore();
+		cin.clear();
 }
 
 
@@ -549,8 +551,7 @@ void Base::seeOneWorker()
 		
 		cout << "\n>> ";
 		cin.ignore();
-	
-
+		cin.clear();
 }
 
 void Base::seeAllDeliverers()
@@ -593,6 +594,7 @@ void Base::seeAllOrders()
 
 	cout << "\n>> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::seeOneOrder()
@@ -644,6 +646,7 @@ void Base::seeOneOrder()
 
 			cout << "\n>> ";
 			cin.ignore();
+			cin.clear();
 		}
 		catch (InvalidNumberException & n)
 		{
@@ -675,6 +678,7 @@ void Base::seeProfits()
 
 	cout << "\n>> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::seeProfitsPerRestaurant()
@@ -697,7 +701,7 @@ void Base::seeProfitsPerRestaurant()
 
 	cout << "\n>> ";
 	cin.ignore();
-
+	cin.clear();
 }
 
 void Base::seeProfitsPerClient()
@@ -718,6 +722,7 @@ void Base::seeProfitsPerClient()
 
 	cout << "\n>> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::seeProfitsPerTime()
@@ -797,6 +802,7 @@ void Base::seeProfitsPerTime()
 
 	cout << "\n>>";
 	cin.ignore();
+	cin.clear();
 
 	/*
 	string datei, datef, houri, hourf;
@@ -976,6 +982,7 @@ void Base::changeBase() { // implementar cenas quando se souber se vamos usar is
 	cout << "Based successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 bool Base::addClient() { //usar em try para apanhar execao blacklisted
@@ -1073,6 +1080,7 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 				cout << c;
 				cout << ">>";
 				cin.ignore();
+				cin.clear();
 				return false;
 			}
 
@@ -1095,12 +1103,14 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 		cout << "Client added successfully" << endl;
 		cout << ">> ";
 		cin.ignore();
+		cin.clear();
 	}
 	catch (BlackListedException & b)
 	{
 		cout << b;
 		cout << ">> ";
 		cin.ignore();
+		cin.clear();
 		return false;
 
 	}
@@ -1256,7 +1266,7 @@ void Base::removeClient() {
 	cout << "Client removed successfully" << endl;
 	cout << ">> ";
 	cin.ignore();
-
+	cin.clear();
 }
 
 void Base::addWorker(){ //Continuar a adicionar exceçoes
@@ -1674,6 +1684,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 	cout << "Worker successfully added! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::changeWorker() {
@@ -2316,6 +2327,7 @@ void Base::changeWorker() {
 	cout << "Worker successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::removeWorker() {
@@ -2412,7 +2424,7 @@ void Base::removeWorker() {
 	cout << "Worker removed successfully" << endl;
 	cout << ">> ";
 	cin.ignore();
-
+	cin.clear();
 }
 
 void Base::addRestaurant() {
@@ -2490,7 +2502,7 @@ void Base::addRestaurant() {
 		{
 			cout << c;
 			cin.ignore();
-			//utils::clear_screen();
+			cin.clear();
 			cout << ">>";
 			return;
 		}
@@ -2568,6 +2580,7 @@ void Base::addRestaurant() {
 	cout << "Restaurant successfully added! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 
@@ -2776,6 +2789,7 @@ void Base::changeRestaurant() {
 				{
 					cout << c;
 					cin.ignore();
+					cin.clear();
 					cout << ">>";
 					return;
 				}
@@ -2852,6 +2866,7 @@ void Base::changeRestaurant() {
 	cout << "Restaurant successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 void Base::removeRestaurant() {
@@ -2926,6 +2941,7 @@ void Base::removeRestaurant() {
 	cout << "Restaurant removed successfully" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 bool clientByName(const Client * left, const Client * right) {
