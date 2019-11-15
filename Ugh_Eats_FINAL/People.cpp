@@ -567,6 +567,7 @@ void Client::edit(Base * base) {
 	cout << "Client successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
 	cin.ignore();
+	cin.clear();
 }
 
 
@@ -676,6 +677,7 @@ void Client::make_order(Base * b) {
 		catch (...) {
 			cout << "\nInvalid price" << endl << ">>";
 			cin.ignore();
+			cin.clear();
 			return;
 		}
 
@@ -714,6 +716,7 @@ void Client::make_order(Base * b) {
 		cout << endl << "No restaurants found" << endl;
 		cout << ">>";
 		cin.ignore();
+		cin.clear();
 		return;
 	}
 
@@ -902,6 +905,7 @@ void Client::make_order(Base * b) {
 	cout << "\n>> ";
 	// cout << "Here: " << updatedOrders.at(updatedOrders.size() - 1)->getProducts().at(0)->get_price();
 	cin.ignore();
+	cin.clear();
 
 	// if (delivSuccess) cout << "Successful Delivery!" << endl;
 	// else cout << "Unsuccessful Delivery (" << insuccessMessage << ")" << endl;

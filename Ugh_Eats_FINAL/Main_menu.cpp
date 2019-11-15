@@ -42,6 +42,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 				cout << o << endl;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -49,6 +50,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 		} while (retry);
 
@@ -69,6 +71,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			}
 			cout << ">>";
 			cin.ignore();
+			cin.clear();
 		}
 
 		if (input == "3") { 
@@ -76,7 +79,8 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 			client->print(); 
 			
 			cout << "\n>>"; 
-			cin.ignore(); 
+			cin.ignore();
+			cin.clear();
 		}
 		if (input == "4")
 		{
@@ -133,6 +137,7 @@ void main_menu_admin_clients(Base * base) {
 				cout << o << endl;
 				cout << "Try Again! " << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -140,6 +145,7 @@ void main_menu_admin_clients(Base * base) {
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 
 		} while (retry);
@@ -153,6 +159,7 @@ void main_menu_admin_clients(Base * base) {
 
 			cout << "\n>> ";
 			cin.ignore();
+			cin.clear();
 		}
 
 		if (input == "2") {
@@ -225,6 +232,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -232,6 +240,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 		} while (retry);
 		
@@ -244,6 +253,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 			
 			cout << "\n>> ";
 			cin.ignore();
+			cin.clear();
 		}
 
 		if (input == "2") {
@@ -318,6 +328,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -325,6 +336,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 
 		} while (retry);
@@ -338,6 +350,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 
 			cout << "\n>> ";
 			cin.ignore();
+			cin.clear();
 		}
 
 		if (input == "2") {
@@ -409,6 +422,7 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -416,6 +430,7 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 				cout << s;
 				cout << "Try Again" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 
 		} while (retry);
@@ -484,6 +499,7 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -491,6 +507,7 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 		} while (retry);
 
@@ -565,6 +582,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -572,6 +590,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 		} while (retry);
 
@@ -630,6 +649,7 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -637,6 +657,7 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 		} while (retry);
 
@@ -684,12 +705,15 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 					cout << c;
 					cout << ">> ";
 					cin.ignore();
+					cin.clear();
 				}
 				catch (InvalidStringException & s)
 				{
 					retry = true;
 					cout << s;
-					cout << "Try Again!" << endl << endl;
+					cout << "Try Again!" << endl << endl;				
+					cin.ignore();
+					cin.clear();
 				}
 			} while (retry);
 			
@@ -762,6 +786,7 @@ void main_menu(vector<Base*> bases) {
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -769,6 +794,7 @@ void main_menu(vector<Base*> bases) {
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 
 		} while (retry);
@@ -810,6 +836,7 @@ void main_menu(vector<Base*> bases) {
 				cout << o;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			catch (InvalidNumberException & s)
 			{
@@ -817,6 +844,7 @@ void main_menu(vector<Base*> bases) {
 				cout << s;
 				cout << "Try Again!" << endl << endl;
 				cin.ignore();
+				cin.clear();
 			}
 			if (input == "1")
 			{
