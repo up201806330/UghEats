@@ -1,3 +1,5 @@
+#pragma comment(lib, "winmm.lib")
+
 #include <iostream>
 #include "Address.h"
 #include "People.h"
@@ -7,13 +9,35 @@
 #include "Restaurant.h"
 #include "Main_menu.h"
 
-int main(){
+#include <Windows.h>
+#include <mmsystem.h>
+
+int main() {
+	PlaySound(TEXT("MicrosoftWindowsXPStartupSoundEffect.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 	
-	bases.at(0)->getClients().at(1)->make_order(bases.at(0));
-	cout << bases.at(0)->getClients().at(1)->get_orders().size() << endl;
+	// bases.at(0)->getClients().at(1)->make_order(bases.at(0));
+	// cout << bases.at(0)->getClients().at(1)->get_orders().size() << endl;
+
+	/*
+	cout << bases.at(0)->getWorkers().at(3)->get_name() << endl;
+	bases.at(0)->removeWorker();
+	cout << bases.at(0)->getWorkers().at(3)->get_name() << endl;
+	*/
+
+	/*
+	cout << bases.at(0)->getClients().at(2)->get_name() << endl;
+	bases.at(0)->removeClient();
+	cout << bases.at(0)->getClients().at(2)->get_name() << endl;
+	*/
+	
+	/*
+	cout << bases.at(0)->getRestaurants().at(0)->get_name() << endl;
+	bases.at(0)->removeRestaurant();
+	cout << bases.at(0)->getRestaurants().at(0)->get_name() << endl;
+	*/
 
 	//bases.at(0)->getClients().at(0)->make_order(bases.at(0));
 

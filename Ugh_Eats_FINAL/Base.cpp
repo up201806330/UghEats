@@ -1192,9 +1192,12 @@ void Base::removeClient() {
 	} while (invalidOption);
 
 	clientChoice--; // not to excede the max index available
-	
-	//loop a apagar todas as orders dele !!
 
+	// To free the memory
+	vector<Client*>::iterator eraseIt = clients.begin() + clientChoice;
+	delete * eraseIt;
+
+	// To erase from the vector
 	clients.erase(clients.begin() + clientChoice);
 
 	cout << "Client removed successfully" << endl;
@@ -2300,6 +2303,11 @@ void Base::removeWorker() {
 
 	workerChoice--; // not to excede the max index available
 
+	// To free the memory
+	vector<Worker*>::iterator eraseIt = workers.begin() + workerChoice;
+	delete * eraseIt;
+
+	// To erase from the vector
 	workers.erase(workers.begin() + workerChoice);
 
 	cout << "Worker removed successfully" << endl;
@@ -2781,6 +2789,11 @@ void Base::removeRestaurant() {
 
 	restaurantChoice--;	// not to excede the max index available
 
+	// To free the memory
+	vector<Restaurant*>::iterator eraseIt = restaurants.begin() + restaurantChoice;
+	delete * eraseIt;
+
+	// To erase from the vector
 	restaurants.erase(restaurants.begin() + restaurantChoice);
 
 	cout << "Restaurant removed successfully" << endl;
