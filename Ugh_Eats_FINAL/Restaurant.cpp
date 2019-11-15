@@ -362,7 +362,7 @@ void Order::load(string path, Base * base){
 }
 
 
-void Order::setID(size_t i)
+void Order::setID(int i)
 {
 	id = i;
 }
@@ -396,7 +396,7 @@ void Order::setDeliver(Deliver *d)
 	delivery = d;
 }
 
-size_t Order::getID() const
+int Order::getID() const
 {
 	return id;
 }

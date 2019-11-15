@@ -79,7 +79,7 @@ public:
 class Deliver;
 
 class Order { 
-	size_t id;
+	int id;
 	Restaurant * restaurant;
 	vector<Product*> products;
 	Date_time date_time;
@@ -94,14 +94,14 @@ public:
 	~Order();
 
 	static void load(string path, Base * base);
-	void setID(size_t i);
+	void setID(int i);
 	void setRestaurant(Restaurant * r);
 	void setClient(Client * c);
 	void setProducts(vector <Product*> p);
 	void setDateTime(Date_time t);
 	void setDeliveryFee(double fee);
 	void setDeliver(Deliver *d);
-	size_t getID() const;
+	int getID() const;
 	Restaurant* getRestaurant() const;
 	vector <Product*> getProducts() const;
 	Date_time getDateTime() const;

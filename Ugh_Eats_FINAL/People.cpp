@@ -446,7 +446,6 @@ void Client::edit(Base * base) {
 	string newName;
 
 	string strNewNif;
-	int newNif;
 	bool invalidNif = false;
 
 	Address newAddress;
@@ -634,7 +633,7 @@ void Client::make_order(Base * b) {
 		return;
 	}
 
-	if (temp == "1");
+	if (temp == "1") {}
 
 	if (temp == "2") {
 		cout << "Type the town you want to search in: "; getline(cin, temp); utils::trim(temp);
@@ -759,9 +758,7 @@ void Client::make_order(Base * b) {
 
 	vector<Product*> pickedProducts;
 	bool invalidProduct;
-	string strProducts;
-	int productChoice;
-	
+	string strProducts;	
 
 	// choosing product(s)
 	
@@ -826,7 +823,7 @@ void Client::make_order(Base * b) {
 	
 	// Success/Insuccess and message
 	vector<string> errorReasons = { "traffic", "unknown", "restaurant cancelled the order", "driver couldn't meet client" };
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	int randomSuccess = rand() % 8; //test different values
 	bool delivSuccess = (randomSuccess) ? true : false;
 	int randomMessage = rand() % errorReasons.size();

@@ -6,13 +6,13 @@
 void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
 
-		cout << "Welcome to Ugh Eats, " << client->get_name() << endl;
 		bool retry = true;
 		do {
 			try
 			{
+				utils::clear_screen();
+				cout << "Welcome to Ugh Eats, " << client->get_name() << endl;
 				cout << "1. Make order" << endl;
 				cout << "2. Previous orders" << endl;
 				cout << "3. My info" << endl;
@@ -34,7 +34,6 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 			}
 			catch (InvalidOptionException & o)
@@ -42,12 +41,14 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 		} while (retry);
 
@@ -95,13 +96,13 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 	}
 }
 
-void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
+void main_menu_admin_clients(Base * base) { 
 	while (true) {
 		string input;
-		utils::clear_screen();
 		bool retry = true;
 		do {
 			try {
+				utils::clear_screen();
 				cout << "1. Show all clients" << endl;
 				cout << "2. Search a client" << endl;
 				cout << "3. Add a client" << endl;
@@ -123,7 +124,6 @@ void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -132,12 +132,14 @@ void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again! " << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 
 		} while (retry);
@@ -187,12 +189,11 @@ void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try {
+				utils::clear_screen();
 				cout << "1. Show all workers" << endl;
 				cout << "2. Search a worker" << endl;
 				cout << "3. Add a worker" << endl;
@@ -214,7 +215,6 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 			}
 			catch (InvalidOptionException & o)
@@ -222,12 +222,14 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 		} while (retry);
 		
@@ -276,13 +278,12 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
 				cout << "1. Show all restaurant" << endl;
 				cout << "2. Search a restaurant" << endl;
 				cout << "3. Add a restaurant" << endl;
@@ -312,12 +313,14 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 
 		} while (retry);
@@ -367,13 +370,12 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 {
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
 				cout << "1. Show all orders" << endl;
 				cout << "2. Search an order" << endl;
 				cout << "0. Go Back" << endl;
@@ -392,7 +394,6 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -401,12 +402,14 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again" << endl << endl;
+				cin.ignore();
 			}
 
 		} while (retry);
@@ -438,13 +441,12 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
 				cout << "1. From this base" << endl;
 				cout << "2. Per restaurant" << endl;
 				cout << "3. Per client" << endl;
@@ -465,7 +467,6 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -474,12 +475,14 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 		} while (retry);
 
@@ -518,13 +521,12 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 void main_menu_admin(Base * base) { // já volta atrás e já fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
 				cout << "1. Clients" << endl;
 				cout << "2. Workers" << endl;
 				cout << "3. Restaurants" << endl;
@@ -546,7 +548,6 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -555,12 +556,14 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 		} while (retry);
 
@@ -572,7 +575,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 		if (input == "5") main_menu_admin_profits(base);
 
 		if (input == "0") { // volta atrás
-			break; //<-------------- Same shit
+			break; 
 		}
 		if (input == "6")
 		{
@@ -586,13 +589,12 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 	while (true) {
 		string input;
-		utils::clear_screen();
-
 		bool retry = true;
 		do
 		{
 			try
 			{
+				utils::clear_screen();
 				cout << "1. Login" << endl;
 				cout << "2. Sign up" << endl;
 				cout << "0. Go Back" << endl;
@@ -611,7 +613,6 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -620,12 +621,14 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 		} while (retry);
 
@@ -693,7 +696,6 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				main_menu_client(base->getClients().at(base->getClients().size() - 1), base);
 			else
 			{
-				utils::clear_screen();
 				continue;
 			}
 		}
@@ -716,12 +718,12 @@ void main_menu(vector<Base*> bases) {
 		string input;
 		string temp;
 		Base * selected_base;
-		utils::clear_screen();
 
 		bool retry = true;
 		do
 		{
 			try {
+				utils::clear_screen();
 				cout << "Pick a Base:" << endl;
 
 				for (auto n = 0; n < bases.size(); n++) {
@@ -731,11 +733,6 @@ void main_menu(vector<Base*> bases) {
 				cout << ">> ";
 
 				getline(cin, temp);
-				if (cin.eof())
-				{
-					cin.clear();
-					return;
-				}
 
 				retry = false;
 				if (!isNumber(temp))
@@ -746,10 +743,8 @@ void main_menu(vector<Base*> bases) {
 						throw InvalidOptionException(stoi(temp));
 				}
 				else
-
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 			
 			}
@@ -758,20 +753,20 @@ void main_menu(vector<Base*> bases) {
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 
 		} while (retry);
 
 
 		selected_base = bases.at(stoi(temp) - 1);
-
-		//cin.ignore();
 
 		retry = true;
 		do
@@ -798,7 +793,6 @@ void main_menu(vector<Base*> bases) {
 				else
 				{
 					retry = true;
-					utils::clear_screen();
 				}
 
 			}
@@ -807,12 +801,14 @@ void main_menu(vector<Base*> bases) {
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
+				cin.ignore();
 			}
 			if (input == "1")
 			{
@@ -827,7 +823,7 @@ void main_menu(vector<Base*> bases) {
 				cout << endl;
 			}
 			if (input == "0") {
-				break; ///////
+				break; 
 			}
 			if (input == "3")
 			{

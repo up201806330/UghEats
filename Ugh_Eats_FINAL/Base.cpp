@@ -191,8 +191,6 @@ void Base::setRestaurants(vector<Restaurant*> restaurants){
 	this->restaurants = restaurants;
 }
 
-
-
 string Base::getRestaurantsFileName() const {
 	return restaurantsFileName;
 }
@@ -208,10 +206,6 @@ string Base::getWorkersFileName() const {
 string Base::getClientsFileName() const {
 	return clientsFileName;
 }
-
-
-
-
 
 string Base::getDistrict() const{
 	return district;
@@ -868,6 +862,7 @@ void Base::seeProfitsPerTime()
 void Base::changeBase() { // implementar cenas quando se souber se vamos usar isto ou não
 	list<string> options = { "address" };
 	
+	string baseName = this->getDistrict();
 	bool invalidOption;
 	string strChoice;
 	unsigned index = 0;
@@ -919,7 +914,7 @@ void Base::changeBase() { // implementar cenas quando se souber se vamos usar is
 				invalidAddress = false;
 
 				cout << "Current Address: " << this->getAddress() << endl;
-				cout << "Updated Address (District / Town / Street / No / Floor / Latitude / Longitude): " << endl;
+				cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
 
 				if (cin.eof()) {
@@ -928,9 +923,10 @@ void Base::changeBase() { // implementar cenas quando se souber se vamos usar is
 				}
 
 				try { //esta exceção não está testada
-					bool teste = address.parse(fullAddress);
+					bool teste = address.parseInsideBase(fullAddress, baseName);
 					if (!teste)
 						throw InvalidAddressException(fullAddress);
+
 					// if it doesnt belong to the are of influence it is considered invalid
 					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 						throw InvalidCityException(address.get_town());
@@ -968,15 +964,8 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 	{
 		Client c;
 
-		// HARD CODED FOR BASE PORTO
-		// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia"};
 		string baseName = this->getDistrict();
 		c.set_base(this);
-
-
-	
-
-
 
 		// name input
 		bool invalidName;
@@ -998,42 +987,22 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 				cout << "Try Again!" << endl << endl;
 
 			}
-	
-
-			/*	if (cin.eof()) {
-					cin.clear();
-					return;
-				}*/
-
 		} while (invalidName);
 
 		c.set_name(name);
 
 		if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) { //EXCEÇÂO BLACKLISTED
 			throw BlackListedException(c.get_name());
-
-
-
 		}
-
-
-
-
 
 		// nif input
 		bool invalidNif;
 		string strNif;
-		int nif;
 		do {
 			invalidNif = false;
 
 			cout << "NIF: ";
 			getline(cin, strNif);
-
-			//if (cin.eof()) {
-			//	cin.clear();
-			//	return;
-			//}
 
 			try {
 				if (!isNumber(strNif) || strNif.size() != 9)
@@ -1059,18 +1028,14 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 			invalidAddress = false;
 
 			string fullAddress;
-			cout << "Address (District / Town / Street / No / Floor / Latitude / Longitude):" << endl;
+			cout << "Address (Town / Street / No / Floor / Latitude / Longitude):" << endl;
 			getline(cin, fullAddress);
 
-			//if (cin.eof()) {
-			//	cin.clear();
-			//	return;
-			//}
-
 			try {
-				bool teste = address.parse(fullAddress);
-				if (!teste)
+				bool teste = address.parseInsideBase(fullAddress, baseName);
+				if (!teste) {
 					throw InvalidAddressException(fullAddress);
+				}
 				// if it doesnt belong to the area of influence it is considered invalid
 				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
 					throw InvalidCityException(address.get_town());
@@ -1361,7 +1326,6 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 	// nif input
 	bool invalidNif;
 	string strNif;
-	int nif;
 	do {
 		invalidNif = false;
 
@@ -1472,7 +1436,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 					}
 					else
 					{
-						invalidManagerInput == true;
+						invalidManagerInput = true;
 						utils::clear_screen();
 					}
 				}
@@ -1820,7 +1784,6 @@ void Base::changeWorker() {
 
 	bool invalidWage = false;
 	string strNewWage;
-	int newWage;
 
 	bool adminExists = false;
 	bool invalidRole = false;
@@ -2471,7 +2434,7 @@ void Base::addRestaurant() {
 	do {
 		invalidAddress = false;
 	
-		cout << "Address: ";
+		cout << "Address (Town / Street / No / Floor / Latitude / Longitude): ";
 		getline(cin, fullAddress);
 
 		//if (cin.eof()) {
@@ -2480,7 +2443,7 @@ void Base::addRestaurant() {
 		//}
 
 		try {
-			bool teste = address.parse(fullAddress);
+			bool teste = address.parseInsideBase(fullAddress, baseName);
 			if (!teste)
 				throw InvalidAddressException(fullAddress);
 
@@ -2706,6 +2669,8 @@ void Base::changeRestaurant() {
 	string newName;
 	bool invalidName;
 
+	string baseName = this->getDistrict();
+
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
@@ -2755,7 +2720,7 @@ void Base::changeRestaurant() {
 				invalidAddress = false;
 
 				cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
-				cout << "Updated Address (District / Town / Street / No / Floor / Latitude / Longitude): " << endl;
+				cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
 				getline(cin, fullAddress);
 
 				if (cin.eof()) {
@@ -2764,7 +2729,7 @@ void Base::changeRestaurant() {
 				}
 
 				try {
-					bool teste = newAddress.parse(fullAddress);
+					bool teste = newAddress.parseInsideBase(fullAddress, baseName);
 					if (!teste)
 						throw InvalidAddressException(fullAddress);
 
