@@ -147,7 +147,7 @@ void main_menu_admin_clients(Base * base) {
 
 		if (input == "1") {
 			utils::clear_screen();
-			if(!base->orderClients()) continue;
+			base->orderClients();
 			utils::clear_screen();
 			base->seeAllClients(); //Já volta atrás
 
@@ -238,7 +238,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 
 		if (input == "1") {
 			utils::clear_screen();
-			if (!base->orderWorkers()) continue; //N faco ideia como mas funciona lmao
+			base->orderWorkers(); //N faco ideia como mas funciona lmao
 			utils::clear_screen();
 			base->seeAllWorkers(); //Já volta para trás
 			
@@ -332,7 +332,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 
 		if (input == "1") {
 			utils::clear_screen();
-			if(!base->orderRestaurants()) continue;
+			base->orderRestaurants();
 			utils::clear_screen();
 			base->seeAllRestaurants(); //Já volta para trás
 
@@ -423,7 +423,7 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 
 		if (input == "1") {
 			utils::clear_screen();
-			//if(!base->orderOrders()) continue;
+			//base->orderOrders();
 			utils::clear_screen();
 			base->seeAllOrders(); //Já volta atrás
 		}

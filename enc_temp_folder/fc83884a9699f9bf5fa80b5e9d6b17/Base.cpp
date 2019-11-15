@@ -2904,7 +2904,7 @@ bool clientByNIF(const Client * left, const Client * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderClients()
+void Base::orderClients()
 {
 	string input;
 
@@ -2917,9 +2917,8 @@ bool Base::orderClients()
 
 	if (input == "1") sort(clients.begin(), clients.end(), clientByName);
 	if (input == "2") sort(clients.begin(), clients.end(), clientByNIF);
-	else return false;
-
-	return true;
+	else return;
+	
 }
 
 bool restaurantByName(const Restaurant * left, const Restaurant * right) {
@@ -2930,7 +2929,7 @@ bool restaurantByPrice(const Restaurant * left, const Restaurant * right) {
 	return left->get_price_average() < right->get_price_average();
 }
 
-bool Base::orderRestaurants()
+void Base::orderRestaurants()
 {
 	string input;
 
@@ -2943,9 +2942,7 @@ bool Base::orderRestaurants()
 
 	if (input == "1") sort(restaurants.begin(), restaurants.end(), restaurantByName);
 	if (input == "2") sort(restaurants.begin(), restaurants.end(), restaurantByPrice);
-	else return false; 
-
-	return true;
+	else return;
 }
 
 bool workerByName(const Worker * left, const Worker * right) {
@@ -2956,7 +2953,7 @@ bool workerByNIF(const Worker * left, const Worker * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderWorkers()
+void Base::orderWorkers()
 {
 	string input;
 
@@ -2969,9 +2966,7 @@ bool Base::orderWorkers()
 
 	if (input == "1") sort(workers.begin(), workers.end(), workerByName);
 	if (input == "2") sort(workers.begin(), workers.end(), workerByNIF);
-	else return false;
-
-	return true;
+	else return;
 }
 /*
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
@@ -2990,7 +2985,7 @@ bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right)
 	return left.second->getDeliveryFee() < right.second->getDeliveryFee();
 }
 
-bool Base::orderOrders()
+void Base::orderOrders()
 {
 	string input;
 
@@ -3005,9 +3000,7 @@ bool Base::orderOrders()
 	if (input == "1");
 	if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
 	if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
-	else false;
-
-	return true;
+	else return;
 }
 */
 

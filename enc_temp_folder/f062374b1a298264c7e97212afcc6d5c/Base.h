@@ -112,10 +112,10 @@ public:
 	// workers
 	// restaurants
 
-	bool orderClients();
-	bool orderRestaurants();
-	bool orderWorkers();
-	//bool orderOrders(); //lmao 
+	void orderClients();
+	void orderRestaurants();
+	void orderWorkers();
+	void orderOrders(); //lmao 
 
 	// LEONOR
 	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
