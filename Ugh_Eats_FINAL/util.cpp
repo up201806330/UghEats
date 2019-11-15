@@ -143,6 +143,18 @@ std::string utils::lowercase(std::string input)
 	return input;
 }
 
+std::string utils::defaultcase(std::string input)
+{
+	for (char & i : input)
+	{
+		i = tolower(i);
+	}
+	
+	input.at(0) = toupper(input.at(0));
+
+	return input;
+}
+
 void utils::clear_screen()
 {
 	system("cls");

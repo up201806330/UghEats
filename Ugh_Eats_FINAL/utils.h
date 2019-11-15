@@ -116,7 +116,12 @@ namespace utils
 	Example: utils::lowercase("MIEIC") returns "mieic"
 	*/
 	std::string lowercase(std::string input);
-	
+	/**
+	Returns a normalized version of the string 'input'
+	Example: utils::defaultcase("MIEIC") returns "Mieic"
+	*/
+	std::string defaultcase(std::string input);
+
 	/**
 	Clears the console screen
 	*/

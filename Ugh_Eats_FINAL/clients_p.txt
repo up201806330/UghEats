@@ -9,7 +9,7 @@ Porto / Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
 -
 ;
 Rui Rio
-Porto / Lousada / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
+Porto / Vila Nova de Gaia / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
 231234567
 5
 ;

@@ -24,7 +24,7 @@ public:
 	
 	~Product();
 
-	void parse(string str);
+	bool parse(string str);
 
 	void setName(string nm);
 	void setCuisineType(string ct);
@@ -60,7 +60,7 @@ public:
 	void setBase(Base* b);
 	string get_name() const;
 	Address get_address() const;
-	set<string> get_cuisine_types() const;
+	set<string> & get_cuisine_types();
 	vector<Product*> get_products() const;
 	double get_price_average() const;
 	Base * get_base() const;
