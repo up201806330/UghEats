@@ -142,8 +142,3 @@ int main(){
 
 	return 0;
 }
-
-
-// preciso testar os prints todos para ver se estao formatados
-// preciso arranjar hora atual
-// testar o uso de sets

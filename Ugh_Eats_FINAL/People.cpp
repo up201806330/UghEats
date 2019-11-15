@@ -613,17 +613,17 @@ void Client::make_order(Base * b) {
 		cout << "Type desired cuisine types (separated by ':'): "; getline(cin, temp);
 		vector<string> selectedTypes = utils::split(temp, ':');
 		for (auto & x : selectedTypes) {
-			x = utils::uppercase(x); //set all to uppercase
+			x = utils::defaultcase(x); //set all to default case, which is assured to be the format of the types in the set
 			utils::trim(x);	//trim whitespaces
 		}
-
+		
 		vector<Restaurant*>::iterator it;
 		vector<string>::iterator jt;
 		for (it = selectedRestaurants.begin(); it != selectedRestaurants.end();) {
 			bool typeFound = false;
 
 			for (jt = selectedTypes.begin(); jt != selectedTypes.end(); jt++) {
-				if ((*it)->get_cuisine_types().find((*jt))!=(*it)->get_cuisine_types().end()) {
+				if (((*it)->get_cuisine_types().find((*jt))!=(*it)->get_cuisine_types().end()) {
 					typeFound = true;
 					break;
 				}

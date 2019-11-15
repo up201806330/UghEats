@@ -1,4 +1,6 @@
-#pragma once
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
+
 #include <string>
 #include "Date_time.h"
 using namespace std;
@@ -322,3 +324,6 @@ inline bool isDateValid(Date_time d)
 		
 
 }
+
+#endif
+
