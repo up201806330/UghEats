@@ -6,6 +6,7 @@
 #include <list>
 #include <thread>
 #include <chrono>
+#include <iomanip>
 
 
 string MAIN_SEPARATOR = ";;;";
@@ -701,23 +702,6 @@ void Client::make_order(Base * b) {
 
 	orderPtr->setDeliver(deliverPtr);
 
-	// Updating Client orders
-	map<int, Order*> updatedClients = this->get_orders();
-	updatedClients.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-	this->set_orders(updatedClients);
-
-
-
-	// Updating Delivery man history
-	map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
-	updatedHistory.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-	b->getDeliveryMan()->set_history(updatedHistory);
-
-	// Updating Base Orders
-	map<int, Order*> updatedOrders = b->getOrders();
-	updatedOrders.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-	b->setOrders(updatedOrders);
-
 	// Loading effect
 	cout << "\nLoading";
 	string loadingDelivery = "...";
@@ -730,10 +714,29 @@ void Client::make_order(Base * b) {
 	cout << endl;
 
 	if (delivSuccess) {
-		for (char c : "Successful Delivery!") {
+		string deliv; stringstream d; 
+		d << "Successful Delivery! Your order will arrive at " << setw(2) << setfill('0') << deliver.getDateTime().getHours() << ":" << setw(2) << setfill('0') << deliver.getDateTime().getMinutes();
+		deliv = d.str();
+		for (char c : deliv) {
 			this_thread::sleep_for(std::chrono::milliseconds(50));
 			cout << c << std::flush;
 		}
+
+		// Updating Client orders
+		map<int, Order*> updatedClients = this->get_orders();
+		updatedClients.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+		this->set_orders(updatedClients);
+
+		// Updating Delivery man history
+		map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
+		updatedHistory.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+		b->getDeliveryMan()->set_history(updatedHistory);
+
+		// Updating Base Orders
+		map<int, Order*> updatedOrders = b->getOrders();
+		updatedOrders.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+		b->setOrders(updatedOrders);
+
 	}
 	else {
 		for (char c : "Unsuccessful Delivery (reason: " + insuccessMessage + ")") {

@@ -357,6 +357,7 @@ void Date_time::setCurrentTime()
 	time_t rawtime;
 	time(&rawtime);
 	strct = *localtime(&rawtime);
+	just_date = false;
 }
 
 void Date_time::addRandomTimeInterval()

@@ -537,8 +537,7 @@ void Base::seeAllOrders()
 	map<int, Order*>::iterator it;
 	for (it = orders.begin(); it != orders.end(); it++)
 	{
-		cout << *((*it).second);
-		cout << endl;
+		cout << *((*it).second) << endl << "-------------------------------" << endl;
 	}
 
 	cout << "\n>> ";
@@ -3167,7 +3166,7 @@ void Base::writeClientsFile(string fileName) {
 
 //void Base::writeAll()
 //{
-	writeRestaurantsFile(restaurantsFileName);
+//	writeRestaurantsFile(restaurantsFileName);
 //	writeDeliveriesFile(deliveriesFileName);
 //	writeWorkersFile(workersFileName);
 //	writeClientsFile(clientsFileName);
