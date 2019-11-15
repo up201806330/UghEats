@@ -259,7 +259,7 @@ void Base::seeAllClients()
 
 void Base::seeOneClient()
 {
-	cout << "Pick the Client you want to see: " << endl << endl;
+	
 	vector<Client*>::iterator it;
 	int id = 1;
 	string answer;
@@ -268,6 +268,8 @@ void Base::seeOneClient()
 	{
 		try
 		{
+			retry = false;
+			cout << "Pick the Client you want to see: " << endl << endl;
 			for (it = clients.begin(); it != clients.end(); it++)
 			{
 				cout << id << ". " << (*it)->get_name() << endl;
@@ -284,10 +286,22 @@ void Base::seeOneClient()
 			}
 			if (!isNumber(answer))
 				throw InvalidNumberException(answer);
-			int input = stoi(answer);
-			retry = false;
-			if (InvalidOptions(clients.size(), input))
-				throw InvalidOptionException(input);
+			if (answer != "")
+			{
+				if (InvalidOptions(clients.size(), stoi(answer)))
+					throw InvalidOptionException(stoi(answer));
+				int input = stoi(answer);
+			}
+			else
+			{
+				id = 1;
+				retry = true;
+				utils::clear_screen();
+			}
+
+			
+			
+
 		}
 		catch (InvalidOptionException & o)
 		{
@@ -325,7 +339,7 @@ void Base::seeAllRestaurants()
 
 void Base::seeOneRestaurant()
 {
-	cout << "Pick the Restaurant you want to see" << endl << endl;
+	
 	vector<Restaurant*>::iterator it;
 	int id = 1;
 	string answer;
@@ -335,6 +349,7 @@ void Base::seeOneRestaurant()
 		try
 		{
 			retry = false;
+			cout << "Pick the Restaurant you want to see" << endl << endl;
 			for (it = restaurants.begin(); it != restaurants.end(); it++)
 			{
 				cout << id << ". " << (*it)->get_name() << endl;
@@ -352,9 +367,19 @@ void Base::seeOneRestaurant()
 			}
 			if (!isNumber(answer))
 				throw InvalidNumberException(answer);
-			int input = stoi(answer);
-			if (InvalidOptions(restaurants.size(), input))
-				throw InvalidOptionException(input);
+			if (answer != "")
+			{
+				if (InvalidOptions(restaurants.size(), stoi(answer)))
+					throw InvalidOptionException(stoi(answer));
+				int input = stoi(answer);
+			}
+			else
+			{
+				id = 1;
+				retry = true;
+				utils::clear_screen();
+			}
+
 		}
 		catch (InvalidOptionException & o)
 		{
@@ -438,7 +463,7 @@ void Base::seeAllWorkers()
 
 void Base::seeOneWorker()
 {
-	cout << "Pick the worker you want to see" << endl;
+	
 	vector<Worker*>::iterator it;
 	int id = 1, answer;
 	string input;
@@ -447,6 +472,8 @@ void Base::seeOneWorker()
 	{
 		try
 		{
+			retry = false;
+			cout << "Pick the worker you want to see" << endl;
 			for (it = workers.begin(); it != workers.end(); it++)
 			{
 				cout << id << ". " << (*it)->get_name() << endl;
@@ -464,10 +491,20 @@ void Base::seeOneWorker()
 			}
 			if (!isNumber(input))
 				throw InvalidNumberException(input);
-			answer = stoi(input);
-			retry = false;
-			if (InvalidOptions(workers.size(), answer))
-				throw InvalidOptionException(answer);
+			
+			if (input != "")
+			{
+				if (InvalidOptions(workers.size(), stoi(input)))
+					throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+			else
+			{
+				id = 1;
+				retry = true;
+				utils::clear_screen();
+			}
+			
 		}
 		catch (InvalidOptionException & o)
 		{
@@ -575,9 +612,19 @@ void Base::seeOneOrder()
 			}
 			if (!isNumber(input))
 				throw InvalidNumberException(input);
-			answer = stoi(input);
-			if (InvalidOptions(orders.size(), answer))
-				throw InvalidOptionException(answer);
+			if (input != "")
+			{
+				if (InvalidOptions(orders.size(), stoi(input)))
+					throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+			else
+			{
+				retry = true;
+				utils::clear_screen();
+				continue;
+			}
+			
 			cout << "INFO" << endl;
 			cout << *(orders.at(temporary_ids.at(answer - 1)));
 
@@ -818,7 +865,7 @@ void Base::seeProfitsPerTime()
 
 
 
-void Base::changeBase() {
+void Base::changeBase() { // implementar cenas quando se souber se vamos usar isto ou não
 	list<string> options = { "address" };
 	
 	bool invalidOption;
@@ -1077,7 +1124,7 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 
 void Base::changeClient() {
 
-	cout << "Pick the client you want to change information about:" << endl;
+	
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
@@ -1089,7 +1136,7 @@ void Base::changeClient() {
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the client you want to change information about:" << endl;
 		for (it = clients.begin(); it != clients.end(); ++it, ++index) {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
@@ -1110,11 +1157,23 @@ void Base::changeClient() {
 			
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			clientChoice = stoi(strChoice);
+			
 
-			if (InvalidOptions(clients.size(), clientChoice)) {
-				throw InvalidOptionException(clientChoice);
+			if (strChoice != "")
+			{
+				clientChoice = stoi(strChoice);
+				if (InvalidOptions(clients.size(), clientChoice)) {
+					throw InvalidOptionException(clientChoice);
+				}
 			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+
+
+			}
+			
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1128,7 +1187,7 @@ void Base::changeClient() {
 			cout << "Try Again!" << endl << endl;
 		}
 		
-		cout << endl;
+		//cout << endl;
 
 	} while (invalidOption);
 	
@@ -1139,7 +1198,7 @@ void Base::changeClient() {
 
 void Base::removeClient() {
 
-	cout << "Pick the client you want to remove:" << endl;
+	
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
@@ -1151,7 +1210,7 @@ void Base::removeClient() {
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the client you want to remove:" << endl;
 		for (it = clients.begin(); it != clients.end(); ++it, ++index) {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
@@ -1169,11 +1228,20 @@ void Base::removeClient() {
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
 
-			clientChoice = stoi(strChoice);
+			if (strChoice != "")
+			{
+				clientChoice = stoi(strChoice);
 
-			if (InvalidOptions(clients.size(), clientChoice)) {
-				throw InvalidOptionException(clientChoice);
+				if (InvalidOptions(clients.size(), clientChoice)) {
+					throw InvalidOptionException(clientChoice);
+				}
 			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+			
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1231,8 +1299,17 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 			}
 			if (!isNumber(strWorkerType))
 				throw InvalidNumberException(strWorkerType);
-			if (InvalidOptions(2, stoi(strWorkerType)))
-				throw InvalidOptionException(stoi(strWorkerType));
+			if (strWorkerType != "")
+			{
+				if (InvalidOptions(2, stoi(strWorkerType)))
+					throw InvalidOptionException(stoi(strWorkerType));
+			}
+			else
+			{
+				invalidWorkerType = true;
+				utils::clear_screen();
+
+			}
 		}
 		catch(InvalidOptionException & o)
 		{
@@ -1388,8 +1465,16 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 					if (!isNumber(strManagerInput))
 						throw InvalidNumberException(strManagerInput);
 					managerInput = stoi(strManagerInput);
-					if (InvalidOptions(2, managerExists))
-						throw InvalidOptionException(managerExists);
+					if (strManagerInput != "")
+					{
+						if (InvalidOptions(2, managerExists))
+							throw InvalidOptionException(managerExists);
+					}
+					else
+					{
+						invalidManagerInput == true;
+						utils::clear_screen();
+					}
 				}
 				catch (InvalidOptionException & o) {
 					invalidManagerInput = true;
@@ -1615,12 +1700,12 @@ void Base::changeWorker() {
 	int workerChoice;
 
 
-	cout << "Pick the worker you want to change information about:" << endl;
+	
 
 	do {
 		invalidOption = false;
 		foundFirstDelivery = false;
-
+		cout << "Pick the worker you want to change information about:" << endl;
 		for (size_t i = 0; i < workers.size(); i++) {
 			adminCheck = dynamic_cast<Admin*> (workers.at(i));
 			if (adminCheck != NULL) {
@@ -1661,11 +1746,22 @@ void Base::changeWorker() {
 
 			if (!isNumber(strWorkerChoice))
 				throw InvalidNumberException(strWorkerChoice);
-			workerChoice = stoi(strWorkerChoice);
 
-			if (InvalidOptions(workers.size(), workerChoice)) {
-				throw InvalidOptionException(workerChoice);
+			if (strWorkerChoice != "")
+			{
+				workerChoice = stoi(strWorkerChoice);
+
+				if (InvalidOptions(workers.size(), workerChoice)) {
+					throw InvalidOptionException(workerChoice);
+				}
 			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+
+			
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1703,7 +1799,7 @@ void Base::changeWorker() {
 	list<string>::iterator optionsIt;
 	list<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
 	list<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
-	cout << "Pick the field you want to change information of:" << endl;
+	
 	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
 	// auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
 	// Admin newAdmin;
@@ -1743,7 +1839,7 @@ void Base::changeWorker() {
 		do {
 			index = 0;
 			invalidOption = false;
-
+			cout << "Pick the field you want to change information of:" << endl;
 			for (optionsIt = adminOptions.begin(); optionsIt != adminOptions.end(); ++optionsIt, ++index) {
 				cout << index + 1 << ". " << (*optionsIt) << endl;
 			}
@@ -1759,11 +1855,21 @@ void Base::changeWorker() {
 
 				if (!isNumber(strAdminAttributeChoice))
 					throw InvalidNumberException(strAdminAttributeChoice);
-				adminAttributeChoice = stoi(strAdminAttributeChoice);
+				
 
-				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) {
-					throw InvalidOptionException(adminAttributeChoice);
+				if (strAdminAttributeChoice != "")
+				{
+					adminAttributeChoice = stoi(strAdminAttributeChoice);
+					if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) {
+						throw InvalidOptionException(adminAttributeChoice);
+					}
 				}
+				else
+				{
+					invalidOption = true;
+					utils::clear_screen();
+				}
+
 			}
 
 			catch (InvalidOptionException & o) {
@@ -1778,7 +1884,7 @@ void Base::changeWorker() {
 				cout << "Try Again!" << endl << endl;
 			}
 
-			cout << endl;
+			//cout << endl;
 		} while (invalidOption);
 
 
@@ -1949,7 +2055,7 @@ void Base::changeWorker() {
 		do {
 			index = 0;
 			invalidOption = false;
-
+			cout << "Pick the field you want to change information of:" << endl;
 			for (optionsIt = deliveryOptions.begin(); optionsIt != deliveryOptions.end(); ++optionsIt, ++index) {
 				cout << index + 1 << ". " << (*optionsIt) << endl;
 			}
@@ -1965,11 +2071,21 @@ void Base::changeWorker() {
 
 				if (!isNumber(strDelivAttributeChoice))
 					throw InvalidNumberException(strDelivAttributeChoice);
-				delivAttributeChoice = stoi(strDelivAttributeChoice);
+				
 
-				if (InvalidOptions(deliveryOptions.size(), delivAttributeChoice)) {
-					throw InvalidOptionException(delivAttributeChoice);
+				if (strDelivAttributeChoice != "")
+				{
+					delivAttributeChoice = stoi(strDelivAttributeChoice);
+					if (InvalidOptions(deliveryOptions.size(), delivAttributeChoice)) {
+						throw InvalidOptionException(delivAttributeChoice);
+					}
 				}
+				else
+				{
+					invalidOption = true;
+					utils::clear_screen();
+				}
+
 			}
 
 			catch (InvalidOptionException & o) {
@@ -2463,7 +2579,7 @@ void Base::addRestaurant() {
 	cin.ignore();
 }
 
-void Base::changeRestaurant() {
+void Base::changeRestaurant() { // ainda a corrigir bugs
 
 	vector<Restaurant*>::iterator it;
 	bool invalidOption;
@@ -2493,11 +2609,20 @@ void Base::changeRestaurant() {
 
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			restaurantChoice = stoi(strChoice);
+			if (strChoice != "")
+			{
+				restaurantChoice = stoi(strChoice);
 
-			if (InvalidOptions(restaurants.size(), restaurantChoice)) {
-				throw InvalidOptionException(restaurantChoice);
+				if (InvalidOptions(restaurants.size(), restaurantChoice)) {
+					throw InvalidOptionException(restaurantChoice);
+				}
 			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+			
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -2541,11 +2666,20 @@ void Base::changeRestaurant() {
 
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			attributeChoice = stoi(strChoice);
+			if (strChoice != "")
+			{
+				attributeChoice = stoi(strChoice);
 
-			if (InvalidOptions(options.size(), attributeChoice)) {
-				throw InvalidOptionException(attributeChoice);
+				if (InvalidOptions(options.size(), attributeChoice)) {
+					throw InvalidOptionException(attributeChoice);
+				}
 			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+			
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;

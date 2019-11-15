@@ -23,10 +23,19 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 
 				getline(cin, input);
 				retry = false;
+
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(4, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(5, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -106,8 +115,17 @@ void main_menu_admin_clients(Base * base) { // já volta atrás e já fecha
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(6, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(6, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -188,8 +206,16 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 				retry = false;
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(6, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(6, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -270,8 +296,16 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(6, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(6, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -350,8 +384,17 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(3, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(3, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -414,8 +457,17 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(5, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(5, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch(InvalidOptionException & o)
 			{
@@ -486,8 +538,17 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(6, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(6, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -542,8 +603,17 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(3, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(3, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch (InvalidOptionException & o)
 			{
@@ -720,8 +790,17 @@ void main_menu(vector<Base*> bases) {
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
-				if (InvalidOptions(3, stoi(input)))
-					throw InvalidOptionException(stoi(input));
+				if (input != "")
+				{
+					if (InvalidOptions(3, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+					utils::clear_screen();
+				}
+
 			}
 			catch (InvalidOptionException & o)
 			{
