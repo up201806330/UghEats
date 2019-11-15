@@ -107,7 +107,16 @@ Worker::~Worker() {
 
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
-	// cout << "Workers file: " << path << endl;
+	try
+	{
+		if (!workers_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 	string textline;
 	vector <Worker*> workers_vec;
 
@@ -301,7 +310,16 @@ Client::~Client() {
 
 void Client::load(string path, Base * base) { 
 	ifstream clients_text(path);
-
+	try
+	{
+		if (!clients_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 	string textline;
 	vector <Client*> clients_vec;
 	while (getline(clients_text,textline))
@@ -386,14 +404,14 @@ void Client::edit(Base * base) {
 
 	// Changing the (past) orders or the "value" isn't realistic, right?
 	list<string> options = { "Name", "Nif","Address" };
-	cout << "Pick the field you want to change information of:" << endl;
+
 
 	list<string>::iterator it2;
 	int attributeChoice;
 	do {
 		index = 0;
 		invalidOption = false;
-
+		cout << "Pick the field you want to change information of:" << endl;
 		for (it2 = options.begin(); it2 != options.end(); ++it2, ++index) {
 			cout << index + 1 << ". " << (*it2) << endl;
 		}
@@ -410,9 +428,17 @@ void Client::edit(Base * base) {
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
 			
-			attributeChoice = stoi(strChoice);
-			if (InvalidOptions(options.size(), attributeChoice)) {
-				throw InvalidOptionException(attributeChoice);
+			if (strChoice != "")
+			{
+				attributeChoice = stoi(strChoice);
+				if (InvalidOptions(options.size(), attributeChoice)) {
+					throw InvalidOptionException(attributeChoice);
+				}
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
 			}
 		}
 		catch (InvalidOptionException & o) {
@@ -427,7 +453,7 @@ void Client::edit(Base * base) {
 			cout << "Try Again!" << endl << endl;
 		}
 
-		cout << endl;
+		
 
 	} while (invalidOption);
 
@@ -439,7 +465,6 @@ void Client::edit(Base * base) {
 	string newName;
 
 	string strNewNif;
-	int newNif;
 	bool invalidNif = false;
 
 	Address newAddress;
@@ -579,23 +604,55 @@ void Client::make_order(Base * b) {
 	double starting, ending;
 
 	vector<Restaurant*> selectedRestaurants = b->getRestaurants();
+	bool retry = true;
+	do {
+		try {
+			retry = false;
+			cout << "Search Restaurant:" << endl;
+			cout << "1. Show all" << endl;
+			cout << "2. By town" << endl;
+			cout << "3. By price average" << endl;
+			cout << "4. By cuisine type" << endl;
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
 
-	cout << "Search Restaurant:" << endl;
-	cout << "1. Show all" << endl;
-	cout << "2. By town" << endl;
-	cout << "3. By price average" << endl;
-	cout << "4. By cuisine type" << endl;
-	cout << "0. Go Back" << endl;
-	cout << ">> ";
+			getline(cin, temp);
+			if (!isNumber(temp))
+				throw InvalidNumberException(temp);
+			if (temp != "")
+			{
+				if (InvalidOptions(4, stoi(temp)))
+					throw InvalidOptionException(stoi(temp));
+			}
+			else
+			{
+				retry = true;
+				utils::clear_screen();
 
-	getline(cin, temp);
+			}
+		}
+		catch (InvalidNumberException & n)
+		{
+			retry = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
 	utils::clear_screen();
 
 	if (temp == "0") {
 		return;
 	}
 
-	if (temp == "1");
+	if (temp == "1") {}
 
 	if (temp == "2") {
 		cout << "Type the town you want to search in: "; getline(cin, temp); utils::trim(temp);
@@ -720,9 +777,7 @@ void Client::make_order(Base * b) {
 
 	vector<Product*> pickedProducts;
 	bool invalidProduct;
-	string strProducts;
-	int productChoice;
-	
+	string strProducts;	
 
 	// choosing product(s)
 	
@@ -787,7 +842,7 @@ void Client::make_order(Base * b) {
 	
 	// Success/Insuccess and message
 	vector<string> errorReasons = { "traffic", "unknown", "restaurant cancelled the order", "driver couldn't meet client" };
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	int randomSuccess = rand() % 8; //test different values
 	bool delivSuccess = (randomSuccess) ? true : false;
 	int randomMessage = rand() % errorReasons.size();

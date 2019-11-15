@@ -20,6 +20,7 @@ public:
 	~Address();
 	
 	bool parse(string str);
+	bool parseInsideBase(string str, string dist);
 
 	void setTown(string cidade);
 	void setDistrict(string distrito);

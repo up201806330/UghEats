@@ -17,6 +17,8 @@ int main() {
 	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
+
+
 	
 	// bases.at(0)->getClients().at(1)->make_order(bases.at(0));
 	// cout << bases.at(0)->getClients().at(1)->get_orders().size() << endl;
@@ -38,6 +40,9 @@ int main() {
 	bases.at(0)->removeRestaurant();
 	cout << bases.at(0)->getRestaurants().at(0)->get_name() << endl;
 	*/
+
+	//bases.at(0)->getClients().at(1)->make_order(bases.at(0));
+	//cout << bases.at(0)->getClients().at(1)->get_orders().size() << endl;
 
 	//bases.at(0)->getClients().at(0)->make_order(bases.at(0));
 
@@ -161,10 +166,9 @@ int main() {
 	*/
 	
 
-	
-
-	main_menu(bases);
+	//main_menu(bases);
 	
 
 	return 0;
+
 }

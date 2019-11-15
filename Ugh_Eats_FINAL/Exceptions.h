@@ -39,7 +39,10 @@ private:
 	string n;
 public:
 	InvalidNumberException(string ni) { n = ni; }
-	string getString() { return n; }
+	string getString() { 
+		if (n == "") n = "empty string";
+		return n; 
+	}
 	friend ostream & operator<<(ostream  & out, InvalidNumberException & s)
 	{
 		out << "Invalid Number Exception: " << s.getString() << " isn't a number \n";
@@ -82,7 +85,10 @@ class InvalidAddressException { //Implemented
 	string address_error;
 public:
 	InvalidAddressException(string a) { address_error = a; }
-	string getAddressError() { return address_error; }
+	string getAddressError() {
+		if (address_error == "" || address_error == "\n") address_error= "empty string";
+		return address_error; 
+	}
 
 	friend ostream & operator<<(ostream & out, InvalidAddressException & a) {
 		out << "Invalid Address Exception: " << a.getAddressError() << " is invalid \n";
@@ -245,11 +251,12 @@ public:
 	friend ostream & operator<<(ostream & out, FileOpenErrorException & f)
 	{
 		out << "File Open Error Exception: couldn't open " << f.getFilename() << endl;
+		return out;
 	}
 };
 
 
-inline bool InvalidOptions(int max, int ans)
+inline bool InvalidOptions(size_t max, int ans)
 {
 	if (ans < 0 || ans > max)
 		return true;
@@ -259,6 +266,8 @@ inline bool InvalidOptions(int max, int ans)
 
 inline bool isNumber(string str)
 {
+	if (str == "" || str == "\n") return false;
+
 	for (int i = 0; i < str.size(); i++)
 	{
 		if ((int(str[i]) < 48) || (int(str[i]) > 57))
@@ -270,6 +279,8 @@ inline bool isNumber(string str)
 
 inline bool isString(string str)
 {
+	if (str == "" || str == "\n") return false;
+
 	for (int i = 0; i < str.size(); i++) 
 	{
 		if (str[i] < 65 || str[i] > 90) //letras maiusculas

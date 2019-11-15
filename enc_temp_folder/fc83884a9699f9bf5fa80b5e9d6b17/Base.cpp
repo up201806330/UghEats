@@ -35,16 +35,7 @@ vector<Base*> Base::load(string path){
 
 	ifstream base_text(path);
 
-	try {
-		if (!base_text.is_open())
-			throw FileOpenErrorException(path);
-	}
-	catch (FileOpenErrorException & f)
-	{
-		cout << f;
-		exit(0);
-	}
-
+	if (!base_text.is_open()) cout << "Error reading";
 
 	vector<Base*> bases;
 	string textline;
@@ -106,17 +97,7 @@ void Base::load_blacklist()
 {
 	ifstream stream("blacklisted.txt"); 
 
-	try
-	{
-		if (!stream.is_open())
-			throw FileOpenErrorException("blacklisted.txt");
-	}
-	catch (FileOpenErrorException & f)
-	{
-		cout << f;
-		exit(0);
-	}
-
+	if (!stream.is_open()) cout << "Error reading";
 
 	string input;
 
@@ -1245,12 +1226,9 @@ void Base::removeClient() {
 	} while (invalidOption);
 
 	clientChoice--; // not to excede the max index available
+	
+	//loop a apagar todas as orders dele !!
 
-	// To free the memory
-	vector<Client*>::iterator eraseIt = clients.begin() + clientChoice;
-	delete * eraseIt;
-
-	// To erase from the vector
 	clients.erase(clients.begin() + clientChoice);
 
 	cout << "Client removed successfully" << endl;
@@ -2402,11 +2380,6 @@ void Base::removeWorker() {
 
 	workerChoice--; // not to excede the max index available
 
-	// To free the memory
-	vector<Worker*>::iterator eraseIt = workers.begin() + workerChoice;
-	delete * eraseIt;
-
-	// To erase from the vector
 	workers.erase(workers.begin() + workerChoice);
 
 	cout << "Worker removed successfully" << endl;
@@ -2916,11 +2889,6 @@ void Base::removeRestaurant() {
 
 	restaurantChoice--;	// not to excede the max index available
 
-	// To free the memory
-	vector<Restaurant*>::iterator eraseIt = restaurants.begin() + restaurantChoice;
-	delete * eraseIt;
-
-	// To erase from the vector
 	restaurants.erase(restaurants.begin() + restaurantChoice);
 
 	cout << "Restaurant removed successfully" << endl;
@@ -2936,7 +2904,7 @@ bool clientByNIF(const Client * left, const Client * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderClients()
+void Base::orderClients()
 {
 	string input;
 
@@ -2949,9 +2917,8 @@ bool Base::orderClients()
 
 	if (input == "1") sort(clients.begin(), clients.end(), clientByName);
 	if (input == "2") sort(clients.begin(), clients.end(), clientByNIF);
-	else return false;
-
-	return true;
+	else return;
+	
 }
 
 bool restaurantByName(const Restaurant * left, const Restaurant * right) {
@@ -2962,7 +2929,7 @@ bool restaurantByPrice(const Restaurant * left, const Restaurant * right) {
 	return left->get_price_average() < right->get_price_average();
 }
 
-bool Base::orderRestaurants()
+void Base::orderRestaurants()
 {
 	string input;
 
@@ -2975,9 +2942,7 @@ bool Base::orderRestaurants()
 
 	if (input == "1") sort(restaurants.begin(), restaurants.end(), restaurantByName);
 	if (input == "2") sort(restaurants.begin(), restaurants.end(), restaurantByPrice);
-	else return false; 
-
-	return true;
+	else return;
 }
 
 bool workerByName(const Worker * left, const Worker * right) {
@@ -2988,7 +2953,7 @@ bool workerByNIF(const Worker * left, const Worker * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderWorkers()
+void Base::orderWorkers()
 {
 	string input;
 
@@ -3001,9 +2966,7 @@ bool Base::orderWorkers()
 
 	if (input == "1") sort(workers.begin(), workers.end(), workerByName);
 	if (input == "2") sort(workers.begin(), workers.end(), workerByNIF);
-	else return false;
-
-	return true;
+	else return;
 }
 /*
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
@@ -3022,7 +2985,7 @@ bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right)
 	return left.second->getDeliveryFee() < right.second->getDeliveryFee();
 }
 
-bool Base::orderOrders()
+void Base::orderOrders()
 {
 	string input;
 
@@ -3037,9 +3000,7 @@ bool Base::orderOrders()
 	if (input == "1");
 	if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
 	if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
-	else false;
-
-	return true;
+	else return;
 }
 */
 
@@ -3286,22 +3247,11 @@ Delivery* Base::getDeliveryMan()
 
 void Base::writeRestaurantsFile(string fileName) {
 
-	ofstream restFileInput("restaurants_p_copy_.txt");
+	ofstream restFileInput("restaurants_p_copy.txt");
 
-	try
-	{
-		if (restFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+	if (!(restFileInput.is_open())) {
+		// Need an Exception Here!
 	}
-	catch (FileOpenErrorException & f)
-	{
-		cout << f;
-		exit(0);
-	}
-	
-
-
-
 	bool first = true;
 
 	for (auto & restaurant : restaurants) {
@@ -3332,7 +3282,9 @@ void Base::writeDeliveriesFile(string filename) {
 
 	ofstream deliveriesFileInput("deliveries_p_copy_.txt");
 
-
+	if (!(deliveriesFileInput.is_open())) {
+		// Need an Exception Here!
+	}
 
 	bool firstOrder = true;
 	bool firstProd = true;
@@ -3383,18 +3335,9 @@ void Base::writeWorkersFile(string fileName) {
 
 	ofstream workersFileInput("workers_p_copy.txt");
 
-	try
-	{
-		if (workersFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+	if (!(workersFileInput.is_open())) {
+		// Need an Exception Here!
 	}
-	catch (FileOpenErrorException & f)
-	{
-		cout << f;
-		exit(0);
-	}
-
-
 
 	bool foundFirstDelivery = false;
 	bool firstWorker = true;
@@ -3467,18 +3410,9 @@ void Base::writeClientsFile(string fileName) {
 
 	ofstream clientsFileInput("clients_p_copy.txt");
 
-	try
-	{
-		if (clientsFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+	if (!(clientsFileInput.is_open())) {
+		// Need an Exception Here!
 	}
-	catch (FileOpenErrorException & f)
-	{
-		cout << f;
-		exit(0);
-	}
-
-
 	bool firstClient = true;
 	bool firstOrder = true;
 

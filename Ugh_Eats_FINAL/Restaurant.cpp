@@ -84,6 +84,16 @@ Restaurant::~Restaurant()
 
 void Restaurant::load(string path, Base * base){
 	ifstream restaurants_text(path);
+	try
+	{
+		if (!restaurants_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 
 	string textline = "";
 	vector<Restaurant*> restaurants_vec;
@@ -274,6 +284,16 @@ Order::~Order()
 void Order::load(string path, Base * base){
 	// cout << "Path: " << path << endl;
 	ifstream orders_text(path);
+	try
+	{
+		if (!orders_text.is_open())
+			throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
 
 	string textline;
 	int temp; 
@@ -362,7 +382,7 @@ void Order::load(string path, Base * base){
 }
 
 
-void Order::setID(size_t i)
+void Order::setID(int i)
 {
 	id = i;
 }
@@ -396,7 +416,7 @@ void Order::setDeliver(Deliver *d)
 	delivery = d;
 }
 
-size_t Order::getID() const
+int Order::getID() const
 {
 	return id;
 }

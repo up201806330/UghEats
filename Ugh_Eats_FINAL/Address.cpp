@@ -11,37 +11,72 @@ Address::~Address() {
 
 }
 
+bool Address::parseInsideBase(string str, string dist) { //needs reinforcing aka apanhar excecoes dos stois
+	vector<string> parts = utils::split(str, '/');
+	for (auto &part : parts) utils::trim(part);
+
+	if (parts.size() == 6) {
+		district = dist;
+		if (!isString(district))
+			return false;
+
+		town = parts.at(0);
+		if (!isString(town))
+			return false;
+
+		street = parts.at(1);
+		if (!isString(street))
+			return false;
+
+		number = stoi(parts.at(2));
+
+		if (!isNumber(parts.at(3))) floor = -1;
+
+		else floor = stoi(parts.at(3));
+
+		latitude = stod(parts.at(4));
+
+		longitude = stod(parts.at(5));
+
+		return true;
+	}
+
+	else return false;
+}
+
+
 bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
 	vector<string> parts = utils::split(str, '/');
 	for (auto &part : parts) utils::trim(part);
 
-	if (parts.size() != 7)
-		return false;
-	district = parts.at(0);
-	if (!isString(district))
-		return false;
-	town = parts.at(1);
-	if (!isString(town))
-		return false;
-	street = parts.at(2);
-	
-	if (!isString(street))
-		return false;
-	
-	
+	if (parts.size() == 7) {
+		district = parts.at(0);
+		if (!isString(district))
+			return false;
 
-	/*
-	if (!isNumber(parts.at(3)) || !isNumber(parts.at(4)) || !isNumber(parts.at(5)) || !isNumber(parts.at(6)))
-		return false;
-	*/
-	number = stoi(parts.at(3));
-	floor = stoi(parts.at(4));
-	latitude = stod(parts.at(5));
-	longitude = stod(parts.at(6));
-	return true;
-	
+		town = parts.at(1);
+		if (!isString(town))
+			return false;
+
+		street = parts.at(2);
+		if (!isString(street))
+			return false;
+
+		number = stoi(parts.at(3));
+
+		if (!isNumber(parts.at(4))) floor = -1;
+
+		else floor = stoi(parts.at(4));
+
+		latitude = stod(parts.at(5));
+
+		longitude = stod(parts.at(6));
+
+		return true;
+	}
+
+	else return false;
 }
-
 
 void Address::setTown(string cidade) {
 	town = cidade;

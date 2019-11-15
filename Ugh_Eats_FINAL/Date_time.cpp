@@ -362,7 +362,7 @@ void Date_time::setCurrentTime()
 
 void Date_time::addRandomTimeInterval()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	int interval = rand() % 41 + 30; //random from 0 to 40 and adds 30
 
 	strct.tm_min += interval;
