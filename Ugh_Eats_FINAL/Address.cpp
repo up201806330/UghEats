@@ -78,8 +78,7 @@ bool Address::parseInsideBase(string str, string dist) { //needs reinforcing aka
 	else return false;
 }
 
-string Address::str() const
-{
+string Address::str() const {
 	string result = district + " / ";
 	result += town + " / ";
 	result += street + " / ";
@@ -91,24 +90,24 @@ string Address::str() const
 }
 
 
-void Address::setTown(string cidade) {
-	town = cidade;
+void Address::setTown(string t) {
+	town = t;
 }
 
-void Address::setDistrict(string distrito) {
-	district = distrito;
+void Address::setDistrict(string d) {
+	district = d;
 }
 
-void Address::setStreet(string rua) {
-	street = rua;
+void Address::setStreet(string s) {
+	street = s;
 }
 
 void Address::setNumber(unsigned int n) {
 	number = n;
 }
 
-void Address::setFloor(int flr) {
-	floor = flr;
+void Address::setFloor(int f) {
+	floor = f;
 }
 
 

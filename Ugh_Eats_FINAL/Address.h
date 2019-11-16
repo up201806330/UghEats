@@ -50,37 +50,37 @@ public:
 	/**
 	 * @brief Set the Town object
 	 * 
-	 * @param cidade 
+	 * @param t
 	 */
-	void setTown(string cidade);
+	void setTown(string t);
 
 	/**
 	 * @brief Set the District object
 	 * 
-	 * @param distrito 
+	 * @param d
 	 */
-	void setDistrict(string distrito);
+	void setDistrict(string d);
 
 	/**
 	 * @brief Set the Street object
 	 * 
-	 * @param rua 
+	 * @param s
 	 */
-	void setStreet(string rua);
+	void setStreet(string s);
 
 	/**
 	 * @brief Set the Number object
 	 * 
-	 * @param n 
+	 * @param n
 	 */
 	void setNumber(unsigned int n);
 
 	/**
 	 * @brief Set the Floor object
 	 * 
-	 * @param flr 
+	 * @param f If not applicable, has -1 as value
 	 */
-	void setFloor(int flr = -1);
+	void setFloor(int f = -1);
 
 
 	/**
