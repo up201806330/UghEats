@@ -11,26 +11,35 @@ class Address {
 	string town;
 	string street;
 	unsigned int number;
-	int floor; //if non-aplicable, =-1
+	int floor;
 	double latitude;
 	double longitude;
 
 public:
+
+	/**
+	 * @brief Construct a new Address object
+	 * 
+	 */
 	Address();
 
+	/**
+	 * @brief Destroy the Address object
+	 * 
+	 */
 	~Address();
 	
 	/**
-	 * @brief Checks if the str string passed as a parameter can correspond to a valid address (includes the district)
+	 * @brief Checks if the str string passed as a parameter can correspond to a valid address and sets the value of the attributes (including the district)
 	 * 
 	 * @param str String corresponding to the full address
 	 * @return true If the address parsing occured without issues
-	 * @return false If the address strings had an invalid number of elements or any invalid fields
+	 * @return false If the address string had an invalid number of elements or any invalid fields
 	 */
 	bool parse(string str);
 
 	/**
-	 * @brief Checks if the str string passed as a parameter can correspond to a valid address (doesn't include the district)
+	 * @brief Checks if the str string passed as a parameter can correspond to a valid address and sets the value of the attributes (not including the district)
 	 * 
 	 * @param str String corresponding to the full address
 	 * @param dist String with the name of the district

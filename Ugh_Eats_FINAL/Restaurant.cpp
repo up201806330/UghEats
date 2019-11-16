@@ -7,17 +7,15 @@ using namespace std;
 
 string SEPARATOR = ";;;";
 
-Product::Product()
-{
+Product::Product() {
 
 }
 
-Product::~Product()
-{
+Product::~Product() {
 
 }
 
-bool Product::parse(string str){
+bool Product::parse(string str) {
 	vector<string> parts = utils::split(str, ':');
 	if (parts.size() != 3)
 		return false;
@@ -32,39 +30,33 @@ bool Product::parse(string str){
 
 }
 
-void Product::setName(string nm)
-{
-	name = nm;
+void Product::setName(string n) {
+	name = n;
 }
 
-void Product::setCuisineType(string ct)
-{
+void Product::setCuisineType(string ct) {
 	cuisine_type = ct;
 }
 
-void Product::setPrice(size_t p)
-{
+void Product::setPrice(size_t p) {
 	price = p;
 }
 
-string Product::get_name() const
-{
+
+string Product::get_name() const {
 	return name;
 }
 
-string Product::get_cuisine_type() const
-{
+string Product::get_cuisine_type() const {
 	return cuisine_type;
 }
 
-size_t Product::get_price() const
-{
+size_t Product::get_price() const {
 	return price;
 }
 
 
-ostream & operator<<(ostream & out, const Product & p)
-{
+ostream & operator<<(ostream & out, const Product & p) {
 	out << "   Name: " << p.name << endl;
 	out << "   Cuisine Type: " << p.cuisine_type << endl;
 	out << "   Price: " << p.price << endl;
@@ -72,25 +64,22 @@ ostream & operator<<(ostream & out, const Product & p)
 }
 
 
-Restaurant::Restaurant()
-{
+
+Restaurant::Restaurant() {
 
 }
 
-Restaurant::~Restaurant()
-{
+Restaurant::~Restaurant() {
 
 }
 
 void Restaurant::load(string path, Base * base){
 	ifstream restaurants_text(path);
-	try
-	{
+	try {
 		if (!restaurants_text.is_open())
 			throw FileOpenErrorException(path);
 	}
-	catch (FileOpenErrorException & f)
-	{
+	catch (FileOpenErrorException & f) {
 		cout << f;
 		exit(0);
 	}
@@ -141,33 +130,28 @@ void Restaurant::load(string path, Base * base){
 	base->setRestaurants(restaurants_vec);
 }
 
-void Restaurant::setName(string nm){
-	name = nm;
+void Restaurant::setName(string n) {
+	name = n;
 }
 
-void Restaurant::setAddress(Address add)
-{
-	address = add;
+void Restaurant::setAddress(Address a) {
+	address = a;
 }
 
-void Restaurant::setCuisineTypes(set <string> cts)
-{
-	cuisine_types = cts;
+void Restaurant::setCuisineTypes(set <string> ct) {
+	cuisine_types = ct;
 }
 
-void Restaurant::setProducts(vector <Product*> ps)
-{
-	products = ps;
+void Restaurant::setProducts(vector <Product*> p) {
+	products = p;
 }
 
-void Restaurant::setPriceAverage(double p)
-{
-	price_average = p;
+void Restaurant::setPriceAverage(double pa) {
+	price_average = pa;
 }
 
 
-void Restaurant::setPriceAverage()
-{
+void Restaurant::setPriceAverage() {
 	double total = 0;
 	vector<Product*>::iterator it;
 	for (it = products.begin(); it != products.end(); it++)
@@ -177,8 +161,7 @@ void Restaurant::setPriceAverage()
 	price_average = total / products.size();
 }
 
-void Restaurant::setBase(Base * b)
-{
+void Restaurant::setBase(Base * b) {
 	base = b;
 }
 
@@ -186,34 +169,28 @@ string Restaurant::get_name() const {
 	return name;
 }
 
-Address Restaurant::get_address() const
-{
+Address Restaurant::get_address() const {
 	return address;
 }
 
-set <string> & Restaurant::get_cuisine_types()
-{
+set <string> & Restaurant::get_cuisine_types() {
 	return cuisine_types;
 
 }
 
-vector <Product*> Restaurant::get_products() const
-{
+vector <Product*> Restaurant::get_products() const {
 	return products;
 }
 
-double Restaurant::get_price_average() const
-{
+double Restaurant::get_price_average() const {
 	return price_average;
 }
 
-Base * Restaurant::get_base() const
-{
+Base * Restaurant::get_base() const {
 	return base;
 }
 
-void Restaurant::update_price_average() //implementar depois
-{
+void Restaurant::update_price_average() { //implementar depois
 
 }
 
@@ -228,10 +205,7 @@ bool Restaurant::add_product() //implementar depois
 }
 
 
-
-
-ostream & operator<<(ostream & out, const Restaurant & r)
-{
+ostream & operator<<(ostream & out, const Restaurant & r) {
 	out << "Name: " << r.name << endl;
 	out << r.address;
 	out << "Cuisine Types: ";
@@ -248,41 +222,28 @@ ostream & operator<<(ostream & out, const Restaurant & r)
 		out << (*it) << endl;
 	}
 	out << "Price Average: " << fixed << setprecision(2) << r.price_average << endl;
-	//out << "Number of Products:" << r.products.size() << endl << endl;
-
-
-	/*
-	out << "Products:" << endl;
-	for (auto i = 0; i < r.products.size(); i++) {
-		out << r.products.at(i) << endl;
-	}*/
+	
 	out << "Number of Products: " << r.products.size() << endl << endl;
-
 
 	return out;
 }
 
-
-
-bool operator<(Restaurant & left, Restaurant & right)
-{
+bool operator<(Restaurant & left, Restaurant & right) {
 	return left.name < right.name;
 }
 
 
 
-Order::Order()
-{
+Order::Order() {
 
 }
 
-Order::~Order()
-{
+Order::~Order() {
 
 }
 
-void Order::load(string path, Base * base){
-	// cout << "Path: " << path << endl;
+
+void Order::load(string path, Base * base) {
 	ifstream orders_text(path);
 	try
 	{
@@ -314,19 +275,15 @@ void Order::load(string path, Base * base){
 		order.setID(temp);
 		deliver.setID(temp);
 
-		// orders_text >> textline;  //tem que detetar se e nullptr
 		getline(orders_text, textline);
-		//
 
 		order.setRestaurant(base->findRestaurant(textline));
 		
-		// orders_text >> temp;
 		getline(orders_text, textline);
 
 		temp = stoi(textline);
 		order.setDeliveryFee(temp);
 
-		// orders_text >> textline;
 		getline(orders_text, textline);
 		deliver.setInsuccessMessage(textline);
 		if (textline == "-") {
@@ -337,27 +294,23 @@ void Order::load(string path, Base * base){
 		}
 
 		getline(orders_text, textline);
-		// orders_text >> textline;
 
 		Date_time x; x.parse(textline);
 		order.setDateTime(x);
 		
 		getline(orders_text, textline);
-		// orders_text >> textline;
 
 		Date_time y; y.parse(textline);
-		//Delivery guy seria aqui
 
 		Deliver * bleh = new Deliver;
 		*bleh = deliver;
 		order.setDeliver(bleh);
 
-		order.getDeliver()->setDateTime(y); // must be done here
+		order.getDeliver()->setDateTime(y);
 
 
 		vector<Product*> prods;
 		while(getline(orders_text, textline)){
-		// while(orders_text >> textline) {
 			if (textline == ";;;") break;
 			vector <string> parts = utils::split(textline, ':');
 
@@ -382,67 +335,52 @@ void Order::load(string path, Base * base){
 }
 
 
-void Order::setID(int i)
-{
+void Order::setID(int i) {
 	id = i;
 }
 
-void Order::setRestaurant(Restaurant* r)
-{
+void Order::setRestaurant(Restaurant* r) {
 	restaurant = r;
 }
 
-void Order::setClient(Client * c)
-{
-}
-
-void Order::setProducts(vector <Product*> p)
-{
+void Order::setProducts(vector <Product*> p) {
 	products = p;
 }
-
 
 void Order::setDateTime(Date_time t) {
 	date_time = t;
 }
 
-void Order::setDeliveryFee(double fee)
-{
-	delivery_fee = fee;
+void Order::setDeliveryFee(double f) {
+	delivery_fee = f;
 }
 
-void Order::setDeliver(Deliver *d)
-{
+void Order::setDeliver(Deliver *d) {
 	delivery = d;
 }
 
-int Order::getID() const
-{
+
+int Order::getID() const {
 	return id;
 }
 
-Restaurant* Order::getRestaurant() const
-{
+Restaurant* Order::getRestaurant() const {
 	return restaurant;
 }
 
-vector <Product*> Order::getProducts()  const
-{
+vector <Product*> Order::getProducts()  const {
 	return products;
 }
 
-Date_time Order::getDateTime() const
-{
+Date_time Order::getDateTime() const {
 	return date_time;
 }
 
-double Order::getDeliveryFee() const
-{
+double Order::getDeliveryFee() const {
 	return delivery_fee;
 }
 
-Deliver * Order::getDeliver() const
-{
+Deliver * Order::getDeliver() const {
 	return delivery;
 }
 
@@ -456,8 +394,7 @@ bool Order::calculate_time() //implementar depois
 	return true;
 }
 
-ostream & operator<<(ostream & out, Order & o)
-{
+ostream & operator<<(ostream & out, Order & o) {
 	out << "ID: " << o.id << endl;
 	out << "Restaurant: " << o.restaurant->get_name() << endl;
 	out << "Products: " << endl;
@@ -488,13 +425,12 @@ ostream & operator<<(ostream & out, Order & o)
 }
 
 
-Deliver::Deliver()
-{
+
+Deliver::Deliver() {
 
 }
 
-Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm)
-{
+Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm) {
 	id = i;
 	date_time = t;
 	success = s;
@@ -502,8 +438,7 @@ Deliver::Deliver(int i, Date_time t, bool s, Delivery * dm)
 }
 
 
-void Deliver::setID(int i)
-{
+void Deliver::setID(int i) {
 	id = i;
 }
 
@@ -511,44 +446,37 @@ void Deliver::setDateTime(Date_time t) {
 	date_time = t;
 }
 
-void Deliver::setInsuccessMessage(string s)
-{
+void Deliver::setInsuccessMessage(string s) {
 	insuccess_message = s;
 }
 
 
-void Deliver::setSuccess(bool s)
-{
+void Deliver::setSuccess(bool s) {
 	success = s;
 }
 
-void Deliver::setDeliveryMan(Delivery * dm)
-{
+void Deliver::setDeliveryMan(Delivery * dm) {
 	delivery_man = dm;
 }
 
-int Deliver::getID() const
-{
+
+int Deliver::getID() const {
 	return id;
 }
 
-Date_time Deliver::getDateTime()
-{
+Date_time Deliver::getDateTime() {
 	return date_time;
 }
 
-bool Deliver::getSuccess() const
-{
+bool Deliver::getSuccess() const {
 	return success;
 }
 
-string Deliver::getInsuccessMessage() const
-{
+string Deliver::getInsuccessMessage() const {
 	return insuccess_message;
 }
 
-Delivery* Deliver::getDeliveryMan() const
-{
+Delivery* Deliver::getDeliveryMan() const {
 	return delivery_man;
 }
 
