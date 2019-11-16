@@ -93,10 +93,75 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 		if (input == "5")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 
 		else continue;
+	}
+}
+
+void main_menu_admin_base(Base * base)
+{
+	while (true) {
+		string input;
+		bool retry = true;
+		do {
+			try {
+				utils::clear_screen();
+				cout << "1. Show base info" << endl;
+				cout << "2. Edit a base" << endl;
+				cout << ">> ";
+
+				getline(cin, input);
+				retry = false;
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
+				if (input != "")
+				{
+					if (InvalidOptions(6, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+				}
+
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o << endl;
+				cout << "Try Again! " << endl << endl;
+				cin.ignore();
+				cin.clear();
+			}
+			catch (InvalidNumberException & s)
+			{
+				retry = true;
+				cout << s << endl;
+				cout << "Try Again!" << endl << endl;
+				cin.ignore();
+				cin.clear();
+			}
+
+		} while (retry);
+	
+		if (input == "1") {
+			utils::clear_screen();
+			cout << base;
+
+			cout << "\n>> ";
+			cin.ignore();
+			cin.clear();
+		}
+
+		if (input == "2") {
+			utils::clear_screen();
+			base->changeBase();
+
+			cin.ignore();
+			cin.clear();
+		}
 	}
 }
 
@@ -190,7 +255,7 @@ void main_menu_admin_clients(Base * base) {
 		if (input == "6")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheirosS
+			base->writeAll();
 		}
 	}
 }
@@ -282,7 +347,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 		if (input == "6")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 
 		else continue;
@@ -379,7 +444,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 		if (input == "6")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 		else continue;
 	}
@@ -454,7 +519,7 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 		if (input == "3")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 
 		else continue;
@@ -535,7 +600,7 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 		if (input == "5")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 		
 		else continue;
@@ -552,13 +617,14 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 			try
 			{
 				utils::clear_screen();
-				cout << "1. Clients" << endl;
-				cout << "2. Workers" << endl;
-				cout << "3. Restaurants" << endl;
-				cout << "4. Orders" << endl;
-				cout << "5. Profits" << endl;
+				cout << "1. Base" << endl;
+				cout << "2. Clients" << endl;
+				cout << "3. Workers" << endl;
+				cout << "4. Restaurants" << endl;
+				cout << "5. Orders" << endl;
+				cout << "6. Profits" << endl;
 				cout << "0. Go Back" << endl;
-				cout << "6. Close Program" << endl;
+				cout << "7. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
@@ -595,19 +661,20 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 		} while (retry);
 
 
-		if (input == "1") main_menu_admin_clients(base);
-		if (input == "2") main_menu_admin_workers(base);
-		if (input == "3") main_menu_admin_restaurant(base);
-		if (input == "4") main_menu_admin_orders(base);
-		if (input == "5") main_menu_admin_profits(base);
+		if (input == "1") main_menu_admin_base(base);
+		if (input == "2") main_menu_admin_clients(base);
+		if (input == "3") main_menu_admin_workers(base);
+		if (input == "4") main_menu_admin_restaurant(base);
+		if (input == "5") main_menu_admin_orders(base);
+		if (input == "6") main_menu_admin_profits(base);
 
 		if (input == "0") { // volta atrás
 			break; 
 		}
-		if (input == "6")
+		if (input == "7")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 		else continue;
 	}
@@ -738,7 +805,7 @@ void main_menu_client_login(Base * base){ // já volta atrás e já fecha
 		if (input == "3")
 		{
 			cin.clear();
-			exit(0); //aplicar função que guarde nos ficheiros
+			base->writeAll();
 		}
 		
 		else continue;
@@ -874,7 +941,7 @@ void main_menu(vector<Base*> bases) {
 					//(*it)->writeAll();
 				}
 
-				exit(0); //aplicar função que guarde nos ficheiros
+				exit(0);
 			}
 		} while (retry);
 	}
