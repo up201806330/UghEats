@@ -633,7 +633,7 @@ void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 					throw InvalidNumberException(input);
 				if (input != "")
 				{
-					if (InvalidOptions(6, stoi(input)))
+					if (InvalidOptions(7, stoi(input)))
 						throw InvalidOptionException(stoi(input));
 				}
 				else
