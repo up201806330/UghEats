@@ -42,6 +42,7 @@ vector<Base*> Base::load(string path){
 	catch (FileOpenErrorException & f)
 	{
 		cout << f;
+		
 		exit(0);
 	}
 
@@ -3534,13 +3535,11 @@ void Base::writeClientsFile(string fileName) {
 }
 
 
-//void Base::writeAll()
-//{
-	//writeRestaurantsFile(restaurantsFileName);
-
-//	writeRestaurantsFile(restaurantsFileName);
-
-//	writeDeliveriesFile(deliveriesFileName);
-//	writeWorkersFile(workersFileName);
-//	writeClientsFile(clientsFileName);
-//}
+void Base::writeAll()
+{
+	writeRestaurantsFile(restaurantsFileName);
+	writeDeliveriesFile(deliveriesFileName);
+	writeWorkersFile(workersFileName);
+	writeClientsFile(clientsFileName);
+	exit(0);
+}

@@ -36,117 +36,438 @@ public:
 
 	static tuple<string, vector<string> > parseAreaOfInfluence(string str);
 
+	/**
+	 * @brief Opens file with the name path and builds the base objects with the information insie
+	 * 
+	 * @param path name of the bases' info file
+	 * @return vector<Base*> vector with pointers to all base objects kept in the file
+	 */
 	static vector<Base*> load(string path);
+	/**
+	 * @brief loads blacklist file and saves names of blacklisted clients; No parameters because the name of this file is constant.
+	 * 
+	 */
 	static void load_blacklist();
-
 	static vector<string> blacklist;
 	
+	/**
+	 * @brief looks through a bases' vector of restaurants and finds the one with name str
+	 * 
+	 * @param str name of restaurant to be searched for
+	 * @return Restaurant* pointer to restaurant, if found; is nullptr if not found
+	 */
 	Restaurant * findRestaurant(string str);
+	/**
+	 * @brief looks through a bases' map of orders and finds the ones with the ids in str
+	 * 
+	 * @param str string with "id:id:id:..." of the orders to be searched for
+	 * @return map<int, Order*> map of found orders; empty if none are found
+	 */
 	map<int, Order*> findOrders(string str);
 
+	/**
+	 * @brief Set the Restaurants File Name object
+	 * 
+	 * @param str Restaurants file name
+	 */
 	void setRestaurantsFileName(string str);
+	/**
+	 * @brief Set the Deliveries File Name object
+	 * 
+	 * @param str Deliveries file name
+	 */
 	void setDeliveriesFileName(string str);
+	/**
+	 * @brief Set the Workers File Name object
+	 * 
+	 * @param str Workers file name
+	 */
 	void setWorkersFileName(string str);
+	/**
+	 * @brief Set the Clients File Name object
+	 * 
+	 * @param str Clients file name
+	 */
 	void setClientsFileName(string str);
 
+	/**
+	 * @brief Set the District object
+	 * 
+	 * @param d District
+	 */
 	void setDistrict(string d);
+	/**
+	 * @brief Set the Area Of Influence object
+	 * 
+	 * @param areaOfInf vector containing names of all towns adjacent to the bases'
+	 */
 	void setAreaOfInfluence(vector<string> areaOfInf);
+	/**
+	 * @brief Set the Address object
+	 * 
+	 * @param add Address
+	 */
 	void setAddress(Address add);
+	/**
+	 * @brief Set the Workers object
+	 * 
+	 * @param workers Workers
+	 */
 	void setWorkers(vector<Worker*> workers);
+	/**
+	 * @brief Set the Admin object
+	 * 
+	 * @param administrador Admin
+	 */
 	void setAdmin(Admin * administrador);
+	/**
+	 * @brief Set the Clients object
+	 * 
+	 * @param clients Clients
+	 */
 	void setClients(vector<Client*> clients);
+	/**
+	 * @brief Set the Orders object
+	 * 
+	 * @param orders Orders
+	 */
 	void setOrders(map<int,Order*> orders);
+	/**
+	 * @brief Set the Restaurants object
+	 * 
+	 * @param restaurants Restaurants
+	 */
 	void setRestaurants(vector<Restaurant*> restaurants);
 
+	/**
+	 * @brief Set the Delivery Man Pointer On Orders object
+	 * 
+	 * @param x Pointer to Delivery man that delivered said orders
+	 */
 	void setDeliveryManPointerOnOrders(Delivery * x);
 
-
+	/**
+	 * @brief Get the Restaurants File Name object
+	 * 
+	 * @return string Restaurant file name
+	 */
 	string getRestaurantsFileName() const;
+	/**
+	 * @brief Get the Deliveries File Name object
+	 * 
+	 * @return string Deliveries file name
+	 */
 	string getDeliveriesFileName() const;
+	/**
+	 * @brief Get the Workers File Name object
+	 * 
+	 * @return string Workers file name
+	 */
 	string getWorkersFileName() const;
+	/**
+	 * @brief Get the Clients File Name object
+	 * 
+	 * @return string Clients file name
+	 */
 	string getClientsFileName() const;
-
+	/**
+	 * @brief Get the District object
+	 * 
+	 * @return string District
+	 */
 	string getDistrict() const;
+	/**
+	 * @brief Get the Area Of Influence object
+	 * 
+	 * @return vector<string> Area of influence
+	 */
 	vector<string> getAreaOfInfluence() const;
+	/**
+	 * @brief Get the Address object
+	 * 
+	 * @return Address Address
+	 */
 	Address getAddress() const;
+	/**
+	 * @brief Get the Workers object
+	 * 
+	 * @return const vector<Worker*>& Workers vector reference
+	 */
 	const vector<Worker*> & getWorkers() const;
+	/**
+	 * @brief Get the Admin object
+	 * 
+	 * @return Admin* Admin pointer
+	 */
 	Admin * getAdmin() const;
+	/**
+	 * @brief Get the Clients object
+	 * 
+	 * @return const vector<Client*>& Clients vector reference
+	 */
 	const vector<Client*> & getClients() const;
+	/**
+	 * @brief Get the Restaurants object
+	 * 
+	 * @return const vector<Restaurant*>& Restaurants vector reference 
+	 */
 	const vector<Restaurant*> & getRestaurants() const;
+	/**
+	 * @brief Get the Orders object
+	 * 
+	 * @return const map<int, Order*>& Orders map reference
+	 */
 	const map<int, Order*> & getOrders() const;
+	/**
+	 * @brief Get the Delivery Man object
+	 * 
+	 * @return Delivery* Delivery man pointer
+	 */
+	Delivery* getDeliveryMan();
 
-	//Visualização de Informação <- Leonor
+	/**
+	 * @brief prints all clients' info in human friendly fashion
+	 * 
+	 */
 	void seeAllClients();
+	/**
+	 * @brief prints a clients' info in human friendly fashion
+	 * 
+	 */
 	void seeOneClient();
-	void seeAllRestaurants(); // display all the restaurants that are connected to the base
+	/**
+	 * @brief prints all restaurants' info in human friendly fashion
+	 * 
+	 */
+	void seeAllRestaurants(); 
+	/**
+	 * @brief prints a restaurants' info in human friendly fashion
+	 * 
+	 */
 	void seeOneRestaurant();
-	void seeAllWorkers(); // display all the workers that are connected to the base
+	/**
+	 * @brief prints all workers' info in human friendly fashion
+	 * 
+	 */
+	void seeAllWorkers(); 
+	/**
+	 * @brief prints a workers info in human friendly fashion
+	 * 
+	 */
 	void seeOneWorker();
+	/**
+	 * @brief prints all delivery mens' info in human friendly fashion
+	 * 
+	 */
 	void seeAllDeliverers();
+	/**
+	 * @brief prints all administrators' info in human friendly fashion
+	 * 
+	 */
 	void seeAllAdministrators();
-	// void seeAreOfInfluence(); // display the "area of influence" of the base (districts) <- talvez nao
+	/**
+	 * @brief prints all orders' info in human friendly fashion
+	 * 
+	 */
 	void seeAllOrders();
+	/**
+	 * @brief prints an orders' info in human friendly fashion
+	 * 
+	 */
 	void seeOneOrder();
-	void seeProfits(); // display the profits of the base
-	void seeProfitsPerRestaurant(); // restaurante
-	void seeProfitsPerClient(); // cliente
+	/**
+	 * @brief prints profits generated by the base
+	 * 
+	 */
+	void seeProfits(); 
+	/**
+	 * @brief prints profits generated by each restaurant
+	 * 
+	 */
+	void seeProfitsPerRestaurant(); 
+	/**
+	 * @brief prints profits generated by each client
+	 * 
+	 */
+	void seeProfitsPerClient(); 
+	/**
+	 * @brief prints profits generated during a time period
+	 * 
+	 */
 	void seeProfitsPerTime();  // periodo de tempo
 
-	
-	
-	void changeBase(); // change address of the base
+	/**
+	 * @brief edits info of the base 
+	 * 
+	 */
+	void changeBase(); 
 
-	// criar, alterar e apagar coisas dos vetores de cada base <- JA
-	bool addClient(); //alterei o valor de retorno para bater certo c os menus
+	/**
+	 * @brief add client to bases' vector of clients
+	 * 
+	 * @return true if successful (client not blacklisted)
+	 * @return false otherwise
+	 */
+	bool addClient(); 
+	/**
+	 * @brief edits select client
+	 * 
+	 */
 	void changeClient();
+	/**
+	 * @brief removes select client
+	 * 
+	 */
 	void removeClient();
 
+	/**
+	 * @brief add worker to bases' vector of workers
+	 * 
+	 */
 	void addWorker();
+	/**
+	 * @brief edits select worker
+	 * 
+	 */
 	void changeWorker();
+	/**
+	 * @brief removes select worker
+	 * 
+	 */
 	void removeWorker();
 
+	/**
+	 * @brief add restaurant to bases' vector of restaurants
+	 * 
+	 */
 	void addRestaurant();
+	/**
+	 * @brief edits select restaurant
+	 * 
+	 */
 	void changeRestaurant();
+	/**
+	 * @brief removes select restaurant
+	 * 
+	 */
 	void removeRestaurant();
-	// clients -> eliminar também orders
-	// workers
-	// restaurants
 
+	/**
+	 * @brief orders vector of clients with select parameter
+	 * 
+	 * @return true if successful
+	 * @return false otherwise
+	 */
 	bool orderClients();
+	/**
+	 * @brief orders vector of restaurants with select parameter
+	 * 
+	 * @return true if successful
+	 * @return false otherwise
+	 */
 	bool orderRestaurants();
+	/**
+	 * @brief orders vector of workers with select parameter
+	 * 
+	 * @return true if successful
+	 * @return false otherwise
+	 */
 	bool orderWorkers();
-	//bool orderOrders(); //lmao 
+	//bool orderOrders(); //lmao dont delete this may be useful
 
-	// LEONOR
-	// search options -> usar algoritmos de ordenação (ordem alfabetica), exceto no range de precos
-	//				  -> usar algoritmos de procura
 
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
 	void searchForGeographicArea();  // por zona geografica
-	void searchForPriceRange(); // por intervalo de preços (por preço medio)
+	void searchForPriceRange(); // por intervalo de preï¿½os (por preï¿½o medio)
+	void searchForCuisineTypes(); // por tipo de culinï¿½ria
 
-	void searchForCuisineTypes(); // por tipo de culinária
-
-	Delivery* getDeliveryMan();
-
-	
+	/**
+	 * @brief Write current restaurants objects to the file
+	 * 
+	 * @param fileName Restaurants file name
+	 */
 	void writeRestaurantsFile(string fileName);
+	/**
+	 * @brief Write current deliveries objects to the file
+	 * 
+	 * @param fileName Deliveries file name
+	 */
 	void writeDeliveriesFile(string fileName);
+	/**
+	 * @brief Write current workers objects to the file
+	 * 
+	 * @param fileName Workers file name
+	 */
 	void writeWorkersFile(string fileName);
+	/**
+	 * @brief Write current clients objects to the file
+	 * 
+	 * @param fileName Clients file name
+	 */
 	void writeClientsFile(string fileName);
-	//void writeAll();
-
-
-	
+	/**
+	 * @brief Call all write to file functions
+	 * 
+	 */
+	void writeAll();
 
 };
 
 //comparison operators for sorts
+
+/**
+ * @brief compares clients by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool clientByName(const Client * left, const Client * right);
+/**
+ * @brief compares clients by NIF
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool clientByNIF(const Client * left, const Client * right);
+/**
+ * @brief compares restaurants by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool restaurantByName(const Restaurant * left, const Restaurant * right);
+/**
+ * @brief compares restaurants by price average
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool restaurantByPrice(const Restaurant * left, const Restaurant * right);
+/**
+ * @brief compares workers by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool workerByName(const Worker * left, const Worker * right);
+/**
+ * @brief compares workers by NIF
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool workerByNIF(const Worker * left, const Worker * right);
 /*
 bool orderByPrice(const pair<int, Order*> & left, const pair<int, Order*> & right);

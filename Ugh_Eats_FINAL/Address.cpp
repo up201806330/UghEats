@@ -12,7 +12,7 @@ Address::~Address() {
 }
 
 
-bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
+bool Address::parse(string str) { 
 	vector<string> parts = utils::split(str, '/');
 	for (auto &part : parts) utils::trim(part);
 
@@ -45,7 +45,7 @@ bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos s
 	else return false;
 }
 
-bool Address::parseInsideBase(string str, string dist) { //needs reinforcing aka apanhar excecoes dos stois
+bool Address::parseInsideBase(string str, string dist) { 
 	vector<string> parts = utils::split(str, '/');
 	for (auto &part : parts) utils::trim(part);
 

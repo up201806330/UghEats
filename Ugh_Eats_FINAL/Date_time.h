@@ -5,65 +5,6 @@
 #include <iostream>
 
 using namespace std;
-/*
-class Date {
-	size_t day;
-	size_t month;
-	size_t year;
-
-public:
-	Date();
-	Date(size_t d, size_t m, size_t y);
-
-	~Date();
-
-	bool parse(string str);
-
-	void setDay(size_t d);
-	void setMonth(size_t m);
-	void setYear(size_t y);
-	size_t get_day() const;
-	size_t get_month() const;
-	size_t get_year() const;
-
-	string str() const;
-
-	
-	int daysOfMonth(int month, int year);
-	bool validDate(Date & ToEvaluateDate);
-
-	static Date getCurrentDate(tm* temp);
-	static Date getCurrentDate();
-	//Implementar depois
-	friend bool operator==(const Date & l, const Date & r);
-	friend bool operator<(const Date & l, const Date & r);  //const??
-	friend ostream & operator<<(std::ostream & stream, const Date & date);
-	friend Date addOneDay(Date d);
-};
-
-class Time {
-	struct tm timeStruct;
-
-public:
-	Time();
-	Time(int h, int m, int s);
-
-	~Time();
-
-	void parse(string str);
-	// static Time getCurrentTime();
-
-
-
-
-	friend bool operator<(const Time & left, const Time & right);
-	friend ostream & operator<<(ostream & out, Time & t);
-	
-};
-
-bool addTimeAndMinutes(tm time, int min,tm * result);
-
-*/
 
 class Date_time {
 	struct tm strct;
@@ -72,29 +13,140 @@ class Date_time {
 public:
 	Date_time();
 
+	/**
+	 * @brief Set the Year object
+	 * 
+	 * @param y 
+	 */
 	void setYear(int y);
+	/**
+	 * @brief Set the Month object
+	 * 
+	 * @param m 
+	 */
 	void setMonth(int m);
+	/**
+	 * @brief Set the Day object
+	 * 
+	 * @param d 
+	 */
 	void setDay(int d);
+	/**
+	 * @brief Set the Hours object
+	 * 
+	 * @param h 
+	 */
 	void setHours(int h);
+	/**
+	 * @brief Set the Minutes object
+	 * 
+	 * @param m 
+	 */
 	void setMinutes(int m);
+	/**
+	 * @brief Set the Tm object
+	 * 
+	 * @param x 
+	 */
 	void setTm(struct tm x);
 
+	/**
+	 * @brief Set object to current time
+	 * 
+	 */
 	void setCurrentTime();
+	/**
+	 * @brief add time interval between 40 and 70 minutes to object
+	 * 
+	 */
 	void addRandomTimeInterval();
 
+	/**
+	 * @brief Get the Tm object
+	 * 
+	 * @return struct tm* 
+	 */
 	struct tm * getTm();
+	/**
+	 * @brief Get the Year object
+	 * 
+	 * @return int 
+	 */
 	int getYear() const;
+	/**
+	 * @brief Get the Month object
+	 * 
+	 * @return int 
+	 */
 	int getMonth() const;
+	/**
+	 * @brief Get the Day object
+	 * 
+	 * @return int 
+	 */
 	int getDay() const;
+	/**
+	 * @brief Get the Hours object
+	 * 
+	 * @return int 
+	 */
 	int getHours() const;
+	/**
+	 * @brief Get the Minutes object
+	 * 
+	 * @return int 
+	 */
 	int getMinutes() const;
+	/**
+	 * @brief Get the Just Date bool
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
 	bool getJustDate() const;
 
+	/**
+	 * @brief operator< overload
+	 * 
+	 * @param left left side object
+	 * @param right right side object
+	 * @return true if successful
+	 * @return false otherwise
+	 */
 	friend bool operator<(const Date_time & left, const Date_time & right);
+	/**
+	 * @brief operator== overload
+	 * 
+	 * @param left left side object
+	 * @param right rigt side object
+	 * @return true if successful
+	 * @return false otherwise
+	 */
 	friend bool operator==(const Date_time & left, const Date_time & right);
+	/**
+	 * @brief operator+ overload
+	 * 
+	 * @param left left side object
+	 * @param right left side object
+	 * @return Date_time result object
+	 */
 	friend Date_time operator+(const Date_time & left, const Date_time & right);
+	/**
+	 * @brief operator<< overload
+	 * 
+	 * @param out out stream
+	 * @param right right side operator
+	 * @return ostream& result stream
+	 */
 	friend ostream& operator<<(ostream & out, const Date_time right);
 
+	/**
+	 * @brief parse string into object parameters
+	 * 
+	 * @param x string in format day:month:year:hour:minute or day:month:year
+	 * @return true if successful
+	 * @return false othewise
+	 */
 	bool parse(string x);
 
 };
