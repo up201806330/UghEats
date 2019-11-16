@@ -727,15 +727,6 @@ Deliver * Order::getDeliver() const {
 	return delivery;
 }
 
-bool Order::calculate_fee() //implementar depois
-{
-	return true;
-}
-
-bool Order::calculate_time() //implementar depois
-{
-	return true;
-}
 
 ostream & operator<<(ostream & out, Order & o) {
 	out << "ID: " << o.id << endl;

@@ -379,9 +379,7 @@ public:
 	 * @return ostream& 
 	 */
 	friend ostream & operator<<(ostream & out, Order & o);
-
-	bool calculate_fee();
-	bool calculate_time();
+	
 };
 
 
