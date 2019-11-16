@@ -829,6 +829,8 @@ void main_menu(vector<Base*> bases) {
 					cout << n + 1 << ". " << bases.at(n)->getDistrict() << endl;
 				}
 
+				cout << "0. Close" << endl;
+
 				cout << ">> ";
 
 				getline(cin, temp);
@@ -866,6 +868,7 @@ void main_menu(vector<Base*> bases) {
 
 		} while (retry);
 
+		if (stoi(temp) == 0) exit(0);
 
 		selected_base = bases.at(stoi(temp) - 1);
 
