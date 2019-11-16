@@ -137,7 +137,8 @@ std::ostream & operator<<(std::ostream & stream, Address address) {
 	stream << address.town << " / ";
 	stream << address.street << " / ";
 	stream << address.number << " / ";
-	stream << address.floor << " / ";
+	if (address.floor != -1) stream << address.floor << " / ";
+	else stream << "Ground Floor" << " / ";
 	stream << address.latitude << " / ";
 	stream << address.longitude;
 

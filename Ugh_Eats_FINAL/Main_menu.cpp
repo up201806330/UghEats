@@ -41,16 +41,16 @@ void main_menu_client(Client* client, Base * base) { //j� volta atr�s e j�
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 		} while (retry);
 
@@ -70,8 +70,8 @@ void main_menu_client(Client* client, Base * base) { //j� volta atr�s e j�
 				}
 			}
 			cout << ">>";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 
 		if (input == "3") { 
@@ -79,8 +79,8 @@ void main_menu_client(Client* client, Base * base) { //j� volta atr�s e j�
 			client->print(); 
 			
 			cout << "\n>>"; 
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 		if (input == "4")
 		{
@@ -110,6 +110,7 @@ void main_menu_admin_base(Base * base)
 				utils::clear_screen();
 				cout << "1. Show base info" << endl;
 				cout << "2. Edit a base" << endl;
+				cout << "0. Go Back" << endl;
 				cout << ">> ";
 
 				getline(cin, input);
@@ -132,35 +133,38 @@ void main_menu_admin_base(Base * base)
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again! " << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 
 		} while (retry);
 	
 		if (input == "1") {
 			utils::clear_screen();
-			cout << base;
+			base->seeBase();
 
 			cout << "\n>> ";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 
 		if (input == "2") {
 			utils::clear_screen();
 			base->changeBase();
-
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
+		}
+
+		if (input == "0") {
+			break;
 		}
 	}
 }
@@ -201,16 +205,16 @@ void main_menu_admin_clients(Base * base) {
 				retry = true;
 				cout << o << endl;
 				cout << "Try Again! " << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s << endl;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 
 		} while (retry);
@@ -223,12 +227,11 @@ void main_menu_admin_clients(Base * base) {
 			base->seeAllClients(); //J� volta atr�s
 
 			cout << "\n>> ";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 
 		if (input == "2") {
-			utils::clear_screen();
 			base->seeOneClient(); //J� volta atr�s
 		}
 
@@ -296,16 +299,16 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 		} while (retry);
 		
@@ -317,12 +320,11 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 			base->seeAllWorkers(); //J� volta para tr�s
 			
 			cout << "\n>> ";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 
 		if (input == "2") {
-			utils::clear_screen();
 			base->seeOneWorker(); //J� volta para tr�s
 		}
 
@@ -392,16 +394,16 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 
 		} while (retry);
@@ -414,12 +416,11 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 			base->seeAllRestaurants(); //J� volta para tr�s
 
 			cout << "\n>> ";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 
 		if (input == "2") {
-			utils::clear_screen();
 			base->seeOneRestaurant(); 
 		}
 
@@ -486,16 +487,16 @@ void main_menu_admin_orders(Base * base) // J� volta atr�s e j� fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 
 		} while (retry);
@@ -505,12 +506,11 @@ void main_menu_admin_orders(Base * base) // J� volta atr�s e j� fecha
 			utils::clear_screen();
 			//if(!base->orderOrders()) continue;
 			utils::clear_screen();
-			base->seeAllOrders(); //J� volta atr�s
+			base->seeAllOrders(); 
 		}
 
 		if (input == "2") {
-			utils::clear_screen();
-			base->seeOneOrder(); //J� volta atr�s
+			base->seeOneOrder(); 
 		}
 		
 		if (input == "0") {
@@ -563,16 +563,16 @@ void main_menu_admin_profits(Base * base) { // J� volta atr�s e fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 		} while (retry);
 
@@ -647,16 +647,16 @@ void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 		} while (retry);
 
@@ -715,16 +715,16 @@ void main_menu_client_login(Base * base){ // j� volta atr�s e j� fecha
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 		} while (retry);
 
@@ -771,16 +771,16 @@ void main_menu_client_login(Base * base){ // j� volta atr�s e j� fecha
 				{
 					cout << c;
 					cout << ">> ";
-					cin.ignore();
 					cin.clear();
+					cin.ignore(INT_MAX,'\n');
 				}
 				catch (InvalidStringException & s)
 				{
 					retry = true;
 					cout << s;
 					cout << "Try Again!" << endl << endl;				
-					cin.ignore();
 					cin.clear();
+					cin.ignore(INT_MAX,'\n');
 				}
 			} while (retry);
 			
@@ -852,16 +852,16 @@ void main_menu(vector<Base*> bases) {
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 
 		} while (retry);
@@ -902,16 +902,16 @@ void main_menu(vector<Base*> bases) {
 				retry = true;
 				cout << o;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			catch (InvalidNumberException & s)
 			{
 				retry = true;
 				cout << s;
 				cout << "Try Again!" << endl << endl;
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 			}
 			if (input == "1")
 			{
