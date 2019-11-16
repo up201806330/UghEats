@@ -414,11 +414,60 @@ public:
 };
 
 //comparison operators for sorts
+
+/**
+ * @brief compares clients by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool clientByName(const Client * left, const Client * right);
+/**
+ * @brief compares clients by NIF
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool clientByNIF(const Client * left, const Client * right);
+/**
+ * @brief compares restaurants by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool restaurantByName(const Restaurant * left, const Restaurant * right);
+/**
+ * @brief compares restaurants by price average
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool restaurantByPrice(const Restaurant * left, const Restaurant * right);
+/**
+ * @brief compares workers by name
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool workerByName(const Worker * left, const Worker * right);
+/**
+ * @brief compares workers by NIF
+ * 
+ * @param left 
+ * @param right 
+ * @return true 
+ * @return false 
+ */
 bool workerByNIF(const Worker * left, const Worker * right);
 /*
 bool orderByPrice(const pair<int, Order*> & left, const pair<int, Order*> & right);
