@@ -885,7 +885,7 @@ void Base::seeProfitsPerTime()
 
 
 
-void Base::changeBase() { // implementar cenas quando se souber se vamos usar isto ou não
+void Base::changeBase() { 
 	list<string> options = { "address" };
 	
 	string baseName = this->getDistrict();
@@ -2699,10 +2699,6 @@ void Base::changeRestaurant() {
 
 	} while (invalidOption);
 
-
-
-	// HARD CODED FOR BASE PORTO
-	// vector<string> areaOfInfluence = { "Porto", "Matosinhos", "Vila Nova de Gaia", "Gondomar", "Maia" };
 
 	string newName;
 	bool invalidName;

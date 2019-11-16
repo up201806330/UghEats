@@ -420,7 +420,7 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneRestaurant(); //J� volta para tr�s
+			base->seeOneRestaurant(); 
 		}
 
 		if (input == "3") {

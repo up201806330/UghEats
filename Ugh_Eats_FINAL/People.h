@@ -13,23 +13,66 @@ class Order;
 
 using namespace std;
 
-class Vehicle {  //ideias para funcoes para aqui??
+class Vehicle { 
 	string brand;
 	string type;
 	Date_time registration_date;
 
 public:
+	/**
+	 * @brief Construct a new Vehicle object
+	 * 
+	 */
 	Vehicle();
 
+	/**
+	 * @brief Destroy the Vehicle object
+	 * 
+	 */
 	~Vehicle();
 
+	/**
+	 * @brief checks if the string passed as parameter can correspond to a valid vehicle and sets the value of the attributes
+	 * 
+	 * @param str String corresponding to all the vehicle info
+	 */
 	void parse(string str);
 
+	/**
+	 * @brief Set the registrationDate object
+	 * 
+	 * @param data 
+	 */
 	void set_registrationDate(Date_time data);
+	/**
+	 * @brief Set the type object
+	 * 
+	 * @param tipo 
+	 */
 	void set_type(string tipo);
+	/**
+	 * @brief Set the brand object
+	 * 
+	 * @param marca 
+	 */
 	void set_brand(string marca);
+	/**
+	 * @brief Get the registration date object
+	 * 
+	 * @return Date_time 
+	 */
 	Date_time get_registration_date() const;
+	/**
+	 * @brief Get the type object
+	 * 
+	 * @return string 
+	 */
 	string get_type() const;
+	/**
+	 * @brief Get the brand object
+	 * 
+	 * @return string 
+	 */
 	string get_brand() const;
 };
 
@@ -39,15 +82,46 @@ protected:
 	size_t NIF;
 
 public:
+	/**
+	 * @brief Construct a new Person object
+	 * 
+	 */
 	Person();
 
+	/**
+	 * @brief Destroy the Person object
+	 * 
+	 */
 	~Person();
 
- // tratar da entrada ; excepcoes aqui ??
+	/**
+	 * @brief Set the name object
+	 * 
+	 * @param nome 
+	 */
 	virtual void set_name(string nome);
+	/**
+	 * @brief 
+	 * 
+	 * @param NIF 
+	 */
 	virtual void set_NIF(size_t NIF);
+	/**
+	 * @brief Get the name object
+	 * 
+	 * @return string 
+	 */
 	string get_name() const;
+	/**
+	 * @brief Get the NIF object
+	 * 
+	 * @return size_t 
+	 */
 	size_t get_NIF() const;
+	/**
+	 * @brief Shows on screen the persons attributes
+	 * 
+	 */
 	virtual void print();
 
 };
@@ -55,21 +129,58 @@ public:
 class Worker : public Person {
 protected:
 	Date_time birthday;
-	size_t wage;
+	double wage;
 
 public:
+	/**
+	 * @brief Construct a new Worker object
+	 * 
+	 */
 	Worker();
 
+	/**
+	 * @brief Destroy the Worker object
+	 * 
+	 */
 	~Worker();
 
+	/**
+	 * @brief Opens the file with the name path and builds the worker objects with the information inside, saving them in the bases worker vector
+	 * 
+	 * @param path name of the workers' info file
+	 * @param base base that will store the workers
+	 */
 	static void load(string path, Base * base);
 	
+	/**
+	 * @brief Set the birthday object
+	 * 
+	 * @param data 
+	 */
 	virtual void set_birthday(Date_time data);
-	virtual void set_wage(size_t salario);
-	virtual Worker * get_reference();
+	/**
+	 * @brief Set the wage object
+	 * 
+	 * @param salario 
+	 */
+	virtual void set_wage(double salario);
+	/**
+	 * @brief Get the birthday object
+	 * 
+	 * @return Date_time 
+	 */
 	Date_time get_birthday() const;
-	size_t get_wage() const;
+	/**
+	 * @brief Get the wage object
+	 * 
+	 * @return double 
+	 */
+	double get_wage() const;
 
+	/**
+	 * @brief Shows on screen the workers attributes
+	 * 
+	 */
 	virtual void print();
 };
 
@@ -77,14 +188,35 @@ class Admin : public Worker {
 	string role;
 
 public:
+	/**
+	 * @brief Construct a new Admin object
+	 * 
+	 */
 	Admin();
 
+	/**
+	 * @brief Destroy the Admin object
+	 * 
+	 */
 	~Admin();
 
+	/**
+	 * @brief Set the role object
+	 * 
+	 * @param papel 
+	 */
 	void set_role(string papel);
-	Admin * get_reference();
+	/**
+	 * @brief Get the role object
+	 * 
+	 * @return string 
+	 */
 	string get_role() const;
 
+	/**
+	 * @brief Shows on screen the admins attributes
+	 * 
+	 */
 	void print();
 };
 
@@ -93,17 +225,51 @@ class Delivery : public Worker {
 	map<int, Order*> history;
 
 public:
+	/**
+	 * @brief Construct a new Delivery object
+	 * 
+	 */
 	Delivery();
 
+	/**
+	 * @brief Destroy the Delivery object
+	 * 
+	 */
 	~Delivery();
 
+	/**
+	 * @brief Set the vehicle object
+	 * 
+	 * @param veiculo 
+	 */
 	void set_vehicle(Vehicle veiculo);
+	/**
+	 * @brief Set the history object
+	 * 
+	 * @param historial 
+	 */
 	void set_history(map<int, Order*> historial);
-	Delivery * get_reference();
-	Vehicle  get_vehicle() const;
-	map<int, Order*> get_history() const;
+	/**
+	 * @brief Set the Delivery Man Pointer on all of his order objects
+	 * 
+	 */
 	void setDeliveryManPointerOnOrders();
-	size_t calculate_wage();
+	/**
+	 * @brief Get the vehicle object
+	 * 
+	 * @return Vehicle 
+	 */
+	Vehicle  get_vehicle() const;
+	/**
+	 * @brief Get the history object
+	 * 
+	 * @return map<int, Order*> 
+	 */
+	map<int, Order*> get_history() const;
+	/**
+	 * @brief Shows on screen the delivery mans attributes
+	 * 
+	 */
 	void print();
 };
 
@@ -113,22 +279,81 @@ class Client : public Person {
 	map<int, Order*> orders;
 
 public:
+	/**
+	 * @brief Construct a new Client object
+	 * 
+	 */
 	Client();
 
+	/**
+	 * @brief Destroy the Client object
+	 * 
+	 */
 	~Client();
 	
+	/**
+	 * @brief Opens the file with the name path and builds the client objects with the information inside, saving them in the bases worker vector
+
+	 * 
+	 * @param path name of the clients' info file
+	 * @param base base that will store the clients
+	 */
 	static void load(string path, Base * base);
 
+	/**
+	 * @brief Set the address object
+	 * 
+	 * @param add 
+	 */
 	void set_address(Address add);
+	/**
+	 * @brief Set the base object
+	 * 
+	 * @param b 
+	 */
 	void set_base(Base * b);
+	/**
+	 * @brief Set the orders object
+	 * 
+	 * @param orders_vec 
+	 */
 	void set_orders(map<int, Order*> orders_vec);
+	/**
+	 * @brief Get the address object
+	 * 
+	 * @return Address 
+	 */
 	Address get_address() const;
+	/**
+	 * @brief Get the base object
+	 * 
+	 * @return Base* 
+	 */
 	Base * get_base() const;
+	/**
+	 * @brief Get the orders object
+	 * 
+	 * @return map<int, Order*> 
+	 */
 	map<int, Order*> get_orders() const;
 
+	/**
+	 * @brief Shows on screen the clients attributes
+	 * 
+	 */
 	void print();
 
+	/**
+	 * @brief Creates a new order 
+	 * 
+	 * @param base base where the order will be saved
+	 */
 	void make_order(Base * base);
+	/**
+	 * @brief Edits a clients info
+	 * 
+	 * @param base base where the client belongs
+	 */
 	void edit(Base * base);
 };
 

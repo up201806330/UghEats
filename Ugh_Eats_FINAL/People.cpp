@@ -186,20 +186,15 @@ void Worker::set_birthday(Date_time data) {
 	birthday = data;
 }
 
-void Worker::set_wage(size_t salario) {
+void Worker::set_wage(double salario) {
 	wage = salario;
-}
-
-Worker * Worker::get_reference()
-{
-	return this;
 }
 
 Date_time Worker::get_birthday() const {
 	return birthday;
 }
 
-size_t Worker::get_wage() const {
+double Worker::get_wage() const {
 	return wage;
 }
 
@@ -222,11 +217,6 @@ Admin::~Admin() {
 
 void Admin::set_role(string papel) {
 	role = papel;
-}
-
-Admin * Admin::get_reference()
-{
-	return this;
 }
 
 string Admin::get_role() const {
@@ -252,11 +242,6 @@ void Delivery::set_vehicle(Vehicle  veiculo) {
 
 void Delivery::set_history(map<int, Order*> historial) {
 	history = historial;
-}
-
-Delivery * Delivery::get_reference()
-{
-	return this;
 }
 
 Vehicle Delivery::get_vehicle() const {
@@ -294,10 +279,6 @@ void Delivery::print() {
 	}
 	
 	cout << endl;
-}
-
-size_t Delivery::calculate_wage() {//implementar dps 
-	return 0;
 }
 
 Client::Client() {

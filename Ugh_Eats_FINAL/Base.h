@@ -42,7 +42,7 @@ public:
 	 * @param path name of the bases' info file
 	 * @return vector<Base*> vector with pointers to all base objects kept in the file
 	 */
-	static vector<Base*> load(string path);
+	static vector<Base*> load(string path); 
 	/**
 	 * @brief loads blacklist file and saves names of blacklisted clients; No parameters because the name of this file is constant.
 	 * 
@@ -138,13 +138,6 @@ public:
 	 * @param restaurants Restaurants
 	 */
 	void setRestaurants(vector<Restaurant*> restaurants);
-
-	/**
-	 * @brief Set the Delivery Man Pointer On Orders object
-	 * 
-	 * @param x Pointer to Delivery man that delivered said orders
-	 */
-	void setDeliveryManPointerOnOrders(Delivery * x);
 
 	/**
 	 * @brief Get the Restaurants File Name object
