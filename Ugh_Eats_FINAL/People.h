@@ -271,6 +271,13 @@ public:
 	 * 
 	 */
 	void print();
+
+	/**
+	 * @brief Calculates the delivery mans' wage from his deliveries
+	 * 
+	 * @return double calculated value
+	 */
+	double calculate_wage();
 };
 
 class Client : public Person {
