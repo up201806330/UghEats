@@ -275,8 +275,8 @@ void Restaurant::add_product() {
 	cout << endl;
 	cout << "Restaurant successfully added! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Restaurant::change_product() {
@@ -544,14 +544,14 @@ void Restaurant::removeProduct() {
 
 	cout << "Product removed successfully" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 
 ostream & operator<<(ostream & out, const Restaurant & r) {
 	out << "Name: " << r.name << endl;
-	out << r.address;
+	out << r.address << endl;
 	out << "Cuisine Types: ";
 	if (r.cuisine_types.size() == 0)
 		out << "none" << endl;

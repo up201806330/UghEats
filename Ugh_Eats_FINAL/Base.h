@@ -288,6 +288,8 @@ public:
 	 * 
 	 */
 	void seeProfitsPerTime();  // periodo de tempo
+	
+	void seeBase();
 
 	/**
 	 * @brief edits info of the base 

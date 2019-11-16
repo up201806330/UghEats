@@ -36,7 +36,7 @@ tuple<string, vector<string> > Base::parseAreaOfInfluence(string str) {
 	return make_tuple(parts.at(0), towns);
 }
 
-vector<Base*> Base::load(string path){
+vector<Base*> Base::load(string path) {
 
 	Base::load_blacklist();
 
@@ -49,7 +49,7 @@ vector<Base*> Base::load(string path){
 	catch (FileOpenErrorException & f)
 	{
 		cout << f;
-		
+
 		exit(0);
 	}
 
@@ -59,14 +59,14 @@ vector<Base*> Base::load(string path){
 
 	vector<string> areaOfInfluence;
 
-	while(!base_text.eof()){
+	while (!base_text.eof()) {
 		Base base;
 		getline(base_text, textline);
-		
+
 		tuple<string, vector<string> > distAndAreaOfInf = Base::parseAreaOfInfluence(textline);
 		base.setDistrict(get<0>(distAndAreaOfInf));
 		base.setAreaOfInfluence(get<1>(distAndAreaOfInf));
-		getline(base_text,textline);
+		getline(base_text, textline);
 		Address addr;
 		addr.parse(textline);
 		base.setAddress(addr);
@@ -97,6 +97,7 @@ vector<Base*> Base::load(string path){
 
 		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
 		
+
 		getline(base_text, textline);
 		base.setClientsFileName(textline);
 		Client::load(textline, &base);
@@ -116,7 +117,7 @@ vector<string> Base::blacklist = {};
 
 void Base::load_blacklist()
 {
-	ifstream stream("blacklisted.txt"); 
+	ifstream stream("blacklisted.txt");
 
 	try
 	{
@@ -140,7 +141,7 @@ void Base::load_blacklist()
 	stream.close();
 }
 
-Restaurant * Base::findRestaurant(string str){
+Restaurant * Base::findRestaurant(string str) {
 	for (auto & restaurant : restaurants)
 		if (restaurant->get_name() == str)
 			return restaurant;
@@ -148,7 +149,7 @@ Restaurant * Base::findRestaurant(string str){
 }
 
 map<int, Order*> Base::findOrders(string str) {
-	
+
 	map<int, Order*> result = {};
 
 	// in case there are no orders, the textline is "-" and therefore the map should have 0 elements
@@ -158,10 +159,10 @@ map<int, Order*> Base::findOrders(string str) {
 
 	vector<string> ids = utils::split(str, ':');
 	// cout << "Size: " << ids.size() << endl;
-	for (auto i = 0 ; i < ids.size() ; i++) {
+	for (auto i = 0; i < ids.size(); i++) {
 		int x = stoi(ids.at(i));
 		// cout << "x: " << x << endl;
-		
+
 		map<int, Order*>::iterator it = orders.find(x);
 
 		if (it != orders.end()) {
@@ -190,7 +191,7 @@ void Base::setClientsFileName(string str) {
 }
 
 
-void Base::setDistrict(string d){
+void Base::setDistrict(string d) {
 	district = d;
 }
 
@@ -198,19 +199,19 @@ void Base::setAreaOfInfluence(vector<string> areaOfInf) {
 	areaOfInfluence = areaOfInf;
 }
 
-void Base::setAddress(Address add){
+void Base::setAddress(Address add) {
 	address = add;
 }
 
-void Base::setWorkers(vector<Worker*> workers){
+void Base::setWorkers(vector<Worker*> workers) {
 	this->workers = workers;
 }
 
-void Base::setAdmin(Admin * administrador){
+void Base::setAdmin(Admin * administrador) {
 	admin = administrador;
 }
 
-void Base::setClients(vector<Client*> clients){
+void Base::setClients(vector<Client*> clients) {
 	this->clients = clients;
 }
 
@@ -220,7 +221,7 @@ void Base::setOrders(map<int, Order*> orders)
 	this->orders = orders;
 }
 
-void Base::setRestaurants(vector<Restaurant*> restaurants){
+void Base::setRestaurants(vector<Restaurant*> restaurants) {
 	this->restaurants = restaurants;
 }
 
@@ -240,7 +241,7 @@ string Base::getClientsFileName() const {
 	return clientsFileName;
 }
 
-string Base::getDistrict() const{
+string Base::getDistrict() const {
 	return district;
 }
 
@@ -248,27 +249,27 @@ vector<string> Base::getAreaOfInfluence() const {
 	return areaOfInfluence;
 }
 
-Address Base::getAddress() const{
+Address Base::getAddress() const {
 	return address;
 }
 
-const vector<Worker*> & Base::getWorkers() const{
+const vector<Worker*> & Base::getWorkers() const {
 	return workers;
 }
 
-Admin * Base::getAdmin() const{
+Admin * Base::getAdmin() const {
 	return admin;
 }
 
-const vector<Client*> & Base::getClients() const{
+const vector<Client*> & Base::getClients() const {
 	return clients;
 }
 
-const vector<Restaurant*> & Base::getRestaurants() const{
+const vector<Restaurant*> & Base::getRestaurants() const {
 	return restaurants;
 }
 
-const map<int, Order*> & Base::getOrders() const{
+const map<int, Order*> & Base::getOrders() const {
 	return orders;
 }
 
@@ -286,7 +287,6 @@ void Base::seeAllClients()
 
 void Base::seeOneClient()
 {
-	
 	vector<Client*>::iterator it;
 	int id = 1;
 	string answer;
@@ -295,6 +295,7 @@ void Base::seeOneClient()
 	{
 		try
 		{
+			utils::clear_screen();
 			retry = false;
 			cout << "Pick the Client you want to see: " << endl << endl;
 			for (it = clients.begin(); it != clients.end(); it++)
@@ -325,10 +326,6 @@ void Base::seeOneClient()
 				retry = true;
 				utils::clear_screen();
 			}
-
-			
-			
-
 		}
 		catch (InvalidOptionException & o)
 		{
@@ -344,15 +341,15 @@ void Base::seeOneClient()
 			cout << "Try Again!" << endl << endl;
 			id = 1;
 		}
-	}while(retry);
-	
+	} while (retry);
 
-		cout << endl << "INFO" << endl;
-		clients.at(stoi(answer) - 1)->print();
-		
-		cout << "\n>> ";
-		cin.ignore();
-		cin.clear();
+
+	cout << endl << "INFO" << endl;
+	clients.at(stoi(answer) - 1)->print();
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeAllRestaurants()
@@ -367,7 +364,7 @@ void Base::seeAllRestaurants()
 
 void Base::seeOneRestaurant()
 {
-	
+
 	vector<Restaurant*>::iterator it;
 	int id = 1;
 	string answer;
@@ -376,6 +373,7 @@ void Base::seeOneRestaurant()
 	{
 		try
 		{
+			utils::clear_screen();
 			retry = false;
 			cout << "Pick the Restaurant you want to see" << endl << endl;
 			for (it = restaurants.begin(); it != restaurants.end(); it++)
@@ -429,28 +427,28 @@ void Base::seeOneRestaurant()
 
 
 	int input = stoi(answer);
-		cout << endl << "INFO" << endl;
-		cout << (*restaurants.at(input - 1));
-		if ((*restaurants.at(input - 1)).get_products().size() == 0)
-			cout << endl;
-		else
+	cout << endl << "INFO" << endl;
+	cout << (*restaurants.at(input - 1));
+	if ((*restaurants.at(input - 1)).get_products().size() == 0)
+		cout << endl;
+	else
+	{
+		cout << "Products:" << endl;
+		vector<Product*>::iterator ite;
+
+		// REVERTED CHANGES HERE
+		vector<Product*> vec = restaurants.at(input - 1)->get_products();
+		for (ite = vec.begin(); ite != vec.end(); ite++)
+			// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
 		{
-			cout << "Products:" << endl;
-			vector<Product*>::iterator ite;
-
-			// REVERTED CHANGES HERE
-			vector<Product*> vec = restaurants.at(input - 1)->get_products();
-			for (ite = vec.begin(); ite != vec.end(); ite++)
-				// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
-			{
-				cout << *(*ite) << endl;
-			}
-
+			cout << *(*ite) << endl;
 		}
 
-		cout << "\n>> ";
-		cin.ignore();
-		cin.clear();
+	}
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 
@@ -467,10 +465,10 @@ void Base::seeAllWorkers()
 			a->print();
 			cout << endl;
 		}
-			
+
 		else
 			continue;
-		
+
 	}
 	cout << endl << "Deliverers: " << endl << endl;
 
@@ -483,16 +481,16 @@ void Base::seeAllWorkers()
 			cout << endl;
 
 		}
-			
+
 		else
 			continue;
 	}
-	
+
 }
 
 void Base::seeOneWorker()
 {
-	
+
 	vector<Worker*>::iterator it;
 	int id = 1, answer;
 	string input;
@@ -501,6 +499,7 @@ void Base::seeOneWorker()
 	{
 		try
 		{
+			utils::clear_screen();
 			retry = false;
 			cout << "Pick the worker you want to see" << endl;
 			for (it = workers.begin(); it != workers.end(); it++)
@@ -520,7 +519,7 @@ void Base::seeOneWorker()
 			}
 			if (!isNumber(input))
 				throw InvalidNumberException(input);
-			
+
 			if (input != "")
 			{
 				if (InvalidOptions(workers.size(), stoi(input)))
@@ -533,7 +532,7 @@ void Base::seeOneWorker()
 				retry = true;
 				utils::clear_screen();
 			}
-			
+
 		}
 		catch (InvalidOptionException & o)
 		{
@@ -551,20 +550,20 @@ void Base::seeOneWorker()
 		}
 
 	} while (retry);
-	
-		cout << "\nINFO" << endl;
-		Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
-		if (a != NULL) //good practice ?
-		{
-			cout << "Administrator" << endl;
-		}
-		else
-			cout << "Deliverer" << endl;
-		workers.at(answer - 1)->print();
-		
-		cout << "\n>> ";
-		cin.ignore();
-		cin.clear();
+
+	cout << "\nINFO" << endl;
+	Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
+	if (a != NULL) //good practice ?
+	{
+		cout << "Administrator" << endl;
+	}
+	else
+		cout << "Deliverer" << endl;
+	workers.at(answer - 1)->print();
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeAllDeliverers()
@@ -606,8 +605,8 @@ void Base::seeAllOrders()
 	}
 
 	cout << "\n>> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeOneOrder()
@@ -617,6 +616,7 @@ void Base::seeOneOrder()
 	{
 		try
 		{
+			utils::clear_screen();
 			retry = false;
 			cout << "Pick the Order you want to see" << endl;
 			int op = 1, answer;
@@ -653,13 +653,13 @@ void Base::seeOneOrder()
 				utils::clear_screen();
 				continue;
 			}
-			
+
 			cout << "INFO" << endl;
 			cout << *(orders.at(temporary_ids.at(answer - 1)));
 
 			cout << "\n>> ";
-			cin.ignore();
 			cin.clear();
+			cin.ignore(INT_MAX,'\n');
 		}
 		catch (InvalidNumberException & n)
 		{
@@ -674,7 +674,7 @@ void Base::seeOneOrder()
 			cout << "Try Again!" << endl << endl;
 		}
 	} while (retry);
-	
+
 }
 
 
@@ -690,8 +690,8 @@ void Base::seeProfits()
 	cout << total << endl;
 
 	cout << "\n>> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeProfitsPerRestaurant()
@@ -713,8 +713,8 @@ void Base::seeProfitsPerRestaurant()
 	}
 
 	cout << "\n>> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeProfitsPerClient()
@@ -734,8 +734,8 @@ void Base::seeProfitsPerClient()
 	}
 
 	cout << "\n>> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::seeProfitsPerTime()
@@ -799,10 +799,10 @@ void Base::seeProfitsPerTime()
 			cout << d;
 			cout << "Try Again!" << endl << endl;
 		}
-		
+
 	} while (re);
 
-	
+
 
 	double total = 0;
 	map<int, Order*>::iterator it;
@@ -814,8 +814,8 @@ void Base::seeProfitsPerTime()
 	cout << "Profits in set period: " << total << endl;
 
 	cout << "\n>>";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 
 	/*
 	string datei, datef, houri, hourf;
@@ -891,15 +891,23 @@ void Base::seeProfitsPerTime()
 	cout << "Profit made in the defined period: " << total;
 
 	cout << "\n>> ";
-	cin.ignore();
+	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 	*/
+}
+
+void Base::seeBase()
+{
+	cout << this->getDistrict() << endl;
+	cout << this->getAddress() << endl;
+	cout << "Admin: " << this->getAdmin()->get_name();
 }
 
 
 
-void Base::changeBase() { 
+void Base::changeBase() {
 	list<string> options = { "address" };
-	
+
 	string baseName = this->getDistrict();
 	bool invalidOption;
 	string strChoice;
@@ -922,7 +930,7 @@ void Base::changeBase() {
 
 			if (cin.eof()) {
 				cin.clear();
-				return ;
+				return;
 			}
 
 			attributeChoice = stoi(strChoice);
@@ -939,7 +947,7 @@ void Base::changeBase() {
 
 	} while (invalidOption);
 
-	
+
 	Address newAddress;
 	bool invalidAddress = false;
 	string fullAddress;
@@ -947,54 +955,54 @@ void Base::changeBase() {
 
 	switch (attributeChoice) {
 		// Address
-		case 1:
-			do {
-				invalidAddress = false;
+	case 1:
+		do {
+			invalidAddress = false;
 
-				cout << "Current Address: " << this->getAddress() << endl;
-				cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
-				getline(cin, fullAddress);
+			cout << "Current Address: " << this->getAddress() << endl;
+			cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
+			getline(cin, fullAddress);
 
-				if (cin.eof()) {
-					cin.clear();
-					return;
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
+			try { //esta exceção não está testada
+				bool teste = address.parseInsideBase(fullAddress, baseName);
+				if (!teste)
+					throw InvalidAddressException(fullAddress);
+
+				// if it doesnt belong to the are of influence it is considered invalid
+				if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
+					throw InvalidCityException(address.get_town());
 				}
+			}
 
-				try { //esta exceção não está testada
-					bool teste = address.parseInsideBase(fullAddress, baseName);
-					if (!teste)
-						throw InvalidAddressException(fullAddress);
+			catch (InvalidAddressException & a) {
+				invalidAddress = true;
+				cout << a;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidCityException & c)
+			{
+				invalidAddress = true;
+				cout << c;
+				cout << "Try Again!" << endl << endl;
+			}
 
-					// if it doesnt belong to the are of influence it is considered invalid
-					if (find(areaOfInf.begin(), areaOfInf.end(), address.get_town()) == areaOfInf.end()) {
-						throw InvalidCityException(address.get_town());
-					}
-				}
+			cout << endl;
+		} while (invalidAddress);
+		this->setAddress(address);
 
-				catch (InvalidAddressException & a) {
-					invalidAddress = true;
-					cout << a;
-					cout << "Try Again!" << endl << endl;
-				}
-				catch (InvalidCityException & c)
-				{
-					invalidAddress = true;
-					cout << c;
-					cout << "Try Again!" << endl << endl;
-				}
-
-				cout << endl;
-			} while (invalidAddress);
-			this->setAddress(address);
-			
-			break;
+		break;
 
 	}
 
 	cout << "Based successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 bool Base::addClient() { //usar em try para apanhar execao blacklisted
@@ -1091,8 +1099,8 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 			{
 				cout << c;
 				cout << ">>";
-				cin.ignore();
 				cin.clear();
+				cin.ignore(INT_MAX,'\n');
 				return false;
 			}
 
@@ -1114,15 +1122,15 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 		cout << endl;
 		cout << "Client added successfully" << endl;
 		cout << ">> ";
-		cin.ignore();
 		cin.clear();
+		cin.ignore(INT_MAX,'\n');
 	}
 	catch (BlackListedException & b)
 	{
 		cout << b;
 		cout << ">> ";
-		cin.ignore();
 		cin.clear();
+		cin.ignore(INT_MAX,'\n');
 		return false;
 
 	}
@@ -1131,15 +1139,15 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 
 void Base::changeClient() {
 
-	
+
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
 	string strChoice;
 	int clientChoice;
 	unsigned index = 0;
-	
-	
+
+
 	do {
 		index = 0;
 		invalidOption = false;
@@ -1161,10 +1169,10 @@ void Base::changeClient() {
 			//	cin.clear();
 			//	return;
 			//}
-			
+
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			
+
 
 			if (strChoice != "")
 			{
@@ -1180,7 +1188,7 @@ void Base::changeClient() {
 
 
 			}
-			
+
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1193,19 +1201,19 @@ void Base::changeClient() {
 			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
-		
+
 		//cout << endl;
 
 	} while (invalidOption);
-	
+
 	clientChoice--; // not to excede the max index available
-	
+
 	clients.at(clientChoice)->edit(this);
 }
 
 void Base::removeClient() {
 
-	
+
 
 	vector<Client*>::iterator it;
 	bool invalidOption;
@@ -1248,7 +1256,7 @@ void Base::removeClient() {
 				invalidOption = true;
 				utils::clear_screen();
 			}
-			
+
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1277,15 +1285,15 @@ void Base::removeClient() {
 
 	cout << "Client removed successfully" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
-void Base::addWorker(){ //Continuar a adicionar exceçoes
-	
+void Base::addWorker() { //Continuar a adicionar exceçoes
+
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
 	bool managerExists = (dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") ? true : false;
-	
+
 
 	// type of worker input
 	bool invalidWorkerType;
@@ -1321,7 +1329,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 
 			}
 		}
-		catch(InvalidOptionException & o)
+		catch (InvalidOptionException & o)
 		{
 			invalidWorkerType = true;
 			cout << o;
@@ -1336,7 +1344,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 	} while (invalidWorkerType);
 
 	workerType = stoi(strWorkerType);
-	
+
 	cout << endl;
 	// name input
 	bool invalidName;
@@ -1363,11 +1371,11 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		//	return;
 		//}
 
-		
+
 	} while (invalidName);
 
-	
-	
+
+
 	// nif input
 	bool invalidNif;
 	string strNif;
@@ -1396,7 +1404,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		cout << endl;
 	} while (invalidNif);
 
-	
+
 
 	// birthday input
 	bool invalidBirthday;
@@ -1430,7 +1438,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 		cout << endl;
 	} while (invalidBirthday);
 
-	
+
 	Admin admin;
 	Delivery delivery;
 	Vehicle vehicle;
@@ -1442,18 +1450,18 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 
 	bool invalidRoleInput = false;
 	string roleInput;
-	
+
 	string vehicleBrand;
 	string vehicleType;
 
 	bool invalidRegistrationDate = false;
 	string strRegistrationDate;
-	Date_time registrationDate; 
+	Date_time registrationDate;
 
 
 	// chose Admin
 	if (workerType == 1) {
-		
+
 		if (!managerExists) { // if there isn't a manager yet gives the option that the admin to be the manager
 
 			do {
@@ -1500,12 +1508,12 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 				cout << endl;
 			} while (invalidManagerInput);
 
-		
+
 			if (managerInput == 1) { // if it chooses to be manager
 				admin.set_role("manager");
 			}
 
-			
+
 			else { // if it chooses not to be manager
 				do {
 					try
@@ -1534,14 +1542,14 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 						cout << s;
 						cout << "Try Again!" << endl << endl;
 					}
-					
+
 				} while (invalidRoleInput);
 
 				admin.set_role(roleInput);
 			}
 
 		}
-		
+
 		else { // if there is already a manager
 
 			do {
@@ -1621,7 +1629,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 
 
 		} while (retry);
-	
+
 		cout << endl;
 		retry = true;
 		do {
@@ -1641,7 +1649,7 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 			}
 
 		} while (retry);
-	
+
 		//if (cin.eof()) {
 		//	cin.clear();
 		//	return;
@@ -1691,12 +1699,12 @@ void Base::addWorker(){ //Continuar a adicionar exceçoes
 
 
 	}
-	
+
 	cout << endl;
 	cout << "Worker successfully added! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::changeWorker() {
@@ -1710,7 +1718,7 @@ void Base::changeWorker() {
 	int workerChoice;
 
 
-	
+
 
 	do {
 		invalidOption = false;
@@ -1771,7 +1779,7 @@ void Base::changeWorker() {
 				utils::clear_screen();
 			}
 
-			
+
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -1809,7 +1817,7 @@ void Base::changeWorker() {
 	list<string>::iterator optionsIt;
 	list<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
 	list<string> deliveryOptions = { "Name", "Nif", "Birthday", "Wage", "Vehicle" };
-	
+
 	// cout << dynamic_cast<Delivery*>(workers.at(workerChoice))->get_vehicle().get_brand() << endl;
 	// auto x = dynamic_cast<Delivery*>(workers.at(workerChoice));
 	// Admin newAdmin;
@@ -1864,7 +1872,7 @@ void Base::changeWorker() {
 
 				if (!isNumber(strAdminAttributeChoice))
 					throw InvalidNumberException(strAdminAttributeChoice);
-				
+
 
 				if (strAdminAttributeChoice != "")
 				{
@@ -1900,161 +1908,161 @@ void Base::changeWorker() {
 		switch (adminAttributeChoice) {
 
 			// Name
-			case 1:
-				do
+		case 1:
+			do
+			{
+				retry = false;
+				try
 				{
-					retry = false;
-					try
-					{
-						cout << "Current Name: " << adminObject->get_name() << endl;
-						cout << "Updated Name: ";
-						getline(cin, newName);
-						if (!isString(newName))
-							throw InvalidStringException(newName);
-					}
-					catch (InvalidStringException & s)
-					{
-						retry = true;
-						cout << s;
-						cout << "Try Again!" << endl << endl;
-					}
-				} while (retry);
+					cout << "Current Name: " << adminObject->get_name() << endl;
+					cout << "Updated Name: ";
+					getline(cin, newName);
+					if (!isString(newName))
+						throw InvalidStringException(newName);
+				}
+				catch (InvalidStringException & s)
+				{
+					retry = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (retry);
 
+
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+
+			cout << endl;
+			adminObject->set_name(newName);
+			break;
+
+			// Nif
+		case 2:
+			do {
+				invalidNif = false;
+
+				cout << "Current Nif: " << adminObject->get_NIF() << endl;
+				cout << "Updated Nif: ";
+				getline(cin, strNewNif);
 
 				//if (cin.eof()) {
 				//	cin.clear();
 				//	return;
 				//}
 
+				try {
+					if (!isNumber(strNewNif) || strNewNif.size() != 9)
+						throw InvalidNIFException(strNewNif);
+				}
+
+				catch (InvalidNIFException & n) {
+					invalidNif = true;
+					cout << n;
+					cout << "Try Again!" << endl << endl;
+				}
+
+
 				cout << endl;
-				adminObject->set_name(newName);
-				break;
-
-			// Nif
-			case 2:
-				do {
-					invalidNif = false;
-
-					cout << "Current Nif: " << adminObject->get_NIF() << endl;
-					cout << "Updated Nif: ";
-					getline(cin, strNewNif);
-
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
-
-					try {
-						if (!isNumber(strNewNif) || strNewNif.size() != 9)
-							throw InvalidNIFException(strNewNif);
-					}
-
-					catch (InvalidNIFException & n) {
-						invalidNif = true;
-						cout << n;
-						cout <<"Try Again!" << endl << endl;
-					}
-					
-
-					cout << endl;
-				} while (invalidNif);
-				adminObject->set_NIF(newNif);
-				break;
+			} while (invalidNif);
+			adminObject->set_NIF(newNif);
+			break;
 
 			// Birthday
-			case 3:
-				do {
-					invalidBirthday = false;
+		case 3:
+			do {
+				invalidBirthday = false;
 
-					cout << "Current Birthday: " << adminObject->get_birthday() << endl;
-					cout << "Updated Birthday: ";
-					getline(cin, fullBirthday);
+				cout << "Current Birthday: " << adminObject->get_birthday() << endl;
+				cout << "Updated Birthday: ";
+				getline(cin, fullBirthday);
 
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
 
-					try {
-						teste = newBirthday.parse(fullBirthday);
-						if (!teste || !isDateValid(newBirthday))
-							throw InvalidDateException(fullBirthday);
-					}
-					catch (InvalidDateException & d) {
-						invalidBirthday = true;
-						cout << d;
-						cout << "Try Again!" << endl << endl;
-					}
+				try {
+					teste = newBirthday.parse(fullBirthday);
+					if (!teste || !isDateValid(newBirthday))
+						throw InvalidDateException(fullBirthday);
+				}
+				catch (InvalidDateException & d) {
+					invalidBirthday = true;
+					cout << d;
+					cout << "Try Again!" << endl << endl;
+				}
 
-					cout << endl;
+				cout << endl;
 
-					cout << endl;
-				} while (invalidBirthday);
-				adminObject->set_birthday(newBirthday);
-				break;
+				cout << endl;
+			} while (invalidBirthday);
+			adminObject->set_birthday(newBirthday);
+			break;
 
 			// Wage
-			case 4:
-				do {
-					invalidWage = false;
+		case 4:
+			do {
+				invalidWage = false;
 
-					cout << "Current Wage: " << adminObject->get_wage() << endl;
-					cout << "Updated Wage: ";
-					getline(cin, strNewWage);
+				cout << "Current Wage: " << adminObject->get_wage() << endl;
+				cout << "Updated Wage: ";
+				getline(cin, strNewWage);
+
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
+
+				try {
+					if (!isNumber(strNewWage))
+						throw InvalidNumberException(strNewWage);
+				}
+				catch (InvalidNumberException & n) {
+					invalidWage = true;
+					cout << n;
+					cout << "Try Again!" << endl << endl;
+				}
+
+				cout << endl;
+			} while (invalidWage);
+			adminObject->set_wage(stoi(strNewWage));
+			break;
+
+			// Role
+		case 5:
+			adminExists = ((dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") && (workerChoice != 0)) ? true : false;
+			do {
+				try
+				{
+					invalidRole = false;
+					cout << "Current role: " << adminObject->get_role() << endl;
+					cout << "Updated role: ";
+					getline(cin, newRole);
+					if (!isString(newRole))
+						throw InvalidStringException(newRole);
 
 					//if (cin.eof()) {
 					//	cin.clear();
 					//	return;
 					//}
 
-					try {
-						if (!isNumber(strNewWage))
-							throw InvalidNumberException(strNewWage);
-					}
-					catch (InvalidNumberException & n) {
-						invalidWage = true;
-						cout << n;
-						cout << "Try Again!" << endl << endl;
+					if (newRole == "manager" && adminExists) {
+						invalidRole = true;
 					}
 
 					cout << endl;
-				} while (invalidWage);
-				adminObject->set_wage(stoi(strNewWage));
-				break;
-
-			// Role
-			case 5:
-				adminExists = ((dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") && (workerChoice != 0)) ? true : false;
-				do {
-					try
-					{
-						invalidRole = false;
-						cout << "Current role: " << adminObject->get_role() << endl;
-						cout << "Updated role: ";
-						getline(cin, newRole);
-						if (!isString(newRole))
-							throw InvalidStringException(newRole);
-
-						//if (cin.eof()) {
-						//	cin.clear();
-						//	return;
-						//}
-
-						if (newRole == "manager" && adminExists) {
-							invalidRole = true;
-						}
-
-						cout << endl;
-					}
-					catch (InvalidStringException & s)
-					{
-						invalidRole = true;
-						cout << s;
-						cout << "Try Again!" << endl << endl;
-					}
-				} while (invalidRole);
-				adminObject->set_role(newRole);
-				break;
+				}
+				catch (InvalidStringException & s)
+				{
+					invalidRole = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (invalidRole);
+			adminObject->set_role(newRole);
+			break;
 		}
 	}
 
@@ -2080,7 +2088,7 @@ void Base::changeWorker() {
 
 				if (!isNumber(strDelivAttributeChoice))
 					throw InvalidNumberException(strDelivAttributeChoice);
-				
+
 
 				if (strDelivAttributeChoice != "")
 				{
@@ -2117,229 +2125,229 @@ void Base::changeWorker() {
 		switch (delivAttributeChoice) {
 
 			// Name
-			case 1:
-				do
+		case 1:
+			do
+			{
+				try {
+					retry = false;
+					cout << "Current Name: " << delivObject->get_name() << endl;
+					cout << "Updated Name: ";
+					getline(cin, newName);
+					if (!isString(newName))
+						throw InvalidStringException(newName);
+				}
+				catch (InvalidStringException & s)
 				{
-					try {
-						retry = false;
-						cout << "Current Name: " << delivObject->get_name() << endl;
-						cout << "Updated Name: ";
-						getline(cin, newName);
-						if (!isString(newName))
-							throw InvalidStringException(newName);
-					}
-					catch (InvalidStringException & s)
-					{
-						retry = true;
-						cout << s;
-						cout << "Try Again!" << endl << endl;
-					}
-		
+					retry = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
 
-				} while (retry);
 
-				//if (cin.eof()) {
-				//	cin.clear();
-				//	return;
-				//}
+			} while (retry);
 
-				cout << endl;
-				delivObject->set_name(newName);
-				break;
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+
+			cout << endl;
+			delivObject->set_name(newName);
+			break;
 
 			// Nif
-			case 2:
-				do {
-					invalidNif = false;
+		case 2:
+			do {
+				invalidNif = false;
 
-					cout << "Current Nif: " << delivObject->get_NIF() << endl;
-					cout << "Updated Nif: ";
-					getline(cin, strNewNif);
+				cout << "Current Nif: " << delivObject->get_NIF() << endl;
+				cout << "Updated Nif: ";
+				getline(cin, strNewNif);
 
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
 
-					try {
-						if (!isNumber(strNewNif) || strNewNif.size() != 9)
-							throw InvalidNIFException(strNewNif);
-					}
+				try {
+					if (!isNumber(strNewNif) || strNewNif.size() != 9)
+						throw InvalidNIFException(strNewNif);
+				}
 
-					catch (InvalidNIFException & n) {
-						invalidNif = true;
-						cout << n;
-						cout << "Try Again!" << endl << endl;
-					}
-					
+				catch (InvalidNIFException & n) {
+					invalidNif = true;
+					cout << n;
+					cout << "Try Again!" << endl << endl;
+				}
 
-					cout << endl;
-				} while (invalidNif);
-				delivObject->set_NIF(newNif);
-				break;
+
+				cout << endl;
+			} while (invalidNif);
+			delivObject->set_NIF(newNif);
+			break;
 
 			// Birthday
-			case 3:
-				do {
-					invalidBirthday = false;
+		case 3:
+			do {
+				invalidBirthday = false;
 
-					cout << "Current Birthday: " << delivObject->get_birthday() << endl;
-					cout << "Updated Birthday: ";
-					getline(cin, fullBirthday);
+				cout << "Current Birthday: " << delivObject->get_birthday() << endl;
+				cout << "Updated Birthday: ";
+				getline(cin, fullBirthday);
 
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
-					
-					try {
-						teste = newBirthday.parse(fullBirthday);
-						if (!teste || !isDateValid(newBirthday))
-							throw InvalidDateException(fullBirthday);
-					}
-					catch (InvalidDateException & d) {
-						invalidBirthday = true;
-						cout << d;
-						cout << "Try Again!" << endl << endl;
-					}
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
 
-					cout << endl;
+				try {
+					teste = newBirthday.parse(fullBirthday);
+					if (!teste || !isDateValid(newBirthday))
+						throw InvalidDateException(fullBirthday);
+				}
+				catch (InvalidDateException & d) {
+					invalidBirthday = true;
+					cout << d;
+					cout << "Try Again!" << endl << endl;
+				}
 
-					cout << endl;
-				} while (invalidBirthday);
-				delivObject->set_birthday(newBirthday);
-				break;
+				cout << endl;
+
+				cout << endl;
+			} while (invalidBirthday);
+			delivObject->set_birthday(newBirthday);
+			break;
 
 			// Wage
-			case 4:
-				do {
-					invalidWage = false;
+		case 4:
+			do {
+				invalidWage = false;
 
-					cout << "Current Wage: " << delivObject->get_wage() << endl;
-					cout << "Updated Wage: ";
-					getline(cin, strNewWage);
+				cout << "Current Wage: " << delivObject->get_wage() << endl;
+				cout << "Updated Wage: ";
+				getline(cin, strNewWage);
 
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
 
-					try {
-						if (!isNumber(strNewWage))
-							throw InvalidNumberException(strNewWage);
-					}
-					catch (InvalidNumberException & n) {
-						invalidWage = true;
-						cout << n;
-						cout << "Try Again!" << endl << endl;
-					}
+				try {
+					if (!isNumber(strNewWage))
+						throw InvalidNumberException(strNewWage);
+				}
+				catch (InvalidNumberException & n) {
+					invalidWage = true;
+					cout << n;
+					cout << "Try Again!" << endl << endl;
+				}
 
-					cout << endl;
-				} while (invalidWage);
-				delivObject->set_wage(stoi(strNewWage));
-				break;
+				cout << endl;
+			} while (invalidWage);
+			delivObject->set_wage(stoi(strNewWage));
+			break;
 
 			// Vehicle
-			case 5:
-				retry = true;
-				do
+		case 5:
+			retry = true;
+			do
+			{
+				try
 				{
-					try
-					{
-						retry = false;
-						cout << "Current Brand: " << delivObject->get_vehicle().get_brand() << endl;
-						cout << "Updated Brand: ";
-						getline(cin, newVehicleBrand);
-						if (!isString(newVehicleBrand))
-							throw InvalidStringException(newVehicleBrand);
+					retry = false;
+					cout << "Current Brand: " << delivObject->get_vehicle().get_brand() << endl;
+					cout << "Updated Brand: ";
+					getline(cin, newVehicleBrand);
+					if (!isString(newVehicleBrand))
+						throw InvalidStringException(newVehicleBrand);
 
-					}
-					catch (InvalidStringException & s)
-					{
-						retry = true;
-						cout << s;
-						cout << "Try Again!" << endl << endl;
-					}
-				} while (retry);
-	
-				//if (cin.eof()) {
-				//	cin.clear();
-				//	return;
-				//}
-
-				newVehicle.set_brand(newVehicleBrand);
-				cout << endl;
-
-				
-				retry = true;
-				do
+				}
+				catch (InvalidStringException & s)
 				{
-					try
-					{
-						retry = false;
-						cout << "Current Type: " << delivObject->get_vehicle().get_type() << endl;
-						cout << "Updated Type: ";
-						getline(cin, newVehicleType);
-						if (!isString(newVehicleType))
-							throw InvalidStringException(newVehicleType);
-					}
-					catch (InvalidStringException & s)
-					{
-						retry = true;
-						cout << s;
-						cout << "Try Again!" << endl << endl;
-					}
+					retry = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (retry);
 
-				} while (retry);
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
 
-				//if (cin.eof()) {
-				//	cin.clear();
-				//	return;
-				//}
+			newVehicle.set_brand(newVehicleBrand);
+			cout << endl;
 
-				newVehicle.set_type(newVehicleType);
+
+			retry = true;
+			do
+			{
+				try
+				{
+					retry = false;
+					cout << "Current Type: " << delivObject->get_vehicle().get_type() << endl;
+					cout << "Updated Type: ";
+					getline(cin, newVehicleType);
+					if (!isString(newVehicleType))
+						throw InvalidStringException(newVehicleType);
+				}
+				catch (InvalidStringException & s)
+				{
+					retry = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+
+			} while (retry);
+
+			//if (cin.eof()) {
+			//	cin.clear();
+			//	return;
+			//}
+
+			newVehicle.set_type(newVehicleType);
+			cout << endl;
+
+			do {
+				invalidRegistrationDate = false;
+
+				cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date() << endl;
+				cout << "Updated Registration Date: ";
+				getline(cin, strNewRegistDate);
+
+				/*				if (cin.eof()) {
+									cin.clear();
+									return;
+								}*/
+
+				try {
+					teste = newRegistDate.parse(strNewRegistDate);
+					if (!teste || !isDateValid(newRegistDate))
+						throw InvalidDateException(strNewRegistDate);
+				}
+
+				catch (InvalidDateException & d) {
+					invalidRegistrationDate = true;
+					cout << d;
+					cout << "Try Again!" << endl << endl;
+				}
 				cout << endl;
+			} while (invalidRegistrationDate);
+			newVehicle.set_registrationDate(newRegistDate);
 
-				do {
-					invalidRegistrationDate = false;
+			// Vehicle * ptrNewVehicle = new Vehicle;
+			// *ptrNewVehicle = newVehicle;
+			delivObject->set_vehicle(newVehicle);
+			break;
 
-					cout << "Current Registration Date: " << delivObject->get_vehicle().get_registration_date() << endl;
-					cout << "Updated Registration Date: ";
-					getline(cin, strNewRegistDate);
-
-	/*				if (cin.eof()) {
-						cin.clear();
-						return;
-					}*/
-
-					try {
-						teste = newRegistDate.parse(strNewRegistDate);
-						if (!teste || !isDateValid(newRegistDate))
-							throw InvalidDateException(strNewRegistDate);
-					}
-
-					catch (InvalidDateException & d) {
-						invalidRegistrationDate = true;
-						cout << d;
-						cout << "Try Again!" << endl << endl;
-					}
-					cout << endl;
-				} while (invalidRegistrationDate);
-				newVehicle.set_registrationDate(newRegistDate);
-
-				// Vehicle * ptrNewVehicle = new Vehicle;
-				// *ptrNewVehicle = newVehicle;
-				delivObject->set_vehicle(newVehicle);
-				break;
-		
 		}
 	}
 
 	cout << endl;
 	cout << "Worker successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::removeWorker() {
@@ -2435,8 +2443,8 @@ void Base::removeWorker() {
 
 	cout << "Worker removed successfully" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::addRestaurant() {
@@ -2485,7 +2493,7 @@ void Base::addRestaurant() {
 
 	do {
 		invalidAddress = false;
-	
+
 		cout << "Address (Town / Street / No / Floor / Latitude / Longitude): ";
 		getline(cin, fullAddress);
 
@@ -2513,9 +2521,9 @@ void Base::addRestaurant() {
 		catch (InvalidCityException & c)
 		{
 			cout << c;
-			cin.ignore();
+			cout << "\n>>";
 			cin.clear();
-			cout << ">>";
+			cin.ignore(INT_MAX,'\n');
 			return;
 		}
 
@@ -2534,7 +2542,7 @@ void Base::addRestaurant() {
 	cout << "List of Products (Name : Type : Price), type 'done' to stop input" << endl;
 
 	do {
-		
+
 		do {
 			invalidProduct = false; //Implementar uma exceção invalid product
 
@@ -2576,11 +2584,11 @@ void Base::addRestaurant() {
 		cuisineTypes.insert(prod->get_cuisine_type());
 	}
 
-	
-	r.setCuisineTypes(cuisineTypes);
-	
 
-	
+	r.setCuisineTypes(cuisineTypes);
+
+
+
 	// price average calculated form the vector of products
 	r.setPriceAverage();
 
@@ -2591,11 +2599,11 @@ void Base::addRestaurant() {
 	cout << endl;
 	cout << "Restaurant successfully added! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
-void Base::changeRestaurant() { 
+void Base::changeRestaurant() {
 
 	vector<Restaurant*>::iterator it;
 	bool invalidOption;
@@ -2603,7 +2611,7 @@ void Base::changeRestaurant() {
 	int restaurantChoice;
 	unsigned index = 0;
 
-	
+
 
 	do {
 		index = 0;
@@ -2636,7 +2644,7 @@ void Base::changeRestaurant() {
 				invalidOption = true;
 				utils::clear_screen();
 			}
-			
+
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -2656,7 +2664,7 @@ void Base::changeRestaurant() {
 	restaurantChoice--;	// not to excede the max index available
 
 	list<string> options = { "name", "address", "products" };
-	
+
 	list<string>::iterator optionsIt;
 	int attributeChoice;
 	do {
@@ -2693,7 +2701,7 @@ void Base::changeRestaurant() {
 				utils::clear_screen();
 
 			}
-			
+
 		}
 		catch (InvalidOptionException & o) {
 			invalidOption = true;
@@ -2732,146 +2740,146 @@ void Base::changeRestaurant() {
 
 	switch (attributeChoice) {
 		// Name
-		case 1:
-			do {
-				try
-				{
-					invalidName = false;
-					cout << "Current Name: " << restaurants.at(restaurantChoice)->get_name() << endl;
-					cout << "Updated Name: ";
-					getline(cin, newName);
-					if (!isString(newName))
-						throw InvalidStringException(newName);
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
+	case 1:
+		do {
+			try
+			{
+				invalidName = false;
+				cout << "Current Name: " << restaurants.at(restaurantChoice)->get_name() << endl;
+				cout << "Updated Name: ";
+				getline(cin, newName);
+				if (!isString(newName))
+					throw InvalidStringException(newName);
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
 
-					cout << endl;
-					restaurants.at(restaurantChoice)->setName(newName);
-				}
-				catch (InvalidStringException & s)
-				{
-					invalidName = true;
-					cout << s;
-					cout << "Try Again!" << endl << endl;
-				}
+				cout << endl;
+				restaurants.at(restaurantChoice)->setName(newName);
+			}
+			catch (InvalidStringException & s)
+			{
+				invalidName = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
 
-			} while (invalidName);
-			break;
+		} while (invalidName);
+		break;
 
 		// Address
-		case 2:
+	case 2:
+		do {
+			invalidAddress = false;
+
+			cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
+			cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
+			getline(cin, fullAddress);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
+			try {
+				bool teste = newAddress.parseInsideBase(fullAddress, baseName);
+				if (!teste)
+					throw InvalidAddressException(fullAddress);
+
+				// if it doesnt belong to the are of influence it is considered invalid
+				if (find(areaOfInf.begin(), areaOfInf.end(), newAddress.get_town()) == areaOfInf.end()) {
+					throw InvalidCityException(newAddress.get_town());
+				}
+			}
+
+			catch (InvalidAddressException & a) {
+				invalidAddress = true;
+				cout << a;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidCityException & c)
+			{
+				cout << c;
+				cin.clear();
+				cin.ignore(INT_MAX,'\n');
+				cout << ">>";
+				return;
+			}
+
+			cout << endl;
+		} while (invalidAddress);
+
+		cout << endl;
+		restaurants.at(restaurantChoice)->setAddress(newAddress);
+		break;
+
+		// Products
+	case 3:
+		cout << "Current List of Products:" << endl; //Implementar exceção para produtos
+
+		for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
+			cout << prod->get_name() << " : " << prod->get_cuisine_type() << " : " << prod->get_price() << endl;
+		}
+
+		cout << endl;
+		cout << "Updated List of Products (Name : Type : Price), type 'done' to stop input" << endl;
+
+		do {
 			do {
-				invalidAddress = false;
+				invalidProduct = false;
 
-				cout << "Current Address:\n" << restaurants.at(restaurantChoice)->get_address() << endl;
-				cout << "Updated Address (Town / Street / No / Floor / Latitude / Longitude): " << endl;
-				getline(cin, fullAddress);
+				getline(cin, strProduct);
 
-				if (cin.eof()) {
-					cin.clear();
-					return;
+				//if (cin.eof()) {
+				//	cin.clear();
+				//	return;
+				//}
+
+				if (strProduct == "done") {
+					notEnded = false;
+					break;
 				}
 
 				try {
-					bool teste = newAddress.parseInsideBase(fullAddress, baseName);
+					bool teste = product.parse(strProduct);
 					if (!teste)
-						throw InvalidAddressException(fullAddress);
-
-					// if it doesnt belong to the are of influence it is considered invalid
-					if (find(areaOfInf.begin(), areaOfInf.end(), newAddress.get_town()) == areaOfInf.end()) {
-						throw InvalidCityException(newAddress.get_town());
-					}
+						throw InvalidProductException(strProduct);
+					Product * productPtr = new Product;
+					*productPtr = product;
+					productsVec.push_back(productPtr);
 				}
-
-				catch (InvalidAddressException & a) {
-					invalidAddress = true;
-					cout << a;
+				catch (InvalidProductException & p) {
+					invalidProduct = true;
+					cout << p;
 					cout << "Try Again!" << endl << endl;
+
 				}
-				catch (InvalidCityException & c)
-				{
-					cout << c;
-					cin.ignore();
-					cin.clear();
-					cout << ">>";
-					return;
-				}
+			} while (invalidProduct);
 
-				cout << endl;
-			} while (invalidAddress);
+		} while (notEnded);
+		restaurants.at(restaurantChoice)->setProducts(productsVec);
 
-			cout << endl;
-			restaurants.at(restaurantChoice)->setAddress(newAddress);
-			break;
+		// updating cuisine types
 
-		// Products
-		case 3:
-			cout << "Current List of Products:" << endl; //Implementar exceção para produtos
+		for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
+			cuisineTypes.insert(prod->get_cuisine_type());
+		}
 
-			for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
-				cout << prod->get_name() << " : " << prod->get_cuisine_type() << " : " << prod->get_price() << endl;
-			}
 
-			cout << endl;
-			cout << "Updated List of Products (Name : Type : Price), type 'done' to stop input" << endl;
+		restaurants.at(restaurantChoice)->setCuisineTypes(cuisineTypes);
 
-			do {
-				do {
-					invalidProduct = false;
+		// updating price average
+		restaurants.at(restaurantChoice)->setPriceAverage();
 
-					getline(cin, strProduct);
-
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
-
-					if (strProduct == "done") {
-						notEnded = false;
-						break;
-					}
-
-					try {
-						bool teste = product.parse(strProduct);
-						if (!teste)
-							throw InvalidProductException(strProduct);
-						Product * productPtr = new Product;
-						*productPtr = product;
-						productsVec.push_back(productPtr);
-					}
-					catch (InvalidProductException & p) {
-						invalidProduct = true;
-						cout << p;
-						cout << "Try Again!" << endl << endl;
-
-					}
-				} while (invalidProduct);
-				
-			} while (notEnded);
-			restaurants.at(restaurantChoice)->setProducts(productsVec);
-
-			// updating cuisine types
-			
-			for (auto & prod : restaurants.at(restaurantChoice)->get_products()) {
-				cuisineTypes.insert(prod->get_cuisine_type());
-			}
-
-			
-			restaurants.at(restaurantChoice)->setCuisineTypes(cuisineTypes);
-
-			// updating price average
-			restaurants.at(restaurantChoice)->setPriceAverage();
-
-			break;
+		break;
 	}
 
 	cout << endl;
 	cout << "Restaurant successfully edited! (Enter to continue)" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 void Base::removeRestaurant() {
@@ -2882,7 +2890,7 @@ void Base::removeRestaurant() {
 	int restaurantChoice;
 	unsigned index = 0;
 
-	
+
 	do {
 		index = 0;
 		invalidOption = false;
@@ -2945,8 +2953,8 @@ void Base::removeRestaurant() {
 
 	cout << "Restaurant removed successfully" << endl;
 	cout << ">> ";
-	cin.ignore();
 	cin.clear();
+	cin.ignore(INT_MAX,'\n');
 }
 
 bool clientByName(const Client * left, const Client * right) {
@@ -2969,7 +2977,7 @@ bool Base::orderClients()
 	getline(cin, input);
 
 	if (input == "1") sort(clients.begin(), clients.end(), clientByName);
-	if (input == "2") sort(clients.begin(), clients.end(), clientByNIF);
+	else if (input == "2") sort(clients.begin(), clients.end(), clientByNIF);
 	else return false;
 
 	return true;
@@ -2995,8 +3003,8 @@ bool Base::orderRestaurants()
 	getline(cin, input);
 
 	if (input == "1") sort(restaurants.begin(), restaurants.end(), restaurantByName);
-	if (input == "2") sort(restaurants.begin(), restaurants.end(), restaurantByPrice);
-	else return false; 
+	else if (input == "2") sort(restaurants.begin(), restaurants.end(), restaurantByPrice);
+	else return false;
 
 	return true;
 }
@@ -3021,7 +3029,7 @@ bool Base::orderWorkers()
 	getline(cin, input);
 
 	if (input == "1") sort(workers.begin(), workers.end(), workerByName);
-	if (input == "2") sort(workers.begin(), workers.end(), workerByNIF);
+	else if (input == "2") sort(workers.begin(), workers.end(), workerByNIF);
 	else return false;
 
 	return true;
@@ -3029,7 +3037,7 @@ bool Base::orderWorkers()
 /*
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
 	double priceLeft, priceRight;
-	
+
 	for (auto p : left.second->getProducts()) priceLeft += p->get_price();
 	priceLeft += left.second->getDeliveryFee();
 
@@ -3064,7 +3072,7 @@ bool Base::orderOrders()
 }
 */
 
-void Base::searchForRestaurant() 
+void Base::searchForRestaurant()
 {
 	string name;
 	bool retry = true;
@@ -3088,7 +3096,7 @@ void Base::searchForRestaurant()
 				if ((*it)->get_name() == name)
 				{
 					notFound = false;
-				    cout << "Products Available" << endl;
+					cout << "Products Available" << endl;
 					vector<Product*> vec = (*it)->get_products();
 					vector<Product*>::iterator ite;
 					for (ite = vec.begin(); ite != vec.end(); ite++)
@@ -3108,9 +3116,9 @@ void Base::searchForRestaurant()
 			cout << r;
 			cout << "Try Again!" << endl << endl;
 		}
-		
+
 	} while (retry);
-	
+
 }
 
 void Base::searchForGeographicArea()
@@ -3158,7 +3166,7 @@ void Base::searchForGeographicArea()
 			cout << "Try Again!" << endl << endl;
 		}
 	} while (retry);
-	
+
 }
 
 void Base::searchForPriceRange() // o price range não tá a ter casas decimais
@@ -3218,9 +3226,9 @@ void Base::searchForPriceRange() // o price range não tá a ter casas decimais
 			cout << p;
 			cout << "Try Again!" << endl << endl;
 		}
-		
+
 	} while (retry);
-	
+
 }
 
 void Base::searchForCuisineTypes()
@@ -3230,7 +3238,7 @@ void Base::searchForCuisineTypes()
 	{
 		try
 		{
- 			retry = false;
+			retry = false;
 			string type;
 			cout << "Which Cuisine Type do you want?" << endl;
 			getline(cin, type);
@@ -3272,9 +3280,9 @@ void Base::searchForCuisineTypes()
 			cout << c;
 			cout << "Try Again!" << endl << endl;
 		}
-		
+
 	} while (retry);
-	
+
 }
 
 Delivery* Base::getDeliveryMan()
@@ -3319,7 +3327,7 @@ void Base::writeRestaurantsFile(string fileName) {
 		cout << f;
 		exit(0);
 	}
-	
+
 
 
 
@@ -3420,7 +3428,7 @@ void Base::writeWorkersFile(string fileName) {
 	bool foundFirstDelivery = false;
 	bool firstWorker = true;
 	bool firstOrder = true;
-	
+
 	Admin *adminCheck;
 	Delivery *deliveryCheck;
 
@@ -3528,7 +3536,7 @@ void Base::writeClientsFile(string fileName) {
 		clientsFileInput << client->get_name() << endl;
 		clientsFileInput << client->get_address() << endl;
 		clientsFileInput << client->get_NIF() << endl;
-		
+
 		if (client->get_orders().size() == 0) {
 			clientsFileInput << "-";
 		}
