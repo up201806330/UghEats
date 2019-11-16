@@ -129,7 +129,6 @@
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Date_time.cpp" />
-    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Main_menu.cpp" />
     <ClCompile Include="People.cpp" />
