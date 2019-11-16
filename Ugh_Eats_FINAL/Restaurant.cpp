@@ -2,6 +2,7 @@
 #include "Base.h"
 #include "utils.h"
 #include <iomanip>
+#include <list>
 
 using namespace std;
 
@@ -102,14 +103,12 @@ void Restaurant::load(string path, Base * base){
 		while (getline(restaurants_text, textline)) {
 			if (textline == ";;;") break;
 			Product d;
-			//cout << "Textline: " << textline << endl;
+
 			d.parse(textline);
 
 			Product * ptr2 = new Product;
 			*ptr2 = d;
-			//prods.push_back(&d);
 			prods.push_back(ptr2);
-			// cout << prods.at(0)->get_name() << endl;
 		}
 		restaurant.setProducts(prods);
 		
@@ -126,7 +125,7 @@ void Restaurant::load(string path, Base * base){
 		*ptr = restaurant;
 		restaurants_vec.push_back(ptr);
 	}
-	//cout << "Vector size: " << restaurants_vec.at(0)->get_products().size() << endl;
+	
 	base->setRestaurants(restaurants_vec);
 }
 
@@ -199,9 +198,360 @@ void Restaurant::update_price_average() { //implementar depois
 //
 //}
 
-bool Restaurant::add_product() //implementar depois
-{
-	return true;
+void Restaurant::add_product() {
+	Product p;
+
+	// name input
+	bool invalidName;
+	string name;
+	do {
+		try {
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name))
+				throw InvalidStringException(name);
+		}
+		catch (InvalidStringException & s)
+		{
+			invalidName = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+
+		}
+
+	} while (invalidName);
+
+	p.setName(name);
+
+	// cuisine type input
+	bool invalidCuisineType;
+	string cuisineType;
+	do {
+		try {
+			invalidCuisineType = false;
+			cout << "Cuisine Type: ";
+			getline(cin, cuisineType);
+			if (!isString(cuisineType))
+				throw InvalidStringException(cuisineType);
+		}
+		catch (InvalidStringException & s)
+		{
+			invalidCuisineType = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+
+		}
+	} while (invalidCuisineType);
+
+	p.setCuisineType(cuisineType);
+
+	// price input
+	bool invalidPrice;
+	string strPrice;
+	int price;
+	do {
+		cout << "Price: ";
+		getline(cin, strPrice);
+		try {
+			price = stoi(strPrice);
+		}
+		catch (...) {
+			invalidPrice = true;
+			cout << "Invalid Price" << endl;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidPrice);
+
+	p.setPrice(price);
+
+	Product * ptr = new Product;
+	*ptr = p;
+
+	products.push_back(ptr);
+
+	// updating cuisine types
+	for (auto & prod : products) {
+		this->get_cuisine_types().insert(prod->get_cuisine_type());
+	}
+
+	// updating price average
+	this->setPriceAverage();
+
+	cout << endl;
+	cout << "Restaurant successfully added! (Enter to continue)" << endl;
+	cout << ">> ";
+	cin.ignore();
+	cin.clear();
+}
+
+void Restaurant::change_product() {
+
+	vector<Product*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int productChoice;
+	unsigned index = 0;
+
+	do {
+		index = 0;
+		invalidOption = false;
+		cout << "Pick the product you want to change information about:" << endl;
+		for (it = products.begin(); it != products.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+			getline(cin, strChoice);
+			if (strChoice == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
+			if (strChoice != "") {
+				productChoice = stoi(strChoice);
+
+				if (InvalidOptions(products.size(), productChoice)) {
+					throw InvalidOptionException(productChoice);
+				}
+			}
+			else {
+				invalidOption = true;
+				utils::clear_screen();
+			}
+		}
+		catch (InvalidOptionException & o) {
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidOption);
+
+	productChoice--; // not to excede the max index available
+
+	list<string> options = { "name", "cuisine type", "price"};
+
+	list<string>::iterator optionsIt;
+	int attributeChoice;
+	do {
+		index = 0;
+		invalidOption = false;
+		cout << "Pick the field you want to change information of:" << endl;
+		for (optionsIt = options.begin(); optionsIt != options.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strChoice);
+			
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
+			if (strChoice != "")
+			{
+				attributeChoice = stoi(strChoice);
+
+				if (InvalidOptions(options.size(), attributeChoice)) {
+					throw InvalidOptionException(attributeChoice);
+				}
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+
+			}
+
+		}
+		catch (InvalidOptionException & o) {
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+
+	} while (invalidOption);
+	
+	string newName;
+	bool invalidName;
+
+	string newCuisineType;
+	bool invalidCuisineType;
+
+	string strNewPrice;
+	int newPrice;
+	bool invalidPrice;
+
+	switch (attributeChoice) {
+		// Name
+		case 1:
+			do {
+				try {
+					invalidName = false;
+					cout << "Current Name: " << products.at(productChoice)->get_name() << endl;
+					cout << "Updated Name: ";
+					getline(cin, newName);
+					if (!isString(newName))
+						throw InvalidStringException(newName);
+					
+					cout << endl;
+					products.at(productChoice)->setName(newName);
+				}
+				catch (InvalidStringException & s)
+				{
+					invalidName = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (invalidOption);
+			break;
+
+		// Cuisine Type
+		case 2:
+			do {
+				try {
+					invalidCuisineType = false;
+					cout << "Current Cuisine Type: " << products.at(productChoice)->get_cuisine_type() << endl;
+					cout << "Updated Cuisine Type: ";
+					getline(cin, newCuisineType);
+					if (!isString(newCuisineType))
+						throw InvalidStringException(newCuisineType);
+
+					cout << endl;
+					products.at(productChoice)->setCuisineType(newCuisineType);
+				}
+				catch (InvalidStringException & s)
+				{
+					invalidCuisineType = true;
+					cout << s;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (invalidCuisineType);
+			break;
+
+		// Price
+		case 3:
+			do {
+				try {
+					cout << "Current Price: " << products.at(productChoice)->get_price() << endl;
+					cout << "Updated Price: ";
+					getline(cin, strNewPrice);
+					newPrice = stoi(strNewPrice);
+					products.at(productChoice)->setPrice(newPrice);
+				}
+				catch (...) {
+					invalidPrice = true;
+					cout << "Invalid Price" << endl;
+					cout << "Try Again!" << endl << endl;
+				}
+			} while (invalidPrice);
+			break;
+	}
+
+	// updating cuisine types
+	for (auto & prod : products) {
+		this->get_cuisine_types().insert(prod->get_cuisine_type());
+	}
+
+	// updating price average
+	this->setPriceAverage();
+}
+
+void Restaurant::removeProduct() {
+
+	vector<Product*>::iterator it;
+	bool invalidOption;
+	string strChoice;
+	int productChoice;
+	unsigned index = 0;
+
+	do {
+		index = 0;
+		invalidOption = false;
+		cout << "Pick the restaurant you want to change information about:" << endl;
+		for (it = products.begin(); it != products.end(); ++it, ++index) {
+			cout << index + 1 << ". " << (*it)->get_name() << endl;
+		}
+		try {
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+			getline(cin, strChoice);
+
+			if (strChoice == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(strChoice))
+				throw InvalidNumberException(strChoice);
+			if (strChoice != "")
+			{
+				productChoice = stoi(strChoice);
+
+				if (InvalidOptions(products.size(), productChoice)) {
+					throw InvalidOptionException(productChoice);
+				}
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+		}
+		catch (InvalidOptionException & o) {
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidOption = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidOption);
+
+	productChoice--;	// not to excede the max index available
+
+	// To free the memory
+	vector<Product*>::iterator eraseIt = products.begin() + productChoice;
+	delete * eraseIt;
+
+	// To erase from the vector
+	products.erase(products.begin() + productChoice);
+
+
+	// updating cuisine types
+	for (auto & prod : products) {
+		this->get_cuisine_types().insert(prod->get_cuisine_type());
+	}
+
+	// updating price average
+	this->setPriceAverage();
+
+	cout << "Product removed successfully" << endl;
+	cout << ">> ";
+	cin.ignore();
+	cin.clear();
 }
 
 

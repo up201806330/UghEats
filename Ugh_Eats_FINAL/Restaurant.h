@@ -213,7 +213,24 @@ public:
 
 	void update_price_average(); //quando se adiciona produtos
 	//void update_cuisine_types(); //meter esta funcionalidade no add product
-	bool add_product();
+	
+	/**
+	 * @brief Add a product to the list of products of a restaurant
+	 * 
+	 */
+	void add_product();
+
+	/**
+	 * @brief Changes information about a specific product of a restaurant
+	 * 
+	 */
+	void change_product();
+
+	/**
+	 * @brief Removes a product from a restaurant
+	 * 
+	 */
+	void removeProduct();
 	
 	/**
 	 * @brief Displays a restaurant in a formated way

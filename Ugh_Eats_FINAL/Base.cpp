@@ -885,7 +885,6 @@ void Base::seeProfitsPerTime()
 
 
 
-
 void Base::changeBase() { // implementar cenas quando se souber se vamos usar isto ou não
 	list<string> options = { "address" };
 	
@@ -2584,7 +2583,6 @@ void Base::addRestaurant() {
 	cin.clear();
 }
 
-
 void Base::changeRestaurant() { 
 
 	vector<Restaurant*>::iterator it;
@@ -2615,16 +2613,14 @@ void Base::changeRestaurant() {
 
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
-			if (strChoice != "")
-			{
+			if (strChoice != "") {
 				restaurantChoice = stoi(strChoice);
 
 				if (InvalidOptions(restaurants.size(), restaurantChoice)) {
 					throw InvalidOptionException(restaurantChoice);
 				}
 			}
-			else
-			{
+			else {
 				invalidOption = true;
 				utils::clear_screen();
 			}
