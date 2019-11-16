@@ -1,0 +1,14 @@
+Elon Musk
+Faro / Olhao / Rua do Eletrico / 21 / 3 / 967.378 / 238.298
+587987463
+-
+;
+Joe Swanson
+Faro / Faro / Avenida da Laranjeira / 9 / -1 / 555.555 / 434.434
+487468759
+1
+;
+Bjarne Stroustrup
+Faro / Alportel / Rua da Alegria / 55 / -1 / 444.344 / 248.985
+498598349
+-

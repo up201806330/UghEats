@@ -5,3 +5,16 @@ deliveries_p.txt
 workers_p.txt
 clients_p.txt
 ;;;
+Lisboa : Lisboa ; Oeiras ; Amadora ; Odivelas ; Loures
+Lisboa / Oeiras / Rua do Ze / 21 / -1 / 123.321 / 123.321
+restaurants_l.txt
+deliveries_l.txt
+workers_l.txt
+clients_l.txt
+;;;
+Faro : Faro ; Loule ; Alportel ; Olhao
+Faro / Faro / Rua do Algarve / 11 / -1 / 323.232 / 454.454
+restaurants_f.txt
+deliveries_f.txt
+workers_f.txt
+clients_f.txt

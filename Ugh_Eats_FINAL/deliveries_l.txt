@@ -1,0 +1,8 @@
+1
+KFC
+5
+-
+01:01:2019:17:30
+01:01:2019:18:05
+Veggie Patty : Vegetarian : 4
+Fanta : Drink : 2

@@ -941,8 +941,8 @@ void main_menu(vector<Base*> bases) {
 					//(*it)->writeAll();
 				}
 
-				// exit(0);
-				return;  // <--- needs to return so that it plays the music.
+				exit(0);
+				// return;  // <--- needs to return so that it plays the music.
 				// Alternative is to get the 2 lines of the music part and put them before the exit(0)
 			}
 		} while (retry);

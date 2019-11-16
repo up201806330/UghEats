@@ -1,5 +1,12 @@
+//#pragma comment(lib, "winmm.lib")
+//
+//#include <Windows.h>
+//#include <mmsystem.h>
+
 #include "Base.h"
 #include "utils.h"
+
+
 using namespace std;
 
 #include <set>
@@ -47,7 +54,7 @@ vector<Base*> Base::load(string path){
 	}
 
 
-	vector<Base*> bases;
+	vector<Base*> bases = {};
 	string textline;
 
 	vector<string> areaOfInfluence;
@@ -205,6 +212,7 @@ void Base::setClients(vector<Client*> clients){
 
 void Base::setOrders(map<int, Order*> orders)
 {
+	if (orders.size() == 0) this->orders = {};
 	this->orders = orders;
 }
 
@@ -260,7 +268,7 @@ const map<int, Order*> & Base::getOrders() const{
 	return orders;
 }
 
-//Visualiza��o de Informa��o
+//Visualizacao de Informacao
 void Base::seeAllClients()
 {
 	cout << "ALL CLIENTS" << endl << endl;
@@ -3295,12 +3303,12 @@ Delivery* Base::getDeliveryMan()
 
 void Base::writeRestaurantsFile(string fileName) {
 
-	ofstream restFileInput("restaurants_p_copy_.txt");
+	ofstream restFileInput(fileName);
 
 	try
 	{
 		if (restFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+			throw FileOpenErrorException(fileName);
 	}
 	catch (FileOpenErrorException & f)
 	{
@@ -3337,9 +3345,9 @@ void Base::writeRestaurantsFile(string fileName) {
 	restFileInput.close();
 }
 
-void Base::writeDeliveriesFile(string filename) {
+void Base::writeDeliveriesFile(string fileName) {
 
-	ofstream deliveriesFileInput("deliveries_p_copy_.txt");
+	ofstream deliveriesFileInput(fileName);
 
 
 
@@ -3390,12 +3398,12 @@ void Base::writeDeliveriesFile(string filename) {
 
 void Base::writeWorkersFile(string fileName) {
 
-	ofstream workersFileInput("workers_p_copy.txt");
+	ofstream workersFileInput(fileName);
 
 	try
 	{
 		if (workersFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+			throw FileOpenErrorException(fileName);
 	}
 	catch (FileOpenErrorException & f)
 	{
@@ -3474,12 +3482,12 @@ void Base::writeWorkersFile(string fileName) {
 
 void Base::writeClientsFile(string fileName) {
 
-	ofstream clientsFileInput("clients_p_copy.txt");
+	ofstream clientsFileInput(fileName);
 
 	try
 	{
 		if (clientsFileInput.fail())
-			throw FileOpenErrorException("restaurants_p_copy_.txt");
+			throw FileOpenErrorException(fileName);
 	}
 	catch (FileOpenErrorException & f)
 	{
@@ -3533,5 +3541,8 @@ void Base::writeAll()
 	writeDeliveriesFile(deliveriesFileName);
 	writeWorkersFile(workersFileName);
 	writeClientsFile(clientsFileName);
+
+	// PlaySound(TEXT("MicrosoftWindowsXPShutdownSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	// Sleep(3000);
 	exit(0);
 }

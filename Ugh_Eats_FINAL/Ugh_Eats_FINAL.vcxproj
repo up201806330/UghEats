@@ -120,9 +120,17 @@
   <ItemGroup>
     <Text Include="bases.txt" />
     <Text Include="blacklisted.txt" />
+    <Text Include="clients_f.txt" />
+    <Text Include="clients_l.txt" />
     <Text Include="clients_p.txt" />
+    <Text Include="deliveries_f.txt" />
+    <Text Include="deliveries_l.txt" />
     <Text Include="deliveries_p.txt" />
+    <Text Include="restaurants_f.txt" />
+    <Text Include="restaurants_l.txt" />
     <Text Include="restaurants_p.txt" />
+    <Text Include="workers_f.txt" />
+    <Text Include="workers_l.txt" />
     <Text Include="workers_p.txt" />
   </ItemGroup>
   <ItemGroup>

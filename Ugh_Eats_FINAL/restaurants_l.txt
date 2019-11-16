@@ -1,0 +1,12 @@
+KFC
+Lisboa / Oeiras / Rua S Antonio / 12 / -1 / 029.876 / 124.879
+Bucket : Chicken : 12
+Veggie Patty : Vegetarian : 4
+Fanta : Drink : 2
+;;;
+Burger King
+Lisboa / Lisboa / Avenida das Clementinas / 2 / 2 / 123.22 / 222.234
+Whopper : Hamburger : 3
+Sundae : Dessert : 2
+Onion rings : Snack : 1
+

@@ -601,10 +601,10 @@ void Order::load(string path, Base * base) {
 
 	string textline;
 	int temp; 
-	map<int, Order*> orders_map;
+	map<int, Order*> orders_map = {};
 	while(!orders_text.eof()){
 		
-
+		if (textline == "") break;
 		if (textline == SEPARATOR) {
 			getline(orders_text, textline);
 		}
