@@ -189,14 +189,7 @@ Base * Restaurant::get_base() const {
 	return base;
 }
 
-void Restaurant::update_price_average() { //implementar depois
 
-}
-
-//void Restaurant::update_cuisine_types() //implementar depois
-//{
-//
-//}
 
 void Restaurant::add_product() {
 	Product p;

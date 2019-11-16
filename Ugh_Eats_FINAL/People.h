@@ -103,7 +103,7 @@ public:
 	Vehicle  get_vehicle() const;
 	map<int, Order*> get_history() const;
 	void setDeliveryManPointerOnOrders();
-	size_t calculate_wage();
+	double calculate_wage();
 	void print();
 };
 

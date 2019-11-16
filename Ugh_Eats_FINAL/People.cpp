@@ -163,8 +163,10 @@ void Worker::load(string path, Base * base){
 		x.set_vehicle(v);
 
 		getline(workers_text, textline);
-		// cout << "Textline: " << textline << endl << endl;
 		x.set_history(base->findOrders(textline));
+
+		double wage = x.calculate_wage();
+		x.set_wage(wage);
 
 		Delivery * ptr = new Delivery;
 		*ptr = x;
@@ -296,8 +298,15 @@ void Delivery::print() {
 	cout << endl;
 }
 
-size_t Delivery::calculate_wage() {//implementar dps 
-	return 0;
+double Delivery::calculate_wage() {
+	double wage = 0;
+
+	if (this->get_history().size() == 0) return wage;
+
+	for (auto & deliv : this->get_history()) {
+		wage += (deliv.second->getDeliveryFee());
+	}
+	return wage;
 }
 
 Client::Client() {
@@ -843,6 +852,7 @@ void Client::make_order(Base * b) {
 	// deliver.setDateTime() <-------- adicionar data e hora de entrega
 	deliver.setDeliveryMan(b->getDeliveryMan()); 
 	
+
 	// Success/Insuccess and message
 	vector<string> errorReasons = { "traffic", "unknown", "restaurant cancelled the order", "driver couldn't meet client" };
 	srand((unsigned int)time(NULL));
@@ -870,6 +880,27 @@ void Client::make_order(Base * b) {
 
 	cout << endl;
 
+
+	// Updating Client orders
+	map<int, Order*> updatedClients = this->get_orders();
+	updatedClients.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+	this->set_orders(updatedClients);
+
+	// Updating Delivery man history
+	map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
+	updatedHistory.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+	b->getDeliveryMan()->set_history(updatedHistory);
+
+	// Updating Delivery man history
+	double newWage = deliver.getDeliveryMan()->calculate_wage();
+	deliver.getDeliveryMan()->set_wage(newWage);
+
+	// Updating Base Orders
+	map<int, Order*> updatedOrders = b->getOrders();
+	updatedOrders.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
+	b->setOrders(updatedOrders);
+
+
 	if (delivSuccess) {
 		string deliv; stringstream d; 
 		d << "Successful Delivery! Your order will arrive at " << setw(2) << setfill('0') << deliver.getDateTime().getHours() << ":" << setw(2) << setfill('0') << deliver.getDateTime().getMinutes();
@@ -878,21 +909,6 @@ void Client::make_order(Base * b) {
 			this_thread::sleep_for(std::chrono::milliseconds(50));
 			cout << c << std::flush;
 		}
-
-		// Updating Client orders
-		map<int, Order*> updatedClients = this->get_orders();
-		updatedClients.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-		this->set_orders(updatedClients);
-
-		// Updating Delivery man history
-		map<int, Order*> updatedHistory = b->getDeliveryMan()->get_history();
-		updatedHistory.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-		b->getDeliveryMan()->set_history(updatedHistory);
-
-		// Updating Base Orders
-		map<int, Order*> updatedOrders = b->getOrders();
-		updatedOrders.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
-		b->setOrders(updatedOrders);
 
 	}
 	else {

@@ -18,9 +18,12 @@ int main() {
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 
+	/*
+	cout << bases.at(0)->getWorkers().at(3)->get_wage() << endl;
+	bases.at(0)->getClients().at(1)->make_order(bases.at(0));
+	cout << bases.at(0)->getWorkers().at(3)->get_wage() << endl;
+	*/
 
-	
-	// bases.at(0)->getClients().at(1)->make_order(bases.at(0));
 	// cout << bases.at(0)->getClients().at(1)->get_orders().size() << endl;
 
 	/*
@@ -166,7 +169,7 @@ int main() {
 	*/
 	
 
-	main_menu(bases);
+	// main_menu(bases);
 	
 	
 	PlaySound(TEXT("MicrosoftWindowsXPShutdownSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
