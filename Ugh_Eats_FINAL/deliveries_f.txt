@@ -4,5 +4,5 @@ Subway
 -
 01:01:2019:17:30
 01:01:2019:18:05
-Chicken parm : Chicken : 4.5
+Chicken parm : Chicken : 4
 Fudge cake : Dessert : 2

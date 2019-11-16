@@ -1,11 +1,11 @@
 Subway
 Faro / Faro / Rua do alem / 17 / -1 / 298.097 / 186.562
 Tuna sandwich : Seafood : 3
-Chicken parm : Chicken : 4.5
+Chicken parm : Chicken : 4
 Fudge cake : Dessert : 2
 ;;;
 Wok to walk
 Faro / Olhao / Vale fundo / 12 / 1 / 111.123 / 987.234
-Noodles : Asian : 1.2
+Noodles : Asian : 1
 General Tso Chicken : Chicken : 4
 Green tea : Drink : 2

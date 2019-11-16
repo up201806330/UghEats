@@ -127,6 +127,7 @@ void Restaurant::load(string path, Base * base){
 	}
 	
 	base->setRestaurants(restaurants_vec);
+	restaurants_text.close();
 }
 
 void Restaurant::setName(string n) {

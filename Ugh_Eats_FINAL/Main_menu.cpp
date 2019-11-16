@@ -840,6 +840,8 @@ void main_menu(vector<Base*> bases) {
 				{
 					if (InvalidOptions(bases.size(), stoi(temp)))
 						throw InvalidOptionException(stoi(temp));
+					else if (stoi(temp) == 0)
+						throw InvalidOptionException(stoi(temp));
 				}
 				else
 				{

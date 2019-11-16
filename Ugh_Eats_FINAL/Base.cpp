@@ -54,7 +54,7 @@ vector<Base*> Base::load(string path){
 	}
 
 
-	vector<Base*> bases = {};
+	vector<Base*> bases;
 	string textline;
 
 	vector<string> areaOfInfluence;
@@ -72,9 +72,11 @@ vector<Base*> Base::load(string path){
 		base.setAddress(addr);
 
 		getline(base_text, textline);
+		base.setRestaurantsFileName(textline);
 		Restaurant::load(textline, &base);
 
 		getline(base_text, textline);
+		base.setDeliveriesFileName(textline);
 		Order::load(textline, &base);
 
 		/*
@@ -84,6 +86,7 @@ vector<Base*> Base::load(string path){
 		*/
 
 		getline(base_text, textline);
+		base.setWorkersFileName(textline);
 		Worker::load(textline, &base);
 
 		/*
@@ -93,8 +96,9 @@ vector<Base*> Base::load(string path){
 		*/
 
 		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
-		 
+		
 		getline(base_text, textline);
+		base.setClientsFileName(textline);
 		Client::load(textline, &base);
 		// cout << base.getClients().at(0)->get_base()->getAreaOfInfluence().size() << endl;
 		getline(base_text, textline);
@@ -3431,7 +3435,11 @@ void Base::writeWorkersFile(string fileName) {
 			}
 			workersFileInput << adminCheck->get_name() << endl;
 			workersFileInput << adminCheck->get_NIF() << endl;
-			workersFileInput << adminCheck->get_birthday() << endl;
+			workersFileInput << adminCheck->get_birthday().getDay();
+			workersFileInput << ":";
+			workersFileInput << adminCheck->get_birthday().getMonth();
+			workersFileInput << ":";
+			workersFileInput << adminCheck->get_birthday().getYear() << endl;
 			workersFileInput << adminCheck->get_wage() << endl;
 			workersFileInput << adminCheck->get_role() << endl;
 
@@ -3447,12 +3455,20 @@ void Base::writeWorkersFile(string fileName) {
 			}
 			workersFileInput << deliveryCheck->get_name() << endl;
 			workersFileInput << deliveryCheck->get_NIF() << endl;
-			workersFileInput << deliveryCheck->get_birthday() << endl;
+			workersFileInput << deliveryCheck->get_birthday().getDay();
+			workersFileInput << ":";
+			workersFileInput << deliveryCheck->get_birthday().getMonth();
+			workersFileInput << ":";
+			workersFileInput << deliveryCheck->get_birthday().getYear() << endl;
 			workersFileInput << deliveryCheck->get_vehicle().get_brand();
-			workersFileInput << " : ";
+			workersFileInput << " ; ";
 			workersFileInput << deliveryCheck->get_vehicle().get_type();
-			workersFileInput << " : ";
-			workersFileInput << deliveryCheck->get_vehicle().get_registration_date();
+			workersFileInput << " ; ";
+			workersFileInput << deliveryCheck->get_vehicle().get_registration_date().getDay();
+			workersFileInput << ":";
+			workersFileInput << deliveryCheck->get_vehicle().get_registration_date().getMonth();
+			workersFileInput << ":";
+			workersFileInput << deliveryCheck->get_vehicle().get_registration_date().getYear();
 			workersFileInput << endl;
 
 			// To "Fix" when orders.find is working correctly
@@ -3537,10 +3553,10 @@ void Base::writeClientsFile(string fileName) {
 
 void Base::writeAll()
 {
-	writeRestaurantsFile(restaurantsFileName);
-	writeDeliveriesFile(deliveriesFileName);
-	writeWorkersFile(workersFileName);
-	writeClientsFile(clientsFileName);
+	writeRestaurantsFile(this->getRestaurantsFileName());
+	writeDeliveriesFile(this->deliveriesFileName);
+	writeWorkersFile(this->workersFileName);
+	writeClientsFile(this->clientsFileName);
 
 	// PlaySound(TEXT("MicrosoftWindowsXPShutdownSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	// Sleep(3000);
