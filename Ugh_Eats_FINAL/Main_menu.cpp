@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 
-void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
+void main_menu_client(Client* client, Base * base) { //jï¿½ volta atrï¿½s e jï¿½ fecha
 	while (true) {
 		string input;
 
@@ -86,7 +86,7 @@ void main_menu_client(Client* client, Base * base) { //já volta atrás e já fecha
 		{
 			client->edit(base);
 			continue;
-		} //Já volta atrás
+		} //Jï¿½ volta atrï¿½s
 		if (input == "0") {
 			break; 
 		}
@@ -220,7 +220,7 @@ void main_menu_admin_clients(Base * base) {
 			utils::clear_screen();
 			if(!base->orderClients()) continue;
 			utils::clear_screen();
-			base->seeAllClients(); //Já volta atrás
+			base->seeAllClients(); //Jï¿½ volta atrï¿½s
 
 			cout << "\n>> ";
 			cin.ignore();
@@ -229,24 +229,24 @@ void main_menu_admin_clients(Base * base) {
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneClient(); //Já volta atrás
+			base->seeOneClient(); //Jï¿½ volta atrï¿½s
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addClient(); //Já volta atrás
+			base->addClient(); //Jï¿½ volta atrï¿½s
 
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeClient(); //Já volta atrás
+			base->changeClient(); //Jï¿½ volta atrï¿½s
 
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeClient(); //Já volta atrás
+			base->removeClient(); //Jï¿½ volta atrï¿½s
 		}
 
 		if (input == "0") {
@@ -260,7 +260,7 @@ void main_menu_admin_clients(Base * base) {
 	}
 }
 
-void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
+void main_menu_admin_workers(Base * base) { // jï¿½ volta atrï¿½s e jï¿½ fecha
 	while (true) {
 		string input;
 		bool retry = true;
@@ -314,7 +314,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 			utils::clear_screen();
 			if (!base->orderWorkers()) continue; //N faco ideia como mas funciona lmao
 			utils::clear_screen();
-			base->seeAllWorkers(); //Já volta para trás
+			base->seeAllWorkers(); //Jï¿½ volta para trï¿½s
 			
 			cout << "\n>> ";
 			cin.ignore();
@@ -323,21 +323,21 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneWorker(); //Já volta para trás
+			base->seeOneWorker(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addWorker(); //Já volta para trás
+			base->addWorker(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeWorker(); //Já volta para trás
+			base->changeWorker(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "5") {
-			base->removeWorker(); //Já volta para trás
+			base->removeWorker(); //Jï¿½ volta para trï¿½s
 			utils::clear_screen();
 		}
 
@@ -354,7 +354,7 @@ void main_menu_admin_workers(Base * base) { // já volta atrás e já fecha
 	}
 }
 
-void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
+void main_menu_admin_restaurant(Base * base) { // Jï¿½ volta atrï¿½s e jï¿½ fecha
 	while (true) {
 		string input;
 		bool retry = true;
@@ -411,7 +411,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 			utils::clear_screen();
 			if(!base->orderRestaurants()) continue;
 			utils::clear_screen();
-			base->seeAllRestaurants(); //Já volta para trás
+			base->seeAllRestaurants(); //Jï¿½ volta para trï¿½s
 
 			cout << "\n>> ";
 			cin.ignore();
@@ -420,22 +420,22 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneRestaurant(); //Já volta para trás
+			base->seeOneRestaurant(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addRestaurant(); //Já volta para trás
+			base->addRestaurant(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeRestaurant(); //Já volta para trás
+			base->changeRestaurant(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeRestaurant(); //Já volta para trás
+			base->removeRestaurant(); //Jï¿½ volta para trï¿½s
 		}
 
 		if (input == "0") {
@@ -450,7 +450,7 @@ void main_menu_admin_restaurant(Base * base) { // Já volta atrás e já fecha
 	}
 }
 
-void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
+void main_menu_admin_orders(Base * base) // Jï¿½ volta atrï¿½s e jï¿½ fecha
 {
 	while (true) {
 		string input;
@@ -505,12 +505,12 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 			utils::clear_screen();
 			//if(!base->orderOrders()) continue;
 			utils::clear_screen();
-			base->seeAllOrders(); //Já volta atrás
+			base->seeAllOrders(); //Jï¿½ volta atrï¿½s
 		}
 
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeOneOrder(); //Já volta atrás
+			base->seeOneOrder(); //Jï¿½ volta atrï¿½s
 		}
 		
 		if (input == "0") {
@@ -526,7 +526,7 @@ void main_menu_admin_orders(Base * base) // Já volta atrás e já fecha
 	}
 }
 
-void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
+void main_menu_admin_profits(Base * base) { // Jï¿½ volta atrï¿½s e fecha
 	while (true) {
 		string input;
 		bool retry = true;
@@ -579,19 +579,19 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 
 		if (input == "1") {
 			utils::clear_screen();
-			base->seeProfits(); //Já volta atrás
+			base->seeProfits(); //Jï¿½ volta atrï¿½s
 		}
 		if (input == "2") {
 			utils::clear_screen();
-			base->seeProfitsPerRestaurant(); //Já volta atrás
+			base->seeProfitsPerRestaurant(); //Jï¿½ volta atrï¿½s
 		}
 		if (input == "3") {
 			utils::clear_screen();
-			base->seeProfitsPerClient(); //Já volta atrás
+			base->seeProfitsPerClient(); //Jï¿½ volta atrï¿½s
 		}
 		if (input == "4") {
 			utils::clear_screen();
-			base->seeProfitsPerTime(); //-> implementar as cenas qd a função tiver pronta
+			base->seeProfitsPerTime(); //-> implementar as cenas qd a funï¿½ï¿½o tiver pronta
 		}
 
 		if (input == "0") {
@@ -608,7 +608,7 @@ void main_menu_admin_profits(Base * base) { // Já volta atrás e fecha
 	}
 }
 
-void main_menu_admin(Base * base) { // já volta atrás e já fecha
+void main_menu_admin(Base * base) { // jï¿½ volta atrï¿½s e jï¿½ fecha
 	while (true) {
 		string input;
 		bool retry = true;
@@ -668,7 +668,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 		if (input == "5") main_menu_admin_orders(base);
 		if (input == "6") main_menu_admin_profits(base);
 
-		if (input == "0") { // volta atrás
+		if (input == "0") { // volta atrï¿½s
 			break; 
 		}
 		if (input == "7")
@@ -680,7 +680,7 @@ void main_menu_admin(Base * base) { // já volta atrás e já fecha
 	}
 }
 
-void main_menu_client_login(Base * base){ // já volta atrás e já fecha
+void main_menu_client_login(Base * base){ // jï¿½ volta atrï¿½s e jï¿½ fecha
 	while (true) {
 		string input;
 		bool retry = true;
@@ -875,7 +875,7 @@ void main_menu(vector<Base*> bases) {
 			try
 			{
 				utils::clear_screen();
-				cout << "Client or Admin ?" << endl; // já volta atrás e já fecha
+				cout << "Client or Admin ?" << endl; // jï¿½ volta atrï¿½s e jï¿½ fecha
 				cout << "1. Client" << endl;
 				cout << "2. Admin" << endl;
 				cout << "0. Go Back" << endl;

@@ -11,39 +11,6 @@ Address::~Address() {
 
 }
 
-bool Address::parseInsideBase(string str, string dist) { //needs reinforcing aka apanhar excecoes dos stois
-	vector<string> parts = utils::split(str, '/');
-	for (auto &part : parts) utils::trim(part);
-
-	if (parts.size() == 6) {
-		district = dist;
-		if (!isString(district))
-			return false;
-
-		town = parts.at(0);
-		if (!isString(town))
-			return false;
-
-		street = parts.at(1);
-		if (!isString(street))
-			return false;
-
-		number = stoi(parts.at(2));
-
-		if (!isNumber(parts.at(3))) floor = -1;
-
-		else floor = stoi(parts.at(3));
-
-		latitude = stod(parts.at(4));
-
-		longitude = stod(parts.at(5));
-
-		return true;
-	}
-
-	else return false;
-}
-
 
 bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos stois
 	vector<string> parts = utils::split(str, '/');
@@ -78,25 +45,71 @@ bool Address::parse(string str) { //needs reinforcing aka apanhar excecoes dos s
 	else return false;
 }
 
-void Address::setTown(string cidade) {
-	town = cidade;
+bool Address::parseInsideBase(string str, string dist) { //needs reinforcing aka apanhar excecoes dos stois
+	vector<string> parts = utils::split(str, '/');
+	for (auto &part : parts) utils::trim(part);
+
+	if (parts.size() == 6) {
+		district = dist;
+		if (!isString(district))
+			return false;
+
+		town = parts.at(0);
+		if (!isString(town))
+			return false;
+
+		street = parts.at(1);
+		if (!isString(street))
+			return false;
+
+		number = stoi(parts.at(2));
+
+		if (!isNumber(parts.at(3))) floor = -1;
+
+		else floor = stoi(parts.at(3));
+
+		latitude = stod(parts.at(4));
+
+		longitude = stod(parts.at(5));
+
+		return true;
+	}
+
+	else return false;
 }
 
-void Address::setDistrict(string distrito) {
-	district = distrito;
+string Address::str() const {
+	string result = district + " / ";
+	result += town + " / ";
+	result += street + " / ";
+	result += to_string(number) + " / ";
+	result += to_string(floor) + " / ";
+	result += to_string(latitude) + " / ";
+	result += to_string(longitude) + " / ";
+	return result;
 }
 
-void Address::setStreet(string rua) {
-	street = rua;
+
+void Address::setTown(string t) {
+	town = t;
+}
+
+void Address::setDistrict(string d) {
+	district = d;
+}
+
+void Address::setStreet(string s) {
+	street = s;
 }
 
 void Address::setNumber(unsigned int n) {
 	number = n;
 }
 
-void Address::setFloor(int flr) {
-	floor = flr;
+void Address::setFloor(int f) {
+	floor = f;
 }
+
 
 string Address::get_town() const {
 	return town;
@@ -118,26 +131,8 @@ int Address::get_floor() const {
 	return floor;
 }
 
-string Address::str() const
-{
-	string result = district + " / ";
-	result += town + " / ";
-	result += street + " / ";
-	result += to_string(number) + " / ";
-	result += to_string(floor) + " / ";
-	result += to_string(latitude) + " / ";
-	result += to_string(longitude) + " / ";
-	return result;
-}
 
 std::ostream & operator<<(std::ostream & stream, Address address) {
-	
-	/*
-	stream << "Town: " << address.town << endl;
-	stream << "District: " << address.district << endl;
-	stream << "Street: " << address.street << endl;
-	stream << "Number: " << address.number << endl;
-	*/
 	stream << address.district << " / ";
 	stream << address.town << " / ";
 	stream << address.street << " / ";
