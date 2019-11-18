@@ -4,5 +4,23 @@ Pizza Hut
 -
 01:01:2019:17:30
 01:01:2019:18:05
-pepperooni : Pizza : 7 
+pepperooni : Pizza : 7
 conk : Drink : 2
+;;;
+2
+Macdonal
+5
+restaurant cancelled the order
+17:11:2019:21:38
+17:11:2019:22:35
+Buger : Hambruhger : 5
+aice crime : Dessert : 1
+;;;
+3
+Macdonal
+5
+-
+18:11:2019:17:41
+18:11:2019:18:48
+Buger : Hambruhger : 5
+aice crime : Dessert : 1

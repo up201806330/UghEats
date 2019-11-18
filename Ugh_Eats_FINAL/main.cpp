@@ -14,7 +14,6 @@
 
 int main() {
 	PlaySound(TEXT("MicrosoftWindowsXPStartupSoundEffect.wav"), NULL, SND_FILENAME | SND_ASYNC);
-	//string path; cout << "Please input the file path (with .txt): "; cin >> path;
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 	

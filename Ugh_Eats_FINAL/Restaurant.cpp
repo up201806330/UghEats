@@ -605,9 +605,11 @@ void Order::load(string path, Base * base) {
 	map<int, Order*> orders_map = {};
 	while(!orders_text.eof()){
 		
+		/*
 		if (textline == SEPARATOR) {
 			getline(orders_text, textline);
 		}
+		*/
 		Order order;
 		Deliver deliver;
 

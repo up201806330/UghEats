@@ -1,7 +1,7 @@
-Rafael Nadal
+Rafa Nadal
 Porto / Matosinhos / Avenida azul / 77 / -1 / 663.555 / 333.666
 231234324
-1 : 4 
+1 : 2 : 3
 ;
 Salvador Sobral
 Porto / Vila Nova de Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
@@ -11,9 +11,9 @@ Porto / Vila Nova de Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
 Rui Rio
 Porto / Vila Nova de Gaia / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
 231234567
-5
+-
 ;
 ytka
 Porto / Gondomar / Unknown / 34 / -1 / 234.435 / 998.235
 999999999
-6
+-

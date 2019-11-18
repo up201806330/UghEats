@@ -101,7 +101,7 @@ vector<Base*> Base::load(string path) {
 		getline(base_text, textline);
 		base.setClientsFileName(textline);
 		Client::load(textline, &base);
-		// cout << base.getClients().at(0)->get_base()->getAreaOfInfluence().size() << endl;
+
 		getline(base_text, textline);
 
 		Base * ptr = new Base;
@@ -436,7 +436,6 @@ void Base::seeOneRestaurant()
 		cout << "Products:" << endl;
 		vector<Product*>::iterator ite;
 
-		// REVERTED CHANGES HERE
 		vector<Product*> vec = restaurants.at(input - 1)->get_products();
 		for (ite = vec.begin(); ite != vec.end(); ite++)
 			// for (ite = (*restaurants.at(answer - 1)).get_products().begin(); ite != (*restaurants.at(answer - 1)).get_products().end(); ite++)
@@ -553,7 +552,7 @@ void Base::seeOneWorker()
 
 	cout << "\nINFO" << endl;
 	Admin *a = dynamic_cast<Admin *> (workers.at(answer - 1));
-	if (a != NULL) //good practice ?
+	if (a != NULL)
 	{
 		cout << "Administrator" << endl;
 	}
@@ -626,7 +625,7 @@ void Base::seeOneOrder()
 
 			for (it = orders.begin(); it != orders.end(); it++)
 			{
-				cout << op << ". ID: " << (*it).second->getID();
+				cout << op++ << ". ID: " << (*it).second->getID();
 				cout << endl;
 				temporary_ids.push_back((*it).second->getID());
 			}
@@ -1005,7 +1004,7 @@ void Base::changeBase() {
 	cin.ignore(INT_MAX,'\n');
 }
 
-bool Base::addClient() { //usar em try para apanhar execao blacklisted
+bool Base::addClient() {
 
 	try
 	{
@@ -1038,7 +1037,7 @@ bool Base::addClient() { //usar em try para apanhar execao blacklisted
 
 		c.set_name(name);
 
-		if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) { //EXCEÇÂO BLACKLISTED
+		if (find(Base::blacklist.begin(), Base::blacklist.end(), c.get_name()) != Base::blacklist.end()) {
 			throw BlackListedException(c.get_name());
 		}
 
@@ -1165,10 +1164,6 @@ void Base::changeClient() {
 				utils::clear_screen();
 				return;
 			}
-			//if (cin.eof()) {
-			//	cin.clear();
-			//	return;
-			//}
 
 			if (!isNumber(strChoice))
 				throw InvalidNumberException(strChoice);
@@ -1201,8 +1196,7 @@ void Base::changeClient() {
 			cout << s;
 			cout << "Try Again!" << endl << endl;
 		}
-
-		//cout << endl;
+		
 
 	} while (invalidOption);
 
@@ -1289,7 +1283,7 @@ void Base::removeClient() {
 	cin.ignore(INT_MAX,'\n');
 }
 
-void Base::addWorker() { //Continuar a adicionar exceçoes
+void Base::addWorker() {
 
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
 	bool managerExists = (dynamic_cast<Admin*>(workers.at(0))->get_role() == "manager") ? true : false;
@@ -1385,10 +1379,7 @@ void Base::addWorker() { //Continuar a adicionar exceçoes
 		cout << "NIF: ";
 		getline(cin, strNif);
 
-		//if (cin.eof()) {
-		//	cin.clear();
-		//	return;
-		//}
+
 
 		try {
 			if (!isNumber(strNif) || strNif.size() != 9)
@@ -1524,10 +1515,6 @@ void Base::addWorker() { //Continuar a adicionar exceçoes
 						if (!isString(roleInput))
 							throw InvalidStringException(roleInput);
 
-						//if (cin.eof()) {
-						//	cin.clear();
-						//	return;
-						//}
 
 						// if it chose not to be manager it can't then be manager
 						if (roleInput == "manager") {
@@ -1561,10 +1548,6 @@ void Base::addWorker() { //Continuar a adicionar exceçoes
 					getline(cin, roleInput);
 					if (!isString(roleInput))
 						throw InvalidStringException(roleInput);
-					//if (cin.eof()) {
-					//	cin.clear();
-					//	return;
-					//}
 
 					// can't be manager
 					if (roleInput == "manager") {
@@ -3453,6 +3436,7 @@ void Base::writeWorkersFile(string fileName) {
 
 		}
 		else {
+			firstOrder = true;
 			deliveryCheck = dynamic_cast<Delivery*> (workers.at(i));
 			if (!foundFirstDelivery) {
 				foundFirstDelivery = true;

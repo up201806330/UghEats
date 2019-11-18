@@ -1,8 +1,8 @@
 Macdonal
 Porto / Porto / Rua S Joao / 34 / -1 / 234.735 / 298.235
 Buger : Hambruhger : 5
-Frie : Fast Food : 2
-aice crime : Dessert : 1.5
+Frie : Fastfood : 2
+aice crime : Dessert : 1
 ;;;
 Pizza Hut
 Porto / Amarante / Vila velha / 34 / -1 / 234.535 / 958.535

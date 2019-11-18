@@ -6,7 +6,7 @@ manager
 ;
 Pedro Abrunhosa
 234567843
-09:02:1754
+9:2:1754
 4000
 customer service
 ;
@@ -18,12 +18,12 @@ ya boi
 ;;;
 Ze Maria
 123456432
-11:02:1990
+11:2:1990
 Honda ; Bike ; 11:11:2345
--
+2 : 3
 ;
 Ric Fazeres
 167889097
-01:01:1976
+1:1:1976
 Yamazaki ; Bike ; 11:11:2345
-1 : 2 : 5
+1

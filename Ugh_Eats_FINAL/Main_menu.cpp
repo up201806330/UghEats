@@ -315,10 +315,11 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 
 		if (input == "1") {
 			utils::clear_screen();
+			vector<Worker*> keepOrder = base->getWorkers();
 			if (!base->orderWorkers()) continue; //N faco ideia como mas funciona lmao
 			utils::clear_screen();
 			base->seeAllWorkers(); //J� volta para tr�s
-			
+			base->setWorkers(keepOrder);
 			cout << "\n>> ";
 			cin.clear();
 			cin.ignore(INT_MAX,'\n');
