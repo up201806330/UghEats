@@ -3463,9 +3463,6 @@ void Base::writeWorkersFile(string fileName) {
 			workersFileInput << deliveryCheck->get_vehicle().get_registration_date().getYear();
 			workersFileInput << endl;
 
-			// To "Fix" when orders.find is working correctly
-			// cout << "history: " << deliveryCheck->get_history().size() << endl;
-
 			if (deliveryCheck->get_history().size() == 0) {
 				workersFileInput << "-";
 			}

@@ -316,7 +316,7 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 		if (input == "1") {
 			utils::clear_screen();
 			vector<Worker*> keepOrder = base->getWorkers();
-			if (!base->orderWorkers()) continue; //N faco ideia como mas funciona lmao
+			if (!base->orderWorkers()) continue;
 			utils::clear_screen();
 			base->seeAllWorkers(); //J� volta para tr�s
 			base->setWorkers(keepOrder);
@@ -592,7 +592,7 @@ void main_menu_admin_profits(Base * base) { // J� volta atr�s e fecha
 		}
 		if (input == "4") {
 			utils::clear_screen();
-			base->seeProfitsPerTime(); //-> implementar as cenas qd a fun��o tiver pronta
+			base->seeProfitsPerTime();
 		}
 
 		if (input == "0") {

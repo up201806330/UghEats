@@ -13,7 +13,7 @@
 #include <mmsystem.h>
 
 int main() {
-	PlaySound(TEXT("MicrosoftWindowsXPStartupSoundEffect.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	// PlaySound(TEXT("MicrosoftWindowsXPStartupSoundEffect.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
 	
