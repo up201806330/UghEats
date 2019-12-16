@@ -18,6 +18,10 @@ class Vehicle {
 	string type;
 	Date_time registration_date;
 
+	string license;
+	unsigned trips;
+	double mileage;
+
 public:
 	/**
 	 * @brief Construct a new Vehicle object
@@ -30,6 +34,16 @@ public:
 	 * 
 	 */
 	~Vehicle();
+
+	/**
+	 * @brief Operator< overload
+	 * 
+	 * @param l 
+	 * @param r 
+	 * @return true 
+	 * @return false 
+	 */
+	friend bool operator<(const Vehicle & l, const Vehicle & r);
 
 	/**
 	 * @brief checks if the string passed as parameter can correspond to a valid vehicle and sets the value of the attributes
@@ -57,9 +71,27 @@ public:
 	 */
 	void set_brand(string marca);
 	/**
-	 * @brief Get the registration date object
+	 * @brief Set the license object
 	 * 
-	 * @return Date_time 
+	 * @param l 
+	 */
+	void set_license(string l);
+	/**
+	 * @brief Set the trips object
+	 * 
+	 * @param t 
+	 */
+	void set_trips(unsigned t);
+	/**
+	 * @brief Set the mileage object
+	 * 
+	 * @param m 
+	 */
+	void set_mileage(double m);
+	/**
+	 * @brief Get the registration date object
+	 *
+	 * @return Date_time
 	 */
 	Date_time get_registration_date() const;
 	/**
@@ -74,6 +106,24 @@ public:
 	 * @return string 
 	 */
 	string get_brand() const;
+	/**
+	 * @brief Get the license object
+	 * 
+	 * @return string 
+	 */
+	string get_license() const;
+	/**
+	 * @brief Get the trips object
+	 * 
+	 * @return unsigned 
+	 */
+	unsigned get_trips() const;
+	/**
+	 * @brief Get the mileage object
+	 * 
+	 * @return double 
+	 */
+	double get_mileage() const;
 };
 
 class Person {
@@ -278,6 +328,8 @@ public:
 	 * @return double calculated value
 	 */
 	double calculate_wage();
+
+	void update_vehicle();
 };
 
 class Client : public Person {

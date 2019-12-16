@@ -29,6 +29,10 @@ void Vehicle::parse(string str){
 	brand = parts.at(0);
 	type = parts.at(1);
 	registration_date.parse(parts.at(2));
+
+	license = parts.at(3);
+	trips = stoi(parts.at(4));
+	mileage = stoi(parts.at(5));
 }
 
 void Vehicle::set_registrationDate(Date_time data)
@@ -47,6 +51,21 @@ void Vehicle::set_brand(string marca)
 	brand = marca;
 }
 
+void Vehicle::set_license(string l)
+{
+	license = l;
+}
+
+void Vehicle::set_trips(unsigned t)
+{
+	trips = t;
+}
+
+void Vehicle::set_mileage(double m)
+{
+	mileage = m;
+}
+
 Date_time Vehicle::get_registration_date() const
 {
 	return registration_date;
@@ -60,6 +79,21 @@ string Vehicle::get_type() const
 string Vehicle::get_brand() const
 {
 	return brand;
+}
+
+string Vehicle::get_license() const
+{
+	return license;
+}
+
+unsigned Vehicle::get_trips() const
+{
+	return trips;
+}
+
+double Vehicle::get_mileage() const
+{
+	return mileage;
 }
 
 Person::Person()
@@ -268,6 +302,9 @@ void Delivery::print() {
 	cout << "   Brand: " << vehicle.get_brand() << endl;
 	cout << "   Type: " << vehicle.get_type() << endl;
 	cout << "   Registration Date: " << vehicle.get_registration_date() << endl;
+	cout << "	License plate: " << vehicle.get_license() << endl;
+	cout << "	Completed trips: " << vehicle.get_trips() << endl;
+	cout << "	Mileage: " << vehicle.get_mileage() << " Km" << endl;
 	cout << "History: ";
 	if (history.size() == 0)
 		cout << "none";
@@ -292,6 +329,16 @@ double Delivery::calculate_wage() {
 		wage += (deliv.second->getDeliveryFee());
 	}
 	return wage;
+}
+
+void Delivery::update_vehicle()
+{
+	// +1 trip
+	// + random mileage
+
+	this->vehicle.set_trips(vehicle.get_trips() + 1);
+	double n = 0.5 + (rand() % 100) / (10);
+	this->vehicle.set_mileage(vehicle.get_mileage() + n);
 }
 
 Client::Client() {
@@ -876,9 +923,11 @@ void Client::make_order(Base * b) {
 	updatedHistory.insert(pair<int, Order*>(orderPtr->getID(), orderPtr));
 	b->getDeliveryMan()->set_history(updatedHistory);
 
-	// Updating Delivery man history
+	// Updating Delivery man wage
 	double newWage = deliver.getDeliveryMan()->calculate_wage();
 	deliver.getDeliveryMan()->set_wage(newWage);
+	
+	if (delivSuccess) deliver.getDeliveryMan()->update_vehicle();
 
 	// Updating Base Orders
 	map<int, Order*> updatedOrders = b->getOrders();
@@ -981,4 +1030,10 @@ void Client::make_order(Base * b) {
 
 
 
+}
+
+bool operator<(const Vehicle & l, const Vehicle & r)
+{
+	if (l.get_trips() == r.get_trips()) return l.get_mileage() < r.get_mileage();
+	else return l.get_trips() < r.get_trips();
 }
