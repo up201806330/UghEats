@@ -190,6 +190,9 @@ void Base::setClientsFileName(string str) {
 	clientsFileName = str;
 }
 
+void Base::setTechniciansFileName(string str) {
+	technicianFileName = str;
+}
 
 void Base::setDistrict(string d) {
 	district = d;
@@ -225,6 +228,10 @@ void Base::setRestaurants(vector<Restaurant*> restaurants) {
 	this->restaurants = restaurants;
 }
 
+void Base::setTechnicians(priority_queue<Technician> tec) {
+	technicians = tec;
+}
+
 string Base::getRestaurantsFileName() const {
 	return restaurantsFileName;
 }
@@ -239,6 +246,10 @@ string Base::getWorkersFileName() const {
 
 string Base::getClientsFileName() const {
 	return clientsFileName;
+}
+
+string Base::getTechnicianFileName() const {
+	return technicianFileName;
 }
 
 string Base::getDistrict() const {
@@ -271,6 +282,10 @@ const vector<Restaurant*> & Base::getRestaurants() const {
 
 const map<int, Order*> & Base::getOrders() const {
 	return orders;
+}
+
+priority_queue<Technician> Base::getTechnicians() const {
+	return technicians;
 }
 
 //Visualizacao de Informacao

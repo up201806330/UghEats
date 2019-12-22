@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <tuple>
+#include <queue>
 #include "Address.h"
 #include "People.h"
 #include "Restaurant.h"
@@ -20,6 +21,7 @@ private:
 	string deliveriesFileName;
 	string workersFileName;
 	string clientsFileName;
+	string technicianFileName;
 	string district;
 	vector<string> areaOfInfluence;
 	Address address;
@@ -28,7 +30,7 @@ private:
 	vector<Worker*> workers;
 	Admin * admin;
 	vector<Client*> clients;
-
+	priority_queue<Technician> technicians;
 public:
 	Base();
 
@@ -90,6 +92,8 @@ public:
 	 */
 	void setClientsFileName(string str);
 
+	void setTechniciansFileName(string str);
+
 	/**
 	 * @brief Set the District object
 	 * 
@@ -139,6 +143,9 @@ public:
 	 */
 	void setRestaurants(vector<Restaurant*> restaurants);
 
+	void setTechnicians(priority_queue<Technician> tec);
+
+
 	/**
 	 * @brief Get the Restaurants File Name object
 	 * 
@@ -163,6 +170,9 @@ public:
 	 * @return string Clients file name
 	 */
 	string getClientsFileName() const;
+
+	string getTechnicianFileName() const;
+
 	/**
 	 * @brief Get the District object
 	 * 
@@ -217,6 +227,9 @@ public:
 	 * @return Delivery* Delivery man pointer
 	 */
 	Delivery* getDeliveryMan();
+
+
+	priority_queue<Technician> getTechnicians() const;
 
 	/**
 	 * @brief prints all clients' info in human friendly fashion

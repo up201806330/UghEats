@@ -30,9 +30,9 @@ void Vehicle::parse(string str){
 	type = parts.at(1);
 	registration_date.parse(parts.at(2));
 
-	license = parts.at(3);
-	trips = stoi(parts.at(4));
-	mileage = stoi(parts.at(5));
+	//license = parts.at(3);
+	//trips = stoi(parts.at(4));
+	//mileage = stoi(parts.at(5));
 }
 
 void Vehicle::set_registrationDate(Date_time data)
@@ -1070,7 +1070,39 @@ int Technician::get_maintenance() const
 	return maintenance;
 }
 
-bool Technician::operator<(Technician & tec)
+ void Technician::load(string path, Base * base)
+{
+	 ifstream technicians_text(path);
+	 try
+	 {
+		 if (!technicians_text.is_open())
+			 throw FileOpenErrorException(path);
+	 }
+	 catch (FileOpenErrorException & f)
+	 {
+		 cout << f;
+		 exit(0);
+	 }
+	 string textline;
+	 priority_queue<Technician> tec;
+	 while (getline(technicians_text, textline))
+	 {
+		 if (textline == ";")
+			 getline(technicians_text, textline);
+		 Technician tecnico;
+		 tecnico.set_name(textline);
+		 getline(technicians_text, textline);
+		 tecnico.set_NIF(stoi(textline));
+		 getline(technicians_text, textline);
+		 tecnico.set_availability(stoi(textline));
+		 getline(technicians_text, textline);
+		 tecnico.set_maintenance(stoi(textline));
+		 tec.push(tecnico);
+	 }
+	 base->setTechnicians(tec);
+}
+
+bool Technician::operator<(const Technician& tec) const
 {
 	if (availability == tec.availability)
 		return maintenance < tec.maintenance;

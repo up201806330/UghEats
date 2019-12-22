@@ -429,7 +429,9 @@ public:
 	void set_maintenance(int m);
 	int get_availability() const;
 	int get_maintenance() const;
-	bool operator<(Technician & tec);
+	static void load(string path, Base * base);
+	bool operator<(const Technician & tec) const;
+
 
 };
 
