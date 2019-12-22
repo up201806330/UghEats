@@ -206,8 +206,18 @@ void Base::setAddress(Address add) {
 	address = add;
 }
 
+/*
 void Base::setWorkers(vector<Worker*> workers) {
 	this->workers = workers;
+}
+*/
+
+void Base::setAdmins(unordered_set<Admin*> admins) {
+	this->admins = admins;
+}
+
+void Base::setDeliveryPeople(unordered_set<Delivery*> deliverers) {
+	this->deliveryPeople = deliverers;
 }
 
 void Base::setAdmin(Admin * administrador) {
@@ -264,8 +274,18 @@ Address Base::getAddress() const {
 	return address;
 }
 
+/*
 const vector<Worker*> & Base::getWorkers() const {
 	return workers;
+}
+*/
+
+const unordered_set<Admin*> Base::getAdmins() const {
+	return admins;
+}
+
+const unordered_set<Delivery*> Base::getDeliveryPeople() const {
+	return deliveryPeople;
 }
 
 Admin * Base::getAdmin() const {
