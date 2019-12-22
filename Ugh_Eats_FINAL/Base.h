@@ -115,12 +115,30 @@ public:
 	 * @param add Address
 	 */
 	void setAddress(Address add);
+
 	/**
 	 * @brief Set the Workers object
 	 * 
 	 * @param workers Workers
 	 */
+	/*
 	void setWorkers(vector<Worker*> workers);
+	*/
+
+	/**
+	 * @brief Set the Admins object
+	 * 
+	 * @param admins Administrators
+	 */
+	void setAdmins(unordered_set<Admin*> admins);
+
+	/**
+	 * @brief Set the Delivery People object
+	 * 
+	 * @param deliverers Delivery People
+	 */
+	void setDeliveryPeople(unordered_set<Delivery*> deliverers);
+
 	/**
 	 * @brief Set the Admin object
 	 * 
@@ -194,12 +212,30 @@ public:
 	 * @return Address Address
 	 */
 	Address getAddress() const;
+
 	/**
 	 * @brief Get the Workers object
 	 * 
 	 * @return const vector<Worker*>& Workers vector reference
 	 */
+	/*
 	const vector<Worker*> & getWorkers() const;
+	*/
+
+	/**
+	 * @brief Get the Admins object
+	 * 
+	 * @return const unordered_set<Admin*> Admins' unordered_set
+	 */
+	const unordered_set<Admin*> getAdmins() const;
+
+	/**
+	 * @brief Get the Delivery People object
+	 * 
+	 * @return const unordered_set<Delivery*> Delivery People's unordered_set
+	 */
+	const unordered_set<Delivery*> getDeliveryPeople() const;
+
 	/**
 	 * @brief Get the Admin object
 	 * 
