@@ -155,9 +155,9 @@ void Worker::load(string path, Base * base) {
 		exit(0);
 	}
 
-	unordered_set<Admin*> admins = readAdmins(workers_text);
+	unordered_set<Admin*> admins = Admin::readAdmins(workers_text);
 
-	unordered_set<Delivery*> deliverers = readDeliverers(workers_text);
+	unordered_set<Delivery*> deliverers = Delivery::readDeliverers(workers_text, base);
 }
 
 /*
@@ -257,42 +257,6 @@ double Worker::get_wage() const {
 	return wage;
 }
 
-unordered_set<Admin*> Admin::readAdmins(ifstream & workers_stream)
-{
-	unordered_set<Admin*> admins;
-	admins.reserve(10);
-
-	string textline;
-
-	while (getline(workers_stream, textline) && textline != MAIN_SEPARATOR) {
-
-		Admin a;
-		
-		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
-
-		a.set_name(textline);
-
-		getline(workers_stream, textline);
-		a.set_NIF(stoi(textline));
-
-		getline(workers_stream, textline);
-		Date_time d; d.parse(textline);
-		a.set_birthday(d);
-
-		getline(workers_stream, textline);
-		a.set_wage(stoi(textline));
-
-		getline(workers_stream, textline);
-		a.set_role(textline);
-
-		Admin * aPtr = new Admin;
-		*aPtr = a;
-		admins.insert(aPtr);
-	}
-
-	return admins;
-}
-
 void Worker::print(){
 
 	Person::print();
@@ -321,7 +285,41 @@ string Admin::get_role() const {
 	return role;
 }
 
+unordered_set<Admin*> Admin::readAdmins(ifstream & workers_stream)
+{
+	unordered_set<Admin*> admins;
+	admins.reserve(10);
 
+	string textline;
+
+	while (getline(workers_stream, textline) && textline != MAIN_SEPARATOR) {
+
+		Admin a;
+
+		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
+
+		a.set_name(textline);
+
+		getline(workers_stream, textline);
+		a.set_NIF(stoi(textline));
+
+		getline(workers_stream, textline);
+		Date_time d; d.parse(textline);
+		a.set_birthday(d);
+
+		getline(workers_stream, textline);
+		a.set_wage(stoi(textline));
+
+		getline(workers_stream, textline);
+		a.set_role(textline);
+
+		Admin * aPtr = new Admin;
+		*aPtr = a;
+		admins.insert(aPtr);
+	}
+
+	return admins;
+}
 
 void Admin::print() { 
 	Worker::print();
@@ -361,6 +359,43 @@ void Delivery::setDeliveryManPointerOnOrders()
 	for (it = history.begin(); it != history.end(); it++) {
 		(*it).second->getDeliver()->setDeliveryMan(this);
 	}
+}
+
+unordered_set<Delivery*> Delivery::readDeliverers(ifstream & workers_stream, Base * base) {
+
+	unordered_set<Delivery*> deliverers;
+	deliverers.reserve(20);
+
+	string textline;
+
+	while (getline(workers_stream, textline)) {
+
+		Delivery del;
+
+		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
+
+		del.set_name(textline);
+
+		getline(workers_stream, textline);
+		del.set_NIF(stoi(textline));
+
+		getline(workers_stream, textline);
+		Date_time d; d.parse(textline);
+		del.set_birthday(d);
+
+		getline(workers_stream, textline);
+		Vehicle v; v.parse(textline);
+		del.set_vehicle(v);
+
+		getline(workers_stream, textline);
+		del.set_history(base->findOrders(textline));
+
+		Delivery * delPtr = new Delivery;
+		*delPtr = del;
+		deliverers.insert(delPtr);
+	}
+
+	return deliverers;
 }
 
 void Delivery::print() {
