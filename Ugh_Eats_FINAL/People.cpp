@@ -1037,3 +1037,43 @@ bool operator<(const Vehicle & l, const Vehicle & r)
 	if (l.get_trips() == r.get_trips()) return l.get_mileage() < r.get_mileage();
 	else return l.get_trips() < r.get_trips();
 }
+
+
+Technician::Technician()
+{
+
+}
+
+Technician::~Technician()
+{
+
+}
+
+void Technician::set_availability(int a)
+{
+	availability = a;
+
+}
+
+void Technician::set_maintenance(int m)
+{
+	maintenance = m;
+}
+
+int Technician::get_availability() const
+{
+	return availability;
+}
+
+int Technician::get_maintenance() const
+{
+	return maintenance;
+}
+
+bool Technician::operator<(Technician & tec)
+{
+	if (availability == tec.availability)
+		return maintenance < tec.maintenance;
+	else
+		return availability > tec.availability;
+}

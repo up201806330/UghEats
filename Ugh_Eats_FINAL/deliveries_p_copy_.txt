@@ -1,8 +1,17 @@
 1
-Macdonal
+Pizza Hut
 3
 -
 01:01:2019:17:30
 01:01:2019:18:05
 pepperooni : Pizza : 7
 conk : Drink : 2
+;;;
+2
+Pizza Hut
+5
+-
+16:11:2019:11:25
+16:11:2019:12:04
+Buger : Hambruhger : 5
+Frie : Fast Food : 2

@@ -417,5 +417,21 @@ public:
 };
 
 
+class Technician : public Person
+{
+private:	
+	int availability;
+	int maintenance;
+public:
+	Technician();
+	~Technician();
+	void set_availability(int a);
+	void set_maintenance(int m);
+	int get_availability() const;
+	int get_maintenance() const;
+	bool operator<(Technician & tec);
+
+};
+
 
 #endif
