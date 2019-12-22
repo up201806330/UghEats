@@ -268,6 +268,12 @@ public:
 	 */
 	string get_role() const;
 
+	/**
+	 * @brief Read Admins from stream (which contains the information from the text file) to unordered_set
+	 * 
+	 * @param workers_stream ifstream of the .txt file's info
+	 * @return unordered_set<Admin*> 
+	 */
 	static unordered_set<Admin*> readAdmins(ifstream & workers_stream);
 
 	/**
@@ -324,6 +330,16 @@ public:
 	 * @return map<int, Order*> 
 	 */
 	map<int, Order*> get_history() const;
+
+	/**
+	 * @brief Read Deliverers from stream (which contains the information from the text file) to unordered_set
+	 * 
+	 * @param workers_stream ifstream of the .txt file's info
+	 * @param base 
+	 * @return unordered_set<Delivery*> 
+	 */
+	static unordered_set<Delivery*> readDeliverers(ifstream & workers_stream, Base * base);
+
 	/**
 	 * @brief Shows on screen the delivery mans attributes
 	 * 
