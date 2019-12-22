@@ -27,8 +27,11 @@ private:
 	Address address;
 	vector<Restaurant*> restaurants;
 	map<int, Order*> orders;
-	vector<Worker*> workers;
-	Admin * admin;
+	// vector<Worker*> workers;
+	unordered_set<Admin*> admins;
+	unordered_set<Delivery*> deliveryPeople;
+
+	Admin * admin; // TODO change to manager
 	vector<Client*> clients;
 	priority_queue<Technician> technicians;
 public:

@@ -96,6 +96,9 @@ double Vehicle::get_mileage() const
 	return mileage;
 }
 
+// Person Class Functions
+// ------------------------------------------------
+
 Person::Person()
 {
 
@@ -132,6 +135,9 @@ void Person::print()
 	cout << "NIF: " << NIF << endl;
 }
 
+// Worker Class Functions
+// ------------------------------------------------
+
 Worker::Worker() {
 }
 
@@ -139,6 +145,22 @@ Worker::~Worker() {
 
 }
 
+void Worker::load(string path, Base * base) {
+	ifstream workers_text(path);
+	try {
+		if (!workers_text.is_open()) throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f) {
+		cout << f;
+		exit(0);
+	}
+
+	unordered_set<Admin*> admins = readAdmins(workers_text);
+
+	unordered_set<Delivery*> deliverers = readDeliverers(workers_text);
+}
+
+/*
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
 	try
@@ -217,6 +239,7 @@ void Worker::load(string path, Base * base){
 
 	base->setWorkers(workers_vec);
 }
+*/
 
 void Worker::set_birthday(Date_time data) {
 	birthday = data;
@@ -234,6 +257,42 @@ double Worker::get_wage() const {
 	return wage;
 }
 
+unordered_set<Admin*> Admin::readAdmins(ifstream & workers_stream)
+{
+	unordered_set<Admin*> admins;
+	admins.reserve(10);
+
+	string textline;
+
+	while (getline(workers_stream, textline) && textline != MAIN_SEPARATOR) {
+
+		Admin a;
+		
+		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
+
+		a.set_name(textline);
+
+		getline(workers_stream, textline);
+		a.set_NIF(stoi(textline));
+
+		getline(workers_stream, textline);
+		Date_time d; d.parse(textline);
+		a.set_birthday(d);
+
+		getline(workers_stream, textline);
+		a.set_wage(stoi(textline));
+
+		getline(workers_stream, textline);
+		a.set_role(textline);
+
+		Admin * aPtr = new Admin;
+		*aPtr = a;
+		admins.insert(aPtr);
+	}
+
+	return admins;
+}
+
 void Worker::print(){
 
 	Person::print();
@@ -242,6 +301,9 @@ void Worker::print(){
 
 
 }
+
+// Admin Class Functions
+// ------------------------------------------------
 
 Admin::Admin() {
 
@@ -259,10 +321,15 @@ string Admin::get_role() const {
 	return role;
 }
 
+
+
 void Admin::print() { 
 	Worker::print();
 	cout << "Role: " << role << endl;
 }
+
+// Delivery Class Functions
+// ------------------------------------------------
 
 Delivery::Delivery() {
 
@@ -340,6 +407,9 @@ void Delivery::update_vehicle()
 	double n = 0.5 + (rand() % 100) / (10);
 	this->vehicle.set_mileage(vehicle.get_mileage() + n);
 }
+
+// Client Class Functions
+// ------------------------------------------------
 
 Client::Client() {
 
@@ -431,7 +501,6 @@ void Client::print() {
 		cout << endl;
 	}
 }
-
 
 
 void Client::edit(Base * base) {
@@ -610,7 +679,6 @@ void Client::edit(Base * base) {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
-
 
 void Client::make_order(Base * b) { 
 
@@ -1038,6 +1106,8 @@ bool operator<(const Vehicle & l, const Vehicle & r)
 	else return l.get_trips() < r.get_trips();
 }
 
+// Technician Class Functions
+// ------------------------------------------------
 
 Technician::Technician()
 {

@@ -2,6 +2,8 @@
 #define PEOPLE_H
 
 #include <vector>
+#include <unordered_set>
+
 #include "utils.h"
 #include "Date_time.h"
 #include "Address.h"
@@ -126,6 +128,7 @@ public:
 	double get_mileage() const;
 };
 
+
 class Person {
 protected:
 	string name;
@@ -175,6 +178,7 @@ public:
 	virtual void print();
 
 };
+
 
 class Worker : public Person {
 protected:
@@ -234,6 +238,7 @@ public:
 	virtual void print();
 };
 
+
 class Admin : public Worker {
 	string role;
 
@@ -263,12 +268,15 @@ public:
 	 */
 	string get_role() const;
 
+	static unordered_set<Admin*> readAdmins(ifstream & workers_stream);
+
 	/**
 	 * @brief Shows on screen the admins attributes
 	 * 
 	 */
 	void print();
 };
+
 
 class Delivery : public Worker {
 	Vehicle  vehicle;
@@ -331,6 +339,7 @@ public:
 
 	void update_vehicle();
 };
+
 
 class Client : public Person {
 	Address address;
