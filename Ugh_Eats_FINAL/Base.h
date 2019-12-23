@@ -405,11 +405,24 @@ public:
 	 */
 	void addWorker();
 
+	/**
+	 * @brief Add an Administrator to the Base
+	 * 
+	 */
 	void addAdmin();
 
-
+	/**
+	 * @brief Checks if the Base has Already a Manager
+	 * 
+	 * @return true if it does
+	 * @return false if it does not
+	 */
 	bool checkForManager();
 
+	/**
+	 * @brief Add a Delivery Person to the Base
+	 * 
+	 */
 	void addDeliverer();
 
 	/**
