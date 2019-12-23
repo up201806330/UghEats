@@ -79,23 +79,13 @@ vector<Base*> Base::load(string path) {
 		base.setDeliveriesFileName(textline);
 		Order::load(textline, &base);
 
-		/*
-		for (auto & x : base.getOrders()) {
-			cout << "ID: " << x->getID() << endl;
-		}
-		*/
-
 		getline(base_text, textline);
 		base.setWorkersFileName(textline);
 		Worker::load(textline, &base);
 
-		/*
-		for (int i = 0; i < base.getWorkers().size(); i++) {
-			cout << "Name: " << base.getWorkers().at(i)->get_name() << endl;
-		}
-		*/
-
-		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
+		Admin* manager = *(base.getAdmins().begin());
+		base.setAdmin(manager);
+		// base.getAdmins().begin());
 		
 
 		getline(base_text, textline);
@@ -486,6 +476,17 @@ void Base::seeOneRestaurant()
 }
 
 
+void Base::seeAllWorkers() {
+
+	cout << "ALL WORKERS" << endl << endl;
+	cout << "Administrators" << endl << endl;
+	seeAllAdmins();
+	cout << endl << endl;
+	cout << "Delivery People" << endl << endl;
+	seeAllDeliveryPeople();
+}
+
+/*
 void Base::seeAllWorkers()
 {
 
@@ -521,6 +522,7 @@ void Base::seeAllWorkers()
 	}
 
 }
+*/
 
 void Base::seeOneWorker()
 {
@@ -600,6 +602,7 @@ void Base::seeOneWorker()
 	cin.ignore(INT_MAX,'\n');
 }
 
+/*
 void Base::seeAllDeliverers()
 {
 	cout << "ALL DELIVERERS" << endl << endl;
@@ -614,7 +617,20 @@ void Base::seeAllDeliverers()
 
 	}
 }
+*/
 
+void Base::seeAllDeliveryPeople(int i = 1) {
+
+	cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
+	unordered_set<Delivery*>::iterator it = deliveryPeople.begin();
+
+	while (it != deliveryPeople.end()) {
+		cout << i++ << " ";
+		(*it)->print();
+	}
+}
+
+/*
 void Base::seeAllAdministrators()
 {
 	cout << "ALL ADMINISTRATORS" << endl << endl;
@@ -628,6 +644,19 @@ void Base::seeAllAdministrators()
 		}
 	}
 }
+*/
+
+void Base::seeAllAdmins(int i = 1) {
+
+	cout << "ALL ADMINISTRATORS" << endl << endl;
+	unordered_set<Admin*>::iterator it = admins.begin();
+
+	while (it != admins.end()) {
+		cout << i++ << " ";
+		(*it)->print();
+	}
+}
+
 
 void Base::seeAllOrders()
 {
@@ -710,7 +739,6 @@ void Base::seeOneOrder()
 	} while (retry);
 
 }
-
 
 void Base::seeProfits()
 {
