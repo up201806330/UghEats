@@ -304,7 +304,7 @@ public:
 	void seeAllWorkers(); 
 
 	/**
-	 * @brief Displays a Workers' Info in a Human Friendly Fashion
+	 * @brief Displays a Specific Workers' Info in a Human Friendly Fashion
 	 * 
 	 */
 	void seeOneWorker();

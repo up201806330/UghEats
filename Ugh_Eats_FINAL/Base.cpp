@@ -483,7 +483,7 @@ void Base::seeAllWorkers() {
 	seeAllAdmins();
 	cout << endl << endl;
 	cout << "Delivery People" << endl << endl;
-	seeAllDeliveryPeople();
+	seeAllDeliveryPeople(admins.size() + 1);
 }
 
 /*
@@ -524,6 +524,95 @@ void Base::seeAllWorkers()
 }
 */
 
+
+void Base::seeOneWorker() {
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "Pick the worker you want to see" << endl << endl;
+
+			cout << "Administrators" << endl << endl;
+			seeAllAdmins();
+			cout << endl << endl;
+			cout << "Delivery People" << endl << endl;
+			seeAllDeliveryPeople(admins.size() + 1);
+
+			cout << "0. Go Back" << endl << endl;
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(admins.size() + deliveryPeople.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	int counter;
+
+	// worker chosen was not an admin
+	if (answer > admins.size()) {
+		unordered_set<Delivery*>::iterator delIt = deliveryPeople.begin();
+		int offset = answer % admins.size();
+		counter = 0;
+		
+		while (counter < offset - 1) {
+			delIt++;
+			counter++;
+		}
+		(*delIt)->print();
+	}
+	// worker chosen was an admin
+	else {
+		unordered_set<Admin*>::iterator admIt = admins.begin();
+		counter = 0;
+
+		while (counter < answer - 1) {
+			admIt++;
+			counter++;
+		}
+		(*admIt)->print();
+	}
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+/*
 void Base::seeOneWorker()
 {
 
@@ -601,6 +690,7 @@ void Base::seeOneWorker()
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
 
 /*
 void Base::seeAllDeliverers()
