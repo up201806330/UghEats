@@ -155,9 +155,9 @@ void Worker::load(string path, Base * base) {
 		exit(0);
 	}
 
-	unordered_set<Admin*> admins = Admin::readAdmins(workers_text);
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins = Admin::readAdmins(workers_text);
 
-	unordered_set<Delivery*> deliverers = Delivery::readDeliverers(workers_text, base);
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers = Delivery::readDeliverers(workers_text, base);
 
 	base->setAdmins(admins);
 
@@ -289,9 +289,9 @@ string Admin::get_role() const {
 	return role;
 }
 
-unordered_set<Admin*> Admin::readAdmins(ifstream & workers_stream)
+unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_stream)
 {
-	unordered_set<Admin*> admins;
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
 	admins.reserve(10);
 
 	string textline;
@@ -365,9 +365,9 @@ void Delivery::setDeliveryManPointerOnOrders()
 	}
 }
 
-unordered_set<Delivery*> Delivery::readDeliverers(ifstream & workers_stream, Base * base) {
+unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery::readDeliverers(ifstream & workers_stream, Base * base) {
 
-	unordered_set<Delivery*> deliverers;
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers;
 	deliverers.reserve(20);
 
 	string textline;

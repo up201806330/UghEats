@@ -8,7 +8,7 @@
 #include "Date_time.h"
 #include "Address.h"
 #include "Exceptions.h"
-
+#include "hash_table.h"
 
 class Base;
 class Order;
@@ -272,9 +272,9 @@ public:
 	 * @brief Read Admins from stream (which contains the information from the text file) to unordered_set
 	 * 
 	 * @param workers_stream ifstream of the .txt file's info
-	 * @return unordered_set<Admin*> 
+	 * @return unordered_set<Admin*, hashAdmin, eqAdmin> 
 	 */
-	static unordered_set<Admin*> readAdmins(ifstream & workers_stream);
+	static unordered_set<Admin*, hashAdmin, eqAdmin> readAdmins(ifstream & workers_stream);
 
 	/**
 	 * @brief Shows on screen the admins attributes
@@ -336,9 +336,9 @@ public:
 	 * 
 	 * @param workers_stream ifstream of the .txt file's info
 	 * @param base 
-	 * @return unordered_set<Delivery*> 
+	 * @return unordered_set<Delivery*, hashDeliv, eqDeliv> 
 	 */
-	static unordered_set<Delivery*> readDeliverers(ifstream & workers_stream, Base * base);
+	static unordered_set<Delivery*, hashDeliv, eqDeliv> readDeliverers(ifstream & workers_stream, Base * base);
 
 	/**
 	 * @brief Shows on screen the delivery mans attributes

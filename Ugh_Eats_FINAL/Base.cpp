@@ -202,11 +202,11 @@ void Base::setWorkers(vector<Worker*> workers) {
 }
 */
 
-void Base::setAdmins(unordered_set<Admin*> admins) {
+void Base::setAdmins(unordered_set<Admin*, hashAdmin, eqAdmin> admins) {
 	this->admins = admins;
 }
 
-void Base::setDeliveryPeople(unordered_set<Delivery*> deliverers) {
+void Base::setDeliveryPeople(unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers) {
 	this->deliveryPeople = deliverers;
 }
 
@@ -270,11 +270,11 @@ const vector<Worker*> & Base::getWorkers() const {
 }
 */
 
-const unordered_set<Admin*> Base::getAdmins() const {
+const unordered_set<Admin*, hashAdmin, eqAdmin> Base::getAdmins() const {
 	return admins;
 }
 
-const unordered_set<Delivery*> Base::getDeliveryPeople() const {
+const unordered_set<Delivery*, hashDeliv, eqDeliv> Base::getDeliveryPeople() const {
 	return deliveryPeople;
 }
 
@@ -585,7 +585,7 @@ void Base::seeOneWorker() {
 
 	// worker chosen was not an admin
 	if (answer > admins.size()) {
-		unordered_set<Delivery*>::iterator delIt = deliveryPeople.begin();
+		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
 		int offset = answer % admins.size();
 		counter = 0;
 		
@@ -597,7 +597,7 @@ void Base::seeOneWorker() {
 	}
 	// worker chosen was an admin
 	else {
-		unordered_set<Admin*>::iterator admIt = admins.begin();
+		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
 		counter = 0;
 
 		while (counter < answer - 1) {
@@ -712,7 +712,7 @@ void Base::seeAllDeliverers()
 void Base::seeAllDeliveryPeople(int i = 1) {
 
 	cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
-	unordered_set<Delivery*>::iterator it = deliveryPeople.begin();
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
 
 	while (it != deliveryPeople.end()) {
 		cout << i++ << " ";
@@ -739,7 +739,7 @@ void Base::seeAllAdministrators()
 void Base::seeAllAdmins(int i = 1) {
 
 	cout << "ALL ADMINISTRATORS" << endl << endl;
-	unordered_set<Admin*>::iterator it = admins.begin();
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
 
 	while (it != admins.end()) {
 		cout << i++ << " ";
@@ -1436,6 +1436,7 @@ void Base::removeClient() {
 	cin.ignore(INT_MAX,'\n');
 }
 
+/*
 void Base::addWorker() {
 
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
@@ -1842,6 +1843,74 @@ void Base::addWorker() {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
+
+void Base::addWorker() {
+	
+	bool invalidWorkerType;
+	string strWorkerType;
+	int workerType;
+
+	do {
+		try {
+			invalidWorkerType = false;
+			cout << "Adding an Administrator or a Delivery person?" << endl;
+			cout << "1. Administrator" << endl;
+			cout << "2. Delivery" << endl;
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+
+			getline(cin, strWorkerType);
+
+			if (strWorkerType == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(strWorkerType))	throw InvalidNumberException(strWorkerType);
+			if (strWorkerType != "") {
+				if (InvalidOptions(2, stoi(strWorkerType))) throw InvalidOptionException(stoi(strWorkerType));
+			}
+			else {
+				invalidWorkerType = true;
+				utils::clear_screen();
+			}
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidWorkerType = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidWorkerType = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidWorkerType);
+
+	workerType = stoi(strWorkerType);
+
+	switch (workerType) {
+		case 1:
+			addAdmin();
+			break;
+		
+		case 2:
+			addDeliverer();
+			break;
+	}
+
+}
+
+void Base::addAdmin() {
+
+}
+
+void Base::addDeliverer() {
+}
 
 void Base::changeWorker() {
 
@@ -1852,9 +1921,6 @@ void Base::changeWorker() {
 	bool invalidOption = false;
 	string strWorkerChoice;
 	int workerChoice;
-
-
-
 
 	do {
 		invalidOption = false;
@@ -3170,7 +3236,7 @@ bool Base::orderWorkers()
 
 	return true;
 }
-/*
+
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
 	double priceLeft, priceRight;
 
@@ -3206,7 +3272,7 @@ bool Base::orderOrders()
 
 	return true;
 }
-*/
+
 
 void Base::searchForRestaurant()
 {

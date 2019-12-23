@@ -11,7 +11,7 @@
 #include "People.h"
 #include "Restaurant.h"
 #include "utils.h"
-
+#include "hash_table.h"
 
 using namespace std;
 
@@ -30,8 +30,8 @@ private:
 
 	// vector<Worker*> workers;
 
-	unordered_set<Admin*> admins;
-	unordered_set<Delivery*> deliveryPeople;
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliveryPeople;
 
 	Admin * admin; // TODO change to manager
 	vector<Client*> clients;
@@ -133,14 +133,14 @@ public:
 	 * 
 	 * @param admins Administrators
 	 */
-	void setAdmins(unordered_set<Admin*> admins);
+	void setAdmins(unordered_set<Admin*, hashAdmin, eqAdmin> admins);
 
 	/**
 	 * @brief Set the Delivery People object
 	 * 
 	 * @param deliverers Delivery People
 	 */
-	void setDeliveryPeople(unordered_set<Delivery*> deliverers);
+	void setDeliveryPeople(unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers);
 
 	/**
 	 * @brief Set the Admin object
@@ -228,16 +228,16 @@ public:
 	/**
 	 * @brief Get the Admins object
 	 * 
-	 * @return const unordered_set<Admin*> Admins' unordered_set
+	 * @return const unordered_set<Admin*, hashAdmin, eqAdmin> Admins' unordered_set
 	 */
-	const unordered_set<Admin*> getAdmins() const;
+	const unordered_set<Admin*, hashAdmin, eqAdmin> getAdmins() const;
 
 	/**
 	 * @brief Get the Delivery People object
 	 * 
-	 * @return const unordered_set<Delivery*> Delivery People's unordered_set
+	 * @return const unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery People's unordered_set
 	 */
-	const unordered_set<Delivery*> getDeliveryPeople() const;
+	const unordered_set<Delivery*, hashDeliv, eqDeliv> getDeliveryPeople() const;
 
 	/**
 	 * @brief Get the Admin object
@@ -400,15 +400,21 @@ public:
 	void removeClient();
 
 	/**
-	 * @brief add worker to bases' vector of workers
+	 * @brief Add a Worker to the Base
 	 * 
 	 */
 	void addWorker();
+
+	void addAdmin();
+
+	void addDeliverer();
+
 	/**
 	 * @brief edits select worker
 	 * 
 	 */
 	void changeWorker();
+
 	/**
 	 * @brief removes select worker
 	 * 
@@ -452,7 +458,7 @@ public:
 	 * @return false otherwise
 	 */
 	bool orderWorkers();
-	//bool orderOrders(); //lmao dont delete this may be useful
+	bool orderOrders(); //lmao dont delete this may be useful
 
 
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
