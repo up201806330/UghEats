@@ -407,6 +407,9 @@ public:
 
 	void addAdmin();
 
+
+	bool checkForManager();
+
 	void addDeliverer();
 
 	/**

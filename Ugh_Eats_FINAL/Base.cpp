@@ -1907,13 +1907,184 @@ void Base::addWorker() {
 
 void Base::addAdmin() {
 
+	Admin a;
+
+	utils::clear_screen();
+
+	cout << "Administrator Sign In" << endl << endl;
+
+	bool managerExists = checkForManager();
+	bool invalidManagerInput = false;
+	string strManagerInput;
+	int managerInput;
+
+	bool invalidRoleInput = false;
+	string roleInput;
+
+	// Role Input
+	if (!managerExists) {
+		do {
+			invalidManagerInput = false;
+
+			cout << "Is this Administrator the Manager? " << endl;
+			cout << "1. Yes" << endl;
+			cout << "2. No" << endl;
+			cout << ">> ";
+			getline(cin, strManagerInput);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
+			try {
+				if (!isNumber(strManagerInput)) throw InvalidNumberException(strManagerInput);
+				managerInput = stoi(strManagerInput);
+
+				if (strManagerInput != "") {
+					if (InvalidOptions(2, managerExists)) throw InvalidOptionException(managerExists);
+				}
+				else {
+					invalidManagerInput = true;
+					utils::clear_screen();
+				}
+			}
+			catch (InvalidOptionException & o) {
+				invalidManagerInput = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s) {
+				invalidManagerInput = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+
+			cout << endl;
+		} while (invalidManagerInput);
+	}
+
+	if (managerInput == 1) a.set_role("manager");
+
+	else {
+		do {
+			try {
+				invalidRoleInput = false;
+				cout << "Role: ";
+				getline(cin, roleInput);
+				if (!isString(roleInput)) throw InvalidStringException(roleInput);
+
+				// if it is not manager then it can't be manager
+				if (roleInput == "manager") {
+					invalidRoleInput = true;
+				}
+
+				cout << endl;
+			}
+
+			catch (InvalidStringException & s) {
+				invalidRoleInput = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (invalidRoleInput);
+
+		a.set_role(roleInput);
+	}
+
+
+
+	// Name Input
+	bool invalidName;
+	string name;
+	do {
+		try {
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name)) throw InvalidStringException(name);
+			cout << endl;
+		}
+		catch (InvalidStringException & s) {
+			invalidName = true;
+			cout << s;
+			cout << "Try Again" << endl << endl;
+		}
+
+	} while (invalidName);
+
+	// Nif Input
+	bool invalidNif;
+	string strNif;
+	do {
+		invalidNif = false;
+
+		cout << "NIF: ";
+		getline(cin, strNif);
+
+		try {
+			if (!isNumber(strNif) || strNif.size() != 9) throw InvalidNIFException(strNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalidNif = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidNif);
+
+	// Birth day Input
+	bool invalidBirthday;
+	Date_time birthday;
+	bool teste;
+	do {
+		invalidBirthday = false;
+
+		string fullBirthday;
+		cout << "Birthday: ";
+		getline(cin, fullBirthday);
+
+		try {
+			teste = birthday.parse(fullBirthday);
+			if (!teste || !isDateValid(birthday)) throw InvalidDateException(fullBirthday);
+		}
+		catch (InvalidDateException & d) {
+			invalidBirthday = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidBirthday);
+	
+	Admin * adminPtr = new Admin;
+	*adminPtr = a;
+
+	auto pair_ = admins.insert(adminPtr);
+
+	// If Error in Insertion, the admin was already "in the system"
+	if (pair_.second == false) {
+		cout << "Error In Sign In" << endl;
+	}
+}
+
+bool Base::checkForManager() {
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
+
+	while (it != admins.end()) {
+		if ((*it)->get_role() == "manager") return true;
+	}
+
+	return false;
 }
 
 void Base::addDeliverer() {
 }
 
 void Base::changeWorker() {
-
 	Admin *adminCheck;
 	Delivery *deliveryCheck;
 	int firstDeliveryIndex = 0;
@@ -1921,7 +2092,6 @@ void Base::changeWorker() {
 	bool invalidOption = false;
 	string strWorkerChoice;
 	int workerChoice;
-
 	do {
 		invalidOption = false;
 		foundFirstDelivery = false;
