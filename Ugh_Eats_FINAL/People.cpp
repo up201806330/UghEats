@@ -158,6 +158,10 @@ void Worker::load(string path, Base * base) {
 	unordered_set<Admin*> admins = Admin::readAdmins(workers_text);
 
 	unordered_set<Delivery*> deliverers = Delivery::readDeliverers(workers_text, base);
+
+	base->setAdmins(admins);
+
+	base->setDeliveryPeople(deliverers);
 }
 
 /*
