@@ -432,13 +432,15 @@ public:
 	 */
 	Vehicle newVehicle();
 
-
-
 	/**
-	 * @brief edits select worker
+	 * @brief Changes some Information about a Specific Worker
 	 * 
 	 */
 	void changeWorker();
+
+	Delivery changeDeliveryPerson(Delivery d);
+
+	Admin changeAdmin(Admin a);
 
 	/**
 	 * @brief removes select worker
