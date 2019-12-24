@@ -3044,7 +3044,99 @@ void Base::changeWorker() {
 	cin.ignore(INT_MAX, '\n');
 }
 
+string Base::changeName(string currentName) {
+
+	bool invalid;
+	string newName;
+
+	do {
+		invalid = false;
+
+		try {
+			cout << "Current Name: " << currentName << endl;
+			cout << "Updated Name: ";
+			getline(cin, newName);
+			if (!isString(newName)) throw InvalidStringException(newName);
+		}
+
+		catch (InvalidStringException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+	
+	cout << endl; 
+
+	return newName;
+}
+
+int Base::changeNif(int currentNif) {
+
+	bool invalid;
+	string strNewNif;
+
+	do {
+		invalid = false;
+
+		cout << "Current Nif: " << currentNif << endl;
+		cout << "Updated Nif: ";
+		getline(cin, strNewNif);
+
+		try {
+			if (!isNumber(strNewNif) || strNewNif.size() != 9)
+				throw InvalidNIFException(strNewNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalid = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	
+	} while (invalid);
+
+	cout << endl;
+
+	return stoi(strNewNif);
+}
+
+Date_time Base::changeBirthday(Date_time currentBday) {
+
+	bool invalid, noParseError;
+	string fullBirthday;
+	Date_time newBday;
+
+	do {
+		invalid = false;
+
+		cout << "Current Birthday: " << currentBday << endl;
+		cout << "Updated Birthday: ";
+		getline(cin, fullBirthday);
+		
+		try {
+			noParseError = newBday.parse(fullBirthday);
+			if (!noParseError || !isDateValid(newBday)) throw InvalidDateException(fullBirthday);
+		}
+
+		catch (InvalidDateException & d) {
+			invalid = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	cout << endl;
+
+	return newBday;
+}
+
+
 Delivery Base::changeDeliveryPerson(Delivery d) {
+	
+
 	return Delivery();
 }
 
