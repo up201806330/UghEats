@@ -426,6 +426,15 @@ public:
 	void addDeliverer();
 
 	/**
+	 * @brief Creates a Vehicle Object (and returns it)
+	 * 
+	 * @return Vehicle 
+	 */
+	Vehicle newVehicle();
+
+
+
+	/**
 	 * @brief edits select worker
 	 * 
 	 */
