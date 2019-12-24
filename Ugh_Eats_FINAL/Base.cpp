@@ -2279,6 +2279,7 @@ Vehicle Base::newVehicle() {
 	return v;
 }
 
+/*
 void Base::changeWorker() {
 	Admin *adminCheck;
 	Delivery *deliveryCheck;
@@ -2882,10 +2883,10 @@ void Base::changeWorker() {
 				cout << "Updated Registration Date: ";
 				getline(cin, strNewRegistDate);
 
-				/*				if (cin.eof()) {
-									cin.clear();
-									return;
-								}*/
+								//if (cin.eof()) {
+								//	cin.clear();
+								//	return;
+								//}
 
 				try {
 					teste = newRegistDate.parse(strNewRegistDate);
@@ -2915,6 +2916,141 @@ void Base::changeWorker() {
 	cout << ">> ";
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
+}
+*/
+
+void Base::changeWorker() {
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "Pick the worker you want to change" << endl << endl;
+
+			cout << "Administrators" << endl << endl;
+			seeAllAdmins();
+			cout << endl << endl;
+			cout << "Delivery People" << endl << endl;
+			seeAllDeliveryPeople(admins.size() + 1);
+
+			cout << "0. Go Back" << endl << endl;
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(admins.size() + deliveryPeople.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	int counter;
+
+	// worker chosen was not an admin
+	if (answer > admins.size()) {
+		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
+		int offset = answer % admins.size();
+		counter = 0;
+
+		while (counter < offset - 1) {
+			delIt++;
+			counter++;
+		}
+
+		Delivery delivPerson = **delIt;
+
+		deliveryPeople.erase(delIt);
+
+		Delivery d = changeDeliveryPerson(delivPerson);
+
+		Delivery * dPtr = new Delivery;
+		*dPtr = d;
+
+		auto pair_1 = deliveryPeople.insert(dPtr);
+
+		// If an Error Occured
+		if (pair_1.second == false) {
+			cout << "\nError In Changes" << endl;
+		}
+		else {
+			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
+		}
+
+
+	}
+	// worker chosen was an admin
+	else {
+		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
+		counter = 0;
+
+		while (counter < answer - 1) {
+			admIt++;
+			counter++;
+		}
+
+		Admin administrator = **admIt;
+		
+		admins.erase(admIt);
+
+		Admin a = changeAdmin(administrator);
+
+		Admin * aPtr = new Admin;
+		*aPtr = a;
+
+		auto pair_2 = admins.insert(aPtr);
+
+		// If an Error Occured
+		if (pair_2.second == false) {
+			cout << "\nError In Changes" << endl;
+		}
+		else {
+			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
+		}
+	}
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+Delivery Base::changeDeliveryPerson(Delivery d) {
+	return Delivery();
+}
+
+Admin Base::changeAdmin(Admin a)
+{
+	return Admin();
 }
 
 void Base::removeWorker() {
