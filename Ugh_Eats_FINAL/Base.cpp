@@ -1992,20 +1992,19 @@ void Base::addAdmin() {
 
 		a.set_role(roleInput);
 	}
-
-
-
+	
 	// Name Input
 	bool invalidName;
 	string name;
 	do {
-		try {
+		try{
 			invalidName = false;
 			cout << "Name: ";
 			getline(cin, name);
 			if (!isString(name)) throw InvalidStringException(name);
 			cout << endl;
 		}
+
 		catch (InvalidStringException & s) {
 			invalidName = true;
 			cout << s;
@@ -2013,6 +2012,7 @@ void Base::addAdmin() {
 		}
 
 	} while (invalidName);
+	a.set_name(name);
 
 	// Nif Input
 	bool invalidNif;
@@ -2035,6 +2035,8 @@ void Base::addAdmin() {
 
 		cout << endl;
 	} while (invalidNif);
+
+	a.set_NIF(stoi(strNif));
 
 	// Birth day Input
 	bool invalidBirthday;
@@ -2060,6 +2062,8 @@ void Base::addAdmin() {
 		cout << endl;
 	} while (invalidBirthday);
 	
+	a.set_birthday(birthday);
+
 	Admin * adminPtr = new Admin;
 	*adminPtr = a;
 
@@ -2069,6 +2073,13 @@ void Base::addAdmin() {
 	if (pair_.second == false) {
 		cout << "Error In Sign In" << endl;
 	}
+	else {
+		cout << "\nWorker successfully added! (Enter to continue)" << endl;
+	}
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
 }
 
 bool Base::checkForManager() {
@@ -2082,6 +2093,190 @@ bool Base::checkForManager() {
 }
 
 void Base::addDeliverer() {
+
+	Delivery del;
+	Vehicle veh;
+
+	utils::clear_screen();
+
+	cout << "Delivery Person Sign In" << endl << endl;
+	
+	// Name Input
+	bool invalidName;
+	string name;
+	do {
+		try {
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name)) throw InvalidStringException(name);
+			cout << endl;
+		}
+
+		catch (InvalidStringException & s) {
+			invalidName = true;
+			cout << s;
+			cout << "Try Again" << endl << endl;
+		}
+
+	} while (invalidName);
+	del.set_name(name);
+
+	// Nif Input
+	bool invalidNif;
+	string strNif;
+	do {
+		invalidNif = false;
+
+		cout << "NIF: ";
+		getline(cin, strNif);
+
+		try {
+			if (!isNumber(strNif) || strNif.size() != 9) throw InvalidNIFException(strNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalidNif = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidNif);
+
+	del.set_NIF(stoi(strNif));
+
+	// Birth day Input
+	bool invalidBirthday;
+	Date_time birthday;
+	bool teste;
+	do {
+		invalidBirthday = false;
+
+		string fullBirthday;
+		cout << "Birthday: ";
+		getline(cin, fullBirthday);
+
+		try {
+			teste = birthday.parse(fullBirthday);
+			if (!teste || !isDateValid(birthday)) throw InvalidDateException(fullBirthday);
+		}
+		catch (InvalidDateException & d) {
+			invalidBirthday = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidBirthday);
+
+	del.set_birthday(birthday);
+
+
+	veh = newVehicle();
+
+	Vehicle * vehiclePtr = new Vehicle;
+	*vehiclePtr = veh;
+	del.set_vehicle(veh);
+
+	Delivery * delivPtr = new Delivery;
+	*delivPtr = del;
+
+
+	auto pair_ = deliveryPeople.insert(delivPtr);
+
+	// If Error in Insertion, the admin was already "in the system"
+	if (pair_.second == false) {
+		cout << "\nError In Sign In" << endl;
+	}
+	else {
+		cout << "\nWorker successfully added! (Enter to continue)" << endl;
+	}
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+Vehicle Base::newVehicle() {
+
+	Vehicle v;
+
+	// Vehicle Brand
+	bool retry = true;
+	string vehicleBrand;
+	
+	do {
+		try {
+			retry = false;
+			cout << "Vehicle Brand: ";
+			getline(cin, vehicleBrand);
+			if (!isString(vehicleBrand)) throw InvalidStringException(vehicleBrand);
+		}
+		catch (InvalidStringException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	v.set_brand(vehicleBrand);
+
+	cout << endl;
+
+	// Vehicle Type
+	string vehicleType;
+
+	do {
+		try {
+			retry = false;
+			cout << "Vehicle Type: ";
+			getline(cin, vehicleType);
+			if (!isString(vehicleType)) throw InvalidStringException(vehicleType);
+		}
+
+		catch (InvalidStringException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	v.set_type(vehicleType);
+
+	cout << endl;
+	
+	// Vehicle Registration Date
+	bool invalidRegistrationDate = false;
+	bool checkValid;
+	string strRegistrationDate;
+	Date_time registrationDate;
+
+	do {
+		invalidRegistrationDate = false;
+		cout << "Registration Date: ";
+		getline(cin, strRegistrationDate);
+
+		try {
+			checkValid = registrationDate.parse(strRegistrationDate);
+			if (!checkValid || !isDateValid(registrationDate))
+				throw InvalidDateException(strRegistrationDate);
+		}
+
+		catch (InvalidDateException & d) {
+			invalidRegistrationDate = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidRegistrationDate);
+
+	v.set_registrationDate(registrationDate);
+
+	return v;
 }
 
 void Base::changeWorker() {
