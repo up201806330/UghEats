@@ -438,6 +438,9 @@ public:
 	 */
 	void changeWorker();
 
+	// ------------------------------------------
+	// Attributes to change
+
 	/**
 	 * @brief Receives the Current Name and Returns the Updated Name
 	 * 
@@ -462,8 +465,33 @@ public:
 	 */
 	Date_time changeBirthday(Date_time currentBday);
 
+	/**
+	 * @brief Receives the Current Wage and Returns the Updated Wage
+	 * 
+	 * @param currentWage 
+	 * @return double 
+	 */
+	double changeWage(double currentWage);
+
+	/**
+	 * @brief Receives the Current Role and Returns the Updated Role
+	 * 
+	 * @param currentRole 
+	 * @param managerExists Prevents an Administrator from Changing his Role to Manager if a Manager Already Exists on the Base 
+	 * @return string 
+	 */
+	string changeRole(string currentRole, bool managerExists);
+
+	// ------------------------------------------
+
 	Delivery changeDeliveryPerson(Delivery d);
 
+	/**
+	 * @brief Receives an Administrator Object, Updates it and Returns it 
+	 * 
+	 * @param a Administrator Object
+	 * @return Admin 
+	 */
 	Admin changeAdmin(Admin a);
 
 	/**
