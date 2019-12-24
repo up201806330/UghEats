@@ -2998,11 +2998,12 @@ void Base::changeWorker() {
 		*dPtr = d;
 
 		auto pair_1 = deliveryPeople.insert(dPtr);
-
+		
 		// If an Error Occured
 		if (pair_1.second == false) {
 			cout << "\nError In Changes" << endl;
 		}
+
 		else {
 			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
 		}
@@ -3011,6 +3012,7 @@ void Base::changeWorker() {
 	}
 	// worker chosen was an admin
 	else {
+
 		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
 		counter = 0;
 
@@ -3020,7 +3022,7 @@ void Base::changeWorker() {
 		}
 
 		Admin administrator = **admIt;
-		
+
 		admins.erase(admIt);
 
 		Admin a = changeAdmin(administrator);
@@ -3037,8 +3039,9 @@ void Base::changeWorker() {
 		else {
 			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
 		}
-	}
 
+	}
+	
 	cout << "\n>> ";
 	cin.clear();
 	cin.ignore(INT_MAX, '\n');
@@ -3133,6 +3136,67 @@ Date_time Base::changeBirthday(Date_time currentBday) {
 	return newBday;
 }
 
+double Base::changeWage(double currentWage) {
+
+	bool invalid;
+	string strNewWage;
+
+	do {
+		invalid = false;
+
+		cout << "Current Wage: " << currentWage << endl;
+		cout << "Updated Wage: ";
+		getline(cin, strNewWage);
+
+		try {
+			if (!isNumber(strNewWage)) throw InvalidNumberException(strNewWage);
+		}
+
+		catch (InvalidNumberException & n) {
+			invalid = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	cout << endl;
+
+	return stod(strNewWage);
+}
+
+string Base::changeRole(string currentRole, bool managerExists) {
+
+	bool invalid;
+	string newRole;
+
+	do {
+		try {
+			invalid = false;
+			cout << "Current role: " << currentRole << endl;
+			cout << "Updated role: ";
+			getline(cin, newRole);
+
+			if (!isString(newRole)) throw InvalidStringException(newRole);
+
+			if (newRole == "manager" && managerExists) {
+				invalid = true;
+				cout << "There is already a manager in this base" << endl;
+			}
+
+		}
+
+		catch (InvalidStringException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	return newRole;
+}
+
 
 Delivery Base::changeDeliveryPerson(Delivery d) {
 	
@@ -3149,6 +3213,8 @@ Admin Base::changeAdmin(Admin a) {
 	list<string>::iterator optionsIt;
 	string strAdminAttributeChoice;
 	int adminAttributeChoice;
+
+	bool managerExists = checkForManager();
 
 	do {
 		index = 0;
@@ -3211,16 +3277,14 @@ Admin Base::changeAdmin(Admin a) {
 
 		// Wage
 		case 4:
-			// TODO
+			a.set_wage( changeWage(a.get_wage()) );
 			break;
 
 		// Role
 		case 5:
-			// TODO
+			a.set_role( changeRole(a.get_role(), managerExists) );
 			break;
-
 	}
-
 
 	return a;
 }
