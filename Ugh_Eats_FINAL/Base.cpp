@@ -3140,9 +3140,89 @@ Delivery Base::changeDeliveryPerson(Delivery d) {
 	return Delivery();
 }
 
-Admin Base::changeAdmin(Admin a)
-{
-	return Admin();
+Admin Base::changeAdmin(Admin a) {
+
+	list<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
+	
+	bool invalid;
+	int index;
+	list<string>::iterator optionsIt;
+	string strAdminAttributeChoice;
+	int adminAttributeChoice;
+
+	do {
+		index = 0;
+		invalid = false;
+
+		cout << "Pick the field you want to change information of:" << endl;
+
+		for (optionsIt = adminOptions.begin(); optionsIt != adminOptions.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strAdminAttributeChoice);
+
+			if (!isNumber(strAdminAttributeChoice)) throw InvalidNumberException(strAdminAttributeChoice);
+
+			if (strAdminAttributeChoice != "") {
+				adminAttributeChoice = stoi(strAdminAttributeChoice);
+				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) throw InvalidOptionException(adminAttributeChoice);
+			}
+
+			else {
+				invalid = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			invalid = true;
+			cout << o;
+			cout << "Try Again!" << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	
+	} while (invalid);
+
+
+	switch (adminAttributeChoice) {
+
+		// Name
+		case 1:
+			a.set_name( changeName(a.get_name()) );
+			break;
+
+		// Nif
+		case 2:
+			a.set_NIF( changeNif(a.get_NIF()) );
+			break;
+
+		// Birthday
+		case 3:
+			a.set_birthday( changeBirthday(a.get_birthday()) );
+			break;
+
+		// Wage
+		case 4:
+			// TODO
+			break;
+
+		// Role
+		case 5:
+			// TODO
+			break;
+
+	}
+
+
+	return a;
 }
 
 void Base::removeWorker() {
