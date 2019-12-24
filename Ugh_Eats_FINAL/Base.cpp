@@ -3039,13 +3039,14 @@ void Base::changeWorker() {
 		else {
 			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
 		}
-
 	}
+
 	
 	cout << "\n>> ";
 	cin.clear();
 	cin.ignore(INT_MAX, '\n');
 }
+
 
 string Base::changeName(string currentName) {
 
@@ -3197,11 +3198,111 @@ string Base::changeRole(string currentRole, bool managerExists) {
 	return newRole;
 }
 
+Vehicle Base::changeVehicle(Vehicle currentVehicle) {
+
+	cout << "Current Vehicle" << endl;
+
+	cout << "Vehicle Brand: " << currentVehicle.get_brand() << endl;
+	cout << "Vehicle Type: " << currentVehicle.get_type() << endl;
+	cout << "Vehicle Registration Date: " << currentVehicle.get_registration_date() << endl;
+
+	cout << endl << endl;
+	Vehicle newVehicle = Base::newVehicle();
+
+	return newVehicle;
+}
+
+map<int, Order*> Base::changeHistory(map<int, Order*> currentHistory) {
+	
+	map<int, Order*> newHistory;
+	
+
+	return newHistory;
+}
+
 
 Delivery Base::changeDeliveryPerson(Delivery d) {
 	
+	list<string> delivOptions = { "Name", "Nif", "Birthday", "Vehicle", "Delivery History" };
 
-	return Delivery();
+	bool invalid;
+	int index;
+	list<string>::iterator optionsIt;
+	string strDelivAttributeChoice;
+	int delivAttributeChoice;
+
+	do {
+		index = 0;
+		invalid = false;
+
+		cout << "Pick the field you want to change information of:" << endl;
+
+		for (optionsIt = delivOptions.begin(); optionsIt != delivOptions.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strDelivAttributeChoice);
+
+			if (!isNumber(strDelivAttributeChoice)) throw InvalidNumberException(strDelivAttributeChoice);
+
+			if (strDelivAttributeChoice != "") {
+				delivAttributeChoice = stoi(strDelivAttributeChoice);
+				if (InvalidOptions(delivOptions.size(), delivAttributeChoice)) throw InvalidOptionException(delivAttributeChoice);
+			}
+
+			else {
+				invalid = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			invalid = true;
+			cout << o;
+			cout << "Try Again!" << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+
+	switch (delivAttributeChoice) {
+
+		// Name
+		case 1:
+			d.set_name(changeName(d.get_name()));
+			break;
+
+		// Nif
+		case 2:
+			d.set_NIF(changeNif(d.get_NIF()));
+			break;
+
+		// Birthday
+		case 3:
+			d.set_birthday(changeBirthday(d.get_birthday()));
+			break;
+
+		// Vehicle
+		case 4:
+			d.set_vehicle(changeVehicle(d.get_vehicle()));
+			break;
+
+		// Delivery History
+		case 5:
+			d.set_history(changeHistory(d.get_history()));
+			d.set_wage(d.calculate_wage());
+			break;
+	}
+
+	return d;
 }
 
 Admin Base::changeAdmin(Admin a) {
