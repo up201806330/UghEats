@@ -482,8 +482,24 @@ public:
 	 */
 	string changeRole(string currentRole, bool managerExists);
 
+	/**
+	 * @brief Receives the Current Vehicle and Returns the Updated Vehicle
+	 * 
+	 * @param currentVehicle 
+	 * @return Vehicle 
+	 */
+	Vehicle changeVehicle(Vehicle currentVehicle);
+
+	map<int, Order*> changeHistory(map<int, Order*> currentHistory);
+
 	// ------------------------------------------
 
+	/**
+	 * @brief Receives a Delivery (Person) Object, Updates it and Returns it 
+	 * 
+	 * @param d Delivery (Person) Object
+	 * @return Delivery 
+	 */
 	Delivery changeDeliveryPerson(Delivery d);
 
 	/**
