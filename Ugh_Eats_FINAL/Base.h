@@ -438,6 +438,30 @@ public:
 	 */
 	void changeWorker();
 
+	/**
+	 * @brief Receives the Current Name and Returns the Updated Name
+	 * 
+	 * @param currentName 
+	 * @return string 
+	 */
+	string changeName(string currentName);
+
+	/**
+	 * @brief Receives the Current Nif and Returns the Updated Nif
+	 * 
+	 * @param currentNif 
+	 * @return int 
+	 */
+	int changeNif(int currentNif);
+
+	/**
+	 * @brief Receives the Current Birthday and Returns the Updated Birthday
+	 * 
+	 * @param currentBday 
+	 * @return Date_time 
+	 */
+	Date_time changeBirthday(Date_time currentBday);
+
 	Delivery changeDeliveryPerson(Delivery d);
 
 	Admin changeAdmin(Admin a);
