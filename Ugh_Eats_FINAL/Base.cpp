@@ -525,6 +525,7 @@ void Base::seeAllWorkers()
 */
 
 
+
 void Base::seeOneWorker() {
 
 	bool retry = true;
@@ -4422,6 +4423,7 @@ void Base::searchForCuisineTypes()
 
 }
 
+/*
 Delivery* Base::getDeliveryMan()
 {
 	//buscar o delivery man c menos historial feito
@@ -4447,8 +4449,28 @@ Delivery* Base::getDeliveryMan()
 	}
 	return result;
 }
+*/
 
+Delivery * Base::getDeliveryMan() {
 
+	if (deliveryPeople.size() == 0) return nullptr;
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	Delivery * minDeliv = (*delivIt);
+
+	while (delivIt != deliveryPeople.end()) {
+		
+		if ((*delivIt)->get_history().size() < ((*minDeliv).get_history().size())) {
+			minDeliv = (*delivIt);
+		}
+
+		delivIt++;
+
+	}
+
+	return minDeliv;
+}
 
 void Base::writeRestaurantsFile(string fileName) {
 
