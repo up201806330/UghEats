@@ -567,24 +567,28 @@ public:
 	 * @param fileName Restaurants file name
 	 */
 	void writeRestaurantsFile(string fileName);
+
 	/**
 	 * @brief Write current deliveries objects to the file
 	 * 
 	 * @param fileName Deliveries file name
 	 */
 	void writeDeliveriesFile(string fileName);
+
 	/**
-	 * @brief Write current workers objects to the file
+	 * @brief Write the Current Workers' Information to the Respective File
 	 * 
-	 * @param fileName Workers file name
+	 * @param fileName Workers File Name to Write
 	 */
 	void writeWorkersFile(string fileName);
+
 	/**
 	 * @brief Write current clients objects to the file
 	 * 
 	 * @param fileName Clients file name
 	 */
 	void writeClientsFile(string fileName);
+
 	/**
 	 * @brief Call all write to file functions
 	 * 
