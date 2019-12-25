@@ -4448,6 +4448,7 @@ void Base::writeDeliveriesFile(string fileName) {
 	deliveriesFileInput.close();
 }
 
+/*
 void Base::writeWorkersFile(string fileName) {
 
 	ofstream workersFileInput(fileName);
@@ -4539,6 +4540,97 @@ void Base::writeWorkersFile(string fileName) {
 			workersFileInput << endl;
 		}
 	}
+	workersFileInput.close();
+}
+*/
+
+void Base::writeWorkersFile(string fileName) {
+
+	ofstream workersFileInput(fileName);
+
+	try {
+		if (workersFileInput.fail()) throw FileOpenErrorException(fileName);
+	}
+
+	catch (FileOpenErrorException & f) {
+		cout << f;
+		exit(0);
+	}
+
+	bool firstAdmin = true;
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator adminIt = admins.begin();
+
+	while (adminIt != admins.end()) {
+
+		if (firstAdmin) firstAdmin = false;
+		else workersFileInput << ";" << endl;
+
+		workersFileInput << (*adminIt)->get_name() << endl;
+		workersFileInput << (*adminIt)->get_NIF() << endl;
+
+		workersFileInput << (*adminIt)->get_birthday().getDay() << endl;
+		workersFileInput << ":";
+		workersFileInput << (*adminIt)->get_birthday().getMonth() << endl;
+		workersFileInput << ":";
+		workersFileInput << (*adminIt)->get_birthday().getYear() << endl;
+
+		workersFileInput << (*adminIt)->get_wage() << endl;
+		workersFileInput << (*adminIt)->get_role() << endl;
+
+	}
+
+	workersFileInput << ";;;" << endl;
+
+	bool firstDeliv = true;
+	bool firstOrder = true;
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	while (delivIt != deliveryPeople.end()) {
+		
+		if (firstDeliv) firstDeliv = false;
+		else workersFileInput << ";" << endl;
+
+		workersFileInput << (*delivIt)->get_name() << endl;
+		workersFileInput << (*delivIt)->get_NIF() << endl;
+
+		workersFileInput << (*delivIt)->get_birthday().getDay();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_birthday().getMonth();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_birthday().getYear();
+
+		workersFileInput << endl;
+
+		workersFileInput << (*delivIt)->get_vehicle().get_brand();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_type();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getDay();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getMonth();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getYear();
+		
+		workersFileInput << endl;
+
+		if ((*delivIt)->get_history().size() == 0) workersFileInput << "-";
+
+		else {
+			for (auto & order : (*delivIt)->get_history()) {
+				if (firstOrder) firstOrder = false;
+				
+				else workersFileInput << " : ";
+
+				workersFileInput << order.second->getID();
+			}
+		}
+
+		workersFileInput << endl;
+
+	}
+
 	workersFileInput.close();
 }
 
