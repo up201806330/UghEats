@@ -547,13 +547,21 @@ public:
 	 * @return false otherwise
 	 */
 	bool orderRestaurants();
+
 	/**
 	 * @brief orders vector of workers with select parameter
 	 * 
 	 * @return true if successful
 	 * @return false otherwise
 	 */
-	bool orderWorkers();
+	// bool orderWorkers();
+
+	/**
+	 * @brief Sorts All Workers Based on a Specific Parameter and Displays Their Information (seeAllWorkers Call)
+	 * 
+	 */
+	void sortDisplayWorkers();
+
 	bool orderOrders(); //lmao dont delete this may be useful
 
 
