@@ -263,10 +263,11 @@ public:
 	 * @return const map<int, Order*>& Orders map reference
 	 */
 	const map<int, Order*> & getOrders() const;
+
 	/**
-	 * @brief Get the Delivery Man object
+	 * @brief Get the Delivery (Person) Object that has the Least Number of Deliveries
 	 * 
-	 * @return Delivery* Delivery man pointer
+	 * @return Delivery* Delivery (Person) Object
 	 */
 	Delivery* getDeliveryMan();
 
