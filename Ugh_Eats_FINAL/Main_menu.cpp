@@ -314,6 +314,8 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 		
 
 		if (input == "1") {
+			base->sortDisplayWorkers();
+			/*
 			utils::clear_screen();
 			vector<Worker*> keepOrder = base->getWorkers();
 			if (!base->orderWorkers()) continue;
@@ -323,6 +325,7 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 			cout << "\n>> ";
 			cin.clear();
 			cin.ignore(INT_MAX,'\n');
+			*/
 		}
 
 		if (input == "2") {

@@ -478,6 +478,7 @@ void Base::seeOneRestaurant()
 
 void Base::seeAllWorkers() {
 
+	utils::clear_screen();
 	cout << "ALL WORKERS" << endl << endl;
 	cout << "Administrators" << endl << endl;
 	seeAllAdmins();
@@ -4155,7 +4156,8 @@ bool workerByNIF(const Worker * left, const Worker * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderWorkers()
+/*
+bool Base::sortDisplayWorkers()
 {
 	string input;
 
@@ -4172,6 +4174,125 @@ bool Base::orderWorkers()
 
 	return true;
 }
+*/
+
+void Base::sortDisplayWorkers() {
+
+	// Save "Original" Unordered Sets
+	unordered_set<Admin*, hashAdmin, eqAdmin> savedAdmins = admins;
+	unordered_set<Delivery*, hashDeliv, eqDeliv> savedDeliveryPeople = deliveryPeople;
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	// Sorting Options
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+
+			cout << "What parameter do you want the workers to be sorted by? " << endl;
+			cout << "1. Name" << endl;
+			cout << "2. NIF" << endl;
+			cout << "3. None" << endl;
+			cout << ">> ";
+
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(3, stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	vector<Admin*> adminsVector;
+	copy(admins.begin(), admins.end(), back_inserter(adminsVector));
+
+	vector<Delivery*> delivPeopleVector;
+	copy(deliveryPeople.begin(), deliveryPeople.end(), back_inserter(delivPeopleVector));
+
+	// Sorting
+	switch (answer) {
+		// Name
+		case 1:
+			sort(adminsVector.begin(), adminsVector.end(), workerByName);
+			sort(delivPeopleVector.begin(), delivPeopleVector.end(), workerByName);
+			break;
+
+		// Nif
+		case 2:
+			sort(adminsVector.begin(), adminsVector.end(), workerByNIF);
+			sort(delivPeopleVector.begin(), delivPeopleVector.end(), workerByNIF);
+			break;
+		
+		// None
+		case 3:
+			break;
+
+	}
+
+	// Convert admins' Unordered Set to Vector
+	unordered_set<Admin*, hashAdmin, eqAdmin> sortedAdmins;
+
+	for (auto & element1 : adminsVector) {
+		sortedAdmins.insert(element1);
+	}
+
+	// Convert delivery People's Unordered Set to Vector
+	unordered_set<Delivery*, hashDeliv, eqDeliv> sortedDeliveryPeople;
+
+	for (auto & element2 : delivPeopleVector) {
+		sortedDeliveryPeople.insert(element2);
+	}
+
+	// Set the Unordered Sets to the Sorted Ones
+	this->setAdmins(sortedAdmins);
+	this->setDeliveryPeople(sortedDeliveryPeople);
+
+	// Display Information
+	seeAllWorkers();
+
+	// Set the Unordered Sets to the "Original" Ones (Probably Unnecessary)
+	this->setAdmins(savedAdmins);
+	this->setDeliveryPeople(savedDeliveryPeople);
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+}
+
 
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
 	double priceLeft, priceRight;
