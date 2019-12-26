@@ -1,5 +1,6 @@
-#include "hash_table.h"
+// #include "hash_table.h"
 
+/*
 bool eqAdmin::operator()(const Admin * a1, const Admin * a2) const {
 	return (
 		a1->get_name() == a2->get_name() &&
@@ -13,11 +14,11 @@ int hashAdmin::operator()(const Admin * a1) const {
 
 	int v = 0;
 
-	/*
-	for (char & c : a1->get_name()) {
-		v += 37 * v + c;
-	}
-	*/
+	
+	//for (char & c : a1->get_name()) {
+	//	v += 37 * v + c;
+	//}
+	
 
 	int nif = a1->get_NIF();
 
@@ -54,3 +55,5 @@ int hashDeliv::operator()(const Delivery * d1) const {
 
 	return v;
 }
+
+*/

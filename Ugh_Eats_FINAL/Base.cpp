@@ -711,7 +711,7 @@ void Base::seeAllDeliverers()
 }
 */
 
-void Base::seeAllDeliveryPeople(int i = 1) {
+void Base::seeAllDeliveryPeople(int i) {
 
 	cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
 	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
@@ -738,7 +738,7 @@ void Base::seeAllAdministrators()
 }
 */
 
-void Base::seeAllAdmins(int i = 1) {
+void Base::seeAllAdmins(int i) {
 
 	cout << "ALL ADMINISTRATORS" << endl << endl;
 	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
@@ -4293,7 +4293,7 @@ void Base::sortDisplayWorkers() {
 
 }
 
-
+/*
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
 	double priceLeft, priceRight;
 
@@ -4305,10 +4305,13 @@ bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right
 
 	return priceLeft < priceRight;
 }
+*/
 
+/*
 bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right) {
 	return left.second->getDeliveryFee() < right.second->getDeliveryFee();
 }
+*/
 
 bool Base::orderOrders()
 {
@@ -4322,10 +4325,10 @@ bool Base::orderOrders()
 
 	getline(cin, input);
 
-	if (input == "1");
-	if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
-	if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
-	else false;
+	//if (input == "1");
+	// if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
+	// if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
+	//else false;
 
 	return true;
 }

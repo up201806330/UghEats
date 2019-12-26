@@ -8,7 +8,7 @@
 #include "Date_time.h"
 #include "Address.h"
 #include "Exceptions.h"
-#include "hash_table.h"
+// #include "hash_table.h"
 
 class Base;
 class Order;
@@ -239,10 +239,25 @@ public:
 };
 
 
+
+class Admin;
+
+struct eqAdmin {
+	bool operator()(const Admin* a1, const Admin* a2) const;
+};
+
+struct hashAdmin {
+	int operator()(const Admin* a1) const;
+};
+
+
+
+
 class Admin : public Worker {
 	string role;
 
 public:
+
 	/**
 	 * @brief Construct a new Admin object
 	 * 
@@ -281,6 +296,21 @@ public:
 	 * 
 	 */
 	void print();
+
+
+};
+
+
+
+
+class Delivery;
+
+struct eqDeliv {
+	bool operator()(const Delivery* d1, const Delivery* d2) const;
+};
+
+struct hashDeliv {
+	int operator()(const Delivery* d1) const;
 };
 
 
@@ -354,7 +384,13 @@ public:
 	double calculate_wage();
 
 	void update_vehicle();
+
+
 };
+
+
+
+
 
 
 class Client : public Person {
