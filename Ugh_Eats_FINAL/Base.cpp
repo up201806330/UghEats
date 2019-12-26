@@ -4814,15 +4814,16 @@ void Base::writeWorkersFile(string fileName) {
 		workersFileInput << (*adminIt)->get_name() << endl;
 		workersFileInput << (*adminIt)->get_NIF() << endl;
 
-		workersFileInput << (*adminIt)->get_birthday().getDay() << endl;
+		workersFileInput << (*adminIt)->get_birthday().getDay();
 		workersFileInput << ":";
-		workersFileInput << (*adminIt)->get_birthday().getMonth() << endl;
+		workersFileInput << (*adminIt)->get_birthday().getMonth();
 		workersFileInput << ":";
-		workersFileInput << (*adminIt)->get_birthday().getYear() << endl;
+		workersFileInput << (*adminIt)->get_birthday().getYear();
 
 		workersFileInput << (*adminIt)->get_wage() << endl;
 		workersFileInput << (*adminIt)->get_role() << endl;
 
+		adminIt++;
 	}
 
 	workersFileInput << ";;;" << endl;
@@ -4874,6 +4875,7 @@ void Base::writeWorkersFile(string fileName) {
 
 		workersFileInput << endl;
 
+		delivIt++;
 	}
 
 	workersFileInput.close();
