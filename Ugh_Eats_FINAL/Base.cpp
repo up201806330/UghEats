@@ -719,6 +719,7 @@ void Base::seeAllDeliveryPeople(int i) {
 	while (it != deliveryPeople.end()) {
 		cout << i++ << " ";
 		(*it)->print();
+		it++;
 	}
 }
 
@@ -746,6 +747,7 @@ void Base::seeAllAdmins(int i) {
 	while (it != admins.end()) {
 		cout << i++ << " ";
 		(*it)->print();
+		it++;
 	}
 }
 
