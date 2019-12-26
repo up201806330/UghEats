@@ -4820,6 +4820,8 @@ void Base::writeWorkersFile(string fileName) {
 		workersFileInput << ":";
 		workersFileInput << (*adminIt)->get_birthday().getYear();
 
+		workersFileInput << endl;
+
 		workersFileInput << (*adminIt)->get_wage() << endl;
 		workersFileInput << (*adminIt)->get_role() << endl;
 
@@ -4864,6 +4866,9 @@ void Base::writeWorkersFile(string fileName) {
 		if ((*delivIt)->get_history().size() == 0) workersFileInput << "-";
 
 		else {
+
+			firstOrder = true;
+
 			for (auto & order : (*delivIt)->get_history()) {
 				if (firstOrder) firstOrder = false;
 				
