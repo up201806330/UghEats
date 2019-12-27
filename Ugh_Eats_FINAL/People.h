@@ -315,6 +315,13 @@ public:
 	 */
 	void print();
 
+	/**
+	 * @brief Checks Equality of Admin Objects Based on Name, Nif and Role
+	 * 
+	 * @param a 
+	 * @return true 
+	 * @return false 
+	 */
 	bool operator==(const Admin &a);
 };
 
@@ -403,6 +410,13 @@ public:
 
 	void update_vehicle();
 
+	/**
+	 * @brief Checks Equality of Delivery (People) Objects Based on Name and Nif
+	 * 
+	 * @param d 
+	 * @return true 
+	 * @return false 
+	 */
 	bool operator==(const Delivery &d);
 
 };
