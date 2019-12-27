@@ -486,11 +486,15 @@ public:
 	 */
 	bool checkForManager();
 
+	bool checkInactiveAdminInDatabase(Admin a);
+
 	/**
 	 * @brief Add a Delivery Person to the Base
 	 * 
 	 */
 	void addDeliverer();
+
+	bool checkInactivDelivPersonInDatabase(Delivery d);
 
 	/**
 	 * @brief Creates a Vehicle Object (and returns it)

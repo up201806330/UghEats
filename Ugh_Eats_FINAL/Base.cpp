@@ -2167,6 +2167,22 @@ bool Base::checkForManager() {
 	return false;
 }
 
+bool Base::checkInactiveAdminInDatabase(Admin a) {
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator adminIt = admins.begin();
+
+	while (adminIt != admins.end()) {
+
+		if ((*(*adminIt) == a) && ((*adminIt)->get_state() == false)) {
+			(*adminIt)->set_state(true);
+			return true;
+		}
+
+		adminIt++;
+	}
+	return false;
+}
+
 void Base::addDeliverer() {
 
 	Delivery del;
@@ -2255,6 +2271,7 @@ void Base::addDeliverer() {
 	del.set_vehicle(veh);
 
 	del.set_state(true);
+	
 
 	Delivery * delivPtr = new Delivery;
 	*delivPtr = del;
@@ -2273,6 +2290,22 @@ void Base::addDeliverer() {
 	cout << ">> ";
 	cin.clear();
 	cin.ignore(INT_MAX, '\n');
+}
+
+bool Base::checkInactivDelivPersonInDatabase(Delivery d) {
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	while (delivIt != deliveryPeople.end()) {
+
+		if ((*(*delivIt) == d) && ((*delivIt)->get_state() == false)) {
+			(*delivIt)->set_state(true);
+			return true;
+		}
+
+		delivIt++;
+	}
+	return false;
 }
 
 Vehicle Base::newVehicle() {
