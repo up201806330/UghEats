@@ -114,7 +114,7 @@ void Person::set_name(string nome)
 	name = nome;
 }
 
-void Person::set_NIF(size_t NIF)
+void Person::set_NIF(int NIF)
 {
 	this->NIF = NIF;
 }
@@ -124,7 +124,7 @@ string Person::get_name() const
 	return name;
 }
 
-size_t Person::get_NIF() const
+int Person::get_NIF() const
 {
 	return NIF;
 }

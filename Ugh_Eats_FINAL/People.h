@@ -132,7 +132,7 @@ public:
 class Person {
 protected:
 	string name;
-	size_t NIF;
+	int NIF;
 
 public:
 	/**
@@ -158,7 +158,7 @@ public:
 	 * 
 	 * @param NIF 
 	 */
-	virtual void set_NIF(size_t NIF);
+	virtual void set_NIF(int NIF);
 	/**
 	 * @brief Get the name object
 	 * 
@@ -168,9 +168,9 @@ public:
 	/**
 	 * @brief Get the NIF object
 	 * 
-	 * @return size_t 
+	 * @return int
 	 */
-	size_t get_NIF() const;
+	int get_NIF() const;
 	/**
 	 * @brief Shows on screen the persons attributes
 	 * 
