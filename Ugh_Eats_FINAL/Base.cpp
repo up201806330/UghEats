@@ -476,15 +476,20 @@ void Base::seeOneRestaurant()
 }
 
 
-void Base::seeAllWorkers() {
+void Base::seeAllWorkers(bool vectorData, vector<Admin*> adminVector, vector<Delivery*> delivPeopleVector) {
 
 	utils::clear_screen();
 	cout << "ALL WORKERS" << endl << endl;
+
 	cout << "Administrators" << endl << endl;
-	seeAllAdmins();
+	if (vectorData) seeAllAdmins(1, true, adminVector);
+	else seeAllAdmins();
+
 	cout << endl << endl;
+
 	cout << "Delivery People" << endl << endl;
-	seeAllDeliveryPeople(admins.size() + 1);
+	if (vectorData) seeAllDeliveryPeople( (int) admins.size() + 1, true, delivPeopleVector);
+	else seeAllDeliveryPeople( (int) admins.size() + 1);
 }
 
 /*
@@ -543,7 +548,7 @@ void Base::seeOneWorker() {
 			seeAllAdmins();
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople(admins.size() + 1);
+			seeAllDeliveryPeople( (int) admins.size() + 1);
 
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
@@ -711,15 +716,31 @@ void Base::seeAllDeliverers()
 }
 */
 
-void Base::seeAllDeliveryPeople(int i) {
+void Base::seeAllDeliveryPeople(int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
 
 	cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
 	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
 
-	while (it != deliveryPeople.end()) {
-		cout << i++ << " ";
-		(*it)->print();
-		it++;
+	vector<Delivery*>::iterator itVector;
+
+	if (vectorData) {
+		itVector = delivPeopleVector.begin();
+
+		while (itVector != delivPeopleVector.end()) {
+			cout << "#" << i++ << "." << endl;
+			(*itVector)->print();
+			cout << endl;
+			itVector++;
+		}
+	}
+
+	else {
+		while (it != deliveryPeople.end()) {
+			cout << "#" << i++ << "." << endl;
+			(*it)->print();
+			cout << endl;
+			it++;
+		}
 	}
 }
 
@@ -739,15 +760,31 @@ void Base::seeAllAdministrators()
 }
 */
 
-void Base::seeAllAdmins(int i) {
+void Base::seeAllAdmins(int i, bool vectorData, vector<Admin*> adminVector) {
 
 	cout << "ALL ADMINISTRATORS" << endl << endl;
 	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
 
-	while (it != admins.end()) {
-		cout << i++ << " ";
-		(*it)->print();
-		it++;
+	vector<Admin*>::iterator itVector;
+	
+	if (vectorData) {
+		itVector = adminVector.begin();
+
+		while (itVector != adminVector.end()) {
+			cout << "#" << i++ << "." << endl;
+			(*itVector)->print();
+			cout << endl;
+			itVector++;
+		}
+	}
+
+	else {
+		while (it != admins.end()) {
+			cout << "#" << i++ << "." << endl;
+			(*it)->print();
+			cout << endl;
+			it++;
+		}
 	}
 }
 
@@ -2939,7 +2976,7 @@ void Base::changeWorker() {
 			seeAllAdmins();
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople(admins.size() + 1);
+			seeAllDeliveryPeople( (int) admins.size() + 1);
 
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
@@ -3507,7 +3544,7 @@ void Base::removeWorker() {
 			seeAllAdmins();
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople(admins.size() + 1);
+			seeAllDeliveryPeople( (int) admins.size() + 1);
 
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
@@ -4263,31 +4300,44 @@ void Base::sortDisplayWorkers() {
 			break;
 
 	}
+	
 
 	// Convert admins' Unordered Set to Vector
+	/*
 	unordered_set<Admin*, hashAdmin, eqAdmin> sortedAdmins;
 
 	for (auto & element1 : adminsVector) {
 		sortedAdmins.insert(element1);
 	}
+	*/
 
 	// Convert delivery People's Unordered Set to Vector
+	/*
 	unordered_set<Delivery*, hashDeliv, eqDeliv> sortedDeliveryPeople;
 
 	for (auto & element2 : delivPeopleVector) {
 		sortedDeliveryPeople.insert(element2);
 	}
+	*/
 
 	// Set the Unordered Sets to the Sorted Ones
+	/*
+	admins = sortedAdmins;
+	deliveryPeople = sortedDeliveryPeople;
 	this->setAdmins(sortedAdmins);
 	this->setDeliveryPeople(sortedDeliveryPeople);
+	*/
 
 	// Display Information
-	seeAllWorkers();
+	seeAllWorkers(true, adminsVector, delivPeopleVector);
 
 	// Set the Unordered Sets to the "Original" Ones (Probably Unnecessary)
+	/*
+	admins = savedAdmins;
+	deliveryPeople = savedDeliveryPeople;
 	this->setAdmins(savedAdmins);
 	this->setDeliveryPeople(savedDeliveryPeople);
+	*/
 
 	cout << ">> ";
 	cin.clear();

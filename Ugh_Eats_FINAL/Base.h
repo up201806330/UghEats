@@ -358,7 +358,7 @@ public:
 	 * @brief Displays All of the Workers' Info in a Human Friendly Fashion
 	 * 
 	 */
-	void seeAllWorkers(); 
+	void seeAllWorkers(bool vectorData = false, vector<Admin*> adminVector = {}, vector<Delivery*> delivPeopleVector = {});
 
 	/**
 	 * @brief Displays a Specific Workers' Info in a Human Friendly Fashion
@@ -379,7 +379,7 @@ public:
 	 * 
 	 * @param i start index for the listing
 	 */
-	void seeAllDeliveryPeople(int i = 1);
+	void seeAllDeliveryPeople(int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
 	/**
 	 * @brief prints all administrators' info in human friendly fashion
@@ -392,7 +392,7 @@ public:
 	 * 
 	 * @param i start index for the listing
 	 */
-	void seeAllAdmins(int i = 1);
+	void seeAllAdmins(int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
 
 	/**
 	 * @brief prints all orders' info in human friendly fashion
