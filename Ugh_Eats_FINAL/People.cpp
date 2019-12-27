@@ -245,12 +245,16 @@ void Worker::load(string path, Base * base){
 }
 */
 
-void Worker::set_birthday(Date_time data) {
-	birthday = data;
+void Worker::set_birthday(Date_time birthday) {
+	this->birthday = birthday;
 }
 
-void Worker::set_wage(double salario) {
-	wage = salario;
+void Worker::set_wage(double wage) {
+	this->wage = wage;
+}
+
+void Worker::set_state(bool isActive) {
+	this->isActive = isActive;
 }
 
 Date_time Worker::get_birthday() const {
@@ -259,6 +263,10 @@ Date_time Worker::get_birthday() const {
 
 double Worker::get_wage() const {
 	return wage;
+}
+
+bool Worker::get_state() const {
+	return isActive;
 }
 
 void Worker::print(){
@@ -281,8 +289,8 @@ Admin::~Admin() {
 
 }
 
-void Admin::set_role(string papel) {
-	role = papel;
+void Admin::set_role(string role) {
+	this->role = role;
 }
 
 string Admin::get_role() const {

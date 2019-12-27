@@ -184,6 +184,7 @@ class Worker : public Person {
 protected:
 	Date_time birthday;
 	double wage;
+	bool isActive;
 
 public:
 	/**
@@ -211,13 +212,16 @@ public:
 	 * 
 	 * @param data 
 	 */
-	virtual void set_birthday(Date_time data);
+	virtual void set_birthday(Date_time birthday);
 	/**
 	 * @brief Set the wage object
 	 * 
 	 * @param salario 
 	 */
-	virtual void set_wage(double salario);
+	virtual void set_wage(double wage);
+
+	virtual void set_state(bool isActive);
+
 	/**
 	 * @brief Get the birthday object
 	 * 
@@ -230,6 +234,9 @@ public:
 	 * @return double 
 	 */
 	double get_wage() const;
+
+	bool get_state() const;
+
 
 	/**
 	 * @brief Shows on screen the workers attributes
@@ -275,7 +282,7 @@ public:
 	 * 
 	 * @param papel 
 	 */
-	void set_role(string papel);
+	void set_role(string role);
 	/**
 	 * @brief Get the role object
 	 * 

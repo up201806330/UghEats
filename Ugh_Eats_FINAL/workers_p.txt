@@ -21,6 +21,12 @@ Jose Cid
 22:23:2000
 10
 ya boi
+;
+Spencer
+497285739
+2:10:1990
+-9
+Product Manager
 ;;;
 Ze Maria
 123456432
