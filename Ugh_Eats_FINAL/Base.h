@@ -354,9 +354,13 @@ public:
 	 */
 	void seeOneRestaurant();
 
+
 	/**
 	 * @brief Displays All of the Workers' Info in a Human Friendly Fashion
 	 * 
+	 * @param vectorData True If the Data To Display Is in the Next Two Parameters
+	 * @param adminVector Vector Containing the Admin Objects
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
 	 */
 	void seeAllWorkers(bool vectorData = false, vector<Admin*> adminVector = {}, vector<Delivery*> delivPeopleVector = {});
 
@@ -374,10 +378,13 @@ public:
 	void seeAllDeliverers();
 	*/
 	
+
 	/**
 	 * @brief Displays All of the Deliveries' People's Info in a Human Friendly Fashion
 	 * 
-	 * @param i start index for the listing
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
 	 */
 	void seeAllDeliveryPeople(int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
@@ -387,10 +394,13 @@ public:
 	 */
 	// void seeAllAdministrators();
 
+
 	/**
 	 * @brief Displays All of the Administrators' Info in a Human Friendly Fashion
 	 * 
-	 * @param i start index for the listing
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param adminVector Vector Containing the Admin Objects
 	 */
 	void seeAllAdmins(int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
 
