@@ -594,7 +594,7 @@ void Base::seeOneWorker() {
 	// worker chosen was not an admin
 	if (answer > admins.size()) {
 		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
-		int offset = answer % admins.size();
+		int offset = answer - admins.size();
 		counter = 0;
 		
 		while (counter < offset - 1) {
