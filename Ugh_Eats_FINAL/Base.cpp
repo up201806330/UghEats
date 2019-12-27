@@ -2105,6 +2105,40 @@ void Base::addAdmin() {
 	
 	a.set_birthday(birthday);
 
+	// Wage Input
+	bool invalidWage;
+	string strWage;
+
+	do {
+		invalidWage = false;
+
+		cout << "Wage: ";
+		getline(cin, strWage);
+
+		try {
+			if (!isNumber(strWage)) throw InvalidNumberException(strWage);
+
+			if (stod(strWage) < 0) {
+				invalidWage = true;
+				cout << "Wage must be a positive value." << endl;
+				cout << "Try Again!" << endl << endl;
+			}
+		}
+
+		catch (InvalidNumberException & s) {
+			invalidWage = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalidWage);
+
+	a.set_wage(stod(strWage));
+
+
+	a.set_state(true);
+
+
 	Admin * adminPtr = new Admin;
 	*adminPtr = a;
 
@@ -2219,6 +2253,8 @@ void Base::addDeliverer() {
 	Vehicle * vehiclePtr = new Vehicle;
 	*vehiclePtr = veh;
 	del.set_vehicle(veh);
+
+	del.set_state(true);
 
 	Delivery * delivPtr = new Delivery;
 	*delivPtr = del;
