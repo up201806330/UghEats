@@ -545,11 +545,12 @@ void Base::seeOneWorker() {
 			cout << "Pick the worker you want to see" << endl << endl;
 
 			cout << "Administrators" << endl << endl;
-			seeAllAdmins();
+			seeAllAdminsNames();
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople( (int) admins.size() + 1);
+			seeAllDeliveryPeopleNames( (int) admins.size() + 1);
 
+			cout << endl;
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
 			getline(cin, input);
@@ -784,7 +785,7 @@ void Base::seeAllDeliverers()
 
 void Base::seeAllDeliveryPeople(int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
 
-	cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
+	// cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
 	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
 
 	vector<Delivery*>::iterator itVector;
@@ -793,7 +794,9 @@ void Base::seeAllDeliveryPeople(int i, bool vectorData, vector<Delivery*> delivP
 		itVector = delivPeopleVector.begin();
 
 		while (itVector != delivPeopleVector.end()) {
-			cout << "#" << i++ << "." << endl;
+			cout << "#" << i++ << ".";
+			if ((*itVector)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
 			(*itVector)->print();
 			cout << endl;
 			itVector++;
@@ -802,7 +805,9 @@ void Base::seeAllDeliveryPeople(int i, bool vectorData, vector<Delivery*> delivP
 
 	else {
 		while (it != deliveryPeople.end()) {
-			cout << "#" << i++ << "." << endl;
+			cout << "#" << i++ << ".";
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
 			(*it)->print();
 			cout << endl;
 			it++;
@@ -828,7 +833,7 @@ void Base::seeAllAdministrators()
 
 void Base::seeAllAdmins(int i, bool vectorData, vector<Admin*> adminVector) {
 
-	cout << "ALL ADMINISTRATORS" << endl << endl;
+	// cout << "ALL ADMINISTRATORS" << endl << endl;
 	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
 
 	vector<Admin*>::iterator itVector;
@@ -837,7 +842,9 @@ void Base::seeAllAdmins(int i, bool vectorData, vector<Admin*> adminVector) {
 		itVector = adminVector.begin();
 
 		while (itVector != adminVector.end()) {
-			cout << "#" << i++ << "." << endl;
+			cout << "#" << i++ << ".";
+			if ((*itVector)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
 			(*itVector)->print();
 			cout << endl;
 			itVector++;
@@ -846,7 +853,9 @@ void Base::seeAllAdmins(int i, bool vectorData, vector<Admin*> adminVector) {
 
 	else {
 		while (it != admins.end()) {
-			cout << "#" << i++ << "." << endl;
+			cout << "#" << i++ << ".";
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
 			(*it)->print();
 			cout << endl;
 			it++;
