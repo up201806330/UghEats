@@ -370,8 +370,22 @@ public:
 	 */
 	void seeOneWorker();
 
+	/**
+	 * @brief Displays All of the Deliveries' People's Names in a Human Friendly Fashion
+	 * 
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
+	 */
 	void seeAllDeliveryPeopleNames(int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
+	/**
+	 * @brief Displays All of the Administrators' Names in a Human Friendly Fashion
+	 * 
+	 * @param i Displays All of the Administrators' Info in a Human Friendly Fashion
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param adminVector Vector Containing the Admin Objects
+	 */
 	void seeAllAdminsNames(int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
 
 	/**
