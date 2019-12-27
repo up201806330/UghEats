@@ -370,6 +370,10 @@ public:
 	 */
 	void seeOneWorker();
 
+	void seeAllDeliveryPeopleNames(int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
+
+	void seeAllAdminsNames(int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
+
 	/**
 	 * @brief prints all delivery mens' info in human friendly fashion
 	 * 

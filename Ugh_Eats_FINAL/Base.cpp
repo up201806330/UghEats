@@ -619,6 +619,72 @@ void Base::seeOneWorker() {
 	cin.ignore(INT_MAX, '\n');
 }
 
+void Base::seeAllDeliveryPeopleNames(int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
+
+	vector<Delivery*>::iterator itVector;
+
+	if (vectorData) {
+		itVector = delivPeopleVector.begin();
+
+		while (itVector != delivPeopleVector.end()) {
+			cout << i++ << ". ";
+			cout << (*itVector)->get_name();
+
+			if ((*itVector)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			itVector++;
+		}
+	}
+
+	else {
+		while (it != deliveryPeople.end()) {
+			cout << i++ << ". ";
+			cout << (*it)->get_name();
+			
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			it++;
+		}
+	}
+}
+
+void Base::seeAllAdminsNames(int i, bool vectorData, vector<Admin*> adminVector) {
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
+
+	vector<Admin*>::iterator itVector;
+
+	if (vectorData) {
+		itVector = adminVector.begin();
+
+		while (itVector != adminVector.end()) {
+			cout << i++ << ". ";
+			cout << (*itVector)->get_name();
+
+			if ((*itVector)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			itVector++;
+		}
+	}
+
+	else {
+		while (it != admins.end()) {
+			cout << i++ << ". ";
+			cout << (*it)->get_name();
+
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			it++;
+		}
+	}
+}
+
 /*
 void Base::seeOneWorker()
 {
