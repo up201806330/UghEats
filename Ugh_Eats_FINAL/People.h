@@ -220,6 +220,11 @@ public:
 	 */
 	virtual void set_wage(double wage);
 
+	/**
+	 * @brief Set the state object
+	 * 
+	 * @param isActive If True, The Worker Is Currently Employee Of The Base; If False, It Is A Former Employee.
+	 */
 	virtual void set_state(bool isActive);
 
 	/**
@@ -235,6 +240,12 @@ public:
 	 */
 	double get_wage() const;
 
+	/**
+	 * @brief Get the state object
+	 * 
+	 * @return true If The Worker Is Currently Employee Of The Base
+	 * @return false If The Worker Is A Former Employee
+	 */
 	bool get_state() const;
 
 
