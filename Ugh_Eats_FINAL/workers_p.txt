@@ -3,14 +3,14 @@ Ze Manel
 11:11:1999
 1200
 manager
-0
+1
 ;
 Pedro Abrunhosa
 234567843
 9:2:1754
 4000
 customer service
-1
+0
 ;
 Jeff Bezos
 224897394
@@ -31,6 +31,13 @@ Spencer
 2:10:1990
 1230.45
 Product Manager
+1
+;
+Jeremy
+963258741
+10:2:1996
+2500
+Product Manager II
 1
 ;;;
 Ze Maria
