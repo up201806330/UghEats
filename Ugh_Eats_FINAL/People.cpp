@@ -297,8 +297,7 @@ string Admin::get_role() const {
 	return role;
 }
 
-unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_stream)
-{
+unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_stream) {
 	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
 	admins.reserve(10);
 
@@ -324,6 +323,12 @@ unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_s
 
 		getline(workers_stream, textline);
 		a.set_role(textline);
+
+		
+		getline(workers_stream, textline);
+		if (textline == "1") a.set_state(true);
+		else if (textline == "0") a.set_state(false);
+		
 
 		Admin * aPtr = new Admin;
 		*aPtr = a;
@@ -428,6 +433,10 @@ unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery::readDeliverers(ifstream &
 
 		getline(workers_stream, textline);
 		del.set_history(base->findOrders(textline));
+
+		getline(workers_stream, textline);
+		if (textline == "1") del.set_state(true);
+		else if (textline == "0") del.set_state(false);
 
 		Delivery * delPtr = new Delivery;
 		*delPtr = del;

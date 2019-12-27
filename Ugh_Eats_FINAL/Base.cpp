@@ -3634,7 +3634,9 @@ void Base::removeWorker() {
 			counter++;
 		}
 
-		deliveryPeople.erase(delIt);
+		// deliveryPeople.erase(delIt);
+
+		(*delIt)->set_state(false);
 
 	}
 
@@ -3648,7 +3650,9 @@ void Base::removeWorker() {
 			counter++;
 		}
 
-		admins.erase(admIt);
+		// admins.erase(admIt);
+
+		(*admIt)->set_state(false);
 
 	}
 
@@ -4910,7 +4914,7 @@ void Base::writeWorkersFile(string fileName) {
 
 		workersFileInput << (*adminIt)->get_wage() << endl;
 		workersFileInput << (*adminIt)->get_role() << endl;
-
+		workersFileInput << (*adminIt)->get_state() << endl;
 		adminIt++;
 	}
 
@@ -4965,6 +4969,8 @@ void Base::writeWorkersFile(string fileName) {
 		}
 
 		workersFileInput << endl;
+
+		workersFileInput << (*delivIt)->get_state() << endl;
 
 		delivIt++;
 	}
