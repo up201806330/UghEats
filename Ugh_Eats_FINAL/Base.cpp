@@ -2142,14 +2142,20 @@ void Base::addAdmin() {
 	Admin * adminPtr = new Admin;
 	*adminPtr = a;
 
-	auto pair_ = admins.insert(adminPtr);
-
-	// If Error in Insertion, the admin was already "in the system"
-	if (pair_.second == false) {
-		cout << "Error In Sign In" << endl;
+	if (checkInactiveAdminInDatabase(a)) {
+		cout << "\nWelcome Back! (Enter to continue)" << endl;
 	}
+
 	else {
-		cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		auto pair_ = admins.insert(adminPtr);
+
+		// If Error in Insertion, the admin was already "in the system"
+		if (pair_.second == false) {
+			cout << "Error In Sign In" << endl;
+		}
+		else {
+			cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		}
 	}
 
 	cout << ">> ";
@@ -2161,7 +2167,8 @@ bool Base::checkForManager() {
 	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
 
 	while (it != admins.end()) {
-		if ((*it)->get_role() == "manager") return true;
+		if ( ((*it)->get_role() == "manager") && ( (*it)->get_state() == true)) return true;
+		it++;
 	}
 
 	return false;
@@ -2275,16 +2282,21 @@ void Base::addDeliverer() {
 
 	Delivery * delivPtr = new Delivery;
 	*delivPtr = del;
-
-
-	auto pair_ = deliveryPeople.insert(delivPtr);
-
-	// If Error in Insertion, the admin was already "in the system"
-	if (pair_.second == false) {
-		cout << "\nError In Sign In" << endl;
+	
+	if (checkInactivDelivPersonInDatabase(del)) {
+		cout << "\nWelcome Back! (Enter to continue)" << endl;
 	}
+
 	else {
-		cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		auto pair_ = deliveryPeople.insert(delivPtr);
+
+		// If Error in Insertion, the admin was already "in the system"
+		if (pair_.second == false) {
+			cout << "\nError In Sign In" << endl;
+		}
+		else {
+			cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		}
 	}
 
 	cout << ">> ";
