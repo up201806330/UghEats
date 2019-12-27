@@ -319,7 +319,7 @@ unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_s
 		a.set_birthday(d);
 
 		getline(workers_stream, textline);
-		a.set_wage(stoi(textline));
+		a.set_wage(stod(textline));
 
 		getline(workers_stream, textline);
 		a.set_role(textline);
