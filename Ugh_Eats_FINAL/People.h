@@ -315,7 +315,7 @@ public:
 	 */
 	void print();
 
-
+	bool operator==(const Admin &a);
 };
 
 
@@ -403,6 +403,7 @@ public:
 
 	void update_vehicle();
 
+	bool operator==(const Delivery &d);
 
 };
 

@@ -343,6 +343,14 @@ void Admin::print() {
 	cout << "Role: " << role << endl;
 }
 
+bool Admin::operator==(const Admin & a) {
+	return (
+		this->name == a.name &&
+		this->NIF == a.NIF &&
+		this->role == a.role
+		);
+}
+
 
 bool eqAdmin::operator()(const Admin* a1, const Admin* a2) const {
 	return (
@@ -489,6 +497,13 @@ void Delivery::update_vehicle()
 	this->vehicle.set_trips(vehicle.get_trips() + 1);
 	double n = 0.5 + (rand() % 100) / (10);
 	this->vehicle.set_mileage(vehicle.get_mileage() + n);
+}
+
+bool Delivery::operator==(const Delivery & d) {
+	return (
+		this->name == d.name &&
+		this->NIF == d.NIF
+		);
 }
 
 
