@@ -486,6 +486,13 @@ public:
 	 */
 	bool checkForManager();
 
+	/**
+	 * @brief Checks If the Admin Passed As a Parameter Is Already In The Database
+	 * 
+	 * @param a 
+	 * @return true If Admin (Inactive) Was Found In Database (and Changed to Active)
+	 * @return false If Admin Was Not Found In Database
+	 */
 	bool checkInactiveAdminInDatabase(Admin a);
 
 	/**
@@ -494,7 +501,14 @@ public:
 	 */
 	void addDeliverer();
 
-	bool checkInactivDelivPersonInDatabase(Delivery d);
+	/**
+	 * @brief Checks If the Delivery (Person) Passed As a Parameter Is Already In The Database
+	 * 
+	 * @param d 
+	 * @return true If Delivery (Person) (Inactive) Was Found In Database (and Changed to Active)
+	 * @return false If Delivery (Person) Was Not Found In Database
+	 */
+	bool checkInactiveDelivPersonInDatabase(Delivery d);
 
 	/**
 	 * @brief Creates a Vehicle Object (and returns it)

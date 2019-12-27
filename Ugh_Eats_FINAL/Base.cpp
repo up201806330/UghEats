@@ -2283,7 +2283,7 @@ void Base::addDeliverer() {
 	Delivery * delivPtr = new Delivery;
 	*delivPtr = del;
 	
-	if (checkInactivDelivPersonInDatabase(del)) {
+	if (checkInactiveDelivPersonInDatabase(del)) {
 		cout << "\nWelcome Back! (Enter to continue)" << endl;
 	}
 
@@ -2304,7 +2304,7 @@ void Base::addDeliverer() {
 	cin.ignore(INT_MAX, '\n');
 }
 
-bool Base::checkInactivDelivPersonInDatabase(Delivery d) {
+bool Base::checkInactiveDelivPersonInDatabase(Delivery d) {
 
 	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
 
