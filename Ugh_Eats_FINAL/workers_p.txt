@@ -10,6 +10,12 @@ Pedro Abrunhosa
 4000
 customer service
 ;
+Jeff Bezos
+224897394
+10:1:2000
+-9
+Accountant
+;
 Jose Cid
 222222222
 22:23:2000
@@ -27,3 +33,9 @@ Ric Fazeres
 1:1:1976
 Yamazaki ; Bike ; 11:11:2345
 1
+;
+Tim Cook
+114857983
+12:1:2000
+Apple ; Electric ; 10:5:2016
+-

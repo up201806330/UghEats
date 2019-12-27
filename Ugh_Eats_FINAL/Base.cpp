@@ -1957,7 +1957,7 @@ void Base::addAdmin() {
 	bool managerExists = checkForManager();
 	bool invalidManagerInput = false;
 	string strManagerInput;
-	int managerInput;
+	int managerInput = -1;
 
 	bool invalidRoleInput = false;
 	string roleInput;
