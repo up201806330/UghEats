@@ -596,7 +596,7 @@ public:
 	Admin changeAdmin(Admin a);
 
 	/**
-	 * @brief Removes a Specific worker (Changes the Respective Object to "Inactive")
+	 * @brief "Removes" a Specific worker (Changes the Respective Object to "Inactive")
 	 * 
 	 */
 	void removeWorker();
