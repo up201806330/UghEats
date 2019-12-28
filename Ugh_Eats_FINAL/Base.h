@@ -355,6 +355,8 @@ public:
 	void seeOneRestaurant();
 
 
+	int seeFormerEmployees();
+
 	/**
 	 * @brief Displays All of the Workers' Info in a Human Friendly Fashion
 	 * 

@@ -475,6 +475,60 @@ void Base::seeOneRestaurant()
 	cin.ignore(INT_MAX,'\n');
 }
 
+int Base::seeFormerEmployees() {
+
+	bool retry = true;
+	int answer;
+    string input;
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "See Only Former Employees? " << endl;
+
+			cout << "1. Yes" << endl;
+			cout << "2. No. Only Current Employees" << endl;
+			cout << "3. No. Both Former and Current." << endl;
+			cout << "0. Go Back" << endl << endl;
+
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return 0;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(3, stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	return answer;
+}
+
 
 void Base::seeAllWorkers(bool vectorData, vector<Admin*> adminVector, vector<Delivery*> delivPeopleVector) {
 
