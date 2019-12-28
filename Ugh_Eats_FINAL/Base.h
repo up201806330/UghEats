@@ -360,6 +360,12 @@ public:
 	 */
 	void removeRestaurant();
 
+	void addTechnician();
+
+	void changeTechnician();
+
+	void removeTechnician();
+
 	/**
 	 * @brief orders vector of clients with select parameter
 	 * 

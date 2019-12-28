@@ -831,83 +831,7 @@ void Base::seeProfitsPerTime()
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 
-	/*
-	string datei, datef, houri, hourf;
-	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
-	getline(cin, datei);
-	if (cin.eof())
-	{
-		cin.clear();
-		return;
-	}
-	Date date1;
-	date1.parse(datei);
-	cout << "Type in the initial hours (hh:mm:ss)" << endl;
-	getline(cin, houri);
-	if (cin.eof())
-	{
-		cin.clear();
-		return;
-	}
-	Time hour1;
-	hour1.parse(houri);
-	cout << "Type in the final date (dd/mm/yyyy)" << endl;
-	getline(cin, datef);
-	if (cin.eof())
-	{
-		cin.clear();
-		return;
-	}
-	Date date2;
-	date2.parse(datef);
-	cout << "Type in the final hours (hh:mm:ss)" << endl;
-	getline(cin, hourf);
-	if (cin.eof())
-	{
-		cin.clear();
-		return;
-	}
-	Time hour2;
-	hour2.parse(hourf);
-	double total = 0;
-	map<int, Order*>::iterator it;
-	for (it = orders.begin(); it != orders.end(); it++)
-	{
-		if (date1 < (*it).second->getDate()) // se a data for depois da data do início
-		{
-			if ((*it).second->getDate() < date2) // a data for antes da data do fim
-				total += (*it).second->getDeliveryFee();
-			else if (date2 < (*it).second->getDate())  // a data for depois da data do fim
-				continue;
-			else // a data for igual à data do fim -> testar horas
-			{
-				if (hour2 < (*it).second->getTime())
-					continue;
-				else
-					total += (*it).second->getDeliveryFee();
-			}
-		}
-		else if ((*it).second->getDate() < date1) // se a data for antes da data de início
-			continue;
-		else // se a data e a data de início forem iguais->testar horas
-		{
-			if (date2 < (*it).second->getDate()) // se a data do fim for antes da data
-				continue;
-			else
-			{
-				if ((*it).second->getTime() < hour1) // se a hora da data for antes da hora da data de inicio
-					continue;
-				else
-					total += (*it).second->getDeliveryFee();
-			}
-		}
-	}
-	cout << "Profit made in the defined period: " << total;
 
-	cout << "\n>> ";
-	cin.clear();
-	cin.ignore(INT_MAX,'\n');
-	*/
 }
 
 void Base::seeBase()
@@ -2892,7 +2816,7 @@ void Base::removeRestaurant() {
 	do {
 		index = 0;
 		invalidOption = false;
-		cout << "Pick the restaurant you want to change information about:" << endl;
+		cout << "Pick the restaurant you want to delete:" << endl;
 		for (it = restaurants.begin(); it != restaurants.end(); ++it, ++index) {
 			cout << index + 1 << ". " << (*it)->get_name() << endl;
 		}
@@ -2954,6 +2878,333 @@ void Base::removeRestaurant() {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+
+
+void Base::addTechnician()
+{
+	
+	Technician t;
+	bool invalidName;
+	string name;
+	do 
+	{
+		try 
+		{
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name))
+				throw InvalidStringException(name);
+		}
+		catch (InvalidStringException & s)
+		{
+			invalidName = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalidName);
+
+	t.set_name(name);
+
+	bool invalidNIF;
+	string strNIF;
+	do
+	{
+		try
+		{
+			invalidNIF = false;
+			cout << "NIF: ";
+			getline(cin, strNIF);
+			if (!isNumber(strNIF) || strNIF.size() != 9)
+				throw InvalidNIFException(strNIF);
+		}
+		catch (InvalidNIFException & n)
+		{
+			invalidNIF = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidNIF);
+
+	t.set_NIF(stoi(strNIF));
+
+	bool invalidAvailability;
+	string strAvailability;
+	do
+	{
+		try
+		{
+			invalidAvailability = false;
+			cout << "Availability: ";
+			getline(cin, strAvailability);
+			if (!isNumber(strAvailability))
+				throw InvalidNumberException(strAvailability);
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidAvailability = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+
+	} while (invalidAvailability);
+
+	t.set_availability(stoi(strAvailability));
+
+	bool invalidMaintenance;
+	string strMaintenance;
+	do
+	{
+		try
+		{
+			invalidMaintenance = false;
+			cout << "Number of Maintenance: ";
+			getline(cin, strMaintenance);
+			if (!isNumber(strMaintenance))
+				throw InvalidNumberException(strMaintenance);
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidMaintenance = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidMaintenance);
+
+	t.set_maintenance(stoi(strMaintenance));
+
+	technicians.push(t);
+	
+}
+
+
+void Base::changeTechnician()
+{
+	
+	vector<Technician> temp;
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+	}
+	bool invalidOption;
+	string opt;
+	int index;
+	do
+	{
+		invalidOption = false;
+		cout << "Pick the technician you want to change information about: " << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			cout << i + 1 << ". " << temp[i].get_name() << endl;
+		}
+		try
+		{
+			cout << "0. Go Back" << endl;
+			cout << ">>";
+			getline(cin, opt);
+			if (opt == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(opt))
+				throw InvalidNumberException(opt);
+			if (opt != "")
+			{
+				index = stoi(opt);
+				if (InvalidOptions(temp.size(), index))
+					throw InvalidOptionException(index);
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidOption = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidOption);
+
+	index--;
+	int option;
+	do
+	{
+		try
+		{
+			cout << "Pick the field you want to change information of:" << endl;
+			cout << "1. Name" << endl;
+			cout << "2. NIF" << endl;
+			cout << "3. Availability" << endl;
+			cout << "4. Maintenance" << endl;
+			cout << "0. Go Back" << endl;
+			cout << ">>";
+			getline(cin, opt);
+			invalidOption = false;
+			if (opt == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(opt))
+				throw InvalidNumberException(opt);
+			if (opt != "")
+			{
+				option = stoi(opt);
+				if (InvalidOptions(4, option))
+					throw InvalidOptionException(option);
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+
+
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidOption = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalidOption);
+
+	utils::clear_screen();
+
+	if (option == 1)
+	{
+		bool invalidName;
+		string name;
+		do
+		{
+			try
+			{
+				invalidName = false;
+				cout << "Current Name: " << temp[index].get_name() << endl;
+				cout << "Update Name: "<< endl;
+				getline(cin, name);
+				if (!isString(name))
+					throw InvalidStringException(name);
+
+			}
+			catch (InvalidStringException & s)
+			{
+				invalidName = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (invalidName);
+
+		temp[index].set_name(name);
+	}
+	else if (option == 2)
+	{
+		bool invalidNIF;
+		string nif;
+		do
+		{
+			try
+			{
+				invalidNIF = false;
+				cout << "Current NIF: " << to_string(temp[index].get_NIF()) << endl;
+				cout << "Update NIF: " << endl;
+				getline(cin, nif);
+				if (!isNumber(nif) || nif.size() != 9)
+					throw InvalidNIFException(nif);
+			}
+			catch (InvalidNIFException & n)
+			{
+				invalidNIF = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
+			}
+
+
+		} while (invalidNIF);
+		temp[index].set_NIF(stoi(nif));
+	}
+	else if (option == 3)
+	{
+		bool invalidAvailability;
+		string availability;
+		do
+		{
+			try
+			{
+				invalidAvailability = false;
+				cout << "Current Availability: " << to_string(temp[index].get_availability()) << endl;
+				cout << "Update Availability: " << endl;
+				getline(cin, availability);
+				if (!isNumber(availability))
+					throw InvalidNumberException(availability);
+			}
+			catch (InvalidNumberException & n)
+			{
+				invalidAvailability = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (invalidAvailability);
+		
+		temp[index].set_availability(stoi(availability));
+	}
+	else if (option == 4)
+	{
+		bool invalidMaintenance;
+		string maintenance;
+		do
+		{
+			try
+			{
+				invalidMaintenance = false;
+				cout << "Current Maintenance: " << to_string(temp[index].get_maintenance()) << endl;
+				cout << "Update Maintenance: " << endl;
+				getline(cin, maintenance);
+				if (!isNumber(maintenance))
+					throw InvalidNumberException(maintenance);
+			}
+			catch (InvalidNumberException & n)
+			{
+				invalidMaintenance = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
+			}
+		} while (invalidMaintenance);
+
+		temp[index].set_maintenance(stoi(maintenance));
+	}
+
+	for (int i = 0; i < temp.size(); i++)
+	{
+		technicians.push(temp[i]);
+	}
+}
+
 
 bool clientByName(const Client * left, const Client * right) {
 	return left->get_name() < right->get_name();
