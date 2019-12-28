@@ -3,27 +3,60 @@ Ze Manel
 11:11:1999
 1200
 manager
+1
 ;
 Pedro Abrunhosa
 234567843
 9:2:1754
 4000
 customer service
+0
+;
+Jeff Bezos
+224897394
+10:1:2000
+-9
+Accountant
+1
 ;
 Jose Cid
 222222222
 22:23:2000
 10
 ya boi
+1
+;
+Spencer
+497285739
+2:10:1990
+1230.45
+Product Manager
+1
+;
+Jeremy Duncan
+963258741
+10:2:1996
+2500
+Product Manager II
+0
 ;;;
 Ze Maria
 123456432
 11:2:1990
 Honda ; Bike ; 11:11:2345
 2 : 3
+0
 ;
 Ric Fazeres
 167889097
 1:1:1976
 Yamazaki ; Bike ; 11:11:2345
+1
+0
+;
+Tim Cook
+114857983
+12:1:2000
+Apple ; Electric ; 10:5:2016
+-
 1

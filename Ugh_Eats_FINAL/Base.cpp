@@ -79,23 +79,13 @@ vector<Base*> Base::load(string path) {
 		base.setDeliveriesFileName(textline);
 		Order::load(textline, &base);
 
-		/*
-		for (auto & x : base.getOrders()) {
-			cout << "ID: " << x->getID() << endl;
-		}
-		*/
-
 		getline(base_text, textline);
 		base.setWorkersFileName(textline);
 		Worker::load(textline, &base);
 
-		/*
-		for (int i = 0; i < base.getWorkers().size(); i++) {
-			cout << "Name: " << base.getWorkers().at(i)->get_name() << endl;
-		}
-		*/
-
-		base.setAdmin(dynamic_cast<Admin*>(base.getWorkers().at(0)));
+		Admin* manager = *(base.getAdmins().begin());
+		base.setAdmin(manager);
+		// base.getAdmins().begin());
 		
 
 		getline(base_text, textline);
@@ -206,8 +196,18 @@ void Base::setAddress(Address add) {
 	address = add;
 }
 
+/*
 void Base::setWorkers(vector<Worker*> workers) {
 	this->workers = workers;
+}
+*/
+
+void Base::setAdmins(unordered_set<Admin*, hashAdmin, eqAdmin> admins) {
+	this->admins = admins;
+}
+
+void Base::setDeliveryPeople(unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers) {
+	this->deliveryPeople = deliverers;
 }
 
 void Base::setAdmin(Admin * administrador) {
@@ -264,8 +264,18 @@ Address Base::getAddress() const {
 	return address;
 }
 
+/*
 const vector<Worker*> & Base::getWorkers() const {
 	return workers;
+}
+*/
+
+const unordered_set<Admin*, hashAdmin, eqAdmin> Base::getAdmins() const {
+	return admins;
+}
+
+const unordered_set<Delivery*, hashDeliv, eqDeliv> Base::getDeliveryPeople() const {
+	return deliveryPeople;
 }
 
 Admin * Base::getAdmin() const {
@@ -465,7 +475,98 @@ void Base::seeOneRestaurant()
 	cin.ignore(INT_MAX,'\n');
 }
 
+int Base::seeFormerEmployees() {
 
+	bool retry = true;
+	int answer;
+    string input;
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "See Only Former Employees? " << endl;
+
+			cout << "1. Yes" << endl;
+			cout << "2. No. Only Current Employees" << endl;
+			cout << "3. No. Both Former and Current." << endl;
+			cout << "0. Go Back" << endl << endl;
+
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return 0;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(3, stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	return answer;
+}
+
+
+void Base::seeAllWorkers(bool vectorData, vector<Admin*> adminVector, vector<Delivery*> delivPeopleVector) {
+
+	// 1 -> former; 2 -> current; 3 -> both; 0 -> go back
+	int seeFormerWorkers = seeFormerEmployees();
+
+	if (seeFormerWorkers == 0) return;
+
+	vector<int> displaySubset = {};
+	int provSize = 0;
+	vector<int> adminSubsetVector;
+	vector<int> delivSubsetVector;
+
+	displaySubset.clear();
+	displaySubset.push_back(seeFormerWorkers);
+
+	utils::clear_screen();
+	cout << "ALL WORKERS" << endl << endl;
+
+	cout << "Administrators" << endl << endl;
+	if (vectorData) seeAllAdmins(displaySubset, 1, true, adminVector);
+	else seeAllAdmins(displaySubset);
+
+	cout << endl << endl;
+
+	provSize = (int) displaySubset.size();
+
+	displaySubset.clear();
+	displaySubset.push_back(seeFormerWorkers);
+
+	cout << "Delivery People" << endl << endl;
+	// if (vectorData) seeAllDeliveryPeople( (int) admins.size() + 1, true, delivPeopleVector);
+	// else seeAllDeliveryPeople( (int) admins.size() + 1);
+	if (vectorData) seeAllDeliveryPeople(displaySubset, provSize + 1, true, delivPeopleVector);
+	else seeAllDeliveryPeople(displaySubset, provSize + 1);
+}
+
+/*
 void Base::seeAllWorkers()
 {
 
@@ -501,7 +602,417 @@ void Base::seeAllWorkers()
 	}
 
 }
+*/
 
+
+
+void Base::seeOneWorker() {
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	// 1 -> former; 2 -> current; 3 -> both; 0 -> go back
+	int seeFormerWorkers = seeFormerEmployees();
+	
+	if (seeFormerWorkers == 0) return;
+
+	vector<int> displaySubset = {};
+	int provSize = 0;
+	vector<int> adminSubsetVector;
+	vector<int> delivSubsetVector;
+
+	do {
+		
+		displaySubset.clear();
+		displaySubset.push_back(seeFormerWorkers);
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "Pick the worker you want to see" << endl << endl;
+
+			cout << "Administrators" << endl << endl;
+			seeAllAdminsNames(displaySubset, 1, false, {});
+			cout << endl << endl;
+			cout << "Delivery People" << endl << endl;
+
+			provSize = (int) displaySubset.size();
+			adminSubsetVector = displaySubset;
+
+			displaySubset.clear();
+			displaySubset.push_back(seeFormerWorkers);
+
+			seeAllDeliveryPeopleNames(displaySubset, provSize + 1, false, {});
+
+			delivSubsetVector = displaySubset;
+
+			// cout << "SIZE: " << displaySubset.size() << endl;
+			/*
+			cout << endl << endl;
+			for (auto & x : displaySubset) cout << x << endl;
+			cout << endl << endl;
+			*/
+
+			cout << endl;
+			cout << "0. Go Back" << endl << endl;
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				// if (InvalidOptions(admins.size() + displaySubset.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				if (InvalidOptions(provSize + displaySubset.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				// answer = stoi(input);
+				answer = (stoi(input) > provSize) ? (delivSubsetVector[stoi(input) - provSize - 1 ] - provSize + ( (int) admins.size() ) ) : (adminSubsetVector[stoi(input) - 1] - 1);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	int counter;
+
+	// worker chosen was not an admin
+	if (answer > admins.size()) {
+		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
+		int offset = answer - ( (int) admins.size() );
+		counter = 0;
+		
+		while (counter < offset - 1) {
+			delIt++;
+			counter++;
+		}
+		(*delIt)->print();
+	}
+	// worker chosen was an admin
+	else {
+		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
+		counter = 0;
+
+		while (counter < answer) {
+			admIt++;
+			counter++;
+		}
+		(*admIt)->print();
+	}
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+void Base::seeAllDeliveryPeopleNames(vector<int> &displaySubset, int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
+
+	int condition = displaySubset[0];
+	int realPos = i;
+
+	displaySubset.clear();
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
+
+	vector<Delivery*>::iterator itVector;
+
+	if (vectorData) {
+		itVector = delivPeopleVector.begin();
+
+		// 1 -> former; 2 -> current; 3 -> both
+		switch (condition) {
+
+			case 1:
+				while (itVector != delivPeopleVector.end()) {
+
+					if ((*itVector)->get_state() == false) {
+						cout << i << ". ";
+						cout << (*itVector)->get_name() << " [FORMER EMPLOYEE]" << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					itVector++;
+					realPos++;
+					
+				}
+				break;
+
+			case 2:
+				while (itVector != delivPeopleVector.end()) {
+					
+					if ((*itVector)->get_state()) {
+						cout << i << ". ";
+						cout << (*itVector)->get_name() << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					itVector++;
+					realPos++;
+
+				}
+				break;
+
+			case 3:
+				while (itVector != delivPeopleVector.end()) {
+					cout << i << ". ";
+					cout << (*itVector)->get_name();
+
+					if ((*itVector)->get_state()) cout << endl;
+					else cout << " [FORMER EMPLOYEE]" << endl;
+
+					displaySubset.push_back(realPos);
+
+					i++;
+					realPos++;
+					itVector++;
+				}
+				break;
+		}
+	}
+
+	else {
+
+		// 1 -> former; 2 -> current; 3 -> both
+		switch (condition) {
+
+			case 1:
+				while (it != deliveryPeople.end()) {
+					
+					if ((*it)->get_state() == false) {
+						cout << i << ". ";
+						cout << (*it)->get_name() << " [FORMER EMPLOYEE]" << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					it++;
+					realPos++;
+				}
+				break;
+
+			case 2:
+				while (it != deliveryPeople.end()) {
+					
+					if ((*it)->get_state()) {
+						cout << i << ". ";
+						cout << (*it)->get_name() << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					it++;
+					realPos++;
+				}
+				break;
+
+			case 3:
+				while (it != deliveryPeople.end()) {
+					cout << i << ". ";
+					cout << (*it)->get_name();
+
+					if ((*it)->get_state()) cout << endl;
+					else cout << " [FORMER EMPLOYEE]" << endl;
+
+					displaySubset.push_back(realPos);
+
+					i++;
+					realPos++;
+					it++;
+				}
+				break;
+		}
+
+		/*
+		while (it != deliveryPeople.end()) {
+			cout << i++ << ". ";
+			cout << (*it)->get_name();
+			
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			it++;
+		}
+		*/
+	}
+}
+
+void Base::seeAllAdminsNames(vector<int> &displaySubset, int i, bool vectorData, vector<Admin*> adminVector) {
+	
+	int condition = displaySubset[0];
+	int realPos = i;
+
+	displaySubset.clear();
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
+
+	vector<Admin*>::iterator itVector;
+
+	if (vectorData) {
+		itVector = adminVector.begin();
+
+		// 1 -> former; 2 -> current; 3 -> both
+		switch (condition) {
+
+
+			case 1:
+				while (itVector != adminVector.end()) {
+
+					if ((*itVector)->get_state() == false) {
+						cout << i << ". ";
+						cout << (*itVector)->get_name() << " [FORMER EMPLOYEE]" << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					itVector++;
+					realPos++;
+
+				}
+				break;
+
+			case 2:
+				while (itVector != adminVector.end()) {
+
+					if ((*itVector)->get_state()) {
+						cout << i << ". ";
+						cout << (*itVector)->get_name() << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					itVector++;
+					realPos++;
+
+				}
+				break;
+			
+			case 3:
+				while (itVector != adminVector.end()) {
+					cout << i << ". ";
+					cout << (*itVector)->get_name();
+
+					if ((*itVector)->get_state()) cout << endl;
+					else cout << " [FORMER EMPLOYEE]" << endl;
+
+					displaySubset.push_back(realPos);
+
+					i++;
+					realPos++;
+					itVector++;
+				}
+				break;
+				
+				
+			/*
+			while (itVector != adminVector.end()) {
+				cout << i++ << ". ";
+				cout << (*itVector)->get_name();
+
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+
+				itVector++;
+			}
+			*/
+		}
+	}
+
+	else {
+
+		// 1 -> former; 2 -> current; 3 -> both
+		switch (condition) {
+			case 1:
+				while (it != admins.end()) {
+
+					if ((*it)->get_state() == false) {
+						cout << i << ". ";
+						cout << (*it)->get_name() << " [FORMER EMPLOYEE]" << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					it++;
+					realPos++;
+				}
+				break;
+
+			case 2:
+				while (it != admins.end()) {
+
+					if ((*it)->get_state()) {
+						cout << i << ". ";
+						cout << (*it)->get_name() << endl;
+
+						displaySubset.push_back(realPos);
+
+						i++;
+					}
+					it++;
+					realPos++;
+				}
+				break;
+
+			case 3:
+				while (it != admins.end()) {
+					cout << i << ". ";
+					cout << (*it)->get_name();
+
+					if ((*it)->get_state()) cout << endl;
+					else cout << " [FORMER EMPLOYEE]" << endl;
+
+					displaySubset.push_back(realPos);
+
+					i++;
+					realPos++;
+					it++;
+				}
+				break;
+		}
+
+		/*
+		while (it != admins.end()) {
+			cout << i++ << ". ";
+			cout << (*it)->get_name();
+
+			if ((*it)->get_state()) cout << endl;
+			else cout << " [FORMER EMPLOYEE]" << endl;
+
+			it++;
+		}
+		*/
+	}
+}
+
+/*
 void Base::seeOneWorker()
 {
 
@@ -579,7 +1090,9 @@ void Base::seeOneWorker()
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
 
+/*
 void Base::seeAllDeliverers()
 {
 	cout << "ALL DELIVERERS" << endl << endl;
@@ -594,7 +1107,193 @@ void Base::seeAllDeliverers()
 
 	}
 }
+*/
 
+void Base::seeAllDeliveryPeople(vector<int> &displaySubset, int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
+
+	bool noSubsetDisplay = false;
+	int condition = 0;
+
+	if (displaySubset.size() == 0) {
+		noSubsetDisplay = true;
+	}
+
+	else {
+		condition = displaySubset[0];
+	}
+
+	int realPos = i;
+
+	displaySubset.clear();
+
+
+	// cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
+
+	vector<Delivery*>::iterator itVector;
+
+	if (noSubsetDisplay) {
+
+		if (vectorData) {
+			itVector = delivPeopleVector.begin();
+
+			while (itVector != delivPeopleVector.end()) {
+				cout << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+
+				itVector++;
+
+				cout << endl;
+			}
+		}
+
+		else {
+			while (it != deliveryPeople.end()) {
+				cout << i++ << ".";
+				if ((*it)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*it)->print();
+
+				it++;
+
+				cout << endl;
+			}
+		}
+	}
+
+	else {
+		if (vectorData) {
+			itVector = delivPeopleVector.begin();
+
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+
+				case 1:
+					while (itVector != delivPeopleVector.end()) {
+
+						if ((*itVector)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+					}
+					break;
+
+				case 2:
+					while (itVector != delivPeopleVector.end()) {
+
+						if ((*itVector)->get_state()) {
+							cout << i << ". " << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+
+					}
+					break;
+
+				case 3:
+					while (itVector != delivPeopleVector.end()) {
+						cout << i << ". ";
+
+						if ((*itVector)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*itVector)->print();
+
+						displaySubset.push_back(realPos);
+
+						i++;
+						realPos++;
+						itVector++;
+
+						cout << endl;
+					}
+					break;
+			}
+
+		}
+
+		else {
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+				case 1:
+					while (it != deliveryPeople.end()) {
+
+						if ((*it)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 2:
+					while (it != deliveryPeople.end()) {
+
+						if ((*it)->get_state()) {
+							cout << i << ". ";
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 3:
+					while (it != deliveryPeople.end()) {
+						cout << i << ". ";
+
+						if ((*it)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*it)->print();
+
+						displaySubset.push_back(realPos);
+
+						cout << endl;
+
+						i++;
+						realPos++;
+						it++;
+					}
+					break;
+			}
+		}
+	}
+}
+
+/*
 void Base::seeAllAdministrators()
 {
 	cout << "ALL ADMINISTRATORS" << endl << endl;
@@ -608,6 +1307,202 @@ void Base::seeAllAdministrators()
 		}
 	}
 }
+*/
+
+void Base::seeAllAdmins(vector<int> &displaySubset, int i, bool vectorData, vector<Admin*> adminVector) {
+
+	bool noSubsetDisplay = false;
+	int condition = 0;
+
+	if (displaySubset.size() == 0) {
+		noSubsetDisplay = true;
+	}
+	
+	else {
+		condition = displaySubset[0];
+	}
+	
+	int realPos = i;
+
+	displaySubset.clear();
+
+
+	// cout << "ALL ADMINISTRATORS" << endl << endl;
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
+
+	vector<Admin*>::iterator itVector;
+	
+	if (noSubsetDisplay) {
+
+		if (vectorData) {
+			itVector = adminVector.begin();
+
+			while (itVector != adminVector.end()) {
+				cout << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+				
+				itVector++;
+
+				cout << endl;
+			}
+		}
+
+		else {
+			while (it != admins.end()) {
+				cout << i++ << ".";
+				if ((*it)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*it)->print();
+				
+				it++;
+
+				cout << endl;
+			}
+		}
+	}
+
+	else {
+		if (vectorData) {
+			itVector = adminVector.begin();
+
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+
+				case 1:
+					while (itVector != adminVector.end()) {
+
+						if ((*itVector)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+						
+					}
+					break;
+
+				case 2:
+					while (itVector != adminVector.end()) {
+
+						if ((*itVector)->get_state()) {
+							cout << i << ". " << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+						
+					}
+					break;
+
+				case 3:
+					while (itVector != adminVector.end()) {
+						cout << i << ". ";
+
+						if ((*itVector)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*itVector)->print();
+
+						displaySubset.push_back(realPos);
+
+						i++;
+						realPos++;
+						itVector++;
+
+						cout << endl;
+					}
+					break;
+			}
+			/*
+			while (itVector != adminVector.end()) {
+				cout << "#" << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+				cout << endl;
+				itVector++;
+			}
+			*/
+		}
+
+		else {
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+				case 1:
+					while (it != admins.end()) {
+
+						if ((*it)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 2:
+					while (it != admins.end()) {
+
+						if ((*it)->get_state()) {
+							cout << i << ". ";
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 3:
+					while (it != admins.end()) {
+						cout << i << ". ";
+
+						if ((*it)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*it)->print();
+
+						displaySubset.push_back(realPos);
+
+						cout << endl;
+
+						i++;
+						realPos++;
+						it++;
+					}
+					break;
+			}
+		}
+
+	}
+}
+
 
 void Base::seeAllOrders()
 {
@@ -690,7 +1585,6 @@ void Base::seeOneOrder()
 	} while (retry);
 
 }
-
 
 void Base::seeProfits()
 {
@@ -831,8 +1725,85 @@ void Base::seeProfitsPerTime()
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 
+	/*
+	string datei, datef, houri, hourf;
+	cout << "Type in the initial date (dd/mm/yyyy)" << endl;
+	getline(cin, datei);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
+	Date date1;
+	date1.parse(datei);
+	cout << "Type in the initial hours (hh:mm:ss)" << endl;
+	getline(cin, houri);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
+	Time hour1;
+	hour1.parse(houri);
+	cout << "Type in the final date (dd/mm/yyyy)" << endl;
+	getline(cin, datef);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
+	Date date2;
+	date2.parse(datef);
+	cout << "Type in the final hours (hh:mm:ss)" << endl;
+	getline(cin, hourf);
+	if (cin.eof())
+	{
+		cin.clear();
+		return;
+	}
+	Time hour2;
+	hour2.parse(hourf);
+	double total = 0;
+	map<int, Order*>::iterator it;
+	for (it = orders.begin(); it != orders.end(); it++)
+	{
+		if (date1 < (*it).second->getDate()) // se a data for depois da data do início
+		{
+			if ((*it).second->getDate() < date2) // a data for antes da data do fim
+				total += (*it).second->getDeliveryFee();
+			else if (date2 < (*it).second->getDate())  // a data for depois da data do fim
+				continue;
+			else // a data for igual à data do fim -> testar horas
+			{
+				if (hour2 < (*it).second->getTime())
+					continue;
+				else
+					total += (*it).second->getDeliveryFee();
+			}
+		}
+		else if ((*it).second->getDate() < date1) // se a data for antes da data de início
+			continue;
+		else // se a data e a data de início forem iguais->testar horas
+		{
+			if (date2 < (*it).second->getDate()) // se a data do fim for antes da data
+				continue;
+			else
+			{
+				if ((*it).second->getTime() < hour1) // se a hora da data for antes da hora da data de inicio
+					continue;
+				else
+					total += (*it).second->getDeliveryFee();
+			}
+		}
+	}
+	cout << "Profit made in the defined period: " << total;
 
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX,'\n');
+	*/
 }
+
 
 void Base::seeAllTechnicians()
 {
@@ -849,7 +1820,6 @@ void Base::seeAllTechnicians()
 		cout << endl;
 	}
 }
-
 
 void Base::seeBase()
 {
@@ -1239,6 +2209,7 @@ void Base::removeClient() {
 	cin.ignore(INT_MAX,'\n');
 }
 
+/*
 void Base::addWorker() {
 
 	// checks if there is a manager (if it exists, it is the first element of the vector workers
@@ -1645,9 +2616,525 @@ void Base::addWorker() {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
 
+void Base::addWorker() {
+	
+	bool invalidWorkerType;
+	string strWorkerType;
+	int workerType;
+
+	do {
+		try {
+			invalidWorkerType = false;
+			cout << "Adding an Administrator or a Delivery person?" << endl;
+			cout << "1. Administrator" << endl;
+			cout << "2. Delivery" << endl;
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+
+			getline(cin, strWorkerType);
+
+			if (strWorkerType == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(strWorkerType))	throw InvalidNumberException(strWorkerType);
+			if (strWorkerType != "") {
+				if (InvalidOptions(2, stoi(strWorkerType))) throw InvalidOptionException(stoi(strWorkerType));
+			}
+			else {
+				invalidWorkerType = true;
+				utils::clear_screen();
+			}
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidWorkerType = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & s)
+		{
+			invalidWorkerType = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidWorkerType);
+
+	workerType = stoi(strWorkerType);
+
+	switch (workerType) {
+		case 1:
+			addAdmin();
+			break;
+		
+		case 2:
+			addDeliverer();
+			break;
+	}
+
+}
+
+void Base::addAdmin() {
+
+	Admin a;
+
+	utils::clear_screen();
+
+	cout << "Administrator Sign In" << endl << endl;
+
+	bool managerExists = checkForManager();
+	bool invalidManagerInput = false;
+	string strManagerInput;
+	int managerInput = -1;
+
+	bool invalidRoleInput = false;
+	string roleInput;
+
+	// Role Input
+	if (!managerExists) {
+		do {
+			invalidManagerInput = false;
+
+			cout << "Is this Administrator the Manager? " << endl;
+			cout << "1. Yes" << endl;
+			cout << "2. No" << endl;
+			cout << ">> ";
+			getline(cin, strManagerInput);
+
+			if (cin.eof()) {
+				cin.clear();
+				return;
+			}
+
+			try {
+				if (!isNumber(strManagerInput)) throw InvalidNumberException(strManagerInput);
+				managerInput = stoi(strManagerInput);
+
+				if (strManagerInput != "") {
+					if (InvalidOptions(2, managerExists)) throw InvalidOptionException(managerExists);
+				}
+				else {
+					invalidManagerInput = true;
+					utils::clear_screen();
+				}
+			}
+			catch (InvalidOptionException & o) {
+				invalidManagerInput = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+			}
+			catch (InvalidNumberException & s) {
+				invalidManagerInput = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+
+			cout << endl;
+		} while (invalidManagerInput);
+	}
+
+	if (managerInput == 1) a.set_role("manager");
+
+	else {
+		do {
+			try {
+				invalidRoleInput = false;
+				cout << "Role: ";
+				getline(cin, roleInput);
+				if (!isString(roleInput)) throw InvalidStringException(roleInput);
+
+				// if it is not manager then it can't be manager
+				if (roleInput == "manager") {
+					invalidRoleInput = true;
+				}
+
+				cout << endl;
+			}
+
+			catch (InvalidStringException & s) {
+				invalidRoleInput = true;
+				cout << s;
+				cout << "Try Again!" << endl << endl;
+			}
+
+		} while (invalidRoleInput);
+
+		a.set_role(roleInput);
+	}
+	
+	// Name Input
+	bool invalidName;
+	string name;
+	do {
+		try{
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name)) throw InvalidStringException(name);
+			cout << endl;
+		}
+
+		catch (InvalidStringException & s) {
+			invalidName = true;
+			cout << s;
+			cout << "Try Again" << endl << endl;
+		}
+
+	} while (invalidName);
+	a.set_name(name);
+
+	// Nif Input
+	bool invalidNif;
+	string strNif;
+	do {
+		invalidNif = false;
+
+		cout << "NIF: ";
+		getline(cin, strNif);
+
+		try {
+			if (!isNumber(strNif) || strNif.size() != 9) throw InvalidNIFException(strNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalidNif = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidNif);
+
+	a.set_NIF(stoi(strNif));
+
+	// Birth day Input
+	bool invalidBirthday;
+	Date_time birthday;
+	bool teste;
+	do {
+		invalidBirthday = false;
+
+		string fullBirthday;
+		cout << "Birthday: ";
+		getline(cin, fullBirthday);
+
+		try {
+			teste = birthday.parse(fullBirthday);
+			if (!teste || !isDateValid(birthday)) throw InvalidDateException(fullBirthday);
+		}
+		catch (InvalidDateException & d) {
+			invalidBirthday = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidBirthday);
+	
+	a.set_birthday(birthday);
+
+	// Wage Input
+	bool invalidWage;
+	string strWage;
+
+	do {
+		invalidWage = false;
+
+		cout << "Wage: ";
+		getline(cin, strWage);
+
+		try {
+			if (!isNumber(strWage)) throw InvalidNumberException(strWage);
+
+			if (stod(strWage) < 0) {
+				invalidWage = true;
+				cout << "Wage must be a positive value." << endl;
+				cout << "Try Again!" << endl << endl;
+			}
+		}
+
+		catch (InvalidNumberException & s) {
+			invalidWage = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalidWage);
+
+	a.set_wage(stod(strWage));
+
+
+	a.set_state(true);
+
+
+	Admin * adminPtr = new Admin;
+	*adminPtr = a;
+
+	if (checkInactiveAdminInDatabase(a)) {
+		cout << "\nWelcome Back! (Enter to continue)" << endl;
+	}
+
+	else {
+		auto pair_ = admins.insert(adminPtr);
+
+		// If Error in Insertion, the admin was already "in the system"
+		if (pair_.second == false) {
+			cout << "Error In Sign In" << endl;
+		}
+		else {
+			cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		}
+	}
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+bool Base::checkForManager() {
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
+
+	while (it != admins.end()) {
+		if ( ((*it)->get_role() == "manager") && ( (*it)->get_state() == true)) return true;
+		it++;
+	}
+
+	return false;
+}
+
+bool Base::checkInactiveAdminInDatabase(Admin a) {
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator adminIt = admins.begin();
+
+	while (adminIt != admins.end()) {
+
+		if ((*(*adminIt) == a) && ((*adminIt)->get_state() == false)) {
+			(*adminIt)->set_state(true);
+			return true;
+		}
+
+		adminIt++;
+	}
+	return false;
+}
+
+void Base::addDeliverer() {
+
+	Delivery del;
+	Vehicle veh;
+
+	utils::clear_screen();
+
+	cout << "Delivery Person Sign In" << endl << endl;
+	
+	// Name Input
+	bool invalidName;
+	string name;
+	do {
+		try {
+			invalidName = false;
+			cout << "Name: ";
+			getline(cin, name);
+			if (!isString(name)) throw InvalidStringException(name);
+			cout << endl;
+		}
+
+		catch (InvalidStringException & s) {
+			invalidName = true;
+			cout << s;
+			cout << "Try Again" << endl << endl;
+		}
+
+	} while (invalidName);
+	del.set_name(name);
+
+	// Nif Input
+	bool invalidNif;
+	string strNif;
+	do {
+		invalidNif = false;
+
+		cout << "NIF: ";
+		getline(cin, strNif);
+
+		try {
+			if (!isNumber(strNif) || strNif.size() != 9) throw InvalidNIFException(strNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalidNif = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidNif);
+
+	del.set_NIF(stoi(strNif));
+
+	// Birth day Input
+	bool invalidBirthday;
+	Date_time birthday;
+	bool teste;
+	do {
+		invalidBirthday = false;
+
+		string fullBirthday;
+		cout << "Birthday: ";
+		getline(cin, fullBirthday);
+
+		try {
+			teste = birthday.parse(fullBirthday);
+			if (!teste || !isDateValid(birthday)) throw InvalidDateException(fullBirthday);
+		}
+		catch (InvalidDateException & d) {
+			invalidBirthday = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidBirthday);
+
+	del.set_birthday(birthday);
+
+
+	veh = newVehicle();
+
+	Vehicle * vehiclePtr = new Vehicle;
+	*vehiclePtr = veh;
+	del.set_vehicle(veh);
+
+	del.set_state(true);
+	
+
+	Delivery * delivPtr = new Delivery;
+	*delivPtr = del;
+	
+	if (checkInactiveDelivPersonInDatabase(del)) {
+		cout << "\nWelcome Back! (Enter to continue)" << endl;
+	}
+
+	else {
+		auto pair_ = deliveryPeople.insert(delivPtr);
+
+		// If Error in Insertion, the admin was already "in the system"
+		if (pair_.second == false) {
+			cout << "\nError In Sign In" << endl;
+		}
+		else {
+			cout << "\nWorker successfully added! (Enter to continue)" << endl;
+		}
+	}
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+bool Base::checkInactiveDelivPersonInDatabase(Delivery d) {
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	while (delivIt != deliveryPeople.end()) {
+
+		if ((*(*delivIt) == d) && ((*delivIt)->get_state() == false)) {
+			(*delivIt)->set_state(true);
+			return true;
+		}
+
+		delivIt++;
+	}
+	return false;
+}
+
+Vehicle Base::newVehicle() {
+
+	Vehicle v;
+
+	// Vehicle Brand
+	bool retry = true;
+	string vehicleBrand;
+	
+	do {
+		try {
+			retry = false;
+			cout << "Vehicle Brand: ";
+			getline(cin, vehicleBrand);
+			if (!isString(vehicleBrand)) throw InvalidStringException(vehicleBrand);
+		}
+		catch (InvalidStringException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	v.set_brand(vehicleBrand);
+
+	cout << endl;
+
+	// Vehicle Type
+	string vehicleType;
+
+	do {
+		try {
+			retry = false;
+			cout << "Vehicle Type: ";
+			getline(cin, vehicleType);
+			if (!isString(vehicleType)) throw InvalidStringException(vehicleType);
+		}
+
+		catch (InvalidStringException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	v.set_type(vehicleType);
+
+	cout << endl;
+	
+	// Vehicle Registration Date
+	bool invalidRegistrationDate = false;
+	bool checkValid;
+	string strRegistrationDate;
+	Date_time registrationDate;
+
+	do {
+		invalidRegistrationDate = false;
+		cout << "Registration Date: ";
+		getline(cin, strRegistrationDate);
+
+		try {
+			checkValid = registrationDate.parse(strRegistrationDate);
+			if (!checkValid || !isDateValid(registrationDate))
+				throw InvalidDateException(strRegistrationDate);
+		}
+
+		catch (InvalidDateException & d) {
+			invalidRegistrationDate = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		cout << endl;
+	} while (invalidRegistrationDate);
+
+	v.set_registrationDate(registrationDate);
+
+	return v;
+}
+
+/*
 void Base::changeWorker() {
-
 	Admin *adminCheck;
 	Delivery *deliveryCheck;
 	int firstDeliveryIndex = 0;
@@ -1655,10 +3142,6 @@ void Base::changeWorker() {
 	bool invalidOption = false;
 	string strWorkerChoice;
 	int workerChoice;
-
-
-
-
 	do {
 		invalidOption = false;
 		foundFirstDelivery = false;
@@ -2254,10 +3737,10 @@ void Base::changeWorker() {
 				cout << "Updated Registration Date: ";
 				getline(cin, strNewRegistDate);
 
-				/*				if (cin.eof()) {
-									cin.clear();
-									return;
-								}*/
+								//if (cin.eof()) {
+								//	cin.clear();
+								//	return;
+								//}
 
 				try {
 					teste = newRegistDate.parse(strNewRegistDate);
@@ -2288,7 +3771,480 @@ void Base::changeWorker() {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
 
+void Base::changeWorker() {
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	vector<int> displaySubset = {};
+
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "Pick the worker you want to change" << endl << endl;
+
+			cout << "Administrators" << endl << endl;
+			seeAllAdmins(displaySubset);
+			cout << endl << endl;
+			cout << "Delivery People" << endl << endl;
+			seeAllDeliveryPeople(displaySubset, (int) admins.size() + 1);
+
+			cout << "0. Go Back" << endl << endl;
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(admins.size() + deliveryPeople.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	int counter;
+
+	// worker chosen was not an admin
+	if (answer > admins.size()) {
+		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
+		int offset = answer % admins.size();
+		counter = 0;
+
+		while (counter < offset - 1) {
+			delIt++;
+			counter++;
+		}
+
+		Delivery delivPerson = **delIt;
+
+		deliveryPeople.erase(delIt);
+
+		Delivery d = changeDeliveryPerson(delivPerson);
+
+		Delivery * dPtr = new Delivery;
+		*dPtr = d;
+
+		auto pair_1 = deliveryPeople.insert(dPtr);
+
+		// If an Error Occured
+		if (pair_1.second == false) {
+			cout << "\nError In Changes" << endl;
+		}
+
+		else {
+			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
+		}
+
+
+	}
+	else { // worker chosen was an admin
+
+		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
+		counter = 0;
+
+		while (counter < answer - 1) {
+			admIt++;
+			counter++;
+		}
+
+		Admin administrator = **admIt;
+
+		admins.erase(admIt);
+
+		Admin a = changeAdmin(administrator);
+
+		Admin * aPtr = new Admin;
+		*aPtr = a;
+
+		auto pair_2 = admins.insert(aPtr);
+
+		// If an Error Occured
+		if (pair_2.second == false) {
+			cout << "\nError In Changes" << endl;
+		}
+		else {
+			cout << "\nWorker successfully changed! (Enter to continue)" << endl;
+		}
+	}
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+}
+
+
+string Base::changeName(string currentName) {
+
+	bool invalid;
+	string newName;
+
+	do {
+		invalid = false;
+
+		try {
+			cout << "Current Name: " << currentName << endl;
+			cout << "Updated Name: ";
+			getline(cin, newName);
+			if (!isString(newName)) throw InvalidStringException(newName);
+		}
+
+		catch (InvalidStringException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+	
+	cout << endl; 
+
+	return newName;
+}
+
+int Base::changeNif(int currentNif) {
+
+	bool invalid;
+	string strNewNif;
+
+	do {
+		invalid = false;
+
+		cout << "Current Nif: " << currentNif << endl;
+		cout << "Updated Nif: ";
+		getline(cin, strNewNif);
+
+		try {
+			if (!isNumber(strNewNif) || strNewNif.size() != 9)
+				throw InvalidNIFException(strNewNif);
+		}
+
+		catch (InvalidNIFException & n) {
+			invalid = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	
+	} while (invalid);
+
+	cout << endl;
+
+	return stoi(strNewNif);
+}
+
+Date_time Base::changeBirthday(Date_time currentBday) {
+
+	bool invalid, noParseError;
+	string fullBirthday;
+	Date_time newBday;
+
+	do {
+		invalid = false;
+
+		cout << "Current Birthday: " << currentBday << endl;
+		cout << "Updated Birthday: ";
+		getline(cin, fullBirthday);
+		
+		try {
+			noParseError = newBday.parse(fullBirthday);
+			if (!noParseError || !isDateValid(newBday)) throw InvalidDateException(fullBirthday);
+		}
+
+		catch (InvalidDateException & d) {
+			invalid = true;
+			cout << d;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	cout << endl;
+
+	return newBday;
+}
+
+double Base::changeWage(double currentWage) {
+
+	bool invalid;
+	string strNewWage;
+
+	do {
+		invalid = false;
+
+		cout << "Current Wage: " << currentWage << endl;
+		cout << "Updated Wage: ";
+		getline(cin, strNewWage);
+
+		try {
+			if (!isNumber(strNewWage)) throw InvalidNumberException(strNewWage);
+		}
+
+		catch (InvalidNumberException & n) {
+			invalid = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	cout << endl;
+
+	return stod(strNewWage);
+}
+
+string Base::changeRole(string currentRole, bool managerExists) {
+
+	bool invalid;
+	string newRole;
+
+	do {
+		try {
+			invalid = false;
+			cout << "Current role: " << currentRole << endl;
+			cout << "Updated role: ";
+			getline(cin, newRole);
+
+			if (!isString(newRole)) throw InvalidStringException(newRole);
+
+			if (newRole == "manager" && managerExists) {
+				invalid = true;
+				cout << "There is already a manager in this base" << endl;
+			}
+
+		}
+
+		catch (InvalidStringException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+	return newRole;
+}
+
+Vehicle Base::changeVehicle(Vehicle currentVehicle) {
+
+	cout << "Current Vehicle" << endl;
+
+	cout << "Vehicle Brand: " << currentVehicle.get_brand() << endl;
+	cout << "Vehicle Type: " << currentVehicle.get_type() << endl;
+	cout << "Vehicle Registration Date: " << currentVehicle.get_registration_date() << endl;
+
+	cout << endl << endl;
+	Vehicle newVehicle = Base::newVehicle();
+
+	return newVehicle;
+}
+
+map<int, Order*> Base::changeHistory(map<int, Order*> currentHistory) {
+	
+	map<int, Order*> newHistory;
+	
+
+	return newHistory;
+}
+
+
+Delivery Base::changeDeliveryPerson(Delivery d) {
+	
+	list<string> delivOptions = { "Name", "Nif", "Birthday", "Vehicle", "Delivery History" };
+
+	bool invalid;
+	int index;
+	list<string>::iterator optionsIt;
+	string strDelivAttributeChoice;
+	int delivAttributeChoice;
+
+	do {
+		index = 0;
+		invalid = false;
+
+		cout << "Pick the field you want to change information of:" << endl;
+
+		for (optionsIt = delivOptions.begin(); optionsIt != delivOptions.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strDelivAttributeChoice);
+
+			if (!isNumber(strDelivAttributeChoice)) throw InvalidNumberException(strDelivAttributeChoice);
+
+			if (strDelivAttributeChoice != "") {
+				delivAttributeChoice = stoi(strDelivAttributeChoice);
+				if (InvalidOptions(delivOptions.size(), delivAttributeChoice)) throw InvalidOptionException(delivAttributeChoice);
+			}
+
+			else {
+				invalid = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			invalid = true;
+			cout << o;
+			cout << "Try Again!" << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalid);
+
+
+	switch (delivAttributeChoice) {
+
+		// Name
+		case 1:
+			d.set_name(changeName(d.get_name()));
+			break;
+
+		// Nif
+		case 2:
+			d.set_NIF(changeNif(d.get_NIF()));
+			break;
+
+		// Birthday
+		case 3:
+			d.set_birthday(changeBirthday(d.get_birthday()));
+			break;
+
+		// Vehicle
+		case 4:
+			d.set_vehicle(changeVehicle(d.get_vehicle()));
+			break;
+
+		// Delivery History
+		case 5:
+			d.set_history(changeHistory(d.get_history()));
+			d.set_wage(d.calculate_wage());
+			break;
+	}
+
+	return d;
+}
+
+Admin Base::changeAdmin(Admin a) {
+
+	list<string> adminOptions = { "Name", "Nif", "Birthday", "Wage", "Role" };
+	
+	bool invalid;
+	int index;
+	list<string>::iterator optionsIt;
+	string strAdminAttributeChoice;
+	int adminAttributeChoice;
+
+	bool managerExists = checkForManager();
+
+	do {
+		index = 0;
+		invalid = false;
+
+		cout << "Pick the field you want to change information of:" << endl;
+
+		for (optionsIt = adminOptions.begin(); optionsIt != adminOptions.end(); ++optionsIt, ++index) {
+			cout << index + 1 << ". " << (*optionsIt) << endl;
+		}
+
+		try {
+			cout << ">> ";
+			getline(cin, strAdminAttributeChoice);
+
+			if (!isNumber(strAdminAttributeChoice)) throw InvalidNumberException(strAdminAttributeChoice);
+
+			if (strAdminAttributeChoice != "") {
+				adminAttributeChoice = stoi(strAdminAttributeChoice);
+				if (InvalidOptions(adminOptions.size(), adminAttributeChoice)) throw InvalidOptionException(adminAttributeChoice);
+			}
+
+			else {
+				invalid = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			invalid = true;
+			cout << o;
+			cout << "Try Again!" << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			invalid = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+	
+	} while (invalid);
+
+
+	switch (adminAttributeChoice) {
+
+		// Name
+		case 1:
+			a.set_name( changeName(a.get_name()) );
+			break;
+
+		// Nif
+		case 2:
+			a.set_NIF( changeNif(a.get_NIF()) );
+			break;
+
+		// Birthday
+		case 3:
+			a.set_birthday( changeBirthday(a.get_birthday()) );
+			break;
+
+		// Wage
+		case 4:
+			a.set_wage( changeWage(a.get_wage()) );
+			break;
+
+		// Role
+		case 5:
+			a.set_role( changeRole(a.get_role(), managerExists) );
+			break;
+	}
+
+	return a;
+}
+
+/*
 void Base::removeWorker() {
 
 	Admin *adminCheck;
@@ -2385,6 +4341,110 @@ void Base::removeWorker() {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
+*/
+
+void Base::removeWorker() {
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	vector<int> displaySubset = {};
+
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+			cout << "Pick the worker you want to remove" << endl << endl;
+
+			cout << "Administrators" << endl << endl;
+			seeAllAdmins(displaySubset);
+			cout << endl << endl;
+			cout << "Delivery People" << endl << endl;
+			seeAllDeliveryPeople(displaySubset, (int) admins.size() + 1);
+
+			cout << "0. Go Back" << endl << endl;
+			cout << ">> ";
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(admins.size() + deliveryPeople.size(), stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	int counter;
+
+	// worker chosen was not an admin
+	if (answer > admins.size()) {
+
+		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
+		int offset = answer % admins.size();
+		counter = 0;
+
+		while (counter < offset - 1) {
+			delIt++;
+			counter++;
+		}
+
+		// deliveryPeople.erase(delIt);
+
+		(*delIt)->set_state(false);
+
+	}
+
+	else {
+
+		unordered_set<Admin*, hashAdmin, eqAdmin>::iterator admIt = admins.begin();
+		counter = 0;
+
+		while (counter < answer - 1) {
+			admIt++;
+			counter++;
+		}
+
+		// admins.erase(admIt);
+
+		(*admIt)->set_state(false);
+
+	}
+
+	cout << "\nWorker successfully removed! (Enter to continue)" << endl;
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+}
+
 
 void Base::addRestaurant() {
 
@@ -3352,7 +5412,8 @@ bool workerByNIF(const Worker * left, const Worker * right) {
 	return left->get_NIF() < right->get_NIF();
 }
 
-bool Base::orderWorkers()
+/*
+bool Base::sortDisplayWorkers()
 {
 	string input;
 
@@ -3369,6 +5430,138 @@ bool Base::orderWorkers()
 
 	return true;
 }
+*/
+
+void Base::sortDisplayWorkers() {
+
+	// Save "Original" Unordered Sets
+	unordered_set<Admin*, hashAdmin, eqAdmin> savedAdmins = admins;
+	unordered_set<Delivery*, hashDeliv, eqDeliv> savedDeliveryPeople = deliveryPeople;
+
+	bool retry = true;
+	int answer;
+	string input;
+
+	// Sorting Options
+	do {
+		try {
+			utils::clear_screen();
+			retry = false;
+
+			cout << "What parameter do you want the workers to be sorted by? " << endl;
+			cout << "1. Name" << endl;
+			cout << "2. NIF" << endl;
+			cout << "3. None" << endl;
+			cout << ">> ";
+
+			getline(cin, input);
+
+			if (input == "0") {
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+
+			if (!isNumber(input)) throw InvalidNumberException(input);
+
+			if (input != "") {
+				if (InvalidOptions(3, stoi(input))) throw InvalidOptionException(stoi(input));
+				answer = stoi(input);
+			}
+
+			else {
+				retry = true;
+				utils::clear_screen();
+			}
+
+		}
+
+		catch (InvalidOptionException & o) {
+			retry = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+		catch (InvalidNumberException & s) {
+			retry = true;
+			cout << s;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (retry);
+
+	cout << endl;
+
+	vector<Admin*> adminsVector;
+	copy(admins.begin(), admins.end(), back_inserter(adminsVector));
+
+	vector<Delivery*> delivPeopleVector;
+	copy(deliveryPeople.begin(), deliveryPeople.end(), back_inserter(delivPeopleVector));
+
+	// Sorting
+	switch (answer) {
+		// Name
+		case 1:
+			sort(adminsVector.begin(), adminsVector.end(), workerByName);
+			sort(delivPeopleVector.begin(), delivPeopleVector.end(), workerByName);
+			break;
+
+		// Nif
+		case 2:
+			sort(adminsVector.begin(), adminsVector.end(), workerByNIF);
+			sort(delivPeopleVector.begin(), delivPeopleVector.end(), workerByNIF);
+			break;
+		
+		// None
+		case 3:
+			break;
+
+	}
+	
+
+	// Convert admins' Unordered Set to Vector
+	/*
+	unordered_set<Admin*, hashAdmin, eqAdmin> sortedAdmins;
+
+	for (auto & element1 : adminsVector) {
+		sortedAdmins.insert(element1);
+	}
+	*/
+
+	// Convert delivery People's Unordered Set to Vector
+	/*
+	unordered_set<Delivery*, hashDeliv, eqDeliv> sortedDeliveryPeople;
+
+	for (auto & element2 : delivPeopleVector) {
+		sortedDeliveryPeople.insert(element2);
+	}
+	*/
+
+	// Set the Unordered Sets to the Sorted Ones
+	/*
+	admins = sortedAdmins;
+	deliveryPeople = sortedDeliveryPeople;
+	this->setAdmins(sortedAdmins);
+	this->setDeliveryPeople(sortedDeliveryPeople);
+	*/
+
+	// Display Information
+	seeAllWorkers(true, adminsVector, delivPeopleVector);
+
+	// Set the Unordered Sets to the "Original" Ones (Probably Unnecessary)
+	/*
+	admins = savedAdmins;
+	deliveryPeople = savedDeliveryPeople;
+	this->setAdmins(savedAdmins);
+	this->setDeliveryPeople(savedDeliveryPeople);
+	*/
+
+	cout << ">> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+}
+
 /*
 bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right) {
 	double priceLeft, priceRight;
@@ -3381,10 +5574,13 @@ bool orderByPrice(const pair<int,Order*> & left, const pair<int, Order*> & right
 
 	return priceLeft < priceRight;
 }
+*/
 
+/*
 bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right) {
 	return left.second->getDeliveryFee() < right.second->getDeliveryFee();
 }
+*/
 
 bool Base::orderOrders()
 {
@@ -3398,14 +5594,14 @@ bool Base::orderOrders()
 
 	getline(cin, input);
 
-	if (input == "1");
-	if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
-	if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
-	else false;
+	//if (input == "1");
+	// if (input == "2") sort(orders.begin(), orders.end(), orderByPrice);
+	// if (input == "3") sort(orders.begin(), orders.end(), orderByFee);
+	//else false;
 
 	return true;
 }
-*/
+
 
 void Base::searchForRestaurant()
 {
@@ -3620,6 +5816,7 @@ void Base::searchForCuisineTypes()
 
 }
 
+/*
 Delivery* Base::getDeliveryMan()
 {
 	//buscar o delivery man c menos historial feito
@@ -3645,8 +5842,28 @@ Delivery* Base::getDeliveryMan()
 	}
 	return result;
 }
+*/
 
+Delivery * Base::getDeliveryMan() {
 
+	if (deliveryPeople.size() == 0) return nullptr;
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	Delivery * minDeliv = (*delivIt);
+
+	while (delivIt != deliveryPeople.end()) {
+		
+		if ((*delivIt)->get_history().size() < ((*minDeliv).get_history().size())) {
+			minDeliv = (*delivIt);
+		}
+
+		delivIt++;
+
+	}
+
+	return minDeliv;
+}
 
 void Base::writeRestaurantsFile(string fileName) {
 
@@ -3743,6 +5960,7 @@ void Base::writeDeliveriesFile(string fileName) {
 	deliveriesFileInput.close();
 }
 
+/*
 void Base::writeWorkersFile(string fileName) {
 
 	ofstream workersFileInput(fileName);
@@ -3834,6 +6052,106 @@ void Base::writeWorkersFile(string fileName) {
 			workersFileInput << endl;
 		}
 	}
+	workersFileInput.close();
+}
+*/
+
+void Base::writeWorkersFile(string fileName) {
+
+	ofstream workersFileInput(fileName);
+
+	try {
+		if (workersFileInput.fail()) throw FileOpenErrorException(fileName);
+	}
+
+	catch (FileOpenErrorException & f) {
+		cout << f;
+		exit(0);
+	}
+
+	bool firstAdmin = true;
+
+	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator adminIt = admins.begin();
+
+	while (adminIt != admins.end()) {
+
+		if (firstAdmin) firstAdmin = false;
+		else workersFileInput << ";" << endl;
+
+		workersFileInput << (*adminIt)->get_name() << endl;
+		workersFileInput << (*adminIt)->get_NIF() << endl;
+
+		workersFileInput << (*adminIt)->get_birthday().getDay();
+		workersFileInput << ":";
+		workersFileInput << (*adminIt)->get_birthday().getMonth();
+		workersFileInput << ":";
+		workersFileInput << (*adminIt)->get_birthday().getYear();
+
+		workersFileInput << endl;
+
+		workersFileInput << (*adminIt)->get_wage() << endl;
+		workersFileInput << (*adminIt)->get_role() << endl;
+		workersFileInput << (*adminIt)->get_state() << endl;
+		adminIt++;
+	}
+
+	workersFileInput << ";;;" << endl;
+
+	bool firstDeliv = true;
+	bool firstOrder = true;
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delivIt = deliveryPeople.begin();
+
+	while (delivIt != deliveryPeople.end()) {
+		
+		if (firstDeliv) firstDeliv = false;
+		else workersFileInput << ";" << endl;
+
+		workersFileInput << (*delivIt)->get_name() << endl;
+		workersFileInput << (*delivIt)->get_NIF() << endl;
+
+		workersFileInput << (*delivIt)->get_birthday().getDay();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_birthday().getMonth();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_birthday().getYear();
+
+		workersFileInput << endl;
+
+		workersFileInput << (*delivIt)->get_vehicle().get_brand();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_type();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getDay();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getMonth();
+		workersFileInput << ":";
+		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getYear();
+		
+		workersFileInput << endl;
+
+		if ((*delivIt)->get_history().size() == 0) workersFileInput << "-";
+
+		else {
+
+			firstOrder = true;
+
+			for (auto & order : (*delivIt)->get_history()) {
+				if (firstOrder) firstOrder = false;
+				
+				else workersFileInput << " : ";
+
+				workersFileInput << order.second->getID();
+			}
+		}
+
+		workersFileInput << endl;
+
+		workersFileInput << (*delivIt)->get_state() << endl;
+
+		delivIt++;
+	}
+
 	workersFileInput.close();
 }
 

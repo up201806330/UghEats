@@ -2,11 +2,13 @@
 #define PEOPLE_H
 
 #include <vector>
+#include <unordered_set>
+
 #include "utils.h"
 #include "Date_time.h"
 #include "Address.h"
 #include "Exceptions.h"
-
+// #include "hash_table.h"
 
 class Base;
 class Order;
@@ -126,10 +128,11 @@ public:
 	double get_mileage() const;
 };
 
+
 class Person {
 protected:
 	string name;
-	size_t NIF;
+	int NIF;
 
 public:
 	/**
@@ -155,7 +158,7 @@ public:
 	 * 
 	 * @param NIF 
 	 */
-	virtual void set_NIF(size_t NIF);
+	virtual void set_NIF(int NIF);
 	/**
 	 * @brief Get the name object
 	 * 
@@ -165,9 +168,9 @@ public:
 	/**
 	 * @brief Get the NIF object
 	 * 
-	 * @return size_t 
+	 * @return int
 	 */
-	size_t get_NIF() const;
+	int get_NIF() const;
 	/**
 	 * @brief Shows on screen the persons attributes
 	 * 
@@ -176,10 +179,12 @@ public:
 
 };
 
+
 class Worker : public Person {
 protected:
 	Date_time birthday;
 	double wage;
+	bool isActive;
 
 public:
 	/**
@@ -207,13 +212,21 @@ public:
 	 * 
 	 * @param data 
 	 */
-	virtual void set_birthday(Date_time data);
+	virtual void set_birthday(Date_time birthday);
 	/**
 	 * @brief Set the wage object
 	 * 
 	 * @param salario 
 	 */
-	virtual void set_wage(double salario);
+	virtual void set_wage(double wage);
+
+	/**
+	 * @brief Set the state object
+	 * 
+	 * @param isActive If True, The Worker Is Currently Employee Of The Base; If False, It Is A Former Employee.
+	 */
+	virtual void set_state(bool isActive);
+
 	/**
 	 * @brief Get the birthday object
 	 * 
@@ -228,16 +241,41 @@ public:
 	double get_wage() const;
 
 	/**
+	 * @brief Get the state object
+	 * 
+	 * @return true If The Worker Is Currently Employee Of The Base
+	 * @return false If The Worker Is A Former Employee
+	 */
+	bool get_state() const;
+
+
+	/**
 	 * @brief Shows on screen the workers attributes
 	 * 
 	 */
 	virtual void print();
 };
 
+
+
+class Admin;
+
+struct eqAdmin {
+	bool operator()(const Admin* a1, const Admin* a2) const;
+};
+
+struct hashAdmin {
+	int operator()(const Admin* a1) const;
+};
+
+
+
+
 class Admin : public Worker {
 	string role;
 
 public:
+
 	/**
 	 * @brief Construct a new Admin object
 	 * 
@@ -255,7 +293,7 @@ public:
 	 * 
 	 * @param papel 
 	 */
-	void set_role(string papel);
+	void set_role(string role);
 	/**
 	 * @brief Get the role object
 	 * 
@@ -264,11 +302,42 @@ public:
 	string get_role() const;
 
 	/**
+	 * @brief Read Admins from stream (which contains the information from the text file) to unordered_set
+	 * 
+	 * @param workers_stream ifstream of the .txt file's info
+	 * @return unordered_set<Admin*, hashAdmin, eqAdmin> 
+	 */
+	static unordered_set<Admin*, hashAdmin, eqAdmin> readAdmins(ifstream & workers_stream);
+
+	/**
 	 * @brief Shows on screen the admins attributes
 	 * 
 	 */
 	void print();
+
+	/**
+	 * @brief Checks Equality of Admin Objects Based on Name, Nif and Role
+	 * 
+	 * @param a 
+	 * @return true 
+	 * @return false 
+	 */
+	bool operator==(const Admin &a);
 };
+
+
+
+
+class Delivery;
+
+struct eqDeliv {
+	bool operator()(const Delivery* d1, const Delivery* d2) const;
+};
+
+struct hashDeliv {
+	int operator()(const Delivery* d1) const;
+};
+
 
 class Delivery : public Worker {
 	Vehicle  vehicle;
@@ -316,6 +385,16 @@ public:
 	 * @return map<int, Order*> 
 	 */
 	map<int, Order*> get_history() const;
+
+	/**
+	 * @brief Read Deliverers from stream (which contains the information from the text file) to unordered_set
+	 * 
+	 * @param workers_stream ifstream of the .txt file's info
+	 * @param base 
+	 * @return unordered_set<Delivery*, hashDeliv, eqDeliv> 
+	 */
+	static unordered_set<Delivery*, hashDeliv, eqDeliv> readDeliverers(ifstream & workers_stream, Base * base);
+
 	/**
 	 * @brief Shows on screen the delivery mans attributes
 	 * 
@@ -330,7 +409,22 @@ public:
 	double calculate_wage();
 
 	void update_vehicle();
+
+	/**
+	 * @brief Checks Equality of Delivery (People) Objects Based on Name and Nif
+	 * 
+	 * @param d 
+	 * @return true 
+	 * @return false 
+	 */
+	bool operator==(const Delivery &d);
+
 };
+
+
+
+
+
 
 class Client : public Person {
 	Address address;

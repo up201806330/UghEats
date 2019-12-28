@@ -3,21 +3,25 @@ Jose Afonso
 01:09:1980
 2000
 manager
+1
 ;
 Joaquim Barreiros
 202098876
 21:11:1990
 5000
 customer service
+1
 ;;;
 Mark Zuckerberg
 111222345
 01:01:1900
 Harley ; Bike ; 01:12:1979
 -
+1
 ;
 Tim Cook
 134546578
 19:05:1999
 Apple Car ; Eletric ; 22:04:2010
+1
 1
