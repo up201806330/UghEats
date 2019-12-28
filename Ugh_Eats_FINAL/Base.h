@@ -379,7 +379,7 @@ public:
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
 	 */
-	void seeAllDeliveryPeopleNames(int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
+	void seeAllDeliveryPeopleNames(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
 	/**
 	 * @brief Displays All of the Administrators' Names in a Human Friendly Fashion
@@ -388,7 +388,7 @@ public:
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param adminVector Vector Containing the Admin Objects
 	 */
-	void seeAllAdminsNames(int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
+	void seeAllAdminsNames(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
 
 	/**
 	 * @brief prints all delivery mens' info in human friendly fashion
