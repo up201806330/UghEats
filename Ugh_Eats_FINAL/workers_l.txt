@@ -15,13 +15,13 @@ customer service
 Mark Zuckerberg
 111222345
 1:1:1900
-Harley ; Bike ; 1:12:1979
+Harley ; Bike ; 1:12:1979 ; 98-II-HB ; 200 ; 20046
 -
 1
 ;
 Tim Cook
 134546578
 19:5:1999
-Apple Car ; Eletric ; 22:4:2010
+Apple Car ; Eletric ; 22:4:2010 ; 00-AA-87 ; 0 ; 0
 1
 1

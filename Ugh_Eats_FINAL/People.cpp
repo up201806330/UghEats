@@ -30,9 +30,9 @@ void Vehicle::parse(string str){
 	type = parts.at(1);
 	registration_date.parse(parts.at(2));
 
-	//license = parts.at(3);
-	//trips = stoi(parts.at(4));
-	//mileage = stoi(parts.at(5));
+	license = parts.at(3);
+	trips = stoi(parts.at(4));
+	mileage = stod(parts.at(5));
 }
 
 void Vehicle::set_registrationDate(Date_time data)
