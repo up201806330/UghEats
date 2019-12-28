@@ -376,18 +376,24 @@ public:
 	 */
 	void seeOneWorker();
 
+
 	/**
 	 * @brief Displays All of the Deliveries' People's Names in a Human Friendly Fashion
 	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
 	 * @param i Start Index For The Listing
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
 	 */
 	void seeAllDeliveryPeopleNames(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
+
 	/**
 	 * @brief Displays All of the Administrators' Names in a Human Friendly Fashion
 	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
 	 * @param i Displays All of the Administrators' Info in a Human Friendly Fashion
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param adminVector Vector Containing the Admin Objects
@@ -402,10 +408,12 @@ public:
 	void seeAllDeliverers();
 	*/
 	
-
+	
 	/**
 	 * @brief Displays All of the Deliveries' People's Info in a Human Friendly Fashion
 	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
 	 * @param i Start Index For The Listing
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
@@ -422,6 +430,8 @@ public:
 	/**
 	 * @brief Displays All of the Administrators' Info in a Human Friendly Fashion
 	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
 	 * @param i Start Index For The Listing
 	 * @param vectorData True If the Data To Display Is in the Next Parameter
 	 * @param adminVector Vector Containing the Admin Objects
