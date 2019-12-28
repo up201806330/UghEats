@@ -354,7 +354,11 @@ public:
 	 */
 	void seeOneRestaurant();
 
-
+	/**
+	 * @brief Selection Of The "Subset" Of Workers To Use
+	 * 
+	 * @return int Value Is 1 If "Only Former Employees" Is Selected, 2 If "Only Current Employees" or 3 If "Both Former and Current Employees".
+	 */
 	int seeFormerEmployees();
 
 	/**
