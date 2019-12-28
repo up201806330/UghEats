@@ -554,7 +554,7 @@ void Base::seeAllWorkers(bool vectorData, vector<Admin*> adminVector, vector<Del
 
 	cout << endl << endl;
 
-	provSize = displaySubset.size();
+	provSize = (int) displaySubset.size();
 
 	displaySubset.clear();
 	displaySubset.push_back(seeFormerWorkers);
@@ -636,7 +636,7 @@ void Base::seeOneWorker() {
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
 
-			provSize = displaySubset.size();
+			provSize = (int) displaySubset.size();
 			adminSubsetVector = displaySubset;
 
 			displaySubset.clear();
@@ -669,7 +669,7 @@ void Base::seeOneWorker() {
 				// if (InvalidOptions(admins.size() + displaySubset.size(), stoi(input))) throw InvalidOptionException(stoi(input));
 				if (InvalidOptions(provSize + displaySubset.size(), stoi(input))) throw InvalidOptionException(stoi(input));
 				// answer = stoi(input);
-				answer = (stoi(input) > provSize) ? (delivSubsetVector[stoi(input) - provSize - 1 ] - provSize + admins.size()) : (adminSubsetVector[stoi(input) - 1] - 1);
+				answer = (stoi(input) > provSize) ? (delivSubsetVector[stoi(input) - provSize - 1 ] - provSize + ( (int) admins.size() ) ) : (adminSubsetVector[stoi(input) - 1] - 1);
 			}
 
 			else {
@@ -699,7 +699,7 @@ void Base::seeOneWorker() {
 	// worker chosen was not an admin
 	if (answer > admins.size()) {
 		unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator delIt = deliveryPeople.begin();
-		int offset = answer - admins.size();
+		int offset = answer - ( (int) admins.size() );
 		counter = 0;
 		
 		while (counter < offset - 1) {
