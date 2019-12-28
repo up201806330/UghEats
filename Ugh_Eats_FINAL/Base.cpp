@@ -532,18 +532,38 @@ int Base::seeFormerEmployees() {
 
 void Base::seeAllWorkers(bool vectorData, vector<Admin*> adminVector, vector<Delivery*> delivPeopleVector) {
 
+	// 1 -> former; 2 -> current; 3 -> both; 0 -> go back
+	int seeFormerWorkers = seeFormerEmployees();
+
+	if (seeFormerWorkers == 0) return;
+
+	vector<int> displaySubset = {};
+	int provSize = 0;
+	vector<int> adminSubsetVector;
+	vector<int> delivSubsetVector;
+
+	displaySubset.clear();
+	displaySubset.push_back(seeFormerWorkers);
+
 	utils::clear_screen();
 	cout << "ALL WORKERS" << endl << endl;
 
 	cout << "Administrators" << endl << endl;
-	if (vectorData) seeAllAdmins(1, true, adminVector);
-	else seeAllAdmins();
+	if (vectorData) seeAllAdmins(displaySubset, 1, true, adminVector);
+	else seeAllAdmins(displaySubset);
 
 	cout << endl << endl;
 
+	provSize = displaySubset.size();
+
+	displaySubset.clear();
+	displaySubset.push_back(seeFormerWorkers);
+
 	cout << "Delivery People" << endl << endl;
-	if (vectorData) seeAllDeliveryPeople( (int) admins.size() + 1, true, delivPeopleVector);
-	else seeAllDeliveryPeople( (int) admins.size() + 1);
+	// if (vectorData) seeAllDeliveryPeople( (int) admins.size() + 1, true, delivPeopleVector);
+	// else seeAllDeliveryPeople( (int) admins.size() + 1);
+	if (vectorData) seeAllDeliveryPeople(displaySubset, provSize + 1, true, delivPeopleVector);
+	else seeAllDeliveryPeople(displaySubset, provSize + 1);
 }
 
 /*
@@ -1088,34 +1108,186 @@ void Base::seeAllDeliverers()
 }
 */
 
-void Base::seeAllDeliveryPeople(int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
+void Base::seeAllDeliveryPeople(vector<int> &displaySubset, int i, bool vectorData, vector<Delivery*> delivPeopleVector) {
+
+	bool noSubsetDisplay = false;
+	int condition = 0;
+
+	if (displaySubset.size() == 0) {
+		noSubsetDisplay = true;
+	}
+
+	else {
+		condition = displaySubset[0];
+	}
+
+	int realPos = i;
+
+	displaySubset.clear();
+
 
 	// cout << "ALL OF THE DELIVERIES' PEOPLE" << endl << endl;
 	unordered_set<Delivery*, hashDeliv, eqDeliv>::iterator it = deliveryPeople.begin();
 
 	vector<Delivery*>::iterator itVector;
 
-	if (vectorData) {
-		itVector = delivPeopleVector.begin();
+	if (noSubsetDisplay) {
 
-		while (itVector != delivPeopleVector.end()) {
-			cout << "#" << i++ << ".";
-			if ((*itVector)->get_state()) cout << endl;
-			else cout << " [FORMER EMPLOYEE]" << endl;
-			(*itVector)->print();
-			cout << endl;
-			itVector++;
+		if (vectorData) {
+			itVector = delivPeopleVector.begin();
+
+			while (itVector != delivPeopleVector.end()) {
+				cout << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+
+				itVector++;
+
+				cout << endl;
+			}
+		}
+
+		else {
+			while (it != deliveryPeople.end()) {
+				cout << i++ << ".";
+				if ((*it)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*it)->print();
+
+				it++;
+
+				cout << endl;
+			}
 		}
 	}
 
 	else {
-		while (it != deliveryPeople.end()) {
-			cout << "#" << i++ << ".";
-			if ((*it)->get_state()) cout << endl;
-			else cout << " [FORMER EMPLOYEE]" << endl;
-			(*it)->print();
-			cout << endl;
-			it++;
+		if (vectorData) {
+			itVector = delivPeopleVector.begin();
+
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+
+				case 1:
+					while (itVector != delivPeopleVector.end()) {
+
+						if ((*itVector)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+					}
+					break;
+
+				case 2:
+					while (itVector != delivPeopleVector.end()) {
+
+						if ((*itVector)->get_state()) {
+							cout << i << ". " << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+
+					}
+					break;
+
+				case 3:
+					while (itVector != delivPeopleVector.end()) {
+						cout << i << ". ";
+
+						if ((*itVector)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*itVector)->print();
+
+						displaySubset.push_back(realPos);
+
+						i++;
+						realPos++;
+						itVector++;
+
+						cout << endl;
+					}
+					break;
+			}
+
+		}
+
+		else {
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+				case 1:
+					while (it != deliveryPeople.end()) {
+
+						if ((*it)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 2:
+					while (it != deliveryPeople.end()) {
+
+						if ((*it)->get_state()) {
+							cout << i << ". ";
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 3:
+					while (it != deliveryPeople.end()) {
+						cout << i << ". ";
+
+						if ((*it)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*it)->print();
+
+						displaySubset.push_back(realPos);
+
+						cout << endl;
+
+						i++;
+						realPos++;
+						it++;
+					}
+					break;
+			}
 		}
 	}
 }
@@ -1136,35 +1308,197 @@ void Base::seeAllAdministrators()
 }
 */
 
-void Base::seeAllAdmins(int i, bool vectorData, vector<Admin*> adminVector) {
+void Base::seeAllAdmins(vector<int> &displaySubset, int i, bool vectorData, vector<Admin*> adminVector) {
+
+	bool noSubsetDisplay = false;
+	int condition = 0;
+
+	if (displaySubset.size() == 0) {
+		noSubsetDisplay = true;
+	}
+	
+	else {
+		condition = displaySubset[0];
+	}
+	
+	int realPos = i;
+
+	displaySubset.clear();
+
 
 	// cout << "ALL ADMINISTRATORS" << endl << endl;
 	unordered_set<Admin*, hashAdmin, eqAdmin>::iterator it = admins.begin();
 
 	vector<Admin*>::iterator itVector;
 	
-	if (vectorData) {
-		itVector = adminVector.begin();
+	if (noSubsetDisplay) {
 
-		while (itVector != adminVector.end()) {
-			cout << "#" << i++ << ".";
-			if ((*itVector)->get_state()) cout << endl;
-			else cout << " [FORMER EMPLOYEE]" << endl;
-			(*itVector)->print();
-			cout << endl;
-			itVector++;
+		if (vectorData) {
+			itVector = adminVector.begin();
+
+			while (itVector != adminVector.end()) {
+				cout << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+				
+				itVector++;
+
+				cout << endl;
+			}
+		}
+
+		else {
+			while (it != admins.end()) {
+				cout << i++ << ".";
+				if ((*it)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*it)->print();
+				
+				it++;
+
+				cout << endl;
+			}
 		}
 	}
 
 	else {
-		while (it != admins.end()) {
-			cout << "#" << i++ << ".";
-			if ((*it)->get_state()) cout << endl;
-			else cout << " [FORMER EMPLOYEE]" << endl;
-			(*it)->print();
-			cout << endl;
-			it++;
+		if (vectorData) {
+			itVector = adminVector.begin();
+
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+
+				case 1:
+					while (itVector != adminVector.end()) {
+
+						if ((*itVector)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+						
+					}
+					break;
+
+				case 2:
+					while (itVector != adminVector.end()) {
+
+						if ((*itVector)->get_state()) {
+							cout << i << ". " << endl;
+							(*itVector)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						itVector++;
+						realPos++;
+
+						
+					}
+					break;
+
+				case 3:
+					while (itVector != adminVector.end()) {
+						cout << i << ". ";
+
+						if ((*itVector)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*itVector)->print();
+
+						displaySubset.push_back(realPos);
+
+						i++;
+						realPos++;
+						itVector++;
+
+						cout << endl;
+					}
+					break;
+			}
+			/*
+			while (itVector != adminVector.end()) {
+				cout << "#" << i++ << ".";
+				if ((*itVector)->get_state()) cout << endl;
+				else cout << " [FORMER EMPLOYEE]" << endl;
+				(*itVector)->print();
+				cout << endl;
+				itVector++;
+			}
+			*/
 		}
+
+		else {
+			// 1 -> former; 2 -> current; 3 -> both
+			switch (condition) {
+				case 1:
+					while (it != admins.end()) {
+
+						if ((*it)->get_state() == false) {
+							cout << i << ". " << " [FORMER EMPLOYEE]" << endl;
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 2:
+					while (it != admins.end()) {
+
+						if ((*it)->get_state()) {
+							cout << i << ". ";
+							(*it)->print();
+
+							displaySubset.push_back(realPos);
+
+							cout << endl;
+
+							i++;
+						}
+						it++;
+						realPos++;
+					}
+					break;
+
+				case 3:
+					while (it != admins.end()) {
+						cout << i << ". ";
+
+						if ((*it)->get_state()) cout << endl;
+						else cout << " [FORMER EMPLOYEE]" << endl;
+
+						(*it)->print();
+
+						displaySubset.push_back(realPos);
+
+						cout << endl;
+
+						i++;
+						realPos++;
+						it++;
+					}
+					break;
+			}
+		}
+
 	}
 }
 
@@ -3427,6 +3761,8 @@ void Base::changeWorker() {
 	int answer;
 	string input;
 
+	vector<int> displaySubset = {};
+
 	do {
 		try {
 			utils::clear_screen();
@@ -3434,10 +3770,10 @@ void Base::changeWorker() {
 			cout << "Pick the worker you want to change" << endl << endl;
 
 			cout << "Administrators" << endl << endl;
-			seeAllAdmins();
+			seeAllAdmins(displaySubset);
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople( (int) admins.size() + 1);
+			seeAllDeliveryPeople(displaySubset, (int) admins.size() + 1);
 
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
@@ -3995,6 +4331,8 @@ void Base::removeWorker() {
 	int answer;
 	string input;
 
+	vector<int> displaySubset = {};
+
 	do {
 		try {
 			utils::clear_screen();
@@ -4002,10 +4340,10 @@ void Base::removeWorker() {
 			cout << "Pick the worker you want to remove" << endl << endl;
 
 			cout << "Administrators" << endl << endl;
-			seeAllAdmins();
+			seeAllAdmins(displaySubset);
 			cout << endl << endl;
 			cout << "Delivery People" << endl << endl;
-			seeAllDeliveryPeople( (int) admins.size() + 1);
+			seeAllDeliveryPeople(displaySubset, (int) admins.size() + 1);
 
 			cout << "0. Go Back" << endl << endl;
 			cout << ">> ";
