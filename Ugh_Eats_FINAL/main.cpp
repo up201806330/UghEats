@@ -16,9 +16,9 @@ int main() {
 	// PlaySound(TEXT("MicrosoftWindowsXPStartupSoundEffect.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	string path = "bases.txt";
 	vector<Base*> bases = Base::load(path);
-	//Technician t;
-	//t.load("technicians_p.txt", bases[0]);
-	//bases[0]->seeAllTechnicians();
+	Technician t;
+	t.load("technicians_p.txt", bases[0]);
+	bases[0]->seeOneTechnician();
 
 
 	//main_menu(bases);

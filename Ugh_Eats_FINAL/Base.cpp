@@ -848,6 +848,83 @@ void Base::seeAllTechnicians()
 		temp[i].print();
 		cout << endl;
 	}
+	for (int i = 0; i < temp.size(); i++)
+	{
+		technicians.push(temp[i]);
+	}
+}
+
+void Base::seeOneTechnician()
+{
+	vector<Technician> temp;
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+	}
+	bool invalidOption;
+	string opt;
+	do
+	{
+		try 
+		{
+			utils::clear_screen();
+			invalidOption = false;
+			cout << "Pick the Technician you want to see: " << endl << endl;
+			for (int i = 0; i < temp.size(); i++)
+			{
+				cout << i + 1 << ". " << temp[i].get_name() << endl;
+			}
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+			getline(cin, opt);
+			if (opt == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(opt))
+				throw InvalidNumberException(opt);
+			if (opt != "")
+			{
+				if (InvalidOptions(temp.size(), stoi(opt)))
+					throw InvalidOptionException(stoi(opt));
+
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+			
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidOption = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+
+
+	} while (invalidOption);
+
+	cout << endl << "INFO" << endl;
+	int index = stoi(opt) - 1;
+	temp[index].print();
+	for (int i = 0; i < temp.size(); i++)
+	{
+		technicians.push(temp[i]);
+	}
+
 }
 
 
