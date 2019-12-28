@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "Exceptions.h"
 
-void main_menu_client(Client* client, Base * base) { //j� volta atr�s e j� fecha
+void main_menu_client(Client* client, Base * base) { 
 	while (true) {
 		string input;
 
@@ -612,6 +612,109 @@ void main_menu_admin_profits(Base * base) { // J� volta atr�s e fecha
 	}
 }
 
+
+void main_menu_admin_technicians(Base * b)
+{
+	while (true)
+	{
+		string input;
+		bool retry;
+		do
+		{
+			try
+			{
+				retry = false;
+				utils::clear_screen();
+				cout << "1. Show All Technicians" << endl;
+				cout << "2. Search a Technician" << endl;
+				cout << "3. Add a Technician" << endl;
+				cout << "4. Edit a Technician" << endl;
+				cout << "5. Remove a Technician" << endl;
+				cout << "6. Maintain a Vehicle" << endl;
+				cout << "0. Go Back" << endl;
+				cout << "7. Close Program " << endl;
+				cout << ">>";
+				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
+				if (input != "")
+				{
+					if (InvalidOptions(7, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+				}
+			}
+			catch (InvalidNumberException & n)
+			{
+				retry = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+
+		} while (retry);
+
+		if (input == "1")
+		{
+			utils::clear_screen();
+			b->seeAllTechnicians();
+			cout << "\n>> ";
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		if (input == "2")
+		{
+			utils::clear_screen();
+			b->seeOneTechnician();
+			cout << "\n>> ";
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		if (input == "3")
+		{
+			utils::clear_screen();
+			b->addTechnician();
+		}
+		if (input == "4")
+		{
+			utils::clear_screen();
+			b->changeTechnician();
+		}
+		if (input == "5")
+		{
+			utils::clear_screen();
+			b->removeTechnician();
+		}
+		if (input == "6")
+		{
+			utils::clear_screen();
+			continue;
+		}
+		if (input == "0")
+			break;
+		if (input == "7")
+		{
+			cin.clear();
+			b->writeAll();
+		}
+		else
+			continue;
+
+	}
+}
+
 void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 	while (true) {
 		string input;
@@ -627,8 +730,9 @@ void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 				cout << "4. Restaurants" << endl;
 				cout << "5. Orders" << endl;
 				cout << "6. Profits" << endl;
+				cout << "7. Vehicle Maintenance" << endl;
 				cout << "0. Go Back" << endl;
-				cout << "7. Close Program" << endl;
+				cout << "8. Close Program" << endl;
 				cout << ">> ";
 
 				retry = false;
@@ -637,7 +741,7 @@ void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 					throw InvalidNumberException(input);
 				if (input != "")
 				{
-					if (InvalidOptions(7, stoi(input)))
+					if (InvalidOptions(8, stoi(input)))
 						throw InvalidOptionException(stoi(input));
 				}
 				else
@@ -671,11 +775,12 @@ void main_menu_admin(Base * base) { // j� volta atr�s e j� fecha
 		if (input == "4") main_menu_admin_restaurant(base);
 		if (input == "5") main_menu_admin_orders(base);
 		if (input == "6") main_menu_admin_profits(base);
+		if (input == "7") main_menu_admin_technicians(base);
 
-		if (input == "0") { // volta atr�s
+		if (input == "0") { 
 			break; 
 		}
-		if (input == "7")
+		if (input == "8")
 		{
 			cin.clear();
 			base->writeAll();

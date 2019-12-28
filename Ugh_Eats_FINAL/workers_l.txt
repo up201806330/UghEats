@@ -1,6 +1,6 @@
 Jose Afonso
 223344567
-01:09:1980
+1:9:1980
 2000
 manager
 1
@@ -14,14 +14,14 @@ customer service
 ;;;
 Mark Zuckerberg
 111222345
-01:01:1900
-Harley ; Bike ; 01:12:1979
+1:1:1900
+Harley ; Bike ; 1:12:1979
 -
 1
 ;
 Tim Cook
 134546578
-19:05:1999
-Apple Car ; Eletric ; 22:04:2010
+19:5:1999
+Apple Car ; Eletric ; 22:4:2010
 1
 1

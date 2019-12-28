@@ -93,6 +93,10 @@ vector<Base*> Base::load(string path) {
 		Client::load(textline, &base);
 
 		getline(base_text, textline);
+		base.setTechniciansFileName(textline);
+		Technician::load(textline, &base);
+
+		getline(base_text, textline);
 
 		Base * ptr = new Base;
 		*ptr = base;

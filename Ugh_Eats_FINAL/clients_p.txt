@@ -3,14 +3,14 @@ Porto / Matosinhos / Avenida azul / 77 / -1 / 663.555 / 333.666
 231234324
 1 : 2 : 3
 ;
-Salvador Sobral
-Porto / Vila Nova de Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
-234567654
--
-;
 Rui Rio
 Porto / Vila Nova de Gaia / Vale dos Gansos / 22 / 12 / 234.666 / 114.543
 231234567
+-
+;
+Salvador Sobral
+Porto / Vila Nova de Gaia / Travessa verde / 97 / 2 / 232.554 / 233.643
+234567654
 -
 ;
 ytka

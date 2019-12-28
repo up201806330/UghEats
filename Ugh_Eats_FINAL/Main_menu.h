@@ -54,6 +54,10 @@ void main_menu_admin_orders(Base * base);
  * @param base 
  */
 void main_menu_admin_profits(Base * base);
+
+void main_menu_admin_technicians(Base * b);
+
+
 /**
  * @brief opens menu of admin, to select other admin menus
  * 
@@ -66,5 +70,6 @@ void main_menu_admin(Base * base);
  * @param base 
  */
 void main_menu_client_login(Base * base);
+
 
 #endif 
