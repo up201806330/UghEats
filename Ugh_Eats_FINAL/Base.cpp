@@ -834,6 +834,23 @@ void Base::seeProfitsPerTime()
 
 }
 
+void Base::seeAllTechnicians()
+{
+	cout << "ALL TECHNICIANS" << endl << endl;
+	vector<Technician> temp;
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+	}
+	for (int i = 0; i < temp.size(); i++)
+	{
+		temp[i].print();
+		cout << endl;
+	}
+}
+
+
 void Base::seeBase()
 {
 	cout << this->getDistrict() << endl;

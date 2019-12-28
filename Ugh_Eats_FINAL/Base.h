@@ -301,6 +301,10 @@ public:
 	 * 
 	 */
 	void seeProfitsPerTime();  // periodo de tempo
+
+	void seeAllTechnicians();
+
+	void seeOneTechnician();
 	
 	void seeBase();
 

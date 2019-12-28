@@ -1070,6 +1070,13 @@ int Technician::get_maintenance() const
 	return maintenance;
 }
 
+void Technician::print()
+{
+	Person::print();
+	cout << "Availability: " << availability << endl;
+	cout << "Maintenance: " << maintenance << endl;
+}
+
  void Technician::load(string path, Base * base)
 {
 	 ifstream technicians_text(path);
