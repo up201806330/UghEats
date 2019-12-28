@@ -18,6 +18,9 @@ int main() {
 	vector<Base*> bases = Base::load(path);
 	//Technician t;
 	//t.load("technicians_p.txt", bases[0]);
+	//cout << to_string(bases[0]->getTechnicians().size()) << endl;
+	//bases[0]->removeTechnician();
+	//cout << endl << to_string(bases[0]->getTechnicians().size()) << endl;
 	//bases[0]->changeTechnician();
 
 

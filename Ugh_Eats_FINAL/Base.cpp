@@ -3206,6 +3206,75 @@ void Base::changeTechnician()
 }
 
 
+void Base::removeTechnician()
+{
+	vector<Technician> temp;
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+	}
+	bool invalidOption;
+	string opt;
+	int index;
+	do
+	{
+		invalidOption = false;
+		cout << "Pick the technician you want to delete: " << endl;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			cout << i + 1 << ". " << temp[i].get_name() << endl;
+		}
+		try
+		{
+			cout << "0. Go Back" << endl;
+			cout << ">>";
+			getline(cin, opt);
+			if (opt == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(opt))
+				throw InvalidNumberException(opt);
+			if (opt != "")
+			{
+				index = stoi(opt);
+				if (InvalidOptions(temp.size(), index))
+					throw InvalidOptionException(index);
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidOption = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+	} while (invalidOption);
+
+	index--;
+	for (int i = 0; i < temp.size(); i++)
+	{
+		if (i != index)
+			technicians.push(temp[i]);
+	}
+
+}
+
+
 bool clientByName(const Client * left, const Client * right) {
 	return left->get_name() < right->get_name();
 }
