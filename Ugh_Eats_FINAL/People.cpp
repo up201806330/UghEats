@@ -96,6 +96,9 @@ double Vehicle::get_mileage() const
 	return mileage;
 }
 
+// Person Class Functions
+// ------------------------------------------------
+
 Person::Person()
 {
 
@@ -111,7 +114,7 @@ void Person::set_name(string nome)
 	name = nome;
 }
 
-void Person::set_NIF(size_t NIF)
+void Person::set_NIF(int NIF)
 {
 	this->NIF = NIF;
 }
@@ -121,7 +124,7 @@ string Person::get_name() const
 	return name;
 }
 
-size_t Person::get_NIF() const
+int Person::get_NIF() const
 {
 	return NIF;
 }
@@ -132,6 +135,9 @@ void Person::print()
 	cout << "NIF: " << NIF << endl;
 }
 
+// Worker Class Functions
+// ------------------------------------------------
+
 Worker::Worker() {
 }
 
@@ -139,6 +145,26 @@ Worker::~Worker() {
 
 }
 
+void Worker::load(string path, Base * base) {
+	ifstream workers_text(path);
+	try {
+		if (!workers_text.is_open()) throw FileOpenErrorException(path);
+	}
+	catch (FileOpenErrorException & f) {
+		cout << f;
+		exit(0);
+	}
+
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins = Admin::readAdmins(workers_text);
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers = Delivery::readDeliverers(workers_text, base);
+
+	base->setAdmins(admins);
+
+	base->setDeliveryPeople(deliverers);
+}
+
+/*
 void Worker::load(string path, Base * base){
 	ifstream workers_text(path);
 	try
@@ -217,13 +243,18 @@ void Worker::load(string path, Base * base){
 
 	base->setWorkers(workers_vec);
 }
+*/
 
-void Worker::set_birthday(Date_time data) {
-	birthday = data;
+void Worker::set_birthday(Date_time birthday) {
+	this->birthday = birthday;
 }
 
-void Worker::set_wage(double salario) {
-	wage = salario;
+void Worker::set_wage(double wage) {
+	this->wage = wage;
+}
+
+void Worker::set_state(bool isActive) {
+	this->isActive = isActive;
 }
 
 Date_time Worker::get_birthday() const {
@@ -232,6 +263,10 @@ Date_time Worker::get_birthday() const {
 
 double Worker::get_wage() const {
 	return wage;
+}
+
+bool Worker::get_state() const {
+	return isActive;
 }
 
 void Worker::print(){
@@ -243,6 +278,9 @@ void Worker::print(){
 
 }
 
+// Admin Class Functions
+// ------------------------------------------------
+
 Admin::Admin() {
 
 }
@@ -251,18 +289,97 @@ Admin::~Admin() {
 
 }
 
-void Admin::set_role(string papel) {
-	role = papel;
+void Admin::set_role(string role) {
+	this->role = role;
 }
 
 string Admin::get_role() const {
 	return role;
 }
 
+unordered_set<Admin*, hashAdmin, eqAdmin> Admin::readAdmins(ifstream & workers_stream) {
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
+	admins.reserve(10);
+
+	string textline;
+
+	while (getline(workers_stream, textline) && textline != MAIN_SEPARATOR) {
+
+		Admin a;
+
+		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
+
+		a.set_name(textline);
+
+		getline(workers_stream, textline);
+		a.set_NIF(stoi(textline));
+
+		getline(workers_stream, textline);
+		Date_time d; d.parse(textline);
+		a.set_birthday(d);
+
+		getline(workers_stream, textline);
+		a.set_wage(stod(textline));
+
+		getline(workers_stream, textline);
+		a.set_role(textline);
+
+		
+		getline(workers_stream, textline);
+		if (textline == "1") a.set_state(true);
+		else if (textline == "0") a.set_state(false);
+		
+
+		Admin * aPtr = new Admin;
+		*aPtr = a;
+		admins.insert(aPtr);
+	}
+
+	return admins;
+}
+
 void Admin::print() { 
 	Worker::print();
 	cout << "Role: " << role << endl;
 }
+
+bool Admin::operator==(const Admin & a) {
+	return (
+		this->name == a.name &&
+		this->NIF == a.NIF &&
+		this->role == a.role
+		);
+}
+
+
+bool eqAdmin::operator()(const Admin* a1, const Admin* a2) const {
+	return (
+		a1->get_name() == a2->get_name() &&
+		a1->get_NIF() == a2->get_NIF() &&
+		a1->get_role() == a2->get_role() &&
+		a1->get_wage() == a2->get_wage()
+		);
+}
+
+int hashAdmin::operator()(const Admin* a1) const {
+	int v = 0;
+
+	int nif = a1->get_NIF();
+
+	while (nif > 0) {
+		v += 51 * v + nif % 10;
+
+		nif /= 10;
+	}
+
+	return v;
+}
+
+
+
+
+// Delivery Class Functions
+// ------------------------------------------------
 
 Delivery::Delivery() {
 
@@ -294,6 +411,47 @@ void Delivery::setDeliveryManPointerOnOrders()
 	for (it = history.begin(); it != history.end(); it++) {
 		(*it).second->getDeliver()->setDeliveryMan(this);
 	}
+}
+
+unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery::readDeliverers(ifstream & workers_stream, Base * base) {
+
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers;
+	deliverers.reserve(20);
+
+	string textline;
+
+	while (getline(workers_stream, textline)) {
+
+		Delivery del;
+
+		if (textline == SEC_SEPARATOR) getline(workers_stream, textline);
+
+		del.set_name(textline);
+
+		getline(workers_stream, textline);
+		del.set_NIF(stoi(textline));
+
+		getline(workers_stream, textline);
+		Date_time d; d.parse(textline);
+		del.set_birthday(d);
+
+		getline(workers_stream, textline);
+		Vehicle v; v.parse(textline);
+		del.set_vehicle(v);
+
+		getline(workers_stream, textline);
+		del.set_history(base->findOrders(textline));
+
+		getline(workers_stream, textline);
+		if (textline == "1") del.set_state(true);
+		else if (textline == "0") del.set_state(false);
+
+		Delivery * delPtr = new Delivery;
+		*delPtr = del;
+		deliverers.insert(delPtr);
+	}
+
+	return deliverers;
 }
 
 void Delivery::print() {
@@ -340,6 +498,42 @@ void Delivery::update_vehicle()
 	double n = 0.5 + (rand() % 100) / (10);
 	this->vehicle.set_mileage(vehicle.get_mileage() + n);
 }
+
+bool Delivery::operator==(const Delivery & d) {
+	return (
+		this->name == d.name &&
+		this->NIF == d.NIF
+		);
+}
+
+
+
+bool eqDeliv::operator()(const Delivery* d1, const Delivery* d2) const {
+	return (
+		d1->get_name() == d2->get_name() &&
+		d1->get_NIF() == d2->get_NIF() &&
+		d1->get_wage() == d2->get_wage()
+		);
+}
+
+int hashDeliv::operator()(const Delivery* d1) const {
+	int v = 0;
+
+	int nif = d1->get_NIF();
+
+	while (nif > 0) {
+		v += 51 * v + nif % 10;
+
+		nif /= 10;
+	}
+
+	return v;
+}
+
+
+
+// Client Class Functions
+// ------------------------------------------------
 
 Client::Client() {
 
@@ -431,7 +625,6 @@ void Client::print() {
 		cout << endl;
 	}
 }
-
 
 
 void Client::edit(Base * base) {
@@ -610,7 +803,6 @@ void Client::edit(Base * base) {
 	cin.clear();
 	cin.ignore(INT_MAX,'\n');
 }
-
 
 void Client::make_order(Base * b) { 
 
@@ -1038,6 +1230,8 @@ bool operator<(const Vehicle & l, const Vehicle & r)
 	else return l.get_trips() < r.get_trips();
 }
 
+// Technician Class Functions
+// ------------------------------------------------
 
 Technician::Technician()
 {

@@ -11,9 +11,65 @@
 #include "People.h"
 #include "Restaurant.h"
 #include "utils.h"
-
+//#include "hash_table.h"
 
 using namespace std;
+
+/*
+struct eqAdmin {
+	bool operator()(const Admin* a1, const Admin* a2) const {
+		return (
+			a1->get_name() == a2->get_name() &&
+			a1->get_NIF() == a2->get_NIF() &&
+			a1->get_role() == a2->get_role() &&
+			a1->get_wage() == a2->get_wage()
+			);
+	}
+};
+
+struct hashAdmin {
+	int operator()(const Admin* a1) const {
+		int v = 0;
+
+		int nif = a1->get_NIF();
+
+		while (nif > 0) {
+			v += 51 * v + nif % 10;
+
+			nif /= 10;
+		}
+
+		return v;
+	}
+};
+
+
+struct eqDeliv {
+	bool operator()(const Delivery* d1, const Delivery* d2) const {
+		return (
+			d1->get_name() == d2->get_name() &&
+			d1->get_NIF() == d2->get_NIF() &&
+			d1->get_wage() == d2->get_wage()
+			);
+	}
+};
+
+struct hashDeliv {
+	int operator()(const Delivery* d1) const {
+		int v = 0;
+
+		int nif = d1->get_NIF();
+
+		while (nif > 0) {
+			v += 51 * v + nif % 10;
+
+			nif /= 10;
+		}
+
+		return v;
+	}
+};
+*/
 
 class Base {
 private:
@@ -27,8 +83,13 @@ private:
 	Address address;
 	vector<Restaurant*> restaurants;
 	map<int, Order*> orders;
-	vector<Worker*> workers;
-	Admin * admin;
+
+	// vector<Worker*> workers;
+
+	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
+	unordered_set<Delivery*, hashDeliv, eqDeliv> deliveryPeople;
+
+	Admin * admin; // TODO change to manager
 	vector<Client*> clients;
 	priority_queue<Technician> technicians;
 public:
@@ -45,6 +106,7 @@ public:
 	 * @return vector<Base*> vector with pointers to all base objects kept in the file
 	 */
 	static vector<Base*> load(string path); 
+
 	/**
 	 * @brief loads blacklist file and saves names of blacklisted clients; No parameters because the name of this file is constant.
 	 * 
@@ -112,12 +174,30 @@ public:
 	 * @param add Address
 	 */
 	void setAddress(Address add);
+
 	/**
 	 * @brief Set the Workers object
 	 * 
 	 * @param workers Workers
 	 */
+	/*
 	void setWorkers(vector<Worker*> workers);
+	*/
+
+	/**
+	 * @brief Set the Admins object
+	 * 
+	 * @param admins Administrators
+	 */
+	void setAdmins(unordered_set<Admin*, hashAdmin, eqAdmin> admins);
+
+	/**
+	 * @brief Set the Delivery People object
+	 * 
+	 * @param deliverers Delivery People
+	 */
+	void setDeliveryPeople(unordered_set<Delivery*, hashDeliv, eqDeliv> deliverers);
+
 	/**
 	 * @brief Set the Admin object
 	 * 
@@ -191,12 +271,30 @@ public:
 	 * @return Address Address
 	 */
 	Address getAddress() const;
+
 	/**
 	 * @brief Get the Workers object
 	 * 
 	 * @return const vector<Worker*>& Workers vector reference
 	 */
+	/*
 	const vector<Worker*> & getWorkers() const;
+	*/
+
+	/**
+	 * @brief Get the Admins object
+	 * 
+	 * @return const unordered_set<Admin*, hashAdmin, eqAdmin> Admins' unordered_set
+	 */
+	const unordered_set<Admin*, hashAdmin, eqAdmin> getAdmins() const;
+
+	/**
+	 * @brief Get the Delivery People object
+	 * 
+	 * @return const unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery People's unordered_set
+	 */
+	const unordered_set<Delivery*, hashDeliv, eqDeliv> getDeliveryPeople() const;
+
 	/**
 	 * @brief Get the Admin object
 	 * 
@@ -221,10 +319,11 @@ public:
 	 * @return const map<int, Order*>& Orders map reference
 	 */
 	const map<int, Order*> & getOrders() const;
+
 	/**
-	 * @brief Get the Delivery Man object
+	 * @brief Get the Delivery (Person) Object that has the Least Number of Deliveries
 	 * 
-	 * @return Delivery* Delivery man pointer
+	 * @return Delivery* Delivery (Person) Object
 	 */
 	Delivery* getDeliveryMan();
 
@@ -236,66 +335,139 @@ public:
 	 * 
 	 */
 	void seeAllClients();
+
 	/**
 	 * @brief prints a clients' info in human friendly fashion
 	 * 
 	 */
 	void seeOneClient();
+
 	/**
 	 * @brief prints all restaurants' info in human friendly fashion
 	 * 
 	 */
-	void seeAllRestaurants(); 
+	void seeAllRestaurants();
+
 	/**
 	 * @brief prints a restaurants' info in human friendly fashion
 	 * 
 	 */
 	void seeOneRestaurant();
+
 	/**
-	 * @brief prints all workers' info in human friendly fashion
+	 * @brief Selection Of The "Subset" Of Workers To Use
 	 * 
+	 * @return int Value Is 1 If "Only Former Employees" Is Selected, 2 If "Only Current Employees" or 3 If "Both Former and Current Employees".
 	 */
-	void seeAllWorkers(); 
+	int seeFormerEmployees();
+
 	/**
-	 * @brief prints a workers info in human friendly fashion
+	 * @brief Displays All of the Workers' Info in a Human Friendly Fashion
+	 * 
+	 * @param vectorData True If the Data To Display Is in the Next Two Parameters
+	 * @param adminVector Vector Containing the Admin Objects
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
+	 */
+	void seeAllWorkers(bool vectorData = false, vector<Admin*> adminVector = {}, vector<Delivery*> delivPeopleVector = {});
+
+	/**
+	 * @brief Displays a Specific Workers' Info in a Human Friendly Fashion
 	 * 
 	 */
 	void seeOneWorker();
+
+
+	/**
+	 * @brief Displays All of the Deliveries' People's Names in a Human Friendly Fashion
+	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
+	 */
+	void seeAllDeliveryPeopleNames(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
+
+
+	/**
+	 * @brief Displays All of the Administrators' Names in a Human Friendly Fashion
+	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
+	 * @param i Displays All of the Administrators' Info in a Human Friendly Fashion
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param adminVector Vector Containing the Admin Objects
+	 */
+	void seeAllAdminsNames(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
+
 	/**
 	 * @brief prints all delivery mens' info in human friendly fashion
 	 * 
 	 */
+	/*
 	void seeAllDeliverers();
+	*/
+	
+	
+	/**
+	 * @brief Displays All of the Deliveries' People's Info in a Human Friendly Fashion
+	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param delivPeopleVector Vector Containing the Delivery (People) Objects
+	 */
+	void seeAllDeliveryPeople(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
+
 	/**
 	 * @brief prints all administrators' info in human friendly fashion
 	 * 
 	 */
-	void seeAllAdministrators();
+	// void seeAllAdministrators();
+
+
+	/**
+	 * @brief Displays All of the Administrators' Info in a Human Friendly Fashion
+	 * 
+	 * @param displaySubset Vector Containing The Option Selected (Only Former, Only Current or Both) As Its First Element. Empty If Not Needed.
+	 * "Returns" With The Offsets of The Option's Elements From The Beggining of The Corresponding Data Structure Iterator
+	 * @param i Start Index For The Listing
+	 * @param vectorData True If the Data To Display Is in the Next Parameter
+	 * @param adminVector Vector Containing the Admin Objects
+	 */
+	void seeAllAdmins(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Admin*> adminVector = {});
+
 	/**
 	 * @brief prints all orders' info in human friendly fashion
 	 * 
 	 */
 	void seeAllOrders();
+
 	/**
 	 * @brief prints an orders' info in human friendly fashion
 	 * 
 	 */
 	void seeOneOrder();
+
 	/**
 	 * @brief prints profits generated by the base
 	 * 
 	 */
 	void seeProfits(); 
+
 	/**
 	 * @brief prints profits generated by each restaurant
 	 * 
 	 */
 	void seeProfitsPerRestaurant(); 
+
 	/**
 	 * @brief prints profits generated by each client
 	 * 
 	 */
 	void seeProfitsPerClient(); 
+
 	/**
 	 * @brief prints profits generated during a time period
 	 * 
@@ -333,17 +505,136 @@ public:
 	void removeClient();
 
 	/**
-	 * @brief add worker to bases' vector of workers
+	 * @brief Add a Worker to the Base
 	 * 
 	 */
 	void addWorker();
+
 	/**
-	 * @brief edits select worker
+	 * @brief Add an Administrator to the Base
+	 * 
+	 */
+	void addAdmin();
+
+	/**
+	 * @brief Checks if the Base has Already a Manager
+	 * 
+	 * @return true if it does
+	 * @return false if it does not
+	 */
+	bool checkForManager();
+
+	/**
+	 * @brief Checks If the Admin Passed As a Parameter Is Already In The Database
+	 * 
+	 * @param a 
+	 * @return true If Admin (Inactive) Was Found In Database (and Changed to Active)
+	 * @return false If Admin Was Not Found In Database
+	 */
+	bool checkInactiveAdminInDatabase(Admin a);
+
+	/**
+	 * @brief Add a Delivery Person to the Base
+	 * 
+	 */
+	void addDeliverer();
+
+	/**
+	 * @brief Checks If the Delivery (Person) Passed As a Parameter Is Already In The Database
+	 * 
+	 * @param d 
+	 * @return true If Delivery (Person) (Inactive) Was Found In Database (and Changed to Active)
+	 * @return false If Delivery (Person) Was Not Found In Database
+	 */
+	bool checkInactiveDelivPersonInDatabase(Delivery d);
+
+	/**
+	 * @brief Creates a Vehicle Object (and returns it)
+	 * 
+	 * @return Vehicle 
+	 */
+	Vehicle newVehicle();
+
+	/**
+	 * @brief Changes some Information about a Specific Worker
 	 * 
 	 */
 	void changeWorker();
+
+	// ------------------------------------------
+	// Attributes to change
+
 	/**
-	 * @brief removes select worker
+	 * @brief Receives the Current Name and Returns the Updated Name
+	 * 
+	 * @param currentName 
+	 * @return string 
+	 */
+	string changeName(string currentName);
+
+	/**
+	 * @brief Receives the Current Nif and Returns the Updated Nif
+	 * 
+	 * @param currentNif 
+	 * @return int 
+	 */
+	int changeNif(int currentNif);
+
+	/**
+	 * @brief Receives the Current Birthday and Returns the Updated Birthday
+	 * 
+	 * @param currentBday 
+	 * @return Date_time 
+	 */
+	Date_time changeBirthday(Date_time currentBday);
+
+	/**
+	 * @brief Receives the Current Wage and Returns the Updated Wage
+	 * 
+	 * @param currentWage 
+	 * @return double 
+	 */
+	double changeWage(double currentWage);
+
+	/**
+	 * @brief Receives the Current Role and Returns the Updated Role
+	 * 
+	 * @param currentRole 
+	 * @param managerExists Prevents an Administrator from Changing his Role to Manager if a Manager Already Exists on the Base 
+	 * @return string 
+	 */
+	string changeRole(string currentRole, bool managerExists);
+
+	/**
+	 * @brief Receives the Current Vehicle and Returns the Updated Vehicle
+	 * 
+	 * @param currentVehicle 
+	 * @return Vehicle 
+	 */
+	Vehicle changeVehicle(Vehicle currentVehicle);
+
+	map<int, Order*> changeHistory(map<int, Order*> currentHistory);
+
+	// ------------------------------------------
+
+	/**
+	 * @brief Receives a Delivery (Person) Object, Updates it and Returns it 
+	 * 
+	 * @param d Delivery (Person) Object
+	 * @return Delivery 
+	 */
+	Delivery changeDeliveryPerson(Delivery d);
+
+	/**
+	 * @brief Receives an Administrator Object, Updates it and Returns it 
+	 * 
+	 * @param a Administrator Object
+	 * @return Admin 
+	 */
+	Admin changeAdmin(Admin a);
+
+	/**
+	 * @brief "Removes" a Specific worker (Changes the Respective Object to "Inactive")
 	 * 
 	 */
 	void removeWorker();
@@ -384,14 +675,22 @@ public:
 	 * @return false otherwise
 	 */
 	bool orderRestaurants();
+
 	/**
 	 * @brief orders vector of workers with select parameter
 	 * 
 	 * @return true if successful
 	 * @return false otherwise
 	 */
-	bool orderWorkers();
-	//bool orderOrders(); //lmao dont delete this may be useful
+	// bool orderWorkers();
+
+	/**
+	 * @brief Sorts All Workers Based on a Specific Parameter and Displays Their Information (seeAllWorkers Call)
+	 * 
+	 */
+	void sortDisplayWorkers();
+
+	bool orderOrders(); //lmao dont delete this may be useful
 
 
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
@@ -405,24 +704,28 @@ public:
 	 * @param fileName Restaurants file name
 	 */
 	void writeRestaurantsFile(string fileName);
+
 	/**
 	 * @brief Write current deliveries objects to the file
 	 * 
 	 * @param fileName Deliveries file name
 	 */
 	void writeDeliveriesFile(string fileName);
+
 	/**
-	 * @brief Write current workers objects to the file
+	 * @brief Write the Current Workers' Information to the Respective File
 	 * 
-	 * @param fileName Workers file name
+	 * @param fileName Workers File Name to Write
 	 */
 	void writeWorkersFile(string fileName);
+
 	/**
 	 * @brief Write current clients objects to the file
 	 * 
 	 * @param fileName Clients file name
 	 */
 	void writeClientsFile(string fileName);
+
 	/**
 	 * @brief Call all write to file functions
 	 * 

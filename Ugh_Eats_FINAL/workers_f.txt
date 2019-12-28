@@ -3,21 +3,25 @@ Marcelo Rebelo Sousa
 8:9:1970
 3200
 manager
+1
 ;
 Herman Jose
 234323564
 30:9:1978
 1900
 customer service
+1
 ;;;
 Amalia Rodrigues
 111009837
 1:1:1920
 VW Bug ; Classic ; 1:1:1947
 -
+1
 ;
 Manuel Goucha
 112345434
 8:10:1989
 Vespa ; Bike ; 29:6:2004
 -
+1
