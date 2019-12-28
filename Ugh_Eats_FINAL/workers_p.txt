@@ -38,21 +38,21 @@ Jeremy
 10:2:1996
 2500
 Product Manager II
-1
+0
 ;;;
 Ze Maria
 123456432
 11:2:1990
 Honda ; Bike ; 11:11:2345
 2 : 3
-1
+0
 ;
 Ric Fazeres
 167889097
 1:1:1976
 Yamazaki ; Bike ; 11:11:2345
 1
-1
+0
 ;
 Tim Cook
 114857983
