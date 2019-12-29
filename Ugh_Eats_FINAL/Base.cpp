@@ -6233,3 +6233,65 @@ void Base::writeAll()
 	// Sleep(3000);
 	exit(0);
 }
+
+
+void Base::vehicle_maintenance()
+{
+	bool invalidNumber;
+	string input;
+	do
+	{
+		try
+		{
+			invalidNumber = false;
+			cout << "Insert the minimum maintenances required: " << endl;
+			cout << ">> ";
+			getline(cin, input);
+			if (!isNumber(input))
+				throw InvalidNumberException(input);
+
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidNumber = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+		}
+
+	} while (invalidNumber);
+
+	vector<Technician> temp;
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+		
+	}
+
+	bool found = false;
+
+	for (int i = 0; i < temp.size(); i++)
+	{
+		if (temp[i].get_maintenance() > stoi(input))
+		{
+			found = true;
+			string name = temp[i].get_name();
+			int hours = temp[i].get_availability();
+			temp[i].set_availability(hours + 4);
+			cout << name << " will maintain your vehicle." << endl;
+			cout << name<< " will be available in " << hours << " hours." << endl;
+			break;
+
+		}
+	}
+	if (!found)
+	{
+		cout << "There's no technician with more than " << input << " maintenances." << endl;
+
+	}
+	for (int i = 0; i < temp.size(); i++)
+	{
+		technicians.push(temp[i]);
+	}
+
+}

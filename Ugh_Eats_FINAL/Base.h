@@ -732,6 +732,8 @@ public:
 	 */
 	void writeAll();
 
+	void vehicle_maintenance();
+
 };
 
 //comparison operators for sorts
@@ -794,6 +796,8 @@ bool workerByNIF(const Worker * left, const Worker * right);
 bool orderByPrice(const pair<int, Order*> & left, const pair<int, Order*> & right);
 bool orderByFee(const pair<int, Order*> & left, const pair<int, Order*> & right);
 */
+
+
 
 #endif
 

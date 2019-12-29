@@ -700,7 +700,10 @@ void main_menu_admin_technicians(Base * b)
 		if (input == "6")
 		{
 			utils::clear_screen();
-			continue;
+			b->vehicle_maintenance();
+			cout << "\n>> ";
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
 		}
 		if (input == "0")
 			break;
