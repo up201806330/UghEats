@@ -24,15 +24,25 @@ Vehicle::~Vehicle()
 
 }
 
+void Vehicle::print()
+{
+	cout << "Brand: " << this->brand << endl;
+	cout << "Type: " << this->type << endl;
+	cout << "Registration date: " << this->registration_date << endl;
+	cout << "License plate: " << this->license << endl;
+	cout << "Completed trips: " << this->trips << endl;
+	cout << "Mileage: " << this->mileage << " Km" << endl;
+}
+
 void Vehicle::parse(string str){
 	vector<string> parts = utils::split(str, ';');
 	brand = parts.at(0);
 	type = parts.at(1);
 	registration_date.parse(parts.at(2));
 
-	//license = parts.at(3);
-	//trips = stoi(parts.at(4));
-	//mileage = stoi(parts.at(5));
+	license = parts.at(3);
+	trips = stoi(parts.at(4));
+	mileage = stoi(parts.at(5));
 }
 
 void Vehicle::set_registrationDate(Date_time data)
@@ -94,6 +104,16 @@ unsigned Vehicle::get_trips() const
 double Vehicle::get_mileage() const
 {
 	return mileage;
+}
+
+void Vehicle::readVehicles(Base * base) {
+	
+	BST<Vehicle> result;
+	auto delivery_men = base->getDeliveryPeople();
+	for (auto it = delivery_men.begin(); it != delivery_men.end(); it++) {
+		result.insert((*it)->get_vehicle());
+	}
+	base->setVehicles(result);
 }
 
 // Person Class Functions
@@ -162,6 +182,8 @@ void Worker::load(string path, Base * base) {
 	base->setAdmins(admins);
 
 	base->setDeliveryPeople(deliverers);
+
+	Vehicle::readVehicles(base);
 }
 
 /*
@@ -1118,6 +1140,9 @@ void Client::make_order(Base * b) {
 	// Updating Delivery man wage
 	double newWage = deliver.getDeliveryMan()->calculate_wage();
 	deliver.getDeliveryMan()->set_wage(newWage);
+
+	// Updating Vehicles' stats
+	deliver.getDeliveryMan()->update_vehicle();
 	
 	if (delivSuccess) deliver.getDeliveryMan()->update_vehicle();
 

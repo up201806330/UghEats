@@ -15,13 +15,13 @@ customer service
 Amalia Rodrigues
 111009837
 1:1:1920
-VW Bug ; Classic ; 1:1:1947
+VW Bug ; Classic ; 1:1:1947 ; JK-23-32 ; 1200 ; 300987
 -
 1
 ;
 Manuel Goucha
 112345434
 8:10:1989
-Vespa ; Bike ; 29:6:2004
+Vespa ; Bike ; 29:6:2004 ; 23-GH-IT ; 10 ; 521
 -
 1

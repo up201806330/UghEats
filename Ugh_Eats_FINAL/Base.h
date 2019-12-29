@@ -11,6 +11,7 @@
 #include "People.h"
 #include "Restaurant.h"
 #include "utils.h"
+#include "bst.h"
 //#include "hash_table.h"
 
 using namespace std;
@@ -84,6 +85,8 @@ private:
 	vector<Restaurant*> restaurants;
 	map<int, Order*> orders;
 
+	BST<Vehicle> vehicles;
+
 	// vector<Worker*> workers;
 
 	unordered_set<Admin*, hashAdmin, eqAdmin> admins;
@@ -153,7 +156,11 @@ public:
 	 * @param str Clients file name
 	 */
 	void setClientsFileName(string str);
-
+	/**
+	 * @brief Set the Technicians File Name object
+	 *
+	 * @param str Technicians file name
+	 */
 	void setTechniciansFileName(string str);
 
 	/**
@@ -222,9 +229,19 @@ public:
 	 * @param restaurants Restaurants
 	 */
 	void setRestaurants(vector<Restaurant*> restaurants);
-
+	/**
+	 * @brief Set the Technicians object
+	 *
+	 * @param tec Technicians
+	 */
 	void setTechnicians(priority_queue<Technician> tec);
 
+	/**
+	 * @brief Set the vehicles object
+	 *
+	 * @param veh Vehicles
+	 */
+	void setVehicles(BST<Vehicle> veh);
 
 	/**
 	 * @brief Get the Restaurants File Name object
@@ -250,7 +267,11 @@ public:
 	 * @return string Clients file name
 	 */
 	string getClientsFileName() const;
-
+	/**
+	 * @brief Get the Technicians File Name object
+	 *
+	 * @return string Technicians file name
+	 */
 	string getTechnicianFileName() const;
 
 	/**
@@ -327,8 +348,19 @@ public:
 	 */
 	Delivery* getDeliveryMan();
 
-
+	/**
+	 * @brief Get the Technician struct
+	 *
+	 * @return priority_queue Technicias struct
+	 */
 	priority_queue<Technician> getTechnicians() const;
+
+	/**
+	 * @brief Get the vehicles strcture
+	 *
+	 * @return BST<Vehicle*> Vehicles
+	 */
+	BST<Vehicle> getVehicles() const;
 
 	/**
 	 * @brief prints all clients' info in human friendly fashion
@@ -474,10 +506,29 @@ public:
 	 */
 	void seeProfitsPerTime();  // periodo de tempo
 
+	/**
+	 * @brief prints info of all vehicles of base
+	 */
+	void seeAllVehicles();
+
+	/**
+	 * @brief prints info of one vehicle of a base
+	 */
+	void seeOneVehicle();
+
+	/**
+	 * @brief prints info of all technicians of base
+	 */
 	void seeAllTechnicians();
 
+	/**
+	 * @brief prints info of one technician of a base
+	 */
 	void seeOneTechnician();
 	
+	/**
+	 * @brief prints base info
+	 */
 	void seeBase();
 
 	/**
@@ -649,16 +700,29 @@ public:
 	 * 
 	 */
 	void changeRestaurant();
+
 	/**
 	 * @brief removes select restaurant
 	 * 
 	 */
 	void removeRestaurant();
 
+	/**
+	 * @brief add technician to bases' set of restaurants
+	 *
+	 */
 	void addTechnician();
 
+	/**
+	 * @brief edits select technician
+	 *
+	 */
 	void changeTechnician();
 
+	/**
+	 * @brief removes select restaurant
+	 *
+	 */
 	void removeTechnician();
 
 	/**
@@ -690,13 +754,23 @@ public:
 	 */
 	void sortDisplayWorkers();
 
+	/**
+	 * @brief Sorts all orders based on select parameter
+	 *
+	 */
 	bool orderOrders(); //lmao dont delete this may be useful
 
-
+	
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
+	
+	
 	void searchForGeographicArea();  // por zona geografica
-	void searchForPriceRange(); // por intervalo de pre�os (por pre�o medio)
-	void searchForCuisineTypes(); // por tipo de culin�ria
+	
+	
+	void searchForPriceRange(); // por intervalo de precos (por preco medio)
+
+
+	void searchForCuisineTypes(); // por tipo de culinaria
 
 	/**
 	 * @brief Write current restaurants objects to the file

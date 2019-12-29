@@ -115,5 +115,8 @@
     <ClInclude Include="hash_table.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="bst.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

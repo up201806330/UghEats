@@ -236,6 +236,10 @@ void Base::setTechnicians(priority_queue<Technician> tec) {
 	technicians = tec;
 }
 
+void Base::setVehicles(BST<Vehicle> veh) {
+	vehicles = veh;
+}
+
 string Base::getRestaurantsFileName() const {
 	return restaurantsFileName;
 }
@@ -300,6 +304,11 @@ const map<int, Order*> & Base::getOrders() const {
 
 priority_queue<Technician> Base::getTechnicians() const {
 	return technicians;
+}
+
+BST<Vehicle> Base::getVehicles() const
+{
+	return vehicles;
 }
 
 //Visualizacao de Informacao
@@ -1736,6 +1745,87 @@ void Base::seeProfitsPerTime()
 	
 }
 
+void Base::seeAllVehicles() {
+	cout << "ALL VEHICLES" << endl << endl;
+	BST<Vehicle> vehicles = this->getVehicles();
+	for (auto it = vehicles.begin(); it != vehicles.end(); it++) {
+		(*it).print();
+		cout << endl;
+	}
+
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
+
+void Base::seeOneVehicle() {
+
+	bool invalidOption;
+	string opt;
+	do
+	{
+		try
+		{
+			int i = 0;
+			utils::clear_screen();
+			invalidOption = false;
+			cout << "Pick the Vehicle you want to see: " << endl << endl;
+			BST<Vehicle> vehicles = this->getVehicles();
+			for (auto it = vehicles.begin() ; it != vehicles.end(); it++, i++)
+			{
+				cout << i + 1 << ". " << (*it).get_brand() << "; " << (*it).get_license() << endl;
+			}
+			cout << "0. Go Back" << endl;
+			cout << ">> ";
+			getline(cin, opt);
+			if (opt == "0")
+			{
+				cin.clear();
+				utils::clear_screen();
+				return;
+			}
+			if (!isNumber(opt))
+				throw InvalidNumberException(opt);
+			if (opt != "")
+			{
+				if (InvalidOptions(i, stoi(opt)))
+					throw InvalidOptionException(stoi(opt));
+
+			}
+			else
+			{
+				invalidOption = true;
+				utils::clear_screen();
+			}
+
+		}
+		catch (InvalidNumberException & n)
+		{
+			invalidOption = true;
+			cout << n;
+			cout << "Try Again!" << endl << endl;
+
+		}
+		catch (InvalidOptionException & o)
+		{
+			invalidOption = true;
+			cout << o;
+			cout << "Try Again!" << endl << endl;
+		}
+
+
+
+	} while (invalidOption);
+
+	cout << endl << "INFO" << endl;
+	auto result = vehicles.begin();
+	for (int j = stoi(opt) - 1; j > 0; j--) result++;
+	(*result).print();
+	
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+}
 
 void Base::seeAllTechnicians()
 {
@@ -1756,8 +1846,10 @@ void Base::seeAllTechnicians()
 		technicians.push(temp[i]);
 	}
 
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
 }
-
 
 void Base::seeOneTechnician()
 {
@@ -1830,6 +1922,9 @@ void Base::seeOneTechnician()
 		technicians.push(temp[i]);
 	}
 
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
 }
 
 

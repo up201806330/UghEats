@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Address.h" />
     <ClInclude Include="Base.h" />
+    <ClInclude Include="bst.h" />
     <ClInclude Include="Date_time.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="hash_table.h" />
