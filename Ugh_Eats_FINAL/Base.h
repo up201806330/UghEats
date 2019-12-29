@@ -156,7 +156,11 @@ public:
 	 * @param str Clients file name
 	 */
 	void setClientsFileName(string str);
-
+	/**
+	 * @brief Set the Technicians File Name object
+	 *
+	 * @param str Technicians file name
+	 */
 	void setTechniciansFileName(string str);
 
 	/**
@@ -225,7 +229,11 @@ public:
 	 * @param restaurants Restaurants
 	 */
 	void setRestaurants(vector<Restaurant*> restaurants);
-
+	/**
+	 * @brief Set the Technicians object
+	 *
+	 * @param tec Technicians
+	 */
 	void setTechnicians(priority_queue<Technician> tec);
 
 	/**
@@ -259,7 +267,11 @@ public:
 	 * @return string Clients file name
 	 */
 	string getClientsFileName() const;
-
+	/**
+	 * @brief Get the Technicians File Name object
+	 *
+	 * @return string Technicians file name
+	 */
 	string getTechnicianFileName() const;
 
 	/**
@@ -336,7 +348,11 @@ public:
 	 */
 	Delivery* getDeliveryMan();
 
-
+	/**
+	 * @brief Get the Technician struct
+	 *
+	 * @return priority_queue Technicias struct
+	 */
 	priority_queue<Technician> getTechnicians() const;
 
 	/**
@@ -684,16 +700,29 @@ public:
 	 * 
 	 */
 	void changeRestaurant();
+
 	/**
 	 * @brief removes select restaurant
 	 * 
 	 */
 	void removeRestaurant();
 
+	/**
+	 * @brief add technician to bases' set of restaurants
+	 *
+	 */
 	void addTechnician();
 
+	/**
+	 * @brief edits select technician
+	 *
+	 */
 	void changeTechnician();
 
+	/**
+	 * @brief removes select restaurant
+	 *
+	 */
 	void removeTechnician();
 
 	/**
@@ -725,13 +754,23 @@ public:
 	 */
 	void sortDisplayWorkers();
 
+	/**
+	 * @brief Sorts all orders based on select parameter
+	 *
+	 */
 	bool orderOrders(); //lmao dont delete this may be useful
 
-
+	
 	void searchForRestaurant();          // por restaurante (mostra os produtos)
+	
+	
 	void searchForGeographicArea();  // por zona geografica
-	void searchForPriceRange(); // por intervalo de pre�os (por pre�o medio)
-	void searchForCuisineTypes(); // por tipo de culin�ria
+	
+	
+	void searchForPriceRange(); // por intervalo de precos (por preco medio)
+
+
+	void searchForCuisineTypes(); // por tipo de culinaria
 
 	/**
 	 * @brief Write current restaurants objects to the file

@@ -1142,11 +1142,7 @@ void Client::make_order(Base * b) {
 	deliver.getDeliveryMan()->set_wage(newWage);
 
 	// Updating Vehicles' stats
-	unsigned trip_length = rand() % 20 + 1;
-	Vehicle updated = deliver.getDeliveryMan()->get_vehicle();
-	updated.set_trips(updated.get_trips() + 1);
-	updated.set_mileage(updated.get_mileage() + trip_length);
-	deliver.getDeliveryMan()->set_vehicle(updated);
+	deliver.getDeliveryMan()->update_vehicle();
 	
 	if (delivSuccess) deliver.getDeliveryMan()->update_vehicle();
 

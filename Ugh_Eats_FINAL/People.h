@@ -421,6 +421,10 @@ public:
 	 */
 	double calculate_wage();
 
+	/**
+	 * @brief Updates the delivery mans' vehicle with a random mile length and increments number of trips
+	 *
+	 */
 	void update_vehicle();
 
 	/**
