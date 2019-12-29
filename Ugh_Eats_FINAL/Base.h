@@ -11,6 +11,7 @@
 #include "People.h"
 #include "Restaurant.h"
 #include "utils.h"
+#include "bst.h"
 //#include "hash_table.h"
 
 using namespace std;
@@ -83,6 +84,8 @@ private:
 	Address address;
 	vector<Restaurant*> restaurants;
 	map<int, Order*> orders;
+
+	BST<Vehicle> vehicles;
 
 	// vector<Worker*> workers;
 
@@ -225,6 +228,12 @@ public:
 
 	void setTechnicians(priority_queue<Technician> tec);
 
+	/**
+	 * @brief Set the vehicles object
+	 *
+	 * @param veh Vehicles
+	 */
+	void setVehicles(BST<Vehicle> veh);
 
 	/**
 	 * @brief Get the Restaurants File Name object
@@ -329,6 +338,13 @@ public:
 
 
 	priority_queue<Technician> getTechnicians() const;
+
+	/**
+	 * @brief Get the vehicles strcture
+	 *
+	 * @return BST<Vehicle*> Vehicles
+	 */
+	BST<Vehicle> getVehicles() const;
 
 	/**
 	 * @brief prints all clients' info in human friendly fashion
@@ -474,10 +490,29 @@ public:
 	 */
 	void seeProfitsPerTime();  // periodo de tempo
 
+	/**
+	 * @brief prints info of all vehicles of base
+	 */
+	void seeAllVehicles();
+
+	/**
+	 * @brief prints info of one vehicle of a base
+	 */
+	void seeOneVehicle();
+
+	/**
+	 * @brief prints info of all technicians of base
+	 */
 	void seeAllTechnicians();
 
+	/**
+	 * @brief prints info of one technician of a base
+	 */
 	void seeOneTechnician();
 	
+	/**
+	 * @brief prints base info
+	 */
 	void seeBase();
 
 	/**

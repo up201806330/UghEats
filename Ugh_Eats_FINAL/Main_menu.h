@@ -55,8 +55,14 @@ void main_menu_admin_orders(Base * base);
  */
 void main_menu_admin_profits(Base * base);
 
-void main_menu_admin_technicians(Base * b);
+/**
+ * @brief opens menu of vehicle info
+ *
+ * @param base
+ */
+void main_menu_admin_vehicles(Base * base);
 
+void main_menu_admin_technicians(Base * b);
 
 /**
  * @brief opens menu of admin, to select other admin menus

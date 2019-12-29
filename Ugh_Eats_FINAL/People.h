@@ -8,6 +8,7 @@
 #include "Date_time.h"
 #include "Address.h"
 #include "Exceptions.h"
+#include "bst.h"
 // #include "hash_table.h"
 
 class Base;
@@ -22,7 +23,7 @@ class Vehicle {
 
 	string license;
 	unsigned trips;
-	double mileage;
+	unsigned mileage;
 
 public:
 	/**
@@ -46,6 +47,11 @@ public:
 	 * @return false 
 	 */
 	friend bool operator<(const Vehicle & l, const Vehicle & r);
+
+	/**
+	 * @brief Shows on screen vehicle attributes
+	 */
+	void print();
 
 	/**
 	 * @brief checks if the string passed as parameter can correspond to a valid vehicle and sets the value of the attributes
@@ -126,6 +132,13 @@ public:
 	 * @return double 
 	 */
 	double get_mileage() const;
+
+	/**
+	 * @brief Return bases' delivery mens' vehicles in bst structure
+	 *
+	 * @return BST<Vehicle>
+	 */
+	static void readVehicles(Base *base);
 };
 
 
