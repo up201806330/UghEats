@@ -6234,6 +6234,12 @@ void Base::writeWorkersFile(string fileName) {
 		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getMonth();
 		workersFileInput << ":";
 		workersFileInput << (*delivIt)->get_vehicle().get_registration_date().getYear();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_license();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_trips();
+		workersFileInput << " ; ";
+		workersFileInput << (*delivIt)->get_vehicle().get_mileage();
 		
 		workersFileInput << endl;
 
