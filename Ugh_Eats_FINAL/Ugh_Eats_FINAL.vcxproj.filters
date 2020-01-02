@@ -57,6 +57,15 @@
     <Text Include="restaurants_f.txt">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="technicians_f.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="technicians_l.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="technicians_p.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Address.cpp">

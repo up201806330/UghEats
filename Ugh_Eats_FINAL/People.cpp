@@ -533,8 +533,8 @@ bool Delivery::operator==(const Delivery & d) {
 bool eqDeliv::operator()(const Delivery* d1, const Delivery* d2) const {
 	return (
 		d1->get_name() == d2->get_name() &&
-		d1->get_NIF() == d2->get_NIF() &&
-		d1->get_wage() == d2->get_wage()
+		d1->get_NIF() == d2->get_NIF() // &&
+		// d1->get_wage() == d2->get_wage()
 		);
 }
 

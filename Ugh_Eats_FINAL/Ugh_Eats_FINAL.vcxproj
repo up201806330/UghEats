@@ -129,6 +129,9 @@
     <Text Include="restaurants_f.txt" />
     <Text Include="restaurants_l.txt" />
     <Text Include="restaurants_p.txt" />
+    <Text Include="technicians_f.txt" />
+    <Text Include="technicians_l.txt" />
+    <Text Include="technicians_p.txt" />
     <Text Include="workers_f.txt" />
     <Text Include="workers_l.txt" />
     <Text Include="workers_p.txt" />
