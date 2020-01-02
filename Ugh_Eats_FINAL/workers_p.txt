@@ -43,20 +43,20 @@ Product Manager II
 Ze Maria
 123456432
 11:2:1990
-Honda ; Bike ; 11:11:2345 ; 29-JK-GT ; 2 ; 32
+Honda ; Bike ; 11:11:2345
 2 : 3
 0
 ;
 Ric Fazeres
 167889097
 1:1:1976
-Yamazaki ; Bike ; 11:11:2345 ; XS-12-OK ; 23 ; 1000
+Yamazaki ; Bike ; 11:11:2345
 1
 0
 ;
 Tim Cook
 114857983
 12:1:2000
-Apple ; Electric ; 10:5:2016 ; 98-AX-XD ; 14 ; 200
+Apple ; Electric ; 10:5:2016
 -
 1

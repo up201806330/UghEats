@@ -739,6 +739,9 @@ void main_menu_admin_technicians(Base * b) {
 		{
 			utils::clear_screen();
 			b->seeAllTechnicians();
+			cout << "\n>> ";
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
 		}
 		if (input == "2")
 		{
@@ -749,6 +752,9 @@ void main_menu_admin_technicians(Base * b) {
 		{
 			utils::clear_screen();
 			b->addTechnician();
+			cout << "\n>> ";
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
 		}
 		if (input == "4")
 		{

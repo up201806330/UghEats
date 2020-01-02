@@ -6317,12 +6317,53 @@ void Base::writeClientsFile(string fileName) {
 }
 
 
+void Base::writeTechniciansFile(string filename)
+{
+	ofstream techniciansFileInput(filename);
+	try
+	{
+		if (techniciansFileInput.fail())
+			throw FileOpenErrorException(filename);
+	}
+	catch (FileOpenErrorException & f)
+	{
+		cout << f;
+		exit(0);
+	}
+	
+	vector<Technician> temp;
+
+	while (!technicians.empty())
+	{
+		temp.push_back(technicians.top());
+		technicians.pop();
+	}
+	for (int i = 0; i < temp.size(); i++)
+	{
+		techniciansFileInput << temp[i].get_name() << endl;
+		techniciansFileInput << temp[i].get_NIF() << endl;
+		techniciansFileInput << temp[i].get_availability() << endl;
+		techniciansFileInput << temp[i].get_maintenance() << endl;
+		if (i != temp.size() - 1)
+			techniciansFileInput << ";" << endl;
+	}
+
+	techniciansFileInput.close();
+	for (int i = 0; i < temp.size(); i++)
+	{
+		technicians.push(temp[i]);
+	}
+}
+
+
+
 void Base::writeAll()
 {
 	writeRestaurantsFile(this->getRestaurantsFileName());
 	writeDeliveriesFile(this->deliveriesFileName);
 	writeWorkersFile(this->workersFileName);
 	writeClientsFile(this->clientsFileName);
+	writeTechniciansFile(this->technicianFileName);
 
 	// PlaySound(TEXT("MicrosoftWindowsXPShutdownSound.wav"), NULL, SND_FILENAME | SND_ASYNC);
 	// Sleep(3000);

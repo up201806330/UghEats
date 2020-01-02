@@ -800,6 +800,8 @@ public:
 	 */
 	void writeClientsFile(string fileName);
 
+	void writeTechniciansFile(string filename);
+
 	/**
 	 * @brief Call all write to file functions
 	 * 
