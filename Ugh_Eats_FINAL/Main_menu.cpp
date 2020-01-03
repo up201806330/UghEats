@@ -86,7 +86,7 @@ void main_menu_client(Client* client, Base * base) {
 		{
 			client->edit(base);
 			continue;
-		} //J� volta atr�s
+		} 
 		if (input == "0") {
 			break; 
 		}
@@ -224,7 +224,7 @@ void main_menu_admin_clients(Base * base) {
 			utils::clear_screen();
 			if(!base->orderClients()) continue;
 			utils::clear_screen();
-			base->seeAllClients(); //J� volta atr�s
+			base->seeAllClients();
 
 			cout << "\n>> ";
 			cin.clear();
@@ -232,24 +232,24 @@ void main_menu_admin_clients(Base * base) {
 		}
 
 		if (input == "2") {
-			base->seeOneClient(); //J� volta atr�s
+			base->seeOneClient();
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addClient(); //J� volta atr�s
+			base->addClient();
 
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeClient(); //J� volta atr�s
+			base->changeClient();
 
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeClient(); //J� volta atr�s
+			base->removeClient();
 		}
 
 		if (input == "0") {
@@ -263,7 +263,7 @@ void main_menu_admin_clients(Base * base) {
 	}
 }
 
-void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
+void main_menu_admin_workers(Base * base) {
 	while (true) {
 		string input;
 		bool retry = true;
@@ -315,35 +315,24 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 
 		if (input == "1") {
 			base->sortDisplayWorkers();
-			/*
-			utils::clear_screen();
-			vector<Worker*> keepOrder = base->getWorkers();
-			if (!base->orderWorkers()) continue;
-			utils::clear_screen();
-			base->seeAllWorkers(); //J� volta para tr�s
-			base->setWorkers(keepOrder);
-			cout << "\n>> ";
-			cin.clear();
-			cin.ignore(INT_MAX,'\n');
-			*/
 		}
 
 		if (input == "2") {
-			base->seeOneWorker(); //J� volta para tr�s
+			base->seeOneWorker();
 		}
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addWorker(); //J� volta para tr�s
+			base->addWorker();
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeWorker(); //J� volta para tr�s
+			base->changeWorker();
 		}
 
 		if (input == "5") {
-			base->removeWorker(); //J� volta para tr�s
+			base->removeWorker();
 			utils::clear_screen();
 		}
 
@@ -360,7 +349,7 @@ void main_menu_admin_workers(Base * base) { // j� volta atr�s e j� fecha
 	}
 }
 
-void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fecha
+void main_menu_admin_restaurant(Base * base) {
 	while (true) {
 		string input;
 		bool retry = true;
@@ -417,7 +406,7 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 			utils::clear_screen();
 			if(!base->orderRestaurants()) continue;
 			utils::clear_screen();
-			base->seeAllRestaurants(); //J� volta para tr�s
+			base->seeAllRestaurants();
 
 			cout << "\n>> ";
 			cin.clear();
@@ -430,17 +419,17 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 
 		if (input == "3") {
 			utils::clear_screen();
-			base->addRestaurant(); //J� volta para tr�s
+			base->addRestaurant();
 		}
 
 		if (input == "4") {
 			utils::clear_screen();
-			base->changeRestaurant(); //J� volta para tr�s
+			base->changeRestaurant();
 		}
 
 		if (input == "5") {
 			utils::clear_screen();
-			base->removeRestaurant(); //J� volta para tr�s
+			base->removeRestaurant(); 
 		}
 
 		if (input == "0") {
@@ -455,7 +444,7 @@ void main_menu_admin_restaurant(Base * base) { // J� volta atr�s e j� fech
 	}
 }
 
-void main_menu_admin_orders(Base * base) // J� volta atr�s e j� fecha
+void main_menu_admin_orders(Base * base)
 {
 	while (true) {
 		string input;
@@ -1061,7 +1050,7 @@ void main_menu(vector<Base*> bases) {
 			try
 			{
 				utils::clear_screen();
-				cout << "Client or Admin ?" << endl; // j� volta atr�s e j� fecha
+				cout << "Client or Admin ?" << endl;
 				cout << "1. Client" << endl;
 				cout << "2. Admin" << endl;
 				cout << "0. Go Back" << endl;
