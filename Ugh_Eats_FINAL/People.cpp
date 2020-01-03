@@ -383,6 +383,7 @@ unordered_set<Delivery*, hashDeliv, eqDeliv> Delivery::readDeliverers(ifstream &
 
 		getline(workers_stream, textline);
 		del.set_history(base->findOrders(textline));
+		del.set_wage(del.calculate_wage());
 
 		getline(workers_stream, textline);
 		if (textline == "1") del.set_state(true);
