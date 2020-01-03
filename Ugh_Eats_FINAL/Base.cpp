@@ -4521,9 +4521,8 @@ void Base::removeWorker() {
 			delIt++;
 			counter++;
 		}
-
-		// deliveryPeople.erase(delIt);
-
+		
+		// Set to Inactive instead of deleting it (deliveryPeople.erase(delIt) )
 		(*delIt)->set_state(false);
 
 	}
@@ -4538,8 +4537,7 @@ void Base::removeWorker() {
 			counter++;
 		}
 
-		// admins.erase(admIt);
-
+		// Set to Inactive instead of deleting it (admins.erase(admIt) )
 		(*admIt)->set_state(false);
 
 	}
@@ -5474,6 +5472,7 @@ bool Base::orderClients()
 	cout << "What parameter do you want the clients to be sorted by? " << endl;
 	cout << "1. Name" << endl;
 	cout << "2. NIF" << endl;
+	cout << "0. Go Back" << endl;
 	cout << ">> ";
 
 	getline(cin, input);
