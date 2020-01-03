@@ -92,9 +92,6 @@
     <ClCompile Include="Main_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hash_table.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -119,9 +116,6 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hash_table.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="bst.h">
