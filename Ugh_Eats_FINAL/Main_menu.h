@@ -62,6 +62,11 @@ void main_menu_admin_profits(Base * base);
  */
 void main_menu_admin_vehicles(Base * base);
 
+/**
+ * @brief opens menu of technicias info 
+ *
+ * @param base
+ */
 void main_menu_admin_technicians(Base * b);
 
 /**

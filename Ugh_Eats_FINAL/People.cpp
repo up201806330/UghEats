@@ -851,7 +851,7 @@ void Client::make_order(Base * b) {
 			ending = stod(temp);
 		}
 		catch (...) {
-			cout << "\nInvalid price" << endl << ">>";
+			cout << "\nInvalid price" << endl << ">> ";
 			cin.clear();
 			cin.ignore(INT_MAX,'\n');
 			return;
@@ -890,7 +890,7 @@ void Client::make_order(Base * b) {
 
 	if (selectedRestaurants.size() == 0) {
 		cout << endl << "No restaurants found" << endl;
-		cout << ">>";
+		cout << ">> ";
 		cin.clear();
 		cin.ignore(INT_MAX,'\n');
 		return;

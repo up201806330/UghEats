@@ -1662,6 +1662,193 @@ void Base::seeOneVehicle() {
 	cin.ignore(INT_MAX, '\n');
 }
 
+bool Base::seeAllVehiclesWihMileage(Base * base, string input)
+{
+	bool retry;
+
+	try
+	{
+		retry = false;
+		if (!isNumber(input))
+			throw InvalidNumberException(input);
+		if (input != "")
+		{
+			if (InvalidOptions(INT_MAX, stoi(input)))
+				throw InvalidOptionException(stoi(input));
+		}
+		else
+		{
+			retry = true;
+		}
+	}
+	catch (InvalidNumberException & n)
+	{
+		retry = true;
+		cout << n;
+		cout << "Try Again!" << endl << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		return false;
+	}
+	catch (InvalidOptionException & o)
+	{
+		retry = true;
+		cout << o;
+		cout << "Try Again!" << endl << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		return false;
+	}
+
+	utils::clear_screen();
+
+	BST<Vehicle> vehicles = this->getVehicles();
+	for (auto it = vehicles.begin(); it != vehicles.end(); it++) {
+		if ((*it).get_mileage() == stoi(input)) {
+			(*it).print();
+			cout << endl;
+		}
+	}
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+	return true;
+
+}
+
+bool Base::seeAllVehiclesWihTripsUnder(Base * base, string input)
+{
+	bool retry;
+
+	try
+	{
+		retry = false;
+		if (!isNumber(input))
+			throw InvalidNumberException(input);
+		if (input != "")
+		{
+			if (InvalidOptions(INT_MAX, stoi(input)))
+				throw InvalidOptionException(stoi(input));
+		}
+		else
+		{
+			retry = true;
+		}
+	}
+	catch (InvalidNumberException & n)
+	{
+		retry = true;
+		cout << n;
+		cout << "Try Again!" << endl << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		return false;
+	}
+	catch (InvalidOptionException & o)
+	{
+		retry = true;
+		cout << o;
+		cout << "Try Again!" << endl << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		return false;
+	}
+
+	utils::clear_screen();
+
+	BST<Vehicle> vehicles = this->getVehicles();
+	for (auto it = vehicles.begin(); it != vehicles.end(); it++) {
+		if ((*it).get_trips() > stoi(input)) break;
+		(*it).print();
+		cout << endl;
+	}
+	cout << "\n>> ";
+	cin.clear();
+	cin.ignore(INT_MAX, '\n');
+
+	return true;
+
+}
+
+void Base::filterVehicles(Base * base)
+{
+	while (true)
+	{
+		string input;
+		bool retry;
+		do
+		{
+			try
+			{
+				retry = false;
+				utils::clear_screen();
+				cout << "1. Filter by trips made" << endl;
+				cout << "2. Filter by mileage" << endl;
+				cout << "7. Close program" << endl;
+				cout << "0. Go back" << endl;
+				cout << ">> ";
+
+				getline(cin, input);
+				if (!isNumber(input))
+					throw InvalidNumberException(input);
+				if (input != "")
+				{
+					if (InvalidOptions(7, stoi(input)))
+						throw InvalidOptionException(stoi(input));
+				}
+				else
+				{
+					retry = true;
+				}
+			}
+			catch (InvalidNumberException & n)
+			{
+				retry = true;
+				cout << n;
+				cout << "Try Again!" << endl << endl;
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			catch (InvalidOptionException & o)
+			{
+				retry = true;
+				cout << o;
+				cout << "Try Again!" << endl << endl;
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+
+		} while (retry);
+
+		if (input == "0")
+			break;
+
+		if (input == "1") {
+			cout << "Show all vehicles with trips made under: ";
+			getline(cin, input);
+			if (!base->seeAllVehiclesWihTripsUnder(base, input)) continue;
+			else break;
+		}
+
+		if (input == "2") {
+			cout << "Show all vehicles with mileage equal to: ";
+			getline(cin, input);
+			if (!base->seeAllVehiclesWihMileage(base, input)) continue;
+			else break;
+
+		}
+
+		if (input == "7")
+		{
+			cin.clear();
+			base->writeAll();
+		}
+		else
+			continue;
+	}
+}
+
 void Base::seeAllTechnicians()
 {
 	cout << "ALL TECHNICIANS" << endl << endl;
@@ -1965,7 +2152,7 @@ bool Base::addClient() {
 			catch (InvalidCityException & c)
 			{
 				cout << c;
-				cout << ">>";
+				cout << ">> ";
 				cin.clear();
 				cin.ignore(INT_MAX,'\n');
 				return false;
@@ -3595,7 +3782,7 @@ void Base::changeRestaurant() {
 				cout << c;
 				cin.clear();
 				cin.ignore(INT_MAX,'\n');
-				cout << ">>";
+				cout << ">> ";
 				return;
 			}
 
@@ -3873,7 +4060,7 @@ void Base::changeTechnician()
 		try
 		{
 			cout << "0. Go Back" << endl;
-			cout << ">>";
+			cout << ">> ";
 			getline(cin, opt);
 			if (opt == "0")
 			{
@@ -3922,7 +4109,7 @@ void Base::changeTechnician()
 			cout << "3. Availability" << endl;
 			cout << "4. Maintenance" << endl;
 			cout << "0. Go Back" << endl;
-			cout << ">>";
+			cout << ">> ";
 			getline(cin, opt);
 			invalidOption = false;
 			if (opt == "0")
@@ -4098,7 +4285,7 @@ void Base::removeTechnician()
 		try
 		{
 			cout << "0. Go Back" << endl;
-			cout << ">>";
+			cout << ">> ";
 			getline(cin, opt);
 			if (opt == "0")
 			{

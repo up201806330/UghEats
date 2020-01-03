@@ -453,6 +453,27 @@ public:
 	void seeOneVehicle();
 
 	/**
+	 * @brief prints info of all vehicels with mileage equal to input
+	 *
+	 * @return returns false if input is invalid
+	 */
+	bool seeAllVehiclesWihMileage(Base * base, string input);
+
+	/**
+	 * @brief prints info of all vehicels with trips made lower than or equal to input
+	 *
+	 * @return returns false if input is invalid
+	 */
+	bool seeAllVehiclesWihTripsUnder(Base * base, string input);
+
+	/**
+	 * @brief Searches for all vehicles that match a given statistic
+	 *
+	 * @param base
+	 */
+	void filterVehicles(Base * base);
+
+	/**
 	 * @brief prints info of all technicians of base
 	 */
 	void seeAllTechnicians();

@@ -69,7 +69,7 @@ void main_menu_client(Client* client, Base * base) {
 					cout << *order.second << endl << "-------------------------------" << endl;
 				}
 			}
-			cout << ">>";
+			cout << ">> ";
 			cin.clear();
 			cin.ignore(INT_MAX,'\n');
 		}
@@ -614,9 +614,10 @@ void main_menu_admin_vehicles(Base * base) {
 				utils::clear_screen();
 				cout << "1. Show All Vehicles" << endl;
 				cout << "2. Search a Vehicle" << endl;
+				cout << "3. Search by filter" << endl;
 				cout << "0. Go Back" << endl;
 				cout << "7. Close Program " << endl;
-				cout << ">>";
+				cout << ">> ";
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
@@ -659,6 +660,11 @@ void main_menu_admin_vehicles(Base * base) {
 			base->seeOneVehicle();
 		}
 
+		if (input == "3") {
+			utils::clear_screen();
+			base->filterVehicles(base);
+		}
+
 		if (input == "0")
 			break;
 
@@ -691,7 +697,7 @@ void main_menu_admin_technicians(Base * b) {
 				cout << "6. Maintain a Vehicle" << endl;
 				cout << "0. Go Back" << endl;
 				cout << "7. Close Program " << endl;
-				cout << ">>";
+				cout << ">> ";
 				getline(cin, input);
 				if (!isNumber(input))
 					throw InvalidNumberException(input);
