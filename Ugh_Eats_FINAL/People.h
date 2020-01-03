@@ -534,14 +534,67 @@ private:
 	int availability;
 	int maintenance;
 public:
+	/**
+	 * @brief Construct a new Technician object
+	 * 
+	 */
 	Technician();
+
+	/**
+	 * @brief Destroy the Technician object
+	 * 
+	 */
 	~Technician();
+	
+	/**
+	 * @brief Set the availability object
+	 * 
+	 * @param a 
+	 */
 	void set_availability(int a);
+
+	/**
+	 * @brief Set the maintenance object
+	 * 
+	 * @param m 
+	 */
 	void set_maintenance(int m);
+
+	/**
+	 * @brief Get the availability object
+	 * 
+	 * @return int 
+	 */
 	int get_availability() const;
+
+	/**
+	 * @brief Get the maintenance object
+	 * 
+	 * @return int 
+	 */
 	int get_maintenance() const;
+
+	/**
+	 * @brief Shows on screen the technician's attributes
+	 * 
+	 */
 	void print();
+
+	/**
+	 * @brief Loads the technicians
+	 * 
+	 * @param path 
+	 * @param base 
+	 */
 	static void load(string path, Base * base);
+
+	/**
+	 * @brief Operator< overload
+	 * 
+	 * @param tec 
+	 * @return true 
+	 * @return false 
+	 */
 	bool operator<(const Technician & tec) const;
 
 
