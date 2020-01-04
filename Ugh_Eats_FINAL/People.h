@@ -274,10 +274,24 @@ public:
 class Admin;
 
 struct eqAdmin {
+	/**
+	 * @brief Equality Function For The Admin's Hash Table
+	 * 
+	 * @param a1 
+	 * @param a2 
+	 * @return true 
+	 * @return false 
+	 */
 	bool operator()(const Admin* a1, const Admin* a2) const;
 };
 
 struct hashAdmin {
+	/**
+	 * @brief Hash Function For The Admin's Hash Table
+	 * 
+	 * @param a1 
+	 * @return int 
+	 */
 	int operator()(const Admin* a1) const;
 };
 
@@ -344,10 +358,24 @@ public:
 class Delivery;
 
 struct eqDeliv {
+	/**
+	 * @brief Equality Function For The Delivery (People) Hash Table
+	 * 
+	 * @param d1 
+	 * @param d2 
+	 * @return true 
+	 * @return false 
+	 */
 	bool operator()(const Delivery* d1, const Delivery* d2) const;
 };
 
 struct hashDeliv {
+	/**
+	 * @brief Hash Function For The Delivery (People) Hash Table
+	 * 
+	 * @param d1 
+	 * @return int 
+	 */
 	int operator()(const Delivery* d1) const;
 };
 

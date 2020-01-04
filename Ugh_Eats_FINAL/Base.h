@@ -127,14 +127,6 @@ public:
 	 */
 	void setAddress(Address add);
 
-	/**
-	 * @brief Set the Workers object
-	 * 
-	 * @param workers Workers
-	 */
-	/*
-	void setWorkers(vector<Worker*> workers);
-	*/
 
 	/**
 	 * @brief Set the Admins object
@@ -238,14 +230,7 @@ public:
 	 */
 	Address getAddress() const;
 
-	/**
-	 * @brief Get the Workers object
-	 * 
-	 * @return const vector<Worker*>& Workers vector reference
-	 */
-	/*
-	const vector<Worker*> & getWorkers() const;
-	*/
+
 
 	/**
 	 * @brief Get the Admins object
@@ -388,11 +373,6 @@ public:
 	 */
 	void seeAllDeliveryPeople(vector<int> &displaySubset, int i = 1, bool vectorData = false, vector<Delivery*> delivPeopleVector = {});
 
-	/**
-	 * @brief prints all administrators' info in human friendly fashion
-	 * 
-	 */
-	// void seeAllAdministrators();
 
 
 	/**
@@ -710,7 +690,7 @@ public:
 	bool orderOrders(); //lmao dont delete this may be useful
 
 	
-	void searchForRestaurant();          // por restaurante (mostra os produtos)
+	void searchForRestaurant();      // por restaurante (mostra os produtos)
 	
 	
 	void searchForGeographicArea();  // por zona geografica
@@ -762,6 +742,10 @@ public:
 	 */
 	void writeAll();
 
+	/**
+	 * @brief Handles Vehicle Maintenance
+	 * 
+	 */
 	void vehicle_maintenance();
 
 };
