@@ -749,6 +749,11 @@ public:
 	 */
 	void writeClientsFile(string fileName);
 
+	/**
+	 * @brief Write the Current Technicians' Information to the Respective File
+	 * 
+	 * @param filename Technicians File Name to Write
+	 */
 	void writeTechniciansFile(string filename);
 
 	/**
