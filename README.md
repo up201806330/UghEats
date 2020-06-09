@@ -1,4 +1,4 @@
-# – UghEats Food Delivery
+# UghEats Food Delivery
 
 - **Project name:** – UghEats Food Delivery
 - **Short description:** Admin-client interfaces, **CRUD** of restaurants, clients and orders with search by different parameters.
