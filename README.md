@@ -9,3 +9,7 @@
     - [João António Cardoso Vieira e Basto de Sousa](https://github.com/JoaoASousa) ([up201806613@fe.up.pt](up201806613@fe.up.pt))
     - [Leonor Marques Gomes](https://github.com/leonormgomes) ([up201806567@fe.up.pt](up201806567@fe.up.pt))
     - [Rafael Soares Ribeiro](https://github.com/up201806330) ([up201806330@fe.up.pt](up201806330@fe.up.pt))
+
+## Installing and running
+Simply clone from Github, open the .sln file with Visual Studio 2010 or Visual Studio 2008 and run the local windows debugger with **F5**.
+
